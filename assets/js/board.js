@@ -121,9 +121,12 @@
       if (mode === 'flow') {
         return { v: vals.reduce(function (x, y) { return x + y; }, 0) / vals.length, n: vals.length };
       }
-      // 累计值：窗口内日均新增
+      // 累计值：窗口内日均新增。快照还没拉开差距（平台没刷新）时不能给 0——
+      // 那会让「有 8 万次调用的服务器」显示成 0.0 次/天，读起来像没人用。
       var gap = dayDiff(pts[0], pts[pts.length - 1]);
-      if (vals.length < 2 || gap <= 0) return { v: null, n: vals.length };
+      if (vals.length < 2 || gap <= 0 || vals[vals.length - 1] <= vals[0]) {
+        return { v: null, n: vals.length };
+      }
       return { v: (vals[vals.length - 1] - vals[0]) / gap, n: vals.length };
     }
 
@@ -280,7 +283,7 @@
       }
       if (spec && spec.mode === 'flow') bits.push('值＝窗口内日均，不是总数');
       if (spec && spec.mode === 'stock') {
-        bits.push(stale ? stale + ' 条只有一天快照，先显示累计值' : '值＝窗口内日均新增');
+        bits.push(stale ? stale + ' 条快照还没拉开差距，先显示累计值' : '值＝窗口内日均新增');
       }
       if (calc) {
         var nd = 0;

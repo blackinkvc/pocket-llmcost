@@ -1,23 +1,32 @@
 {
- "generated_at": "2026-11-23T22:50:53+08:00",
- "date": "2026-11-23",
+ "generated_at": "2026-11-24T00:12:19+08:00",
+ "date": "2026-11-24",
  "boards": {
   "使用量-cli.csv": {
    "source": "npm registry（range，最近 90 天）",
-   "updated_at": "2026-11-23T22:50:53+08:00"
+   "updated_at": "2026-11-24T00:12:19+08:00"
   },
   "使用量-ide.csv": {
    "source": "VS Code Marketplace",
-   "updated_at": "2026-11-23T22:50:53+08:00"
+   "updated_at": "2026-11-24T00:12:19+08:00"
   },
   "mcp服务器.csv": {
    "source": "Smithery useCount",
-   "updated_at": "2026-11-23T22:50:53+08:00",
+   "updated_at": "2026-11-24T00:12:19+08:00",
    "sample": "50 / 20743"
   },
-  "生态规模.csv": {
-   "source": "各平台公开接口",
-   "updated_at": "2026-11-23T22:50:53+08:00"
+  "生态-mcp仓库.csv": {
+   "source": "GitHub Search API",
+   "updated_at": "2026-11-24T00:12:19+08:00",
+   "sample": "topic:mcp-server 共 46579"
+  },
+  "生态-ide市场.csv": {
+   "source": "各市场公开接口",
+   "updated_at": "2026-11-24T00:12:19+08:00"
+  },
+  "生态-mcp平台.csv": {
+   "source": "api.smithery.ai",
+   "updated_at": "2026-11-24T00:12:19+08:00"
   }
  },
  "failures": []

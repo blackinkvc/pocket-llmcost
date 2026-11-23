@@ -206,7 +206,7 @@ security add-generic-password -s pocket-llmcost-gh-token -a "$USER" -w ghp_你�
 index.html … templates.html    门户九板块（静态，无构建；history.html 是跳转页）
 content/                       板块内容源：一个文件夹一个板块
   基模/                        已切换（样板）：简介 / 天梯榜 / 报告
-  agent/                       已切换：四个实时榜（npm / VS Code / Smithery / 生态规模）
+  agent/                       已切换：六个实时榜（npm / VS Code / Smithery / 仓库数 / 上架量 / 扩展存量）
   公司/ 硬件/ …                 结构已就位，等填内容后切换
   实例/ 研究/ 价格/             只放说明，数据仍在各自流水线里
 tools/build_section.py         从 content/ 生成板块页（三板块结构）

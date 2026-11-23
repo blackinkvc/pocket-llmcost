@@ -582,12 +582,13 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
         date_attr = ""
         if mode == "date" and re.match(r"^\d{4}-\d{2}", when):
             date_attr = ' data-date="%s"' % escape(when[:7])
+        note_html = ('<p class="bd-note">%s</p>' % R.inline(note_txt)) if note_txt else ""
         cards.append("""<article class="bd-card" data-k="%s" data-region="%s" data-base="%s"%s>
         <span class="bd-rank">%s</span>
         <div class="bd-main">
           <div class="bd-top"><h3>%s</h3>%s</div>
           <p class="bd-meta">%s%s</p>
-          <p class="bd-note">%s</p>
+          %s
         </div>
       </article>""" % (
             escape(name), reg, escape(val), date_attr,
@@ -596,7 +597,7 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
             right,
             " · ".join(escape(m) for m in metas),
             '<span class="bd-delta"></span>' if (k_val and mode in ("flow", "stock", "npm")) else "",
-            R.inline(note_txt),
+            note_html,
         ))
     empty = ('<p class="blk-empty">这一榜还没填。往 <code>content/%s/%s</code> 里加一行，就跑一次。</p>'
              % (sec.dir.name, bcfg.get("file", "天梯榜.csv")))
@@ -612,13 +613,13 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
         if bits:
             stamp = '<span class="blk-stamp">%s</span>' % escape(" · ".join(bits))
 
-    # 控件：区域三档 + 时间跨度滑块（没有时间序列时只留区域）
+    # 控件：区域三档 + 时间跨度滑块（没有时间序列时只留区域；static 表不起控件）
     has_series = bool(series) and mode in ("flow", "stock", "npm")
     if mode == "npm":
         mode = "flow"
     ctrl = ""
     spec = None
-    if len(rows) > 1:
+    if len(rows) > 1 and mode != "static":
         seg = ""
         for key, label, cnt in (("all", "全部", len(rows)), ("cn", "国内", n_cn),
                                 ("intl", "国外", n_intl)):
@@ -677,21 +678,25 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
     if spec:
         spec_html = ('    <script type="application/json" data-spec="%s">%s</script>\n'
                      % (bid, json.dumps(spec, ensure_ascii=False, separators=(",", ":"))))
+    # 口径说明：短的挂在标题行右边，长的另起一行独占，免得挤成右对齐的一坨
+    ncls = "blk-note is-long" if len(re.sub(r"<[^>]+>", "", note)) > 50 else "blk-note"
+    # 条目少的时候拉成单列：3 列网格里只放 1~3 项，右边总缺一块，看着像没做完
+    board_cls = "board is-few" if len(rows) < 4 else "board"
     return """  <section class="blk" id="board%s">
     <div class="blk-head">
       <span class="blk-num">%s</span>
       <h2>%s</h2>
-      <span class="blk-note">%s</span>
+      <span class="%s">%s</span>
     </div>
-%s    <div class="board" data-board="%s">
+%s    <div class="%s" data-board="%s">
       %s
     </div>
     <p class="bd-empty-tip" hidden>这一档还没有数据。换成「全部」看完整榜单。</p>
     %s
     %s
 %s  </section>
-""" % ("" if total == 1 else "-%d" % (idx + 1), num, escape(title), R.inline(note),
-       ctrl, bid,
+""" % ("" if total == 1 else "-%d" % (idx + 1), num, escape(title), ncls, R.inline(note),
+       ctrl, board_cls, bid,
        "\n      ".join(cards), stamp, "" if cards else empty, spec_html)
 
 

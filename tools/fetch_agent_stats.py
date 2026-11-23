@@ -80,6 +80,13 @@ SMITHERY_TOP = 15
 SMITHERY_PAGES = 1
 SMITHERY_PAGE_SIZE = 50
 
+# 生态规模按口径拆表：仓库数只看 GitHub，扩展数只看 IDE 市场，
+# 上架数只看托管平台。三个口径互不换算，也就不放进同一张表里相加。
+GH_TOPIC = "mcp-server"
+GH_LANGS = [("TypeScript", "typescript"), ("Python", "python"),
+            ("JavaScript", "javascript"), ("Go", "go"),
+            ("Rust", "rust"), ("Java", "java")]
+
 
 def load_old(filename, key):
     """读上一次的 CSV，用来在个别源失败时沿用旧值。"""
@@ -196,8 +203,12 @@ def fetch_vsix():
         for ext, name, vendor in VSIX:
             if ext in got or ext not in old:
                 continue
+            try:                       # CSV 读回来是字符串，不转 int 排序会炸
+                val = int(float(old[ext].get("安装量") or 0))
+            except (TypeError, ValueError):
+                val = 0
             rows.append({"名称": name, "扩展ID": ext, "厂商": vendor,
-                         "安装量": old[ext].get("安装量", ""),
+                         "安装量": val,
                          "时间": old[ext].get("时间", "")})
             print("      ↺ 沿用旧值：%s" % name)
     if len(rows) < 4:
@@ -243,50 +254,91 @@ def fetch_smithery():
     return servers[:SMITHERY_TOP], total, len(servers)
 
 
-def fetch_counts(smithery_total):
-    gh_token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
-    gh_headers = {"Accept": "application/vnd.github+json"}
-    if gh_token:
-        gh_headers["Authorization"] = "Bearer " + gh_token
+def gh_headers():
+    tok = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+    h = {"Accept": "application/vnd.github+json"}
+    if tok:
+        h["Authorization"] = "Bearer " + tok
+    return h
+
+
+def gh_count(q, retries=3):
+    """GitHub Search 的 total_count。未认证额度只有每分钟 10 次，退避要狠一点。"""
+    last = None
+    for i in range(retries):
+        try:
+            d = get("https://api.github.com/search/repositories?q=%s&per_page=1" % q,
+                    headers=gh_headers())
+            n = d.get("total_count")
+            if isinstance(n, int):
+                return n
+            last = "没有 total_count"
+        except Exception as e:  # noqa: BLE001
+            last = e
+        if i < retries - 1:
+            print("  · GitHub 退避重试（%s）：%s" % (q, last))
+            time.sleep(12 * (i + 1))
+    raise ValueError("GitHub 查询失败（%s）：%s" % (q, last))
+
+
+def fetch_eco_repos():
+    """MCP 服务器仓库：同一个话题下按实现语言拆开。
+
+    口径只有一个 ——「GitHub 上打了 topic:mcp-server 的公开仓库数」，
+    仓库只归属一种主语言，所以各行相加就是话题总数。这是它和
+    「仓库数 / 上架数 / 扩展数混在一张表」的区别：这张表能加。
+    """
+    total = gh_count("topic:" + GH_TOPIC)
+    rows, seen = [], 0
+    for label, lang in GH_LANGS:
+        time.sleep(6)          # 未认证时每分钟 10 次，留足间隔
+        n = gh_count("topic:%s+language:%s" % (GH_TOPIC, lang))
+        rows.append({"语言": label, "仓库数": n})
+        seen += n
+    rest = total - seen
+    if rest > 0:
+        rows.append({"语言": "其他 / 未标注语言", "仓库数": rest})
+    for r in rows:
+        r["占比"] = "%.1f%%" % (r["仓库数"] * 100.0 / total) if total else ""
+    rows.sort(key=lambda x: -x["仓库数"])
+    return rows, total
+
+
+def fetch_eco_markets():
+    """IDE 扩展市场存量：各市场自己报的扩展总数，一行一个市场。"""
     rows = []
-
-    rows.append({"平台": "Smithery", "类型": "MCP 服务器", "数量": smithery_total,
-                 "来源": "smithery.ai 接口 totalCount"})
-
-    try:
-        d = get("https://api.github.com/search/repositories?q=topic:mcp-server&per_page=1",
-                headers=gh_headers)
-        rows.append({"平台": "GitHub", "类型": "MCP 仓库（topic:mcp-server）",
-                     "数量": d.get("total_count", 0), "来源": "GitHub Search API"})
-    except Exception as e:  # noqa: BLE001
-        print("  ! GitHub 仓库数失败：%s" % e)
-
-    try:
-        d = get("https://api.github.com/repos/anthropics/skills/contents/skills",
-                headers=gh_headers)
-        n = len(d) if isinstance(d, list) else 0
-        rows.append({"平台": "Anthropic Skills 仓库", "类型": "官方 Skill",
-                     "数量": n, "来源": "github.com/anthropics/skills"})
-    except Exception as e:  # noqa: BLE001
-        print("  ! skills 目录数失败：%s" % e)
+    payload = {"filters": [{"criteria": [{"filterType": 8, "value": "Microsoft.VisualStudio.Code"}],
+                            "pageNumber": 1, "pageSize": 1}], "flags": 914}
+    d = post("https://marketplace.visualstudio.com/_apis/public/gallery/extensionquery", payload)
+    total = 0
+    for m in d["results"][0].get("resultMetadata", []):
+        for item in m.get("metadataItems", []):
+            if item.get("name") == "TotalCount":
+                total = item.get("count", 0)
+    if not total:
+        raise ValueError("VS Code 市场没返回 TotalCount")
+    rows.append({"市场": "VS Code 市场", "区域": "国外", "扩展数": total,
+                 "来源": "Marketplace extensionquery"})
 
     try:
-        payload = {"filters": [{"criteria": [{"filterType": 8, "value": "Microsoft.VisualStudio.Code"}],
-                                "pageNumber": 1, "pageSize": 1}], "flags": 914}
-        d = post("https://marketplace.visualstudio.com/_apis/public/gallery/extensionquery", payload)
-        meta = d["results"][0].get("resultMetadata", [])
-        total = 0
-        for m in meta:
-            for item in m.get("metadataItems", []):
-                if item.get("name") == "TotalCount":
-                    total = item.get("count", 0)
-        rows.append({"平台": "VS Code 市场", "类型": "扩展（全部）",
-                     "数量": total, "来源": "Marketplace extensionquery"})
+        d = get("https://open-vsx.org/api/-/search?size=1", timeout=30)
+        n = int(d.get("totalSize") or 0)
+        if n:
+            rows.append({"市场": "Open VSX", "区域": "国外", "扩展数": n,
+                         "来源": "open-vsx.org /api/-/search"})
     except Exception as e:  # noqa: BLE001
-        print("  ! VS Code 扩展总数失败：%s" % e)
+        print("  ! Open VSX 总数失败：%s" % e)
 
-    rows.sort(key=lambda x: -x["数量"])
+    rows.sort(key=lambda x: -x["扩展数"])
     return rows
+
+
+def fetch_eco_hosted(smithery_total):
+    """MCP 托管平台的上架量。只有 Smithery 把总数放在免密钥接口里。"""
+    if not smithery_total:
+        raise ValueError("没拿到 Smithery 总数")
+    return [{"平台": "Smithery", "区域": "国外", "类型": "MCP 服务器（上架）",
+             "上架数": smithery_total, "来源": "api.smithery.ai pagination.totalCount"}]
 
 
 # ── 写盘 ───────────────────────────────────────────────────
@@ -407,20 +459,49 @@ def main():
         failures.append("smithery: %s" % e)
         print("  ✗ Smithery 失败：%s" % e)
 
-    # 4) 生态规模
+    # 4) 生态规模：三个口径三张表，各自算各自的
+    #    4a 仓库数（GitHub topic + 语言）
     try:
-        rows = fetch_counts(smithery_total)
-        if rows:
-            boards["生态规模.csv"] = {"source": "各平台公开接口", "updated_at": when}
-            if not args.check:
-                write_csv(BOARD_DIR / "生态规模.csv", rows,
-                          ["排名", "平台", "区域", "类型", "数量", "来源", "时间"], when)
-                snapshot(history, "生态规模.csv", rows, "平台", "数量", day)
-            for r in rows[:3]:
-                print("      %-22s %12s" % (r["平台"], format(r["数量"], ",")))
+        rows, total = fetch_eco_repos()
+        boards["生态-mcp仓库.csv"] = {"source": "GitHub Search API", "updated_at": when,
+                                      "sample": "topic:%s 共 %d" % (GH_TOPIC, total)}
+        if not args.check:
+            write_csv(BOARD_DIR / "生态-mcp仓库.csv", rows,
+                      ["排名", "语言", "仓库数", "占比", "时间"], when)
+            snapshot(history, "生态-mcp仓库.csv", rows, "语言", "仓库数", day)
+        for r in rows[:3]:
+            print("      %-22s %12s  %s" % (r["语言"], format(r["仓库数"], ","), r["占比"]))
     except Exception as e:  # noqa: BLE001
-        failures.append("counts: %s" % e)
-        print("  ✗ 生态规模失败：%s" % e)
+        failures.append("eco-repos: %s" % e)
+        print("  ✗ MCP 仓库数失败：%s" % e)
+
+    #    4b 扩展数（IDE 市场自己报的存量）
+    try:
+        rows = fetch_eco_markets()
+        boards["生态-ide市场.csv"] = {"source": "各市场公开接口", "updated_at": when}
+        if not args.check:
+            write_csv(BOARD_DIR / "生态-ide市场.csv", rows,
+                      ["排名", "市场", "区域", "扩展数", "来源", "时间"], when)
+            snapshot(history, "生态-ide市场.csv", rows, "市场", "扩展数", day)
+        for r in rows:
+            print("      %-22s %12s" % (r["市场"], format(r["扩展数"], ",")))
+    except Exception as e:  # noqa: BLE001
+        failures.append("eco-markets: %s" % e)
+        print("  ✗ IDE 市场存量失败：%s" % e)
+
+    #    4c 上架数（托管平台）
+    try:
+        rows = fetch_eco_hosted(smithery_total)
+        boards["生态-mcp平台.csv"] = {"source": "api.smithery.ai", "updated_at": when}
+        if not args.check:
+            write_csv(BOARD_DIR / "生态-mcp平台.csv", rows,
+                      ["排名", "平台", "区域", "类型", "上架数", "来源", "时间"], when)
+            snapshot(history, "生态-mcp平台.csv", rows, "平台", "上架数", day)
+        for r in rows:
+            print("      %-22s %12s" % (r["平台"], format(r["上架数"], ",")))
+    except Exception as e:  # noqa: BLE001
+        failures.append("eco-hosted: %s" % e)
+        print("  ✗ 平台上架量失败：%s" % e)
 
     print("完成：%d 个榜，%d 处失败" % (len(boards), len(failures)))
     for f in failures:
@@ -431,6 +512,11 @@ def main():
     if not args.check:
         if not DATA_DIR.exists():
             DATA_DIR.mkdir(parents=True, exist_ok=True)
+        # 榜被拆掉或改名后，stats / history 里会留下去不掉的旧键，
+        # 这里统一按「CSV 还在不在」清理一遍。
+        alive = {p.name for p in BOARD_DIR.glob("*.csv")}
+        boards = {k: v for k, v in boards.items() if k in alive}
+        history = {k: v for k, v in history.items() if k in alive}
         payload = {"generated_at": when, "date": day, "boards": boards, "failures": failures}
         (DATA_DIR / "stats.json").write_text(
             json.dumps(payload, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
