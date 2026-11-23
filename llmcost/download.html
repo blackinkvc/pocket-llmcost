@@ -53,15 +53,33 @@
     <p>线上这五页是<b>快照</b>：价格、榜单、走势都是生成那一刻的样子，只读。装到本机才有完整能力——
       点「重新核验」现场算一遍、写自己的价目表、装回中台当插件、断网也能用。</p>
     <div class="dl-quick">
-      <a class="dl-btn" id="dlMain" href="https://github.com/blackinkvc/pocket-llmcost/releases/latest" rel="noopener">
-        <b>下载</b><span id="dlMainHint">自动识别系统…</span>
+      <a class="dl-btn" href="../llmcost.moshanplug" download id="dlPlug">
+        <b>装进墨山中台</b><span>插件包 · 拖进去就装</span>
+      </a>
+      <a class="dl-btn is-ghost" id="dlMain" href="https://github.com/blackinkvc/pocket-llmcost/releases/latest" rel="noopener">
+        <b>独立可执行包</b><span id="dlMainHint">自动识别系统…</span>
       </a>
       <a class="dl-btn is-ghost" href="https://github.com/blackinkvc/pocket-llmcost" rel="noopener">源码仓库</a>
     </div>
-    <p class="dl-note">未签名的可执行文件，首次打开会被系统拦一下，见下方「装完打不开」。</p>
+    <p class="dl-note">插件包不需要签名、不会被系统拦；独立可执行包没买证书，首次打开会被拦一下，见下方「装完打不开」。</p>
   </section>
 
   <section class="dl-grid">
+
+    <article class="dl-card is-wide">
+      <h2>装进墨山中台（推荐）</h2>
+      <p>中台里三条路，都不用开终端。装完顶栏多一颗「Token 价格追踪」，刷新页面就出现，不用重启中台。</p>
+      <ol class="dl-steps">
+        <li><b>拖进去</b> —— 把 <code>llmcost.moshanplug</code> 拖到中台窗口<b>任意位置</b>，松手就装。</li>
+        <li><b>选文件 / 选文件夹</b> —— 中台右下角「插件」→ 装插件 → 选文件；手上有源码目录就点「选文件夹」，认得出 <code>plugin.json</code> 就行。</li>
+        <li><b>让它自己下</b> —— 同一处粘上网址点「去下载」：<br>
+          <code>https://blackinkvc.github.io/pocket-llmcost/llmcost.moshanplug</code></li>
+      </ol>
+      <p>装到 <code>_插件/llmcost/</code>，登记在 <code>_工作台/plugins.json</code>；数据仍然在你自己的
+        <code>13-算价</code> 目录里，升级不会动它。</p>
+      <p class="dl-foot">以后出新版，中台右下角的「插件」会变成「N 项更新」，点开一按就换；
+        中台本体的新版也在同一个地方提示、跳去更新页。</p>
+    </article>
 
     <article class="dl-card">
       <h2>站上有哪些小工具</h2>

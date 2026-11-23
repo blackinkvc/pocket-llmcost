@@ -44,6 +44,11 @@ fi
 echo "▸ 重建 llmcost 子页"
 python3 tools/build_pages.py
 
+# 2b) 打插件包。必须每次重建：包里的代码就是这个 commit 的代码，
+#     忘了打会出现「站点说 1.1.0、下下来的还是 1.0.0」，更新提示点了也不生效。
+echo "▸ 打插件包（.moshanplug）"
+python3 tools/make_plugin_pack.py
+
 # 3) 可选：重算价格快照（Actions 每天也会跑，本地跑要能连外网）
 if [ "${REFRESH}" = "1" ]; then
   echo "▸ 重算数据快照"

@@ -1,7 +1,7 @@
 {
   "id": "llmcost",
   "name": "Token 价格追踪",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "summary": "大模型 API / 订阅套餐 / 本地部署 三维度成本追踪，带多源交叉校验与 LMArena 天梯榜",
   "group": "other",
   "glyph": "llmcost",
@@ -12,13 +12,19 @@
   "args": ["--serve", "--no-open"],
   "ping": "/api/ping",
   "cards_api": "/api/cards",
-  "cmd": "_插件/llmcost/run.command",
+  "cmd": "run.command",
   "data_env": "LLMCOST_DIR",
   "data_default": "~/Documents/AI项目/13-算价",
+  "platforms": ["macos", "windows", "linux"],
   "requires": {
     "python": ">=3.9",
     "third_party": []
   },
-  "repo": "https://github.com/blackinkvc/pocket-llmcost",
-  "update": "git pull"
+  "repo": "blackinkvc/pocket-llmcost",
+  "update": {
+    "repo": "blackinkvc/pocket-llmcost",
+    "manifest": "https://blackinkvc.github.io/pocket-llmcost/plugin.json",
+    "pack": "https://blackinkvc.github.io/pocket-llmcost/llmcost.moshanplug"
+  },
+  "home": "https://blackinkvc.github.io/pocket-llmcost/llmcost/download.html"
 }

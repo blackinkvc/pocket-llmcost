@@ -126,6 +126,15 @@ main.pg > [data-card] > .card-h{flex:0 0 auto}
 .dl-table tr:last-child td{border-bottom:0}
 .dl-foot{font-size:11.5px;color:var(--ink3);line-height:1.65;margin-top:6px}
 
+/* 跨两列的那张卡（装进中台）：三条路要一行一条才读得顺 */
+.dl-card.is-wide{grid-column:1 / -1}
+.dl-steps{
+  margin:0 0 10px;padding-left:20px;font-size:12.5px;color:var(--ink2);line-height:1.85;
+}
+.dl-steps li{margin-bottom:4px}
+.dl-steps li::marker{color:var(--accent);font-weight:600}
+.dl-steps b{color:var(--ink);font-weight:600}
+
 @media (max-width:620px){
   .dl-hero h1{font-size:21px}
   .dl-grid{grid-template-columns:1fr}
