@@ -12,13 +12,13 @@
   "args": ["--serve", "--no-open"],
   "ping": "/api/ping",
   "cards_api": "/api/cards",
-  "cmd": "13-算价/_算价.command",
+  "cmd": "_插件/llmcost/run.command",
   "data_env": "LLMCOST_DIR",
   "data_default": "~/Documents/AI项目/13-算价",
   "requires": {
     "python": ">=3.9",
     "third_party": []
   },
-  "repo": "https://github.com/Pamphile0117/pocket-llmcost",
+  "repo": "https://github.com/blackinkvc/pocket-llmcost",
   "update": "git pull"
 }

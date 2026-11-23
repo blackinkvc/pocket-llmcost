@@ -16,7 +16,8 @@
 
 set -u
 
-REPO="https://github.com/Pamphile0117/pocket-llmcost.git"
+# 换 fork / 换镜像时覆盖它，别改下面这段逻辑
+REPO="${LLMCOST_REPO:-https://github.com/blackinkvc/pocket-llmcost.git}"
 HERE="$(cd "$(dirname "$0")" && pwd)"
 
 ROOT="${HOME}/Documents/AI项目"

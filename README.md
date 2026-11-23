@@ -11,7 +11,7 @@
 ## 装
 
 ```bash
-git clone https://github.com/Pamphile0117/pocket-llmcost.git
+git clone https://github.com/blackinkvc/pocket-llmcost.git
 cd pocket-llmcost
 ./install.sh
 ```
