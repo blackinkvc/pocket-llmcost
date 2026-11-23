@@ -5,17 +5,77 @@
   "page": "models.html",
   "num": "01",
   "sub": "FRONTIER MODELS · SNAPSHOT 2025-11",
-  "chips": ["闭源旗舰", "开放权重", "推理模型"],
-  "desc": "基模：闭源旗舰、开放权重与推理模型的天梯榜，以及按主题整理的报告。快照 2025-11，2026 条目待补充。",
-  "board": {
-    "title": "天梯榜",
-    "note": "按发布时间排，不是能力排名；同机构只留代表作，跑分无出处不列入。",
-    "file": "天梯榜.csv"
+  "chips": [
+    "闭源旗舰",
+    "开放权重",
+    "推理模型"
+  ],
+  "desc": "基模：有出处的能力分榜、按发布时间排的模型台账、几个必须先弄清的概念，以及按主题整理的报告。",
+  "boards": [
+    {
+      "kind": "scores",
+      "title": "能力分榜",
+      "note": "只放能复核的分：Artificial Analysis 指数、LMArena Elo。可切来源与维度；某个模型在这个维度没有公开分，就不出现在这张榜里——不估算，也不拿 0 占位。分数是 2026-11 抓的实时值，下面的台账仍停在 2025-11，两者不是同一时间口径。",
+      "file": "榜/能力分.csv",
+      "short": "分榜"
+    },
+    {
+      "title": "模型台账",
+      "note": "按发布时间排，不是能力排名；同机构只留代表作。没出处的跑分不写，没查到的留空。",
+      "file": "天梯榜.csv",
+      "short": "台账"
+    }
+  ],
+  "cards": {
+    "title": "先弄清这几个词",
+    "note": "榜上的分只看数字会误读，四张卡各通向原理页的一节。",
+    "items": [
+      {
+        "kicker": "结构",
+        "title": "MoE：总参数与激活参数",
+        "desc": "总参数决定显存占用，激活参数决定单 token 计算量。看 MoE 模型别只比总参数量——同一句「1T 参数」，跑起来的成本可能差一个量级。",
+        "meta": "原理 · 05",
+        "href": "principles.html#moe"
+      },
+      {
+        "kicker": "成本",
+        "title": "一次生成到底在算什么",
+        "desc": "prefill 一次性并行算全量输入，吃算力；decode 每吐一个 token 都要把权重读一遍，吃带宽。长输出比长输入贵，根子在这里。",
+        "meta": "原理 · 01",
+        "href": "principles.html#inference"
+      },
+      {
+        "kicker": "训练",
+        "title": "推理模型与 test-time compute",
+        "desc": "把「想」变成显式的 token：先写中间步骤再给答案。用更多 token 换正确率，这笔账要算进单价里，而不是只看每百万 token 的标价。",
+        "meta": "原理 · 04",
+        "href": "principles.html#reasoning"
+      },
+      {
+        "kicker": "部署",
+        "title": "量化与蒸馏",
+        "desc": "量化省显存与带宽，蒸馏省参数与步数。两者常被混着说，代价完全不同：一个掉精度，一个掉能力上限。",
+        "meta": "原理 · 07",
+        "href": "principles.html#quant"
+      }
+    ],
+    "short": "概念"
   },
+  "featured": [
+    "这张天梯榜怎么读",
+    "三条主线-一个转折",
+    "不按榜单选-按约束选"
+  ],
   "reports": {
     "title": "报告",
     "dir": "报告"
   },
-  "prev": ["index.html", "首页 · 九个板块"],
-  "next": ["agents.html", "02 Agent"]
+  "prev": [
+    "index.html",
+    "首页 · 九个板块"
+  ],
+  "next": [
+    "agents.html",
+    "02 Agent"
+  ]
 }

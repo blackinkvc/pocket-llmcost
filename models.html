@@ -5,10 +5,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>基模 · AI.TRACK</title>
-<meta name="description" content="基模：闭源旗舰、开放权重与推理模型的天梯榜，以及按主题整理的报告。快照 2025-11，2026 条目待补充。">
+<meta name="description" content="基模：有出处的能力分榜、按发布时间排的模型台账、几个必须先弄清的概念，以及按主题整理的报告。">
 <link rel="stylesheet" href="assets/css/site.css">
 <link rel="stylesheet" href="assets/css/section.css">
 <script src="assets/js/board.js" defer></script>
+<script src="assets/js/ranks.js" defer></script>
+<script src="assets/js/reports.js" defer></script>
 </head>
 <body>
 
@@ -41,7 +43,9 @@
   <div class="subnav-in">
     <span class="sn-label">Models</span>
     <a href="#intro">简介</a>
-    <a href="#board">天梯榜</a>
+    <a href="#board-1">分榜</a>
+    <a href="#board-2">台账</a>
+    <a href="#cards">概念</a>
     <a href="#reports">报告</a>
     <span class="sn-sep"></span>
     <a href="principles.html">原理 · 历史</a>
@@ -60,25 +64,1333 @@
         </div>
         <h1 class="ph-title">基模</h1>
         <p class="ph-sub">FRONTIER MODELS · SNAPSHOT 2025-11</p>
-        <p class="ph-lede">基模是整条产业链的地基，也是变化最快的一层。这页不排名，只按<strong>发布时间、权重形态、能力取向</strong>列台账： 谁在什么时候把什么能力做进了默认配置。跑分没有出处就不写。</p>
+        <div class="ph-lede"><p>基模是整条产业链的地基，也是变化最快的一层。这一页分成两层，别混着读：</p>
+<p><strong>上面那层是分榜</strong>，只放有公开出处的分——Artificial Analysis 的指数、LMArena 的 Elo， 每个分都能回溯到来源，某维度没分就不出现。<strong>下面那层是台账</strong>，按**发布时间、权重形态、 能力取向**列谁在什么时候把什么能力做进了默认配置，不排名。</p>
+<p>两层的时间口径不一样：分榜是实时抓的，台账停在 2025-11。台账没跟上，看分榜就知道差多少。</p></div>
       </div>
       <aside class="spec-card">
         <div class="spec-head"><span>SNAPSHOT</span><span>MANUAL</span></div>
         <dl class="spec-body" style="margin:0">
-          <div class="spec-row"><dt>知识基线</dt><dd>2025-11</dd></div><div class="spec-row"><dt>收录条目</dt><dd>18 条</dd></div><div class="spec-row"><dt>权重形态</dt><dd>闭源 / 开放</dd></div><div class="spec-row"><dt>2026 进展</dt><dd>待补充</dd></div><div class="spec-row"><dt>评测分数</dt><dd>未收录</dd></div>
+          <div class="spec-row"><dt>知识基线</dt><dd>2025-11</dd></div><div class="spec-row"><dt>台账条目</dt><dd>18 条</dd></div><div class="spec-row"><dt>能力分榜</dt><dd>实时抓取</dd></div><div class="spec-row"><dt>2026 台账</dt><dd>待补充</dd></div><div class="spec-row"><dt>分数出处</dt><dd>AA / LMArena</dd></div>
         </dl>
       </aside>
     </div>
     <div class="verdict-box"><p class="vb-label">三条结论 / VERDICT</p><ol><li><b>闭源旗舰的节奏是「合并」。</b><span>快慢思考、多模态、工具调用逐渐收进一个默认模型，单独发布的推理模型越来越少。</span></li><li><b>开放权重追得很紧，但差一个身位。</b><span>头部开放模型在通用对话上接近旗舰，长程 Agent 与多模态仍有差距；许可证差异比参数差异更影响可用性。</span></li><li><b>参数规模不再是唯一叙事。</b><span>MoE 把总参数与激活参数拆开，稀疏化、注意力和数据配比比堆参数更能解释实际体验。</span></li></ol></div>
-    <div class="intro-extra"><h3>数据限制</h3><ul><li><strong>2026 年条目</strong>：整体未收录，等逐条核对官方发布后再补，不按趋势推测。</li><li><strong>评测分数</strong>：SWE-bench、GPQA、AIME 等分数未收录，避免把厂商自测当成横向比较。</li><li><strong>价格</strong>：API 价格变动频繁，本页不写具体数字，只保留计价方式。</li><li><strong>参数规模</strong>：多数闭源模型不公开，开放模型也只写公开确认的量级。</li><li><strong>版本命名</strong>：同一代常有多个小版本，带 <code>*</code> 的条目以官方页面为准。</li></ul></div>
+    <div class="intro-extra"><h3>数据限制</h3><ul><li><strong>2026 年台账条目</strong>：整体未收录，等逐条核对官方发布后再补，不按趋势推测。</li><li><strong>榜单分数</strong>：只收 AA 与 LMArena 两家有原始表格的；厂商自测的 SWE-bench、GPQA、AIME 不进榜——口径不一，横向排会把人带偏。</li><li><strong>分榜覆盖</strong>：两家不是全量收录，没进它们样本的模型（尤其中文厂商）会缺席，这是数据本身的缺口，不是「这模型不行」。</li><li><strong>价格</strong>：API 价格变动频繁，本页不写具体数字，只保留计价方式。</li><li><strong>参数规模</strong>：多数闭源模型不公开，开放模型也只写公开确认的量级。</li><li><strong>版本命名</strong>：同一代常有多个小版本，带 <code>*</code> 的条目以官方页面为准。</li></ul></div>
   </section>
-  <section class="blk" id="board">
+  <section class="blk" id="board-1">
     <div class="blk-head">
-      <span class="blk-num">02</span>
-      <h2>天梯榜</h2>
-      <span class="blk-note">按发布时间排，不是能力排名；同机构只留代表作，跑分无出处不列入。</span>
+      <span class="blk-num">02.1</span>
+      <h2>能力分榜</h2>
+      <span class="blk-note">只放能复核的分：Artificial Analysis 指数、LMArena Elo。可切来源与维度；某个模型在这个维度没有公开分，就不出现在这张榜里——不估算，也不拿 0 占位。分数是 2026-11 抓的实时值，下面的台账仍停在 2025-11，两者不是同一时间口径。</span>
     </div>
-    <div class="bd-ctrl" data-ctrl="b1">
+    <div class="rk-ctrl"><div class="seg rk-src"><button type="button" data-src="aa" class="on">Artificial Analysis</button><button type="button" data-src="arena">LMArena</button></div><div class="rk-dims" data-for="aa"><button type="button" data-dim="aa:intelligence_index">综合</button><button type="button" data-dim="aa:engineering_index">工程</button><button type="button" data-dim="aa:cyber_index">安全</button><button type="button" data-dim="aa:finance_and_accounting_index">财税</button><button type="button" data-dim="aa:legal_index">法律</button><button type="button" data-dim="aa:healthcare_and_medical_index">医疗</button><button type="button" data-dim="aa:economics_index">经济</button><button type="button" data-dim="aa:strategy_and_ops_index">战略</button><button type="button" data-dim="aa:multilingual_index">多语</button></div><div class="rk-dims" data-for="arena" hidden><button type="button" data-dim="arena:website">网站</button><button type="button" data-dim="arena:codecategories">代码</button><button type="button" data-dim="arena:uicomponent">UI 组件</button><button type="button" data-dim="arena:dataviz">数据可视化</button><button type="button" data-dim="arena:gamedev">游戏</button><button type="button" data-dim="arena:3d">3D</button><button type="button" data-dim="arena:svg">SVG</button><button type="button" data-dim="arena:asciiart">ASCII</button></div><span class="rk-count"></span></div>
+    <div class="board rk-board" data-scores data-limit="30">
+      <article class="bd-card" data-k="Claude Fable 5.2" data-v-aa-intelligence_index="64.6" data-v-aa-engineering_index="72.6" data-v-aa-finance_and_accounting_index="64.7" data-v-aa-legal_index="63.3" data-v-aa-healthcare_and_medical_index="65.4" data-v-aa-economics_index="66.5" data-v-aa-strategy_and_ops_index="67.4" data-v-arena-codetovideo="1435" data-win-codetovideo="82.2" data-v-arena-fullstack="1475" data-win-fullstack="73.1" data-v-arena-mobileapps="1323" data-win-mobileapps="65.1" data-v-arena-pdf="1319" data-win-pdf="67.9" data-v-arena-spreadsheet="1421" data-win-spreadsheet="74.3" data-v-arena-3d="1511" data-win-3d="75.4" data-v-arena-codecategories="1457" data-win-codecategories="65.9" data-v-arena-gamedev="1530" data-win-gamedev="78.6" data-v-arena-uicomponent="1389" data-win-uicomponent="64.9" data-v-arena-website="1405" data-win-website="61">
+        <span class="bd-rank">1</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Claude Fable 5.2</h3><span class="bd-val">64.6</span></div>
+          <p class="bd-meta">Anthropic · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-6.2 Astra" data-v-aa-intelligence_index="62.1" data-v-aa-engineering_index="66.6" data-v-aa-cyber_index="40.8" data-v-aa-finance_and_accounting_index="60.9" data-v-aa-legal_index="58.7" data-v-aa-healthcare_and_medical_index="57" data-v-aa-economics_index="61.1" data-v-aa-strategy_and_ops_index="63.3">
+        <span class="bd-rank">2</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-6.2 Astra</h3><span class="bd-val">62.1</span></div>
+          <p class="bd-meta">OpenAI · 上下文 105 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemini 4 Neon" data-v-aa-intelligence_index="61.4" data-v-aa-engineering_index="66.8" data-v-aa-finance_and_accounting_index="65.1" data-v-aa-legal_index="63.8" data-v-aa-healthcare_and_medical_index="60.1" data-v-aa-economics_index="61.9" data-v-aa-strategy_and_ops_index="63.8" data-v-arena-pdf="1136" data-win-pdf="44.4" data-v-arena-3d="1491" data-win-3d="76.3" data-v-arena-codecategories="1450" data-win-codecategories="65.5" data-v-arena-gamedev="1395" data-win-gamedev="65" data-v-arena-uicomponent="1348" data-win-uicomponent="58.5" data-v-arena-website="1398" data-win-website="60.3">
+        <span class="bd-rank">3</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemini 4 Neon</h3><span class="bd-val">61.4</span></div>
+          <p class="bd-meta">Google · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemini 4 Carbon" data-v-aa-intelligence_index="60" data-v-aa-engineering_index="65.3" data-v-aa-finance_and_accounting_index="62.6" data-v-aa-legal_index="62" data-v-aa-healthcare_and_medical_index="56.8" data-v-aa-economics_index="59.6" data-v-aa-strategy_and_ops_index="60.9" data-v-arena-codetovideo="1256" data-win-codetovideo="62.9" data-v-arena-mobileapps="1296" data-win-mobileapps="61" data-v-arena-pdf="1332" data-win-pdf="70.1" data-v-arena-spreadsheet="1222" data-win-spreadsheet="49.1" data-v-arena-3d="1466" data-win-3d="73.8" data-v-arena-codecategories="1434" data-win-codecategories="63.9" data-v-arena-dataviz="1340" data-win-dataviz="61.5" data-v-arena-gamedev="1410" data-win-gamedev="67.8" data-v-arena-svg="1460" data-win-svg="69.9" data-v-arena-uicomponent="1376" data-win-uicomponent="64.8" data-v-arena-website="1379" data-win-website="58.2">
+        <span class="bd-rank">4</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemini 4 Carbon</h3><span class="bd-val">60</span></div>
+          <p class="bd-meta">Google · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Claude Opus 5.5" data-v-aa-intelligence_index="59.1" data-v-aa-engineering_index="65.3" data-v-aa-cyber_index="28.7" data-v-aa-finance_and_accounting_index="59.4" data-v-aa-legal_index="58" data-v-aa-healthcare_and_medical_index="57.9" data-v-aa-economics_index="60.3" data-v-aa-strategy_and_ops_index="61.4" data-v-arena-androidnative="1398" data-win-androidnative="75.3" data-v-arena-blender3d="1220" data-win-blender3d="57.3" data-v-arena-codetovideo="1323" data-win-codetovideo="72.8" data-v-arena-fullstack="1454" data-win-fullstack="70" data-v-arena-mobileapps="1297" data-win-mobileapps="61.9" data-v-arena-pdf="1305" data-win-pdf="67.3" data-v-arena-spreadsheet="1289" data-win-spreadsheet="53.1" data-v-arena-webapps="1307" data-win-webapps="62.6" data-v-arena-3d="1448" data-win-3d="65.2" data-v-arena-asciiart="1345" data-win-asciiart="63.3" data-v-arena-codecategories="1442" data-win-codecategories="61.5" data-v-arena-dataviz="1381" data-win-dataviz="63.7" data-v-arena-gamedev="1436" data-win-gamedev="66.5" data-v-arena-svg="1371" data-win-svg="54.2" data-v-arena-uicomponent="1368" data-win-uicomponent="62.7" data-v-arena-website="1376" data-win-website="55.7">
+        <span class="bd-rank">5</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Claude Opus 5.5</h3><span class="bd-val">59.1</span></div>
+          <p class="bd-meta">Anthropic · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-6.2 Sol" data-v-aa-intelligence_index="57.3" data-v-aa-engineering_index="61.2" data-v-aa-cyber_index="37.7" data-v-aa-finance_and_accounting_index="57.2" data-v-aa-legal_index="55" data-v-aa-healthcare_and_medical_index="53.3" data-v-aa-economics_index="57.4" data-v-aa-strategy_and_ops_index="59.4">
+        <span class="bd-rank">6</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-6.2 Sol</h3><span class="bd-val">57.3</span></div>
+          <p class="bd-meta">OpenAI · 上下文 105 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-6 Astra" data-v-aa-intelligence_index="56.9" data-v-aa-engineering_index="61.8" data-v-aa-cyber_index="33.4" data-v-aa-finance_and_accounting_index="57.4" data-v-aa-legal_index="55.7" data-v-aa-healthcare_and_medical_index="53.7" data-v-aa-economics_index="57.2" data-v-aa-strategy_and_ops_index="58">
+        <span class="bd-rank">7</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-6 Astra</h3><span class="bd-val">56.9</span></div>
+          <p class="bd-meta">OpenAI · 上下文 105 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-6.1 Sol" data-v-aa-intelligence_index="54.6" data-v-aa-engineering_index="59.4" data-v-aa-finance_and_accounting_index="56.2" data-v-aa-legal_index="53.7" data-v-aa-healthcare_and_medical_index="52" data-v-aa-economics_index="56.3" data-v-aa-strategy_and_ops_index="57.6" data-v-arena-androidnative="1190" data-win-androidnative="48.1" data-v-arena-blender3d="1236" data-win-blender3d="60" data-v-arena-codetovideo="1165" data-win-codetovideo="53.6" data-v-arena-fullstack="1292" data-win-fullstack="47" data-v-arena-mobileapps="1228" data-win-mobileapps="52.6" data-v-arena-pdf="1129" data-win-pdf="43" data-v-arena-spreadsheet="1207" data-win-spreadsheet="41.2" data-v-arena-webapps="1269" data-win-webapps="56.6" data-v-arena-3d="1413" data-win-3d="59.2" data-v-arena-codecategories="1413" data-win-codecategories="56.4" data-v-arena-dataviz="1278" data-win-dataviz="52.5" data-v-arena-gamedev="1387" data-win-gamedev="58.2" data-v-arena-svg="1391" data-win-svg="60.1" data-v-arena-uicomponent="1355" data-win-uicomponent="58.6" data-v-arena-website="1364" data-win-website="54">
+        <span class="bd-rank">8</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-6.1 Sol</h3><span class="bd-val">54.6</span></div>
+          <p class="bd-meta">OpenAI · 上下文 105 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Claude Sonnet 5.5" data-v-aa-intelligence_index="54.5" data-v-aa-engineering_index="58.5" data-v-aa-finance_and_accounting_index="55.8" data-v-aa-legal_index="52.2" data-v-aa-healthcare_and_medical_index="54.2" data-v-aa-economics_index="54.1" data-v-aa-strategy_and_ops_index="58.1" data-v-arena-androidnative="1265" data-win-androidnative="58.1" data-v-arena-blender3d="1231" data-win-blender3d="59.3" data-v-arena-codetovideo="1308" data-win-codetovideo="70.4" data-v-arena-fullstack="1420" data-win-fullstack="63" data-v-arena-mobileapps="1259" data-win-mobileapps="57.2" data-v-arena-pdf="1249" data-win-pdf="59.2" data-v-arena-spreadsheet="1250" data-win-spreadsheet="46" data-v-arena-webapps="1287" data-win-webapps="58.9" data-v-arena-3d="1394" data-win-3d="56.1" data-v-arena-asciiart="1402" data-win-asciiart="70.9" data-v-arena-codecategories="1416" data-win-codecategories="57.9" data-v-arena-dataviz="1358" data-win-dataviz="63.9" data-v-arena-gamedev="1428" data-win-gamedev="65" data-v-arena-svg="1344" data-win-svg="54.9" data-v-arena-uicomponent="1379" data-win-uicomponent="62.6" data-v-arena-website="1357" data-win-website="53.4">
+        <span class="bd-rank">9</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Claude Sonnet 5.5</h3><span class="bd-val">54.5</span></div>
+          <p class="bd-meta">Anthropic · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemini 4 Hydrogen" data-v-aa-intelligence_index="53.9" data-v-aa-engineering_index="60.1" data-v-aa-finance_and_accounting_index="58.1" data-v-aa-legal_index="56.7" data-v-aa-healthcare_and_medical_index="53.3" data-v-aa-economics_index="55" data-v-aa-strategy_and_ops_index="57.7" data-v-arena-codetovideo="1314" data-win-codetovideo="69.3" data-v-arena-mobileapps="1273" data-win-mobileapps="58.1" data-v-arena-pdf="1239" data-win-pdf="57.8" data-v-arena-3d="1399" data-win-3d="66.1" data-v-arena-asciiart="1447" data-win-asciiart="72.3" data-v-arena-codecategories="1389" data-win-codecategories="55.9" data-v-arena-dataviz="1288" data-win-dataviz="55" data-v-arena-gamedev="1340" data-win-gamedev="52.1" data-v-arena-uicomponent="1332" data-win-uicomponent="53.4" data-v-arena-website="1379" data-win-website="58.8">
+        <span class="bd-rank">10</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemini 4 Hydrogen</h3><span class="bd-val">53.9</span></div>
+          <p class="bd-meta">Google · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-6.1 Terra" data-v-aa-intelligence_index="51.3" data-v-aa-engineering_index="54.7" data-v-aa-finance_and_accounting_index="49" data-v-aa-legal_index="46.4" data-v-aa-healthcare_and_medical_index="44.7" data-v-aa-economics_index="48.5" data-v-aa-strategy_and_ops_index="50">
+        <span class="bd-rank">11</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-6.1 Terra</h3><span class="bd-val">51.3</span></div>
+          <p class="bd-meta">OpenAI · 上下文 105 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemini 4 Argon" data-v-aa-intelligence_index="50.4" data-v-aa-engineering_index="57.3" data-v-aa-finance_and_accounting_index="55.9" data-v-aa-legal_index="54.6" data-v-aa-healthcare_and_medical_index="51.3" data-v-aa-economics_index="52.6" data-v-aa-strategy_and_ops_index="57.2" data-v-arena-agenticgamedev="1266" data-win-agenticgamedev="51.1" data-v-arena-blender3d="1340" data-win-blender3d="65.7" data-v-arena-codetovideo="1223" data-win-codetovideo="58.4" data-v-arena-mobileapps="1232" data-win-mobileapps="48.5" data-v-arena-pdf="1249" data-win-pdf="58.5" data-v-arena-spreadsheet="1146" data-win-spreadsheet="28.9" data-v-arena-webapps="1276" data-win-webapps="48.2" data-v-arena-3d="1340" data-win-3d="50" data-v-arena-codecategories="1380" data-win-codecategories="53.5" data-v-arena-dataviz="1323" data-win-dataviz="60.3" data-v-arena-gamedev="1349" data-win-gamedev="53.3" data-v-arena-svg="1387" data-win-svg="61.8" data-v-arena-uicomponent="1325" data-win-uicomponent="56.8" data-v-arena-website="1365" data-win-website="55.5">
+        <span class="bd-rank">12</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemini 4 Argon</h3><span class="bd-val">50.4</span></div>
+          <p class="bd-meta">Google · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Claude Fable 5.1" data-v-aa-intelligence_index="50" data-v-aa-engineering_index="57.2" data-v-aa-cyber_index="25" data-v-aa-finance_and_accounting_index="53.8" data-v-aa-legal_index="54.5" data-v-aa-healthcare_and_medical_index="51.2" data-v-aa-economics_index="57.3" data-v-aa-strategy_and_ops_index="58" data-v-arena-fullstack="1372" data-win-fullstack="57.1" data-v-arena-godotgamedev="1296" data-win-godotgamedev="60.7" data-v-arena-htmlslides="1393" data-win-htmlslides="56.5" data-v-arena-mobileapps="1256" data-win-mobileapps="56.3" data-v-arena-python-pptxslides="1318" data-win-python-pptxslides="62.1" data-v-arena-spreadsheet="1342" data-win-spreadsheet="58.8" data-v-arena-webapps="1308" data-win-webapps="58.2" data-v-arena-3d="1374" data-win-3d="63.1" data-v-arena-asciiart="1315" data-win-asciiart="65.7" data-v-arena-codecategories="1382" data-win-codecategories="57.5" data-v-arena-dataviz="1342" data-win-dataviz="62.4" data-v-arena-gamedev="1348" data-win-gamedev="59.5" data-v-arena-svg="1343" data-win-svg="56.6" data-v-arena-uicomponent="1325" data-win-uicomponent="59.9" data-v-arena-website="1353" data-win-website="55.1">
+        <span class="bd-rank">13</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Claude Fable 5.1</h3><span class="bd-val">50</span></div>
+          <p class="bd-meta">Anthropic · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Kimi K3.1 Pro" data-v-aa-intelligence_index="46.5" data-v-aa-engineering_index="50.9" data-v-aa-cyber_index="64.1" data-v-aa-finance_and_accounting_index="53.3" data-v-aa-legal_index="49.2" data-v-aa-healthcare_and_medical_index="51.6" data-v-aa-economics_index="49.9" data-v-aa-strategy_and_ops_index="57.6" data-v-arena-androidnative="1164" data-win-androidnative="45" data-v-arena-codetovideo="1221" data-win-codetovideo="59.2" data-v-arena-fullstack="1392" data-win-fullstack="61.4" data-v-arena-mobileapps="1270" data-win-mobileapps="59.6" data-v-arena-pdf="1236" data-win-pdf="58.2" data-v-arena-python-pptxslides="1287" data-win-python-pptxslides="60.5" data-v-arena-spreadsheet="1315" data-win-spreadsheet="62.5" data-v-arena-webapps="1294" data-win-webapps="60.4" data-v-arena-3d="1418" data-win-3d="68" data-v-arena-asciiart="1295" data-win-asciiart="57" data-v-arena-codecategories="1400" data-win-codecategories="59.4" data-v-arena-dataviz="1298" data-win-dataviz="56.1" data-v-arena-gamedev="1378" data-win-gamedev="61.7" data-v-arena-svg="1373" data-win-svg="61.4" data-v-arena-uicomponent="1368" data-win-uicomponent="63" data-v-arena-website="1367" data-win-website="57.3">
+        <span class="bd-rank">14</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Kimi K3.1 Pro</h3><span class="bd-val">46.5</span></div>
+          <p class="bd-meta">月之暗面 · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-6 Sol" data-v-aa-intelligence_index="44.2" data-v-aa-engineering_index="48.9" data-v-aa-cyber_index="36.8" data-v-aa-finance_and_accounting_index="47.5" data-v-aa-legal_index="46.3" data-v-aa-healthcare_and_medical_index="45.1" data-v-aa-economics_index="47.7" data-v-aa-strategy_and_ops_index="52.1">
+        <span class="bd-rank">15</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-6 Sol</h3><span class="bd-val">44.2</span></div>
+          <p class="bd-meta">OpenAI · 上下文 105 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Claude Opus 5" data-v-aa-intelligence_index="44.2" data-v-aa-engineering_index="51.3" data-v-aa-finance_and_accounting_index="49.7" data-v-aa-legal_index="50.9" data-v-aa-healthcare_and_medical_index="47.1" data-v-aa-economics_index="50.4" data-v-aa-strategy_and_ops_index="53.7" data-v-arena-agenticgamedev="1203" data-win-agenticgamedev="53.3" data-v-arena-androidnative="1242" data-win-androidnative="55.9" data-v-arena-blender3d="1201" data-win-blender3d="63.1" data-v-arena-codetovideo="1232" data-win-codetovideo="62.5" data-v-arena-fullstack="1354" data-win-fullstack="57.5" data-v-arena-godotgamedev="1249" data-win-godotgamedev="54.6" data-v-arena-mobileapps="1348" data-win-mobileapps="67.1" data-v-arena-pdf="1243" data-win-pdf="57.9" data-v-arena-python-pptxslides="1224" data-win-python-pptxslides="50.9" data-v-arena-spreadsheet="1241" data-win-spreadsheet="43.8" data-v-arena-webapps="1235" data-win-webapps="53.2" data-v-arena-3d="1307" data-win-3d="59.6" data-v-arena-asciiart="1337" data-win-asciiart="67.6" data-v-arena-codecategories="1369" data-win-codecategories="57.3" data-v-arena-dataviz="1322" data-win-dataviz="58.2" data-v-arena-gamedev="1316" data-win-gamedev="58" data-v-arena-svg="1355" data-win-svg="58.2" data-v-arena-uicomponent="1335" data-win-uicomponent="60.8" data-v-arena-website="1352" data-win-website="56">
+        <span class="bd-rank">16</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Claude Opus 5</h3><span class="bd-val">44.2</span></div>
+          <p class="bd-meta">Anthropic · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Muse Wonder" data-v-aa-intelligence_index="43.6" data-v-aa-engineering_index="49.6" data-v-aa-finance_and_accounting_index="51.1" data-v-aa-legal_index="46.9" data-v-aa-healthcare_and_medical_index="48.7" data-v-aa-economics_index="49.5" data-v-aa-strategy_and_ops_index="54.5" data-v-arena-blender3d="1119" data-win-blender3d="36" data-v-arena-codetovideo="1184" data-win-codetovideo="54.1" data-v-arena-htmlslides="1126" data-win-htmlslides="14.2" data-v-arena-mobileapps="1238" data-win-mobileapps="51.6" data-v-arena-pdf="1196" data-win-pdf="51.7" data-v-arena-python-pptxslides="1034" data-win-python-pptxslides="14.9" data-v-arena-spreadsheet="1231" data-win-spreadsheet="43.3" data-v-arena-3d="1418" data-win-3d="60.7" data-v-arena-codecategories="1444" data-win-codecategories="62.4" data-v-arena-dataviz="1294" data-win-dataviz="56.3" data-v-arena-gamedev="1394" data-win-gamedev="61.2" data-v-arena-svg="1343" data-win-svg="55" data-v-arena-uicomponent="1358" data-win-uicomponent="61.3" data-v-arena-website="1427" data-win-website="63.8">
+        <span class="bd-rank">17</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Muse Wonder</h3><span class="bd-val">43.6</span></div>
+          <p class="bd-meta">Meta · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Qwen4 Max" data-v-aa-intelligence_index="42.9" data-v-aa-engineering_index="50.1" data-v-aa-finance_and_accounting_index="54.1" data-v-aa-legal_index="49.6" data-v-aa-healthcare_and_medical_index="48.2" data-v-aa-economics_index="51.3" data-v-aa-strategy_and_ops_index="56.9">
+        <span class="bd-rank">18</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Qwen4 Max</h3><span class="bd-val">42.9</span></div>
+          <p class="bd-meta">阿里 · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Muse Spark 1.3" data-v-aa-intelligence_index="36.6" data-v-aa-engineering_index="44.1" data-v-aa-cyber_index="44.3" data-v-aa-finance_and_accounting_index="48.8" data-v-aa-legal_index="45.2" data-v-aa-healthcare_and_medical_index="43.6" data-v-aa-economics_index="46.9" data-v-aa-strategy_and_ops_index="50.3" data-v-arena-androidnative="1286" data-win-androidnative="63.7" data-v-arena-blender3d="1145" data-win-blender3d="56.3" data-v-arena-codetovideo="1188" data-win-codetovideo="54.3" data-v-arena-fullstack="1359" data-win-fullstack="60.8" data-v-arena-mobileapps="1214" data-win-mobileapps="49.8" data-v-arena-pdf="1205" data-win-pdf="53.5" data-v-arena-python-pptxslides="1211" data-win-python-pptxslides="50.8" data-v-arena-spreadsheet="1126" data-win-spreadsheet="28.9" data-v-arena-webapps="1275" data-win-webapps="55.6" data-v-arena-3d="1364" data-win-3d="63.1" data-v-arena-asciiart="1326" data-win-asciiart="61.9" data-v-arena-codecategories="1404" data-win-codecategories="57.8" data-v-arena-dataviz="1340" data-win-dataviz="58.5" data-v-arena-gamedev="1328" data-win-gamedev="56" data-v-arena-svg="1362" data-win-svg="55" data-v-arena-uicomponent="1342" data-win-uicomponent="58" data-v-arena-website="1408" data-win-website="59.3" data-v-arena-godotgamedev="1209" data-win-godotgamedev="45.7">
+        <span class="bd-rank">19</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Muse Spark 1.3</h3><span class="bd-val">36.6</span></div>
+          <p class="bd-meta">Meta · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Claude Haiku 5.5" data-v-aa-intelligence_index="36.5" data-v-aa-engineering_index="42.5" data-v-aa-finance_and_accounting_index="43.6" data-v-aa-legal_index="38.7" data-v-aa-healthcare_and_medical_index="37.5" data-v-aa-economics_index="42.7" data-v-aa-strategy_and_ops_index="39.1" data-v-arena-pdf="1186" data-win-pdf="52.9" data-v-arena-3d="1305" data-win-3d="54.8" data-v-arena-asciiart="1213" data-win-asciiart="48.8" data-v-arena-codecategories="1336" data-win-codecategories="50.7" data-v-arena-dataviz="1277" data-win-dataviz="50.8" data-v-arena-gamedev="1313" data-win-gamedev="52.7" data-v-arena-svg="1255" data-win-svg="44.6" data-v-arena-uicomponent="1260" data-win-uicomponent="49.5" data-v-arena-website="1304" data-win-website="48.6">
+        <span class="bd-rank">20</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Claude Haiku 5.5</h3><span class="bd-val">36.5</span></div>
+          <p class="bd-meta">Anthropic · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Muse Ember" data-v-aa-intelligence_index="36" data-v-aa-engineering_index="41.8" data-v-aa-finance_and_accounting_index="44.6" data-v-aa-legal_index="38.5" data-v-aa-healthcare_and_medical_index="41.3" data-v-aa-economics_index="41" data-v-aa-strategy_and_ops_index="48.7" data-v-arena-3d="1355" data-win-3d="61.5" data-v-arena-codecategories="1400" data-win-codecategories="60.6" data-v-arena-dataviz="1314" data-win-dataviz="60.1" data-v-arena-gamedev="1315" data-win-gamedev="59.3" data-v-arena-uicomponent="1304" data-win-uicomponent="55.8" data-v-arena-website="1378" data-win-website="59.5">
+        <span class="bd-rank">21</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Muse Ember</h3><span class="bd-val">36</span></div>
+          <p class="bd-meta">Meta · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Grok 4.7" data-v-aa-intelligence_index="35.5" data-v-aa-engineering_index="41.8" data-v-aa-cyber_index="56.4" data-v-aa-finance_and_accounting_index="51.7" data-v-aa-legal_index="47.2" data-v-aa-healthcare_and_medical_index="46.6" data-v-aa-economics_index="45.7" data-v-aa-strategy_and_ops_index="54.8" data-v-arena-blender3d="1163" data-win-blender3d="60" data-v-arena-codetovideo="1088" data-win-codetovideo="42" data-v-arena-mobileapps="1247" data-win-mobileapps="53.6" data-v-arena-pdf="1184" data-win-pdf="50.3" data-v-arena-spreadsheet="1415" data-win-spreadsheet="73.3" data-v-arena-3d="1236" data-win-3d="46.8" data-v-arena-codecategories="1318" data-win-codecategories="47.4" data-v-arena-dataviz="1215" data-win-dataviz="43.5" data-v-arena-gamedev="1290" data-win-gamedev="50.4" data-v-arena-svg="1312" data-win-svg="49.4" data-v-arena-uicomponent="1277" data-win-uicomponent="50.4" data-v-arena-website="1293" data-win-website="45.7">
+        <span class="bd-rank">22</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Grok 4.7</h3><span class="bd-val">35.5</span></div>
+          <p class="bd-meta">xAI · 上下文 50 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Hy4" data-v-aa-intelligence_index="34.6" data-v-aa-engineering_index="41.1" data-v-aa-cyber_index="58" data-v-aa-finance_and_accounting_index="38" data-v-aa-legal_index="35.4" data-v-aa-healthcare_and_medical_index="42.9" data-v-aa-economics_index="38.3" data-v-aa-strategy_and_ops_index="48.7" data-v-arena-pdf="1193" data-win-pdf="51.1" data-v-arena-3d="1237" data-win-3d="46" data-v-arena-codecategories="1307" data-win-codecategories="47" data-v-arena-gamedev="1252" data-win-gamedev="48.1" data-v-arena-uicomponent="1186" data-win-uicomponent="37.6" data-v-arena-website="1301" data-win-website="47.6">
+        <span class="bd-rank">23</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Hy4</h3><span class="bd-val">34.6</span></div>
+          <p class="bd-meta">腾讯 · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Qwen3.8 Max (0902)" data-v-aa-intelligence_index="33.7" data-v-aa-engineering_index="39.3" data-v-aa-finance_and_accounting_index="45" data-v-aa-legal_index="41" data-v-aa-healthcare_and_medical_index="40.8" data-v-aa-economics_index="42.5" data-v-aa-strategy_and_ops_index="47.3">
+        <span class="bd-rank">24</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Qwen3.8 Max (0902)</h3><span class="bd-val">33.7</span></div>
+          <p class="bd-meta">阿里 · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="DeepSeek V4.1 Flash 1017" data-v-aa-intelligence_index="32.6" data-v-aa-engineering_index="37.6" data-v-aa-cyber_index="56.8" data-v-aa-finance_and_accounting_index="42.2" data-v-aa-legal_index="37.7" data-v-aa-healthcare_and_medical_index="41.3" data-v-aa-economics_index="38.5" data-v-aa-strategy_and_ops_index="49.2" data-v-arena-spreadsheet="1264" data-win-spreadsheet="47.8" data-v-arena-3d="1329" data-win-3d="47.7" data-v-arena-asciiart="1223" data-win-asciiart="47.9" data-v-arena-codecategories="1341" data-win-codecategories="48.6" data-v-arena-dataviz="1278" data-win-dataviz="53" data-v-arena-gamedev="1242" data-win-gamedev="43.7" data-v-arena-svg="1292" data-win-svg="50.6" data-v-arena-uicomponent="1274" data-win-uicomponent="48.1" data-v-arena-website="1341" data-win-website="51.6">
+        <span class="bd-rank">25</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>DeepSeek V4.1 Flash 1017</h3><span class="bd-val">32.6</span></div>
+          <p class="bd-meta">DeepSeek · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-5.6 Terra" data-v-aa-intelligence_index="32.3" data-v-aa-engineering_index="36.6" data-v-aa-finance_and_accounting_index="34.6" data-v-aa-legal_index="32" data-v-aa-healthcare_and_medical_index="37" data-v-aa-economics_index="35.7" data-v-aa-strategy_and_ops_index="45.1">
+        <span class="bd-rank">26</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-5.6 Terra</h3><span class="bd-val">32.3</span></div>
+          <p class="bd-meta">OpenAI · 上下文 105 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GLM 5.3" data-v-aa-intelligence_index="31.7" data-v-aa-engineering_index="37.6" data-v-aa-cyber_index="36.4" data-v-aa-finance_and_accounting_index="42.1" data-v-aa-legal_index="35.8" data-v-aa-healthcare_and_medical_index="39.3" data-v-aa-economics_index="37.3" data-v-aa-strategy_and_ops_index="47.4" data-v-arena-pdf="1279" data-win-pdf="63.9" data-v-arena-3d="1278" data-win-3d="55.2" data-v-arena-asciiart="1190" data-win-asciiart="45.7" data-v-arena-codecategories="1335" data-win-codecategories="52.1" data-v-arena-dataviz="1243" data-win-dataviz="49.8" data-v-arena-gamedev="1271" data-win-gamedev="50.4" data-v-arena-svg="1293" data-win-svg="50.9" data-v-arena-uicomponent="1278" data-win-uicomponent="52.9" data-v-arena-website="1326" data-win-website="52.3" data-v-arena-htmlslides="1189" data-win-htmlslides="39.1" data-v-arena-mobileapps="1186" data-win-mobileapps="52.2" data-v-arena-python-pptxslides="1217" data-win-python-pptxslides="47.6" data-v-arena-webapps="1270" data-win-webapps="54.2">
+        <span class="bd-rank">27</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GLM 5.3</h3><span class="bd-val">31.7</span></div>
+          <p class="bd-meta">智谱 · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Grok 4.6" data-v-aa-intelligence_index="31" data-v-aa-engineering_index="37.4" data-v-aa-finance_and_accounting_index="47.6" data-v-aa-legal_index="43.5" data-v-aa-healthcare_and_medical_index="44.1" data-v-aa-economics_index="42" data-v-aa-strategy_and_ops_index="52.8" data-v-arena-agenticgamedev="1156" data-win-agenticgamedev="47.2" data-v-arena-androidnative="1278" data-win-androidnative="60.6" data-v-arena-blender3d="1114" data-win-blender3d="43" data-v-arena-codetovideo="1132" data-win-codetovideo="48.5" data-v-arena-fullstack="1309" data-win-fullstack="54.7" data-v-arena-godotgamedev="1247" data-win-godotgamedev="53.4" data-v-arena-htmlslides="1152" data-win-htmlslides="60.6" data-v-arena-mobileapps="1227" data-win-mobileapps="55" data-v-arena-pdf="1242" data-win-pdf="59.1" data-v-arena-python-pptxslides="1213" data-win-python-pptxslides="50.3" data-v-arena-spreadsheet="1278" data-win-spreadsheet="48.8" data-v-arena-webapps="1218" data-win-webapps="55.2" data-v-arena-3d="1240" data-win-3d="51.7" data-v-arena-asciiart="1254" data-win-asciiart="55.2" data-v-arena-codecategories="1331" data-win-codecategories="51.8" data-v-arena-dataviz="1278" data-win-dataviz="51.5" data-v-arena-gamedev="1264" data-win-gamedev="52.8" data-v-arena-svg="1271" data-win-svg="47.5" data-v-arena-uicomponent="1277" data-win-uicomponent="52.3" data-v-arena-website="1325" data-win-website="51.3">
+        <span class="bd-rank">28</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Grok 4.6</h3><span class="bd-val">31</span></div>
+          <p class="bd-meta">xAI · 上下文 50 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemini 3.8 Flash" data-v-aa-intelligence_index="30.8" data-v-aa-engineering_index="38.8" data-v-aa-cyber_index="25.1" data-v-aa-finance_and_accounting_index="42.4" data-v-aa-legal_index="41.7" data-v-aa-healthcare_and_medical_index="38.3" data-v-aa-economics_index="40.1" data-v-aa-strategy_and_ops_index="47.2" data-v-arena-androidnative="1089" data-win-androidnative="34.8" data-v-arena-blender3d="1152" data-win-blender3d="47.5" data-v-arena-codetovideo="1174" data-win-codetovideo="53.9" data-v-arena-fullstack="1288" data-win-fullstack="47.6" data-v-arena-godotgamedev="1238" data-win-godotgamedev="52.3" data-v-arena-mobileapps="1227" data-win-mobileapps="54.3" data-v-arena-pdf="1200" data-win-pdf="52.1" data-v-arena-python-pptxslides="1148" data-win-python-pptxslides="41" data-v-arena-spreadsheet="1026" data-win-spreadsheet="42.9" data-v-arena-webapps="1205" data-win-webapps="45.7" data-v-arena-3d="1261" data-win-3d="49.5" data-v-arena-asciiart="1259" data-win-asciiart="51.5" data-v-arena-codecategories="1344" data-win-codecategories="50" data-v-arena-dataviz="1271" data-win-dataviz="52.1" data-v-arena-gamedev="1279" data-win-gamedev="50.8" data-v-arena-svg="1340" data-win-svg="54.8" data-v-arena-uicomponent="1297" data-win-uicomponent="52.2" data-v-arena-website="1339" data-win-website="49.5">
+        <span class="bd-rank">29</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemini 3.8 Flash</h3><span class="bd-val">30.8</span></div>
+          <p class="bd-meta">Google · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Inkling 2 Small" data-v-aa-intelligence_index="30.6" data-v-aa-engineering_index="38.9" data-v-aa-finance_and_accounting_index="44.3" data-v-aa-legal_index="41.6" data-v-aa-healthcare_and_medical_index="40.8" data-v-aa-economics_index="43.4" data-v-aa-strategy_and_ops_index="43.5">
+        <span class="bd-rank">30</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Inkling 2 Small</h3><span class="bd-val">30.6</span></div>
+          <p class="bd-meta">Thinking Machines · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="MiMo-V2.6-Pro" data-v-aa-intelligence_index="29.9" data-v-aa-engineering_index="34.3" data-v-aa-cyber_index="56.1" data-v-aa-finance_and_accounting_index="38.9" data-v-aa-legal_index="35" data-v-aa-healthcare_and_medical_index="35.8" data-v-aa-economics_index="36.1" data-v-aa-strategy_and_ops_index="46.9" data-v-arena-webapps="1260" data-win-webapps="58.2" data-v-arena-3d="1304" data-win-3d="57.4" data-v-arena-codecategories="1367" data-win-codecategories="53.4" data-v-arena-dataviz="1334" data-win-dataviz="59" data-v-arena-gamedev="1295" data-win-gamedev="53.3" data-v-arena-svg="1340" data-win-svg="54" data-v-arena-uicomponent="1327" data-win-uicomponent="58" data-v-arena-website="1359" data-win-website="51.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>MiMo-V2.6-Pro</h3><span class="bd-val">29.9</span></div>
+          <p class="bd-meta">xiaomi · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Ling 3.1 Flash" data-v-aa-intelligence_index="29.6" data-v-aa-engineering_index="35.5" data-v-aa-finance_and_accounting_index="42.6" data-v-aa-legal_index="35.5" data-v-aa-healthcare_and_medical_index="38.3" data-v-aa-economics_index="36.5" data-v-aa-strategy_and_ops_index="47.6" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Ling 3.1 Flash</h3><span class="bd-val">29.6</span></div>
+          <p class="bd-meta">蚂蚁 · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="MiniMax M3.1 Flash" data-v-aa-intelligence_index="29.1" data-v-aa-engineering_index="34.3" data-v-aa-finance_and_accounting_index="39.1" data-v-aa-legal_index="33" data-v-aa-healthcare_and_medical_index="36.8" data-v-aa-economics_index="37.4" data-v-aa-strategy_and_ops_index="50.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>MiniMax M3.1 Flash</h3><span class="bd-val">29.1</span></div>
+          <p class="bd-meta">MiniMax · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Qwen3.8 Flash" data-v-aa-intelligence_index="28.6" data-v-aa-engineering_index="33" data-v-aa-finance_and_accounting_index="39" data-v-aa-legal_index="35.1" data-v-aa-healthcare_and_medical_index="36.4" data-v-aa-economics_index="36.1" data-v-aa-strategy_and_ops_index="44.5" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Qwen3.8 Flash</h3><span class="bd-val">28.6</span></div>
+          <p class="bd-meta">阿里 · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Step 5 Preview" data-v-aa-intelligence_index="28.5" data-v-aa-engineering_index="37" data-v-aa-cyber_index="47.7" data-v-aa-finance_and_accounting_index="40.5" data-v-aa-legal_index="38.6" data-v-aa-healthcare_and_medical_index="39.9" data-v-aa-economics_index="38.6" data-v-aa-strategy_and_ops_index="44.2" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Step 5 Preview</h3><span class="bd-val">28.5</span></div>
+          <p class="bd-meta">阶跃 · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-6 Luna" data-v-aa-intelligence_index="27.9" data-v-aa-engineering_index="33.3" data-v-aa-cyber_index="52.7" data-v-aa-finance_and_accounting_index="33.9" data-v-aa-legal_index="32.2" data-v-aa-healthcare_and_medical_index="34.8" data-v-aa-economics_index="34.5" data-v-aa-strategy_and_ops_index="43.2" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-6 Luna</h3><span class="bd-val">27.9</span></div>
+          <p class="bd-meta">OpenAI · 上下文 105 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GLM 5.3 Flash" data-v-aa-intelligence_index="27.8" data-v-aa-engineering_index="34.5" data-v-aa-cyber_index="49.9" data-v-aa-finance_and_accounting_index="38.8" data-v-aa-legal_index="34.8" data-v-aa-healthcare_and_medical_index="36.6" data-v-aa-economics_index="35.3" data-v-aa-strategy_and_ops_index="44.5" data-v-arena-pdf="1200" data-win-pdf="50" data-v-arena-3d="1280" data-win-3d="55.1" data-v-arena-asciiart="1270" data-win-asciiart="55.2" data-v-arena-codecategories="1320" data-win-codecategories="48.3" data-v-arena-dataviz="1253" data-win-dataviz="50" data-v-arena-gamedev="1253" data-win-gamedev="46.7" data-v-arena-svg="1322" data-win-svg="54.9" data-v-arena-uicomponent="1289" data-win-uicomponent="52" data-v-arena-website="1305" data-win-website="47.3" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GLM 5.3 Flash</h3><span class="bd-val">27.8</span></div>
+          <p class="bd-meta">智谱 · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="MiMo-V2.6-Flash" data-v-aa-intelligence_index="26.7" data-v-aa-engineering_index="31" data-v-aa-finance_and_accounting_index="36.9" data-v-aa-legal_index="33.8" data-v-aa-healthcare_and_medical_index="35.1" data-v-aa-economics_index="32.2" data-v-aa-strategy_and_ops_index="45.7" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>MiMo-V2.6-Flash</h3><span class="bd-val">26.7</span></div>
+          <p class="bd-meta">xiaomi · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Mistral Large 4" data-v-aa-intelligence_index="26.1" data-v-aa-engineering_index="33.4" data-v-aa-cyber_index="50.9" data-v-aa-finance_and_accounting_index="39.1" data-v-aa-legal_index="34.6" data-v-aa-healthcare_and_medical_index="36.7" data-v-aa-economics_index="35.6" data-v-aa-strategy_and_ops_index="43.4" data-v-arena-3d="1225" data-win-3d="45.7" data-v-arena-asciiart="1195" data-win-asciiart="43.1" data-v-arena-codecategories="1307" data-win-codecategories="47" data-v-arena-dataviz="1271" data-win-dataviz="51.3" data-v-arena-gamedev="1190" data-win-gamedev="40.4" data-v-arena-svg="1273" data-win-svg="44.9" data-v-arena-uicomponent="1272" data-win-uicomponent="49" data-v-arena-website="1307" data-win-website="48.1" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Mistral Large 4</h3><span class="bd-val">26.1</span></div>
+          <p class="bd-meta">Mistral · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Muse Spark Open" data-v-aa-intelligence_index="24.9" data-v-aa-engineering_index="35.1" data-v-aa-finance_and_accounting_index="42" data-v-aa-legal_index="39.6" data-v-aa-healthcare_and_medical_index="39.1" data-v-aa-economics_index="39.6" data-v-aa-strategy_and_ops_index="43.4" data-v-arena-pdf="1154" data-win-pdf="45.1" data-v-arena-3d="1218" data-win-3d="42.3" data-v-arena-codecategories="1348" data-win-codecategories="50.7" data-v-arena-gamedev="1244" data-win-gamedev="46.8" data-v-arena-uicomponent="1295" data-win-uicomponent="49.1" data-v-arena-website="1353" data-win-website="51.6" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Muse Spark Open</h3><span class="bd-val">24.9</span></div>
+          <p class="bd-meta">Meta · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-5.6 Luna" data-v-aa-intelligence_index="23.8" data-v-aa-engineering_index="29.4" data-v-aa-finance_and_accounting_index="31.8" data-v-aa-legal_index="27.7" data-v-aa-healthcare_and_medical_index="32.4" data-v-aa-economics_index="32.8" data-v-aa-strategy_and_ops_index="40.7" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-5.6 Luna</h3><span class="bd-val">23.8</span></div>
+          <p class="bd-meta">OpenAI · 上下文 105 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="DeepSeek V4 Pro 0813" data-v-aa-intelligence_index="23.1" data-v-aa-engineering_index="29.8" data-v-aa-finance_and_accounting_index="30.4" data-v-aa-legal_index="27.5" data-v-aa-economics_index="29.3" data-v-aa-strategy_and_ops_index="41.1" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>DeepSeek V4 Pro 0813</h3><span class="bd-val">23.1</span></div>
+          <p class="bd-meta">DeepSeek · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="DeepSeek V4 Pro 0423" data-v-aa-intelligence_index="20.8" data-v-aa-engineering_index="28.7" data-v-aa-finance_and_accounting_index="28" data-v-aa-legal_index="26.3" data-v-aa-economics_index="28.5" data-v-aa-strategy_and_ops_index="36.6" data-v-arena-fullstack="948" data-win-fullstack="22.1" data-v-arena-godotgamedev="1059" data-win-godotgamedev="34" data-v-arena-webapps="1000" data-win-webapps="26.4" data-v-arena-3d="1218" data-win-3d="56.8" data-v-arena-asciiart="1134" data-win-asciiart="46" data-v-arena-codecategories="1282" data-win-codecategories="52.2" data-v-arena-dataviz="1196" data-win-dataviz="48.8" data-v-arena-gamedev="1204" data-win-gamedev="53" data-v-arena-svg="1179" data-win-svg="45.5" data-v-arena-uicomponent="1205" data-win-uicomponent="50.6" data-v-arena-website="1274" data-win-website="50.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>DeepSeek V4 Pro 0423</h3><span class="bd-val">20.8</span></div>
+          <p class="bd-meta">DeepSeek · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Inkling 2 Mini" data-v-aa-intelligence_index="20.1" data-v-aa-engineering_index="27.6" data-v-aa-finance_and_accounting_index="35.3" data-v-aa-legal_index="31" data-v-aa-economics_index="33" data-v-aa-strategy_and_ops_index="35.2" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Inkling 2 Mini</h3><span class="bd-val">20.1</span></div>
+          <p class="bd-meta">Thinking Machines · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Qwen3.8 27B" data-v-aa-intelligence_index="20.1" data-v-aa-engineering_index="28.1" data-v-aa-cyber_index="12.7" data-v-aa-finance_and_accounting_index="35.5" data-v-aa-legal_index="33.2" data-v-aa-healthcare_and_medical_index="34.6" data-v-aa-economics_index="33.7" data-v-aa-strategy_and_ops_index="39" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Qwen3.8 27B</h3><span class="bd-val">20.1</span></div>
+          <p class="bd-meta">阿里 · 上下文 102.4 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="MiniMax M3" data-v-aa-intelligence_index="18.9" data-v-aa-engineering_index="26.2" data-v-aa-cyber_index="22.4" data-v-aa-finance_and_accounting_index="25.1" data-v-aa-legal_index="23.5" data-v-aa-healthcare_and_medical_index="21.7" data-v-aa-economics_index="27.4" data-v-aa-strategy_and_ops_index="27.9" data-v-arena-agenticgamedev="1113" data-win-agenticgamedev="44.7" data-v-arena-androidnative="1154" data-win-androidnative="45" data-v-arena-blender3d="1064" data-win-blender3d="44.1" data-v-arena-codetovideo="1185" data-win-codetovideo="54.8" data-v-arena-fullstack="1248" data-win-fullstack="47.5" data-v-arena-htmlslides="1086" data-win-htmlslides="47.4" data-v-arena-mobileapps="1174" data-win-mobileapps="47" data-v-arena-pdf="1255" data-win-pdf="60.1" data-v-arena-python-pptxslides="1168" data-win-python-pptxslides="47.3" data-v-arena-spreadsheet="1169" data-win-spreadsheet="38.9" data-v-arena-webapps="1178" data-win-webapps="47.7" data-v-arena-3d="1173" data-win-3d="49.5" data-v-arena-asciiart="1144" data-win-asciiart="45.7" data-v-arena-codecategories="1288" data-win-codecategories="50.3" data-v-arena-dataviz="1225" data-win-dataviz="50.7" data-v-arena-gamedev="1181" data-win-gamedev="44.8" data-v-arena-svg="1196" data-win-svg="43.5" data-v-arena-uicomponent="1228" data-win-uicomponent="50" data-v-arena-website="1297" data-win-website="51.5" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>MiniMax M3</h3><span class="bd-val">18.9</span></div>
+          <p class="bd-meta">MiniMax · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Beam 1.0 501B A23B" data-v-aa-intelligence_index="17.7" data-v-aa-engineering_index="25.2" data-v-aa-cyber_index="33.7" data-v-aa-finance_and_accounting_index="30.2" data-v-aa-legal_index="28.1" data-v-aa-healthcare_and_medical_index="30.7" data-v-aa-economics_index="27.1" data-v-aa-strategy_and_ops_index="34.5" data-v-arena-pdf="1156" data-win-pdf="47.7" data-v-arena-3d="1102" data-win-3d="32.1" data-v-arena-codecategories="1272" data-win-codecategories="43" data-v-arena-gamedev="1173" data-win-gamedev="39.5" data-v-arena-uicomponent="1250" data-win-uicomponent="48.3" data-v-arena-website="1282" data-win-website="45.2" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Beam 1.0 501B A23B</h3><span class="bd-val">17.7</span></div>
+          <p class="bd-meta">reflection · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Kimi K3" data-v-aa-intelligence_index="17.4" data-v-aa-engineering_index="22.8" data-v-aa-cyber_index="41.3" data-v-aa-finance_and_accounting_index="28.3" data-v-aa-legal_index="27.7" data-v-aa-healthcare_and_medical_index="29.2" data-v-aa-economics_index="27.7" data-v-aa-strategy_and_ops_index="37" data-v-arena-agenticgamedev="1202" data-win-agenticgamedev="54" data-v-arena-androidnative="1253" data-win-androidnative="56.8" data-v-arena-blender3d="1121" data-win-blender3d="40.4" data-v-arena-codetovideo="1255" data-win-codetovideo="63" data-v-arena-fullstack="1359" data-win-fullstack="61" data-v-arena-godotgamedev="1194" data-win-godotgamedev="48.7" data-v-arena-htmlslides="1158" data-win-htmlslides="55.6" data-v-arena-mobileapps="1255" data-win-mobileapps="56.5" data-v-arena-pdf="1274" data-win-pdf="65.2" data-v-arena-python-pptxslides="1222" data-win-python-pptxslides="53.9" data-v-arena-spreadsheet="1052" data-win-spreadsheet="27.7" data-v-arena-webapps="1265" data-win-webapps="58.1" data-v-arena-3d="1350" data-win-3d="63.5" data-v-arena-asciiart="1361" data-win-asciiart="68.9" data-v-arena-codecategories="1405" data-win-codecategories="60.3" data-v-arena-dataviz="1346" data-win-dataviz="63.5" data-v-arena-gamedev="1340" data-win-gamedev="55.1" data-v-arena-svg="1349" data-win-svg="59.7" data-v-arena-uicomponent="1336" data-win-uicomponent="60.7" data-v-arena-website="1387" data-win-website="59.6" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Kimi K3</h3><span class="bd-val">17.4</span></div>
+          <p class="bd-meta">月之暗面 · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Solar Pro 4" data-v-aa-intelligence_index="14.2" data-v-aa-engineering_index="24.4" data-v-aa-finance_and_accounting_index="28.4" data-v-aa-legal_index="25.1" data-v-aa-economics_index="27.2" data-v-aa-strategy_and_ops_index="22.4" data-v-arena-webapps="1073" data-win-webapps="30" data-v-arena-3d="1144" data-win-3d="46.8" data-v-arena-codecategories="1222" data-win-codecategories="38.8" data-v-arena-dataviz="1171" data-win-dataviz="41.3" data-v-arena-gamedev="1152" data-win-gamedev="41" data-v-arena-uicomponent="1133" data-win-uicomponent="35.5" data-v-arena-website="1211" data-win-website="36.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Solar Pro 4</h3><span class="bd-val">14.2</span></div>
+          <p class="bd-meta">upstage · 上下文 52.4 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Nemotron 3.5 Super VL" data-v-aa-intelligence_index="13.6" data-v-aa-engineering_index="23.5" data-v-aa-finance_and_accounting_index="26.7" data-v-aa-legal_index="25.3" data-v-aa-healthcare_and_medical_index="21" data-v-aa-economics_index="26.1" data-v-aa-strategy_and_ops_index="21.8" data-v-arena-pdf="1052" data-win-pdf="31.6" data-v-arena-3d="1093" data-win-3d="28.7" data-v-arena-codecategories="1190" data-win-codecategories="31.9" data-v-arena-dataviz="1088" data-win-dataviz="26.9" data-v-arena-gamedev="1067" data-win-gamedev="27.1" data-v-arena-uicomponent="1144" data-win-uicomponent="31.7" data-v-arena-website="1204" data-win-website="34.4" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Nemotron 3.5 Super VL</h3><span class="bd-val">13.6</span></div>
+          <p class="bd-meta">NVIDIA · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Nemotron 3.5 Super VL (free)" data-v-aa-intelligence_index="13.6" data-v-aa-engineering_index="23.5" data-v-aa-finance_and_accounting_index="26.7" data-v-aa-legal_index="25.3" data-v-aa-healthcare_and_medical_index="21" data-v-aa-economics_index="26.1" data-v-aa-strategy_and_ops_index="21.8" data-v-arena-pdf="1052" data-win-pdf="31.6" data-v-arena-3d="1093" data-win-3d="28.7" data-v-arena-codecategories="1190" data-win-codecategories="31.9" data-v-arena-dataviz="1088" data-win-dataviz="26.9" data-v-arena-gamedev="1067" data-win-gamedev="27.1" data-v-arena-uicomponent="1144" data-win-uicomponent="31.7" data-v-arena-website="1204" data-win-website="34.4" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Nemotron 3.5 Super VL (free)</h3><span class="bd-val">13.6</span></div>
+          <p class="bd-meta">NVIDIA · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Inkling Small" data-v-aa-intelligence_index="12.9" data-v-aa-engineering_index="23.1" data-v-aa-finance_and_accounting_index="23.7" data-v-aa-legal_index="21.7" data-v-aa-healthcare_and_medical_index="18.6" data-v-aa-economics_index="24.9" data-v-aa-strategy_and_ops_index="18" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Inkling Small</h3><span class="bd-val">12.9</span></div>
+          <p class="bd-meta">Thinking Machines · 上下文 52.4 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Inkling" data-v-aa-intelligence_index="12.5" data-v-aa-engineering_index="22" data-v-aa-finance_and_accounting_index="23.2" data-v-aa-legal_index="23.1" data-v-aa-healthcare_and_medical_index="17.6" data-v-aa-economics_index="24.7" data-v-aa-strategy_and_ops_index="18.9" data-v-arena-webapps="1163" data-win-webapps="48.6" data-v-arena-3d="1123" data-win-3d="39.1" data-v-arena-asciiart="1094" data-win-asciiart="35.5" data-v-arena-codecategories="1245" data-win-codecategories="41.6" data-v-arena-dataviz="1156" data-win-dataviz="38.1" data-v-arena-gamedev="1134" data-win-gamedev="37.1" data-v-arena-svg="1150" data-win-svg="34.1" data-v-arena-uicomponent="1182" data-win-uicomponent="40.1" data-v-arena-website="1263" data-win-website="44.2" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Inkling</h3><span class="bd-val">12.5</span></div>
+          <p class="bd-meta">Thinking Machines · 上下文 52.4 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Nemotron 3 Ultra" data-v-aa-intelligence_index="11.8" data-v-aa-engineering_index="22.8" data-v-aa-cyber_index="13.1" data-v-aa-finance_and_accounting_index="24.2" data-v-aa-legal_index="22.6" data-v-aa-healthcare_and_medical_index="18" data-v-aa-economics_index="24.1" data-v-aa-strategy_and_ops_index="15.3" data-v-arena-pdf="1080" data-win-pdf="32.6" data-v-arena-3d="1094" data-win-3d="37.8" data-v-arena-asciiart="1102" data-win-asciiart="39" data-v-arena-codecategories="1185" data-win-codecategories="35.4" data-v-arena-dataviz="1135" data-win-dataviz="37.3" data-v-arena-gamedev="1109" data-win-gamedev="35.3" data-v-arena-svg="1112" data-win-svg="32" data-v-arena-uicomponent="1121" data-win-uicomponent="35.3" data-v-arena-website="1180" data-win-website="34.5" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Nemotron 3 Ultra</h3><span class="bd-val">11.8</span></div>
+          <p class="bd-meta">NVIDIA · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Nemotron 3 Ultra (free)" data-v-aa-intelligence_index="11.8" data-v-aa-engineering_index="22.8" data-v-aa-cyber_index="13.1" data-v-aa-finance_and_accounting_index="24.2" data-v-aa-legal_index="22.6" data-v-aa-healthcare_and_medical_index="18" data-v-aa-economics_index="24.1" data-v-aa-strategy_and_ops_index="15.3" data-v-arena-pdf="1080" data-win-pdf="32.6" data-v-arena-3d="1094" data-win-3d="37.8" data-v-arena-asciiart="1102" data-win-asciiart="39" data-v-arena-codecategories="1185" data-win-codecategories="35.4" data-v-arena-dataviz="1135" data-win-dataviz="37.3" data-v-arena-gamedev="1109" data-win-gamedev="35.3" data-v-arena-svg="1112" data-win-svg="32" data-v-arena-uicomponent="1121" data-win-uicomponent="35.3" data-v-arena-website="1180" data-win-website="34.5" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Nemotron 3 Ultra (free)</h3><span class="bd-val">11.8</span></div>
+          <p class="bd-meta">NVIDIA · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemini 3.5 Flash Lite" data-v-aa-intelligence_index="11.7" data-v-aa-engineering_index="21.2" data-v-aa-finance_and_accounting_index="23.3" data-v-aa-legal_index="23.9" data-v-aa-healthcare_and_medical_index="20.5" data-v-aa-economics_index="21.9" data-v-aa-strategy_and_ops_index="20.7" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemini 3.5 Flash Lite</h3><span class="bd-val">11.7</span></div>
+          <p class="bd-meta">Google · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Claude Haiku 4.5" data-v-aa-intelligence_index="7.4" data-v-aa-engineering_index="17" data-v-aa-finance_and_accounting_index="19.4" data-v-aa-legal_index="18" data-v-aa-healthcare_and_medical_index="12.1" data-v-aa-economics_index="19.1" data-v-aa-strategy_and_ops_index="11.2" data-v-aa-multilingual_index="0.8" data-v-arena-3d="1037" data-win-3d="41.1" data-v-arena-asciiart="1116" data-win-asciiart="47.5" data-v-arena-codecategories="1156" data-win-codecategories="44.9" data-v-arena-dataviz="1118" data-win-dataviz="45.6" data-v-arena-gamedev="1069" data-win-gamedev="44.7" data-v-arena-svg="1066" data-win-svg="39" data-v-arena-uicomponent="1084" data-win-uicomponent="42.7" data-v-arena-website="1163" data-win-website="45.1" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Claude Haiku 4.5</h3><span class="bd-val">7.4</span></div>
+          <p class="bd-meta">Anthropic · 上下文 20 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Muse Glimmer 30B" data-v-aa-intelligence_index="6.3" data-v-aa-engineering_index="15.4" data-v-aa-finance_and_accounting_index="10" data-v-aa-legal_index="12.5" data-v-aa-economics_index="12.2" data-v-aa-strategy_and_ops_index="9.6" data-v-arena-pdf="1076" data-win-pdf="34.9" data-v-arena-3d="1046" data-win-3d="24.5" data-v-arena-codecategories="1206" data-win-codecategories="34.4" data-v-arena-dataviz="1124" data-win-dataviz="33.6" data-v-arena-gamedev="1086" data-win-gamedev="28.6" data-v-arena-uicomponent="1192" data-win-uicomponent="39.5" data-v-arena-website="1228" data-win-website="38.3" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Muse Glimmer 30B</h3><span class="bd-val">6.3</span></div>
+          <p class="bd-meta">Meta · 上下文 13.1 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Command A+" data-v-aa-intelligence_index="6.2" data-v-aa-engineering_index="16.4" data-v-aa-finance_and_accounting_index="17" data-v-aa-legal_index="15.9" data-v-aa-healthcare_and_medical_index="10.7" data-v-aa-economics_index="16.7" data-v-aa-strategy_and_ops_index="7.4" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Command A+</h3><span class="bd-val">6.2</span></div>
+          <p class="bd-meta">Cohere · 上下文 19.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemini 3.1 Flash Lite Preview" data-v-aa-intelligence_index="6.2" data-v-aa-engineering_index="14.6" data-v-aa-finance_and_accounting_index="12.1" data-v-aa-legal_index="14.7" data-v-aa-healthcare_and_medical_index="10.6" data-v-aa-economics_index="13.7" data-v-aa-strategy_and_ops_index="10.5" data-v-arena-3d="1013" data-win-3d="38.7" data-v-arena-asciiart="1153" data-win-asciiart="50.8" data-v-arena-codecategories="1114" data-win-codecategories="36.5" data-v-arena-dataviz="1039" data-win-dataviz="33.3" data-v-arena-gamedev="1001" data-win-gamedev="33.7" data-v-arena-svg="1093" data-win-svg="42.5" data-v-arena-uicomponent="1055" data-win-uicomponent="37.7" data-v-arena-website="1123" data-win-website="36.6" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemini 3.1 Flash Lite Preview</h3><span class="bd-val">6.2</span></div>
+          <p class="bd-meta">Google · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="LFM3-1.7B" data-v-aa-intelligence_index="6" data-v-aa-engineering_index="16.3" data-v-aa-finance_and_accounting_index="16.8" data-v-aa-legal_index="16.1" data-v-aa-economics_index="16" data-v-aa-strategy_and_ops_index="8.7" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>LFM3-1.7B</h3><span class="bd-val">6</span></div>
+          <p class="bd-meta">liquid · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="LFM3-1.7B (free)" data-v-aa-intelligence_index="6" data-v-aa-engineering_index="16.3" data-v-aa-finance_and_accounting_index="16.8" data-v-aa-legal_index="16.1" data-v-aa-economics_index="16" data-v-aa-strategy_and_ops_index="8.7" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>LFM3-1.7B (free)</h3><span class="bd-val">6</span></div>
+          <p class="bd-meta">liquid · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Nemotron 3.5 Lightning" data-v-aa-intelligence_index="5.5" data-v-aa-engineering_index="15.5" data-v-aa-finance_and_accounting_index="14.9" data-v-aa-legal_index="14.2" data-v-aa-healthcare_and_medical_index="9" data-v-aa-economics_index="14.8" data-v-aa-strategy_and_ops_index="7.1" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Nemotron 3.5 Lightning</h3><span class="bd-val">5.5</span></div>
+          <p class="bd-meta">NVIDIA · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Nemotron 3.5 Lightning (free)" data-v-aa-intelligence_index="5.5" data-v-aa-engineering_index="15.5" data-v-aa-finance_and_accounting_index="14.9" data-v-aa-legal_index="14.2" data-v-aa-healthcare_and_medical_index="9" data-v-aa-economics_index="14.8" data-v-aa-strategy_and_ops_index="7.1" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Nemotron 3.5 Lightning (free)</h3><span class="bd-val">5.5</span></div>
+          <p class="bd-meta">NVIDIA · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Granite 4.2 8B" data-v-aa-intelligence_index="5.1" data-v-aa-engineering_index="14.6" data-v-aa-finance_and_accounting_index="14.8" data-v-aa-legal_index="14.6" data-v-aa-economics_index="14.6" data-v-aa-strategy_and_ops_index="6.9" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Granite 4.2 8B</h3><span class="bd-val">5.1</span></div>
+          <p class="bd-meta">ibm-granite · 上下文 13.1 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Mistral Medium 3.5" data-v-aa-intelligence_index="4.6" data-v-aa-engineering_index="12.2" data-v-aa-finance_and_accounting_index="11.1" data-v-aa-legal_index="9.7" data-v-aa-healthcare_and_medical_index="10.7" data-v-aa-economics_index="11.6" data-v-aa-strategy_and_ops_index="9.4" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Mistral Medium 3.5</h3><span class="bd-val">4.6</span></div>
+          <p class="bd-meta">Mistral · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemma 4 31B" data-v-aa-intelligence_index="4.4" data-v-aa-engineering_index="11.9" data-v-aa-finance_and_accounting_index="8.2" data-v-aa-legal_index="7.3" data-v-aa-economics_index="9.5" data-v-aa-strategy_and_ops_index="6.9" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemma 4 31B</h3><span class="bd-val">4.4</span></div>
+          <p class="bd-meta">Google · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemma 4 31B (free)" data-v-aa-intelligence_index="4.4" data-v-aa-engineering_index="11.9" data-v-aa-finance_and_accounting_index="8.2" data-v-aa-legal_index="7.3" data-v-aa-economics_index="9.5" data-v-aa-strategy_and_ops_index="6.9" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemma 4 31B (free)</h3><span class="bd-val">4.4</span></div>
+          <p class="bd-meta">Google · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Mistral Small 4" data-v-aa-intelligence_index="4.3" data-v-aa-engineering_index="13.3" data-v-aa-finance_and_accounting_index="11.6" data-v-aa-legal_index="11.6" data-v-aa-healthcare_and_medical_index="8.8" data-v-aa-economics_index="11.7" data-v-aa-strategy_and_ops_index="6.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Mistral Small 4</h3><span class="bd-val">4.3</span></div>
+          <p class="bd-meta">Mistral · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="gpt-oss-120b" data-v-aa-intelligence_index="3.8" data-v-aa-engineering_index="11.2" data-v-aa-finance_and_accounting_index="7.8" data-v-aa-legal_index="8.1" data-v-aa-healthcare_and_medical_index="5.8" data-v-aa-economics_index="9" data-v-aa-strategy_and_ops_index="5.5" data-v-aa-multilingual_index="0.8" data-v-arena-3d="867" data-win-3d="29.4" data-v-arena-codecategories="1004" data-win-codecategories="33.4" data-v-arena-dataviz="981" data-win-dataviz="43.6" data-v-arena-gamedev="964" data-win-gamedev="40.5" data-v-arena-uicomponent="910" data-win-uicomponent="35.7" data-v-arena-website="1008" data-win-website="32.5" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>gpt-oss-120b</h3><span class="bd-val">3.8</span></div>
+          <p class="bd-meta">OpenAI · 上下文 13.1 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Hy4 flash" data-v-arena-3d="1207" data-win-3d="43.6" data-v-arena-codecategories="1284" data-win-codecategories="44.3" data-v-arena-gamedev="1199" data-win-gamedev="42.4" data-v-arena-uicomponent="1254" data-win-uicomponent="46.8" data-v-arena-website="1279" data-win-website="44.5" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Hy4 flash</h3></div>
+          <p class="bd-meta">腾讯 · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Solar Mini 4" data-v-aa-strategy_and_ops_index="21.1" data-v-arena-pdf="1037" data-win-pdf="32.6" data-v-arena-3d="1068" data-win-3d="24.8" data-v-arena-codecategories="1173" data-win-codecategories="29.3" data-v-arena-dataviz="1124" data-win-dataviz="32.2" data-v-arena-gamedev="1070" data-win-gamedev="26.5" data-v-arena-uicomponent="1083" data-win-uicomponent="26.7" data-v-arena-website="1186" data-win-website="31.7" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Solar Mini 4</h3></div>
+          <p class="bd-meta">upstage · 上下文 52.4 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="DeepSeek V4.1 Flash" data-v-aa-cyber_index="40.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>DeepSeek V4.1 Flash</h3></div>
+          <p class="bd-meta">DeepSeek · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemini 3.7 Flash" data-v-arena-agenticgamedev="1181" data-win-agenticgamedev="52" data-v-arena-androidnative="1230" data-win-androidnative="53.2" data-v-arena-blender3d="1112" data-win-blender3d="49.6" data-v-arena-codetovideo="1168" data-win-codetovideo="52.5" data-v-arena-fullstack="1250" data-win-fullstack="43.2" data-v-arena-godotgamedev="1227" data-win-godotgamedev="50.2" data-v-arena-mobileapps="1228" data-win-mobileapps="52.6" data-v-arena-pdf="1145" data-win-pdf="44.6" data-v-arena-python-pptxslides="1053" data-win-python-pptxslides="35.7" data-v-arena-spreadsheet="1026" data-win-spreadsheet="27.8" data-v-arena-webapps="1196" data-win-webapps="47.4" data-v-arena-3d="1272" data-win-3d="53.1" data-v-arena-asciiart="1258" data-win-asciiart="52.8" data-v-arena-codecategories="1350" data-win-codecategories="53.5" data-v-arena-dataviz="1305" data-win-dataviz="54.3" data-v-arena-gamedev="1295" data-win-gamedev="53.2" data-v-arena-svg="1328" data-win-svg="53.9" data-v-arena-uicomponent="1281" data-win-uicomponent="51.5" data-v-arena-website="1344" data-win-website="53.6" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemini 3.7 Flash</h3></div>
+          <p class="bd-meta">Google · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Qwen3.8 2.4T A95B" data-v-aa-cyber_index="12.6" data-v-aa-finance_and_accounting_index="41.3" data-v-aa-legal_index="37" data-v-aa-healthcare_and_medical_index="39" data-v-aa-economics_index="37.3" data-v-aa-strategy_and_ops_index="44.4" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Qwen3.8 2.4T A95B</h3></div>
+          <p class="bd-meta">阿里 · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Ling 3.0 Tiny" data-v-aa-strategy_and_ops_index="9.7" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Ling 3.0 Tiny</h3></div>
+          <p class="bd-meta">蚂蚁 · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Muse Spark 1.2" data-v-arena-agenticgamedev="1126" data-win-agenticgamedev="43.1" data-v-arena-androidnative="1206" data-win-androidnative="52.2" data-v-arena-blender3d="1053" data-win-blender3d="42.9" data-v-arena-codetovideo="1088" data-win-codetovideo="40.6" data-v-arena-fullstack="1254" data-win-fullstack="47.1" data-v-arena-htmlslides="1035" data-win-htmlslides="39.9" data-v-arena-mobileapps="1176" data-win-mobileapps="47.3" data-v-arena-pdf="1136" data-win-pdf="42.5" data-v-arena-python-pptxslides="1156" data-win-python-pptxslides="48.2" data-v-arena-spreadsheet="1029" data-win-spreadsheet="44.8" data-v-arena-webapps="1191" data-win-webapps="49.9" data-v-arena-3d="1268" data-win-3d="51.6" data-v-arena-asciiart="1272" data-win-asciiart="54.7" data-v-arena-codecategories="1358" data-win-codecategories="52.4" data-v-arena-dataviz="1325" data-win-dataviz="57.2" data-v-arena-gamedev="1276" data-win-gamedev="50.3" data-v-arena-svg="1320" data-win-svg="54" data-v-arena-uicomponent="1291" data-win-uicomponent="52.1" data-v-arena-website="1357" data-win-website="52.6" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Muse Spark 1.2</h3></div>
+          <p class="bd-meta">Meta · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="DeepSeek V4 Flash 0731" data-v-arena-3d="1172" data-win-3d="48.6" data-v-arena-asciiart="1084" data-win-asciiart="34" data-v-arena-codecategories="1271" data-win-codecategories="46.5" data-v-arena-dataviz="1166" data-win-dataviz="40" data-v-arena-gamedev="1181" data-win-gamedev="44.9" data-v-arena-svg="1221" data-win-svg="44.7" data-v-arena-uicomponent="1222" data-win-uicomponent="47.3" data-v-arena-website="1279" data-win-website="46.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>DeepSeek V4 Flash 0731</h3></div>
+          <p class="bd-meta">DeepSeek · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemini 3.6 Flash" data-v-arena-agenticgamedev="1124" data-win-agenticgamedev="47.3" data-v-arena-androidnative="1193" data-win-androidnative="53.5" data-v-arena-blender3d="1041" data-win-blender3d="44.4" data-v-arena-codetovideo="1095" data-win-codetovideo="42.2" data-v-arena-fullstack="1225" data-win-fullstack="43.7" data-v-arena-htmlslides="1050" data-win-htmlslides="42" data-v-arena-mobileapps="1191" data-win-mobileapps="49.5" data-v-arena-pdf="1153" data-win-pdf="44.3" data-v-arena-python-pptxslides="1105" data-win-python-pptxslides="39.3" data-v-arena-spreadsheet="1045" data-win-spreadsheet="29.6" data-v-arena-webapps="1166" data-win-webapps="45.1" data-v-arena-3d="1236" data-win-3d="52.3" data-v-arena-asciiart="1259" data-win-asciiart="54.9" data-v-arena-codecategories="1332" data-win-codecategories="52.6" data-v-arena-dataviz="1284" data-win-dataviz="52.2" data-v-arena-gamedev="1236" data-win-gamedev="50.4" data-v-arena-uicomponent="1281" data-win-uicomponent="53.5" data-v-arena-website="1340" data-win-website="54.2" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemini 3.6 Flash</h3></div>
+          <p class="bd-meta">Google · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Muse Spark 1.1" data-v-arena-agenticgamedev="1131" data-win-agenticgamedev="48.5" data-v-arena-androidnative="1169" data-win-androidnative="47.5" data-v-arena-blender3d="1009" data-win-blender3d="35.9" data-v-arena-codetovideo="1068" data-win-codetovideo="38.5" data-v-arena-fullstack="1242" data-win-fullstack="44.5" data-v-arena-godotgamedev="1073" data-win-godotgamedev="39.7" data-v-arena-htmlslides="1097" data-win-htmlslides="51.9" data-v-arena-mobileapps="1171" data-win-mobileapps="45.9" data-v-arena-pdf="1161" data-win-pdf="48.5" data-v-arena-python-pptxslides="1123" data-win-python-pptxslides="44.3" data-v-arena-spreadsheet="1007" data-win-spreadsheet="24.4" data-v-arena-webapps="1174" data-win-webapps="48.5" data-v-arena-3d="1223" data-win-3d="48.6" data-v-arena-asciiart="1246" data-win-asciiart="52.6" data-v-arena-codecategories="1318" data-win-codecategories="51.1" data-v-arena-dataviz="1260" data-win-dataviz="50" data-v-arena-gamedev="1240" data-win-gamedev="47.4" data-v-arena-svg="1273" data-win-svg="49" data-v-arena-uicomponent="1273" data-win-uicomponent="51.2" data-v-arena-website="1312" data-win-website="51.4" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Muse Spark 1.1</h3></div>
+          <p class="bd-meta">Meta · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Grok 4.5" data-v-arena-agenticgamedev="1182" data-win-agenticgamedev="55.8" data-v-arena-androidnative="1226" data-win-androidnative="63.2" data-v-arena-blender3d="1023" data-win-blender3d="44.7" data-v-arena-codetovideo="1103" data-win-codetovideo="44.3" data-v-arena-fullstack="1294" data-win-fullstack="60" data-v-arena-godotgamedev="1196" data-win-godotgamedev="57.9" data-v-arena-htmlslides="1105" data-win-htmlslides="52.3" data-v-arena-mobileapps="1209" data-win-mobileapps="51.3" data-v-arena-pdf="1121" data-win-pdf="42.5" data-v-arena-python-pptxslides="1196" data-win-python-pptxslides="51.6" data-v-arena-spreadsheet="1050" data-win-spreadsheet="48.4" data-v-arena-webapps="1185" data-win-webapps="52.9" data-v-arena-3d="1220" data-win-3d="49.6" data-v-arena-asciiart="1238" data-win-asciiart="52.2" data-v-arena-codecategories="1316" data-win-codecategories="50.5" data-v-arena-dataviz="1261" data-win-dataviz="49.7" data-v-arena-gamedev="1234" data-win-gamedev="48.3" data-v-arena-svg="1251" data-win-svg="47.5" data-v-arena-uicomponent="1262" data-win-uicomponent="51.1" data-v-arena-website="1322" data-win-website="52.3" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Grok 4.5</h3></div>
+          <p class="bd-meta">xAI · 上下文 50 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Hy3" data-v-arena-3d="1138" data-win-3d="43.7" data-v-arena-codecategories="1217" data-win-codecategories="40.9" data-v-arena-dataviz="1119" data-win-dataviz="36.1" data-v-arena-gamedev="1107" data-win-gamedev="38.5" data-v-arena-uicomponent="1147" data-win-uicomponent="40.2" data-v-arena-website="1220" data-win-website="41" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Hy3</h3></div>
+          <p class="bd-meta">腾讯 · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Claude Sonnet 5" data-v-arena-agenticgamedev="1170" data-win-agenticgamedev="51.6" data-v-arena-androidnative="1208" data-win-androidnative="52.8" data-v-arena-blender3d="956" data-win-blender3d="31.2" data-v-arena-codetovideo="1092" data-win-codetovideo="42.7" data-v-arena-fullstack="1294" data-win-fullstack="53.1" data-v-arena-godotgamedev="1191" data-win-godotgamedev="53.5" data-v-arena-htmlslides="1119" data-win-htmlslides="53.7" data-v-arena-mobileapps="1204" data-win-mobileapps="50" data-v-arena-pdf="1205" data-win-pdf="53.3" data-v-arena-python-pptxslides="1179" data-win-python-pptxslides="48.2" data-v-arena-spreadsheet="1032" data-win-spreadsheet="25.7" data-v-arena-webapps="1210" data-win-webapps="51.8" data-v-arena-3d="1222" data-win-3d="52.6" data-v-arena-asciiart="1193" data-win-asciiart="50.6" data-v-arena-codecategories="1320" data-win-codecategories="52.5" data-v-arena-dataviz="1245" data-win-dataviz="52.9" data-v-arena-gamedev="1256" data-win-gamedev="51.4" data-v-arena-svg="1234" data-win-svg="48.7" data-v-arena-uicomponent="1260" data-win-uicomponent="53.3" data-v-arena-website="1317" data-win-website="52.5" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Claude Sonnet 5</h3></div>
+          <p class="bd-meta">Anthropic · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GLM 5.2" data-v-aa-finance_and_accounting_index="32.1" data-v-aa-legal_index="28.5" data-v-aa-healthcare_and_medical_index="28.7" data-v-aa-economics_index="32.1" data-v-aa-strategy_and_ops_index="30" data-v-arena-agenticgamedev="1156" data-win-agenticgamedev="49.7" data-v-arena-androidnative="1168" data-win-androidnative="52.7" data-v-arena-blender3d="983" data-win-blender3d="36.1" data-v-arena-fullstack="1286" data-win-fullstack="60" data-v-arena-godotgamedev="1142" data-win-godotgamedev="40.1" data-v-arena-htmlslides="1076" data-win-htmlslides="49.5" data-v-arena-mobileapps="1156" data-win-mobileapps="47.4" data-v-arena-pdf="1246" data-win-pdf="59.6" data-v-arena-python-pptxslides="1159" data-win-python-pptxslides="48.3" data-v-arena-spreadsheet="1028" data-win-spreadsheet="44.2" data-v-arena-webapps="1191" data-win-webapps="55.6" data-v-arena-3d="1250" data-win-3d="52.6" data-v-arena-asciiart="1183" data-win-asciiart="47" data-v-arena-codecategories="1328" data-win-codecategories="50.4" data-v-arena-dataviz="1278" data-win-dataviz="51.6" data-v-arena-gamedev="1239" data-win-gamedev="48.9" data-v-arena-svg="1245" data-win-svg="47.2" data-v-arena-uicomponent="1278" data-win-uicomponent="55.1" data-v-arena-website="1325" data-win-website="49.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GLM 5.2</h3></div>
+          <p class="bd-meta">智谱 · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Kimi K2.7 Code" data-v-arena-agenticgamedev="1077" data-win-agenticgamedev="42.8" data-v-arena-androidnative="1127" data-win-androidnative="46" data-v-arena-fullstack="1222" data-win-fullstack="50.9" data-v-arena-godotgamedev="1115" data-win-godotgamedev="49.2" data-v-arena-htmlslides="1105" data-win-htmlslides="53.9" data-v-arena-mobileapps="1136" data-win-mobileapps="46.1" data-v-arena-python-pptxslides="1119" data-win-python-pptxslides="44.6" data-v-arena-webapps="1144" data-win-webapps="46.9" data-v-arena-3d="1205" data-win-3d="49.5" data-v-arena-asciiart="1177" data-win-asciiart="47.5" data-v-arena-codecategories="1295" data-win-codecategories="49.5" data-v-arena-dataviz="1216" data-win-dataviz="48" data-v-arena-gamedev="1193" data-win-gamedev="46.1" data-v-arena-svg="1214" data-win-svg="43.3" data-v-arena-uicomponent="1246" data-win-uicomponent="50.9" data-v-arena-website="1306" data-win-website="51.3" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Kimi K2.7 Code</h3></div>
+          <p class="bd-meta">月之暗面 · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Claude Fable 5" data-v-arena-agenticgamedev="1231" data-win-agenticgamedev="62" data-v-arena-agentichtmlslides="1254" data-win-agentichtmlslides="59.4" data-v-arena-agenticslides(html)="1252" data-win-agenticslides(html)="59.5" data-v-arena-androidnative="1275" data-win-androidnative="65.3" data-v-arena-fullstack="1326" data-win-fullstack="58.2" data-v-arena-godotgamedev="1261" data-win-godotgamedev="64.3" data-v-arena-htmlslides="1179" data-win-htmlslides="63.2" data-v-arena-mobileapps="1257" data-win-mobileapps="60.4" data-v-arena-python-pptxslides="1268" data-win-python-pptxslides="61.2" data-v-arena-webapps="1230" data-win-webapps="56.3" data-v-arena-3d="1282" data-win-3d="61.6" data-v-arena-asciiart="1312" data-win-asciiart="67.7" data-v-arena-codecategories="1353" data-win-codecategories="57.8" data-v-arena-dataviz="1300" data-win-dataviz="57.8" data-v-arena-gamedev="1308" data-win-gamedev="60.8" data-v-arena-svg="1343" data-win-svg="62.8" data-v-arena-uicomponent="1304" data-win-uicomponent="58.3" data-v-arena-website="1336" data-win-website="56.2" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Claude Fable 5</h3></div>
+          <p class="bd-meta">Anthropic · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Qwen3.7 Plus" data-v-arena-pdf="1152" data-win-pdf="45.2" data-v-arena-3d="1203" data-win-3d="47.8" data-v-arena-asciiart="1131" data-win-asciiart="40.6" data-v-arena-codecategories="1311" data-win-codecategories="49.7" data-v-arena-dataviz="1271" data-win-dataviz="51.2" data-v-arena-gamedev="1233" data-win-gamedev="48.3" data-v-arena-svg="1250" data-win-svg="46.6" data-v-arena-uicomponent="1246" data-win-uicomponent="48.7" data-v-arena-website="1309" data-win-website="50.2" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Qwen3.7 Plus</h3></div>
+          <p class="bd-meta">阿里 · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Step 3.7 Flash" data-v-arena-pdf="1108" data-win-pdf="40.3" data-v-arena-3d="1094" data-win-3d="39.5" data-v-arena-asciiart="1134" data-win-asciiart="44.1" data-v-arena-codecategories="1220" data-win-codecategories="41.5" data-v-arena-dataviz="1169" data-win-dataviz="43" data-v-arena-gamedev="1124" data-win-gamedev="36.8" data-v-arena-svg="1125" data-win-svg="36.1" data-v-arena-uicomponent="1159" data-win-uicomponent="41.1" data-v-arena-website="1234" data-win-website="43.6" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Step 3.7 Flash</h3></div>
+          <p class="bd-meta">阶跃 · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Claude Opus 4.8" data-v-arena-agenticgamedev="1183" data-win-agenticgamedev="55.3" data-v-arena-agentichtmlslides="1227" data-win-agentichtmlslides="55.6" data-v-arena-agenticslides="1294" data-win-agenticslides="64.8" data-v-arena-agenticslides(html)="1230" data-win-agenticslides(html)="56" data-v-arena-agenticslides(python-pptx)="1310" data-win-agenticslides(python-pptx)="68.9" data-v-arena-androidnative="1220" data-win-androidnative="55.6" data-v-arena-blender3d="1096" data-win-blender3d="48.2" data-v-arena-codetovideo="1168" data-win-codetovideo="53.4" data-v-arena-fullstack="1295" data-win-fullstack="55" data-v-arena-godotgamedev="1201" data-win-godotgamedev="55.8" data-v-arena-htmlslides="1124" data-win-htmlslides="58.1" data-v-arena-mobileapps="1210" data-win-mobileapps="53.5" data-v-arena-pdf="1167" data-win-pdf="49.3" data-v-arena-pptxslides="1306" data-win-pptxslides="67.9" data-v-arena-python-pptxslides="1298" data-win-python-pptxslides="65.9" data-v-arena-spreadsheet="1035" data-win-spreadsheet="23.1" data-v-arena-webapps="1200" data-win-webapps="50.2" data-v-arena-3d="1187" data-win-3d="50.8" data-v-arena-asciiart="1261" data-win-asciiart="60.7" data-v-arena-codecategories="1296" data-win-codecategories="52" data-v-arena-dataviz="1231" data-win-dataviz="52.4" data-v-arena-gamedev="1233" data-win-gamedev="51.5" data-v-arena-svg="1231" data-win-svg="50.2" data-v-arena-uicomponent="1241" data-win-uicomponent="52.7" data-v-arena-website="1299" data-win-website="52.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Claude Opus 4.8</h3></div>
+          <p class="bd-meta">Anthropic · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Qwen3.7 Max" data-v-arena-agenticgamedev="1105" data-win-agenticgamedev="45.6" data-v-arena-androidnative="1145" data-win-androidnative="47.4" data-v-arena-blender3d="980" data-win-blender3d="32.9" data-v-arena-fullstack="1240" data-win-fullstack="47.5" data-v-arena-godotgamedev="1156" data-win-godotgamedev="55.5" data-v-arena-htmlslides="1059" data-win-htmlslides="43.3" data-v-arena-mobileapps="1152" data-win-mobileapps="44.5" data-v-arena-pdf="1161" data-win-pdf="48.2" data-v-arena-python-pptxslides="1149" data-win-python-pptxslides="46.2" data-v-arena-spreadsheet="987" data-win-spreadsheet="35.6" data-v-arena-webapps="1176" data-win-webapps="48.2" data-v-arena-3d="1229" data-win-3d="53.5" data-v-arena-asciiart="1196" data-win-asciiart="52.7" data-v-arena-codecategories="1317" data-win-codecategories="53.6" data-v-arena-dataviz="1270" data-win-dataviz="53.1" data-v-arena-gamedev="1235" data-win-gamedev="51.8" data-v-arena-svg="1257" data-win-svg="54.6" data-v-arena-uicomponent="1257" data-win-uicomponent="53.5" data-v-arena-website="1315" data-win-website="54.5" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Qwen3.7 Max</h3></div>
+          <p class="bd-meta">阿里 · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemini 3.5 Flash" data-v-arena-agenticgamedev="1127" data-win-agenticgamedev="55.3" data-v-arena-agentichtmlslides="1162" data-win-agentichtmlslides="45.8" data-v-arena-agenticslides="1244" data-win-agenticslides="57.5" data-v-arena-agenticslides(html)="1162" data-win-agenticslides(html)="45.7" data-v-arena-agenticslides(python-pptx)="1242" data-win-agenticslides(python-pptx)="57.8" data-v-arena-androidnative="1173" data-win-androidnative="57.2" data-v-arena-blender3d="914" data-win-blender3d="32" data-v-arena-codetovideo="1137" data-win-codetovideo="49.1" data-v-arena-fullstack="1243" data-win-fullstack="55.8" data-v-arena-godotgamedev="1069" data-win-godotgamedev="43" data-v-arena-htmlslides="1046" data-win-htmlslides="46.4" data-v-arena-mobileapps="1171" data-win-mobileapps="49.9" data-v-arena-pdf="1150" data-win-pdf="47.4" data-v-arena-pptxslides="1244" data-win-pptxslides="57.7" data-v-arena-python-pptxslides="1247" data-win-python-pptxslides="57.4" data-v-arena-spreadsheet="981" data-win-spreadsheet="20.6" data-v-arena-webapps="1169" data-win-webapps="51.6" data-v-arena-3d="1210" data-win-3d="55.2" data-v-arena-asciiart="1240" data-win-asciiart="58.6" data-v-arena-codecategories="1309" data-win-codecategories="53.9" data-v-arena-dataviz="1234" data-win-dataviz="53.5" data-v-arena-gamedev="1236" data-win-gamedev="52.2" data-v-arena-svg="1297" data-win-svg="58" data-v-arena-uicomponent="1259" data-win-uicomponent="54.6" data-v-arena-website="1309" data-win-website="53.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemini 3.5 Flash</h3></div>
+          <p class="bd-meta">Google · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Grok 4.3" data-v-arena-agenticgamedev="954" data-win-agenticgamedev="28.7" data-v-arena-agentichtmlslides="1066" data-win-agentichtmlslides="31.8" data-v-arena-agenticslides="1072" data-win-agenticslides="31.9" data-v-arena-agenticslides(html)="1066" data-win-agenticslides(html)="31.7" data-v-arena-agenticslides(python-pptx)="1068" data-win-agenticslides(python-pptx)="32.4" data-v-arena-androidnative="955" data-win-androidnative="23" data-v-arena-blender3d="807" data-win-blender3d="15.5" data-v-arena-codetovideo="861" data-win-codetovideo="17.8" data-v-arena-fullstack="1054" data-win-fullstack="28" data-v-arena-godotgamedev="925" data-win-godotgamedev="24.2" data-v-arena-htmlslides="914" data-win-htmlslides="28.7" data-v-arena-mobileapps="1051" data-win-mobileapps="32.9" data-v-arena-pdf="953" data-win-pdf="21.5" data-v-arena-pptxslides="1071" data-win-pptxslides="32.5" data-v-arena-python-pptxslides="1072" data-win-python-pptxslides="30.8" data-v-arena-spreadsheet="937" data-win-spreadsheet="30" data-v-arena-webapps="1093" data-win-webapps="42.4" data-v-arena-3d="1089" data-win-3d="40.5" data-v-arena-asciiart="1112" data-win-asciiart="41.7" data-v-arena-codecategories="1227" data-win-codecategories="43.4" data-v-arena-dataviz="1173" data-win-dataviz="45" data-v-arena-gamedev="1143" data-win-gamedev="42.3" data-v-arena-svg="1122" data-win-svg="36.5" data-v-arena-uicomponent="1178" data-win-uicomponent="44.9" data-v-arena-website="1234" data-win-website="43.9" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Grok 4.3</h3></div>
+          <p class="bd-meta">xAI · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-5.5" data-v-arena-agenticgamedev="1125" data-win-agenticgamedev="52.2" data-v-arena-agentichtmlslides="1084" data-win-agentichtmlslides="34.2" data-v-arena-agenticslides="1150" data-win-agenticslides="43.5" data-v-arena-agenticslides(html)="1077" data-win-agenticslides(html)="33.2" data-v-arena-agenticslides(python-pptx)="1155" data-win-agenticslides(python-pptx)="45.2" data-v-arena-androidnative="1152" data-win-androidnative="50.8" data-v-arena-fullstack="1136" data-win-fullstack="43" data-v-arena-godotgamedev="1142" data-win-godotgamedev="52.3" data-v-arena-htmlslides="970" data-win-htmlslides="35.6" data-v-arena-mobileapps="1136" data-win-mobileapps="50.4" data-v-arena-pptxslides="1157" data-win-pptxslides="45.3" data-v-arena-python-pptxslides="1152" data-win-python-pptxslides="43.3" data-v-arena-webapps="1085" data-win-webapps="42.6" data-v-arena-3d="1161" data-win-3d="48.7" data-v-arena-asciiart="1237" data-win-asciiart="56.9" data-v-arena-codecategories="1302" data-win-codecategories="52.8" data-v-arena-dataviz="1256" data-win-dataviz="55.3" data-v-arena-gamedev="1265" data-win-gamedev="56.1" data-v-arena-svg="1276" data-win-svg="54.6" data-v-arena-uicomponent="1244" data-win-uicomponent="53.3" data-v-arena-website="1297" data-win-website="52.2" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-5.5</h3></div>
+          <p class="bd-meta">OpenAI · 上下文 105 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="DeepSeek V4 Flash 0423" data-v-arena-3d="1154" data-win-3d="49.3" data-v-arena-asciiart="1103" data-win-asciiart="43.1" data-v-arena-codecategories="1247" data-win-codecategories="48.9" data-v-arena-dataviz="1121" data-win-dataviz="40.7" data-v-arena-gamedev="1169" data-win-gamedev="50.2" data-v-arena-svg="1196" data-win-svg="48.4" data-v-arena-uicomponent="1147" data-win-uicomponent="44.6" data-v-arena-website="1248" data-win-website="49.1" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>DeepSeek V4 Flash 0423</h3></div>
+          <p class="bd-meta">DeepSeek · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="MiMo-V2.5-Pro" data-v-arena-pdf="1232" data-win-pdf="55.6" data-v-arena-3d="1220" data-win-3d="54.1" data-v-arena-asciiart="1147" data-win-asciiart="47.4" data-v-arena-codecategories="1314" data-win-codecategories="52.2" data-v-arena-dataviz="1254" data-win-dataviz="51" data-v-arena-gamedev="1250" data-win-gamedev="54.2" data-v-arena-svg="1236" data-win-svg="48.6" data-v-arena-uicomponent="1239" data-win-uicomponent="51.2" data-v-arena-website="1311" data-win-website="51.3" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>MiMo-V2.5-Pro</h3></div>
+          <p class="bd-meta">xiaomi · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="MiMo-V2.5" data-v-arena-pdf="1150" data-win-pdf="45" data-v-arena-3d="1183" data-win-3d="50.9" data-v-arena-asciiart="1140" data-win-asciiart="45.6" data-v-arena-codecategories="1304" data-win-codecategories="53.7" data-v-arena-dataviz="1244" data-win-dataviz="53.8" data-v-arena-gamedev="1225" data-win-gamedev="52.5" data-v-arena-svg="1230" data-win-svg="50.5" data-v-arena-uicomponent="1243" data-win-uicomponent="53.7" data-v-arena-website="1308" data-win-website="53.9" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>MiMo-V2.5</h3></div>
+          <p class="bd-meta">xiaomi · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Kimi K2.6" data-v-arena-agenticgamedev="1088" data-win-agenticgamedev="47.5" data-v-arena-agentichtmlslides="1248" data-win-agentichtmlslides="59" data-v-arena-agenticslides="1187" data-win-agenticslides="45.8" data-v-arena-agenticslides(html)="1252" data-win-agenticslides(html)="59.2" data-v-arena-agenticslides(python-pptx)="1186" data-win-agenticslides(python-pptx)="45.5" data-v-arena-androidnative="1150" data-win-androidnative="49.2" data-v-arena-fullstack="1202" data-win-fullstack="49.4" data-v-arena-godotgamedev="1090" data-win-godotgamedev="46.8" data-v-arena-htmlslides="1087" data-win-htmlslides="52.3" data-v-arena-mobileapps="1149" data-win-mobileapps="47.6" data-v-arena-pptxslides="1181" data-win-pptxslides="44.3" data-v-arena-python-pptxslides="1180" data-win-python-pptxslides="42.1" data-v-arena-spreadsheet="1276" data-win-spreadsheet="54.8" data-v-arena-webapps="1268" data-win-webapps="59.3" data-v-arena-3d="1233" data-win-3d="57.7" data-v-arena-asciiart="1151" data-win-asciiart="46.9" data-v-arena-codecategories="1314" data-win-codecategories="55" data-v-arena-dataviz="1243" data-win-dataviz="52.1" data-v-arena-gamedev="1222" data-win-gamedev="54.8" data-v-arena-svg="1222" data-win-svg="51.2" data-v-arena-uicomponent="1250" data-win-uicomponent="55.8" data-v-arena-website="1311" data-win-website="54.6" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Kimi K2.6</h3></div>
+          <p class="bd-meta">月之暗面 · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GLM 5.1" data-v-arena-3d="1336" data-win-3d="62.6" data-v-arena-asciiart="1131" data-win-asciiart="43.7" data-v-arena-codecategories="1312" data-win-codecategories="53.1" data-v-arena-dataviz="1366" data-win-dataviz="67" data-v-arena-gamedev="1239" data-win-gamedev="54.5" data-v-arena-svg="1258" data-win-svg="54.9" data-v-arena-uicomponent="1292" data-win-uicomponent="54.9" data-v-arena-website="1310" data-win-website="52.5" data-v-arena-agenticgamedev="1109" data-win-agenticgamedev="49" data-v-arena-agentichtmlslides="1205" data-win-agentichtmlslides="52" data-v-arena-agenticslides="1245" data-win-agenticslides="54.4" data-v-arena-agenticslides(html)="1204" data-win-agenticslides(html)="51.8" data-v-arena-agenticslides(python-pptx)="1240" data-win-agenticslides(python-pptx)="53.3" data-v-arena-androidnative="1173" data-win-androidnative="51.8" data-v-arena-fullstack="1214" data-win-fullstack="53" data-v-arena-godotgamedev="1025" data-win-godotgamedev="37.9" data-v-arena-htmlslides="1073" data-win-htmlslides="48.8" data-v-arena-mobileapps="1156" data-win-mobileapps="49.9" data-v-arena-pdf="1205" data-win-pdf="55.3" data-v-arena-pptxslides="1241" data-win-pptxslides="53.5" data-v-arena-python-pptxslides="1258" data-win-python-pptxslides="54.2" data-v-arena-spreadsheet="1315" data-win-spreadsheet="72.4" data-v-arena-webapps="1144" data-win-webapps="50.4" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GLM 5.1</h3></div>
+          <p class="bd-meta">智谱 · 上下文 20.5 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemma 4 26B A4B" data-v-aa-finance_and_accounting_index="7.1" data-v-aa-legal_index="6.9" data-v-aa-economics_index="8.2" data-v-aa-strategy_and_ops_index="5.3" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemma 4 26B A4B</h3></div>
+          <p class="bd-meta">Google · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemma 4 26B A4B  (free)" data-v-aa-finance_and_accounting_index="7.1" data-v-aa-legal_index="6.9" data-v-aa-economics_index="8.2" data-v-aa-strategy_and_ops_index="5.3" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemma 4 26B A4B  (free)</h3></div>
+          <p class="bd-meta">Google · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Qwen3.6 Plus" data-v-arena-pdf="1224" data-win-pdf="54.4" data-v-arena-3d="1168" data-win-3d="50.3" data-v-arena-asciiart="1101" data-win-asciiart="40.4" data-v-arena-codecategories="1278" data-win-codecategories="50" data-v-arena-dataviz="1220" data-win-dataviz="50.6" data-v-arena-gamedev="1185" data-win-gamedev="48" data-v-arena-svg="1203" data-win-svg="50" data-v-arena-uicomponent="1215" data-win-uicomponent="50.2" data-v-arena-website="1282" data-win-website="50" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Qwen3.6 Plus</h3></div>
+          <p class="bd-meta">阿里 · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GLM 5V Turbo" data-v-arena-agenticgamedev="1049" data-win-agenticgamedev="42.6" data-v-arena-agentichtmlslides="1134" data-win-agentichtmlslides="41.7" data-v-arena-agenticslides="1171" data-win-agenticslides="51.6" data-v-arena-agenticslides(html)="1137" data-win-agenticslides(html)="41.8" data-v-arena-agenticslides(python-pptx)="1183" data-win-agenticslides(python-pptx)="53.9" data-v-arena-androidnative="1267" data-win-androidnative="54.8" data-v-arena-fullstack="1195" data-win-fullstack="52.1" data-v-arena-godotgamedev="928" data-win-godotgamedev="26.9" data-v-arena-htmlslides="1023" data-win-htmlslides="44.6" data-v-arena-mobileapps="1129" data-win-mobileapps="50.5" data-v-arena-pptxslides="1164" data-win-pptxslides="52.1" data-v-arena-python-pptxslides="1165" data-win-python-pptxslides="51.9" data-v-arena-webapps="1092" data-win-webapps="44.7" data-v-arena-3d="1173" data-win-3d="52.1" data-v-arena-asciiart="1114" data-win-asciiart="42.4" data-v-arena-codecategories="1270" data-win-codecategories="49.4" data-v-arena-dataviz="1195" data-win-dataviz="47.6" data-v-arena-gamedev="1189" data-win-gamedev="49.1" data-v-arena-svg="1191" data-win-svg="48" data-v-arena-uicomponent="1194" data-win-uicomponent="47.5" data-v-arena-website="1271" data-win-website="48.9" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GLM 5V Turbo</h3></div>
+          <p class="bd-meta">智谱 · 上下文 20.3 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Grok 4.20" data-v-aa-multilingual_index="0.9" data-v-arena-androidnative="1035" data-win-androidnative="35" data-v-arena-fullstack="1100" data-win-fullstack="41.1" data-v-arena-godotgamedev="1089" data-win-godotgamedev="38.5" data-v-arena-htmlslides="1180" data-win-htmlslides="45.7" data-v-arena-mobileapps="1083" data-win-mobileapps="45.4" data-v-arena-webapps="1112" data-win-webapps="49.7" data-v-arena-3d="1158" data-win-3d="52.3" data-v-arena-asciiart="1162" data-win-asciiart="48.3" data-v-arena-codecategories="1262" data-win-codecategories="52" data-v-arena-dataviz="1211" data-win-dataviz="52.1" data-v-arena-gamedev="1164" data-win-gamedev="50.3" data-v-arena-svg="1204" data-win-svg="52.4" data-v-arena-uicomponent="1184" data-win-uicomponent="49.3" data-v-arena-website="1269" data-win-website="52.1" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Grok 4.20</h3></div>
+          <p class="bd-meta">xAI · 上下文 200 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="MiniMax M2.7" data-v-arena-pdf="1147" data-win-pdf="45" data-v-arena-3d="1160" data-win-3d="49.7" data-v-arena-asciiart="1119" data-win-asciiart="45.3" data-v-arena-codecategories="1275" data-win-codecategories="50.6" data-v-arena-dataviz="1225" data-win-dataviz="52.2" data-v-arena-gamedev="1181" data-win-gamedev="49" data-v-arena-svg="1174" data-win-svg="46.3" data-v-arena-uicomponent="1195" data-win-uicomponent="48.5" data-v-arena-website="1282" data-win-website="51.2" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>MiniMax M2.7</h3></div>
+          <p class="bd-meta">MiniMax · 上下文 19.7 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-5.4 Mini" data-v-aa-multilingual_index="0.9" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-5.4 Mini</h3></div>
+          <p class="bd-meta">OpenAI · 上下文 40 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GLM 5 Turbo" data-v-arena-pdf="1179" data-win-pdf="48.6" data-v-arena-3d="1212" data-win-3d="55.1" data-v-arena-asciiart="1149" data-win-asciiart="48.3" data-v-arena-codecategories="1303" data-win-codecategories="53.3" data-v-arena-dataviz="1257" data-win-dataviz="55" data-v-arena-gamedev="1221" data-win-gamedev="52.1" data-v-arena-svg="1245" data-win-svg="53.6" data-v-arena-uicomponent="1246" data-win-uicomponent="54.6" data-v-arena-website="1302" data-win-website="52.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GLM 5 Turbo</h3></div>
+          <p class="bd-meta">智谱 · 上下文 20.3 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-5.4" data-v-arena-3d="1066" data-win-3d="42.3" data-v-arena-asciiart="1183" data-win-asciiart="54.7" data-v-arena-codecategories="1253" data-win-codecategories="52.5" data-v-arena-dataviz="1229" data-win-dataviz="56.6" data-v-arena-gamedev="1211" data-win-gamedev="57.6" data-v-arena-svg="1235" data-win-svg="57.8" data-v-arena-uicomponent="1223" data-win-uicomponent="57.4" data-v-arena-website="1260" data-win-website="52.5" data-v-arena-androidnative="1021" data-win-androidnative="47.7" data-v-arena-fullstack="1063" data-win-fullstack="40.9" data-v-arena-godotgamedev="1135" data-win-godotgamedev="46.9" data-v-arena-mobileapps="1080" data-win-mobileapps="46.1" data-v-arena-webapps="1026" data-win-webapps="40.3" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-5.4</h3></div>
+          <p class="bd-meta">OpenAI · 上下文 105 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Nano Banana 2 (Gemini 3.1 Flash Image Preview)" data-v-arena-graphicdesign="1319" data-win-graphicdesign="66.3" data-v-arena-image="1319" data-win-image="65.1" data-v-arena-logo="1303" data-win-logo="62.9" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Nano Banana 2 (Gemini 3.1 Flash Image Preview)</h3></div>
+          <p class="bd-meta">Google · 上下文 6.55 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Qwen3.5-35B-A3B" data-v-aa-multilingual_index="0.9" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Qwen3.5-35B-A3B</h3></div>
+          <p class="bd-meta">阿里 · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Qwen3.5-27B" data-v-aa-multilingual_index="0.9" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Qwen3.5-27B</h3></div>
+          <p class="bd-meta">阿里 · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Qwen3.5-122B-A10B" data-v-aa-multilingual_index="0.9" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Qwen3.5-122B-A10B</h3></div>
+          <p class="bd-meta">阿里 · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-5.3-Codex" data-v-arena-androidnative="1084" data-win-androidnative="35.2" data-v-arena-fullstack="1029" data-win-fullstack="36.5" data-v-arena-godotgamedev="1124" data-win-godotgamedev="45.1" data-v-arena-mobileapps="1047" data-win-mobileapps="41.4" data-v-arena-webapps="1000" data-win-webapps="36.9" data-v-arena-3d="973" data-win-3d="35.3" data-v-arena-asciiart="1128" data-win-asciiart="49.8" data-v-arena-codecategories="1186" data-win-codecategories="47.3" data-v-arena-dataviz="1158" data-win-dataviz="50.6" data-v-arena-gamedev="1134" data-win-gamedev="51.3" data-v-arena-svg="1170" data-win-svg="54" data-v-arena-uicomponent="1121" data-win-uicomponent="47.3" data-v-arena-website="1203" data-win-website="48.7" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-5.3-Codex</h3></div>
+          <p class="bd-meta">OpenAI · 上下文 40 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemini 3.1 Pro Preview" data-v-aa-multilingual_index="0.9" data-v-arena-agenticgamedev="1061" data-win-agenticgamedev="43.9" data-v-arena-agentichtmlslides="1226" data-win-agentichtmlslides="55.8" data-v-arena-agenticslides="1112" data-win-agenticslides="33.8" data-v-arena-agenticslides(html)="1219" data-win-agenticslides(html)="54.4" data-v-arena-agenticslides(python-pptx)="1107" data-win-agenticslides(python-pptx)="33.9" data-v-arena-androidnative="1035" data-win-androidnative="41.1" data-v-arena-blender3d="1037" data-win-blender3d="39.8" data-v-arena-codetovideo="1102" data-win-codetovideo="44" data-v-arena-fullstack="1114" data-win-fullstack="40.5" data-v-arena-godotgamedev="1124" data-win-godotgamedev="53.3" data-v-arena-htmlslides="1056" data-win-htmlslides="48.4" data-v-arena-mobileapps="1087" data-win-mobileapps="42.1" data-v-arena-pdf="1101" data-win-pdf="38.2" data-v-arena-pptxslides="1110" data-win-pptxslides="34.1" data-v-arena-python-pptxslides="1109" data-win-python-pptxslides="31.9" data-v-arena-spreadsheet="919" data-win-spreadsheet="28.6" data-v-arena-webapps="1093" data-win-webapps="44" data-v-arena-3d="1200" data-win-3d="58.6" data-v-arena-asciiart="1256" data-win-asciiart="63.4" data-v-arena-codecategories="1285" data-win-codecategories="64.4" data-v-arena-dataviz="1232" data-win-dataviz="61.8" data-v-arena-gamedev="1174" data-win-gamedev="52.4" data-v-arena-svg="1326" data-win-svg="67.9" data-v-arena-uicomponent="1263" data-win-uicomponent="69.4" data-v-arena-website="1293" data-win-website="64.4" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemini 3.1 Pro Preview</h3></div>
+          <p class="bd-meta">Google · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Claude Sonnet 4.6" data-v-aa-multilingual_index="0.9" data-v-arena-agenticgamedev="1118" data-win-agenticgamedev="51.1" data-v-arena-androidnative="1182" data-win-androidnative="61.8" data-v-arena-fullstack="1259" data-win-fullstack="64.3" data-v-arena-godotgamedev="1226" data-win-godotgamedev="60.6" data-v-arena-mobileapps="1205" data-win-mobileapps="63.6" data-v-arena-webapps="1158" data-win-webapps="56.9" data-v-arena-3d="1199" data-win-3d="57.6" data-v-arena-asciiart="1223" data-win-asciiart="60" data-v-arena-codecategories="1318" data-win-codecategories="59.4" data-v-arena-dataviz="1271" data-win-dataviz="58.2" data-v-arena-gamedev="1231" data-win-gamedev="58.7" data-v-arena-svg="1237" data-win-svg="58.7" data-v-arena-uicomponent="1257" data-win-uicomponent="58.5" data-v-arena-website="1325" data-win-website="60" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Claude Sonnet 4.6</h3></div>
+          <p class="bd-meta">Anthropic · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Qwen3.5 Plus 2026-02-15" data-v-arena-3d="1084" data-win-3d="47.6" data-v-arena-asciiart="1075" data-win-asciiart="42" data-v-arena-codecategories="1208" data-win-codecategories="48.4" data-v-arena-dataviz="1129" data-win-dataviz="44.8" data-v-arena-gamedev="1077" data-win-gamedev="42.6" data-v-arena-svg="1148" data-win-svg="48.9" data-v-arena-uicomponent="1161" data-win-uicomponent="52.2" data-v-arena-website="1228" data-win-website="50" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Qwen3.5 Plus 2026-02-15</h3></div>
+          <p class="bd-meta">阿里 · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Qwen3.5 397B A17B" data-v-aa-multilingual_index="0.9" data-v-arena-3d="1126" data-win-3d="56.7" data-v-arena-codecategories="1221" data-win-codecategories="52.7" data-v-arena-dataviz="1169" data-win-dataviz="53.2" data-v-arena-gamedev="1112" data-win-gamedev="50.2" data-v-arena-svg="1180" data-win-svg="56.1" data-v-arena-uicomponent="1148" data-win-uicomponent="51.5" data-v-arena-website="1231" data-win-website="52.6" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Qwen3.5 397B A17B</h3></div>
+          <p class="bd-meta">阿里 · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="MiniMax M2.5" data-v-aa-multilingual_index="0.8" data-v-arena-3d="1135" data-win-3d="57.6" data-v-arena-codecategories="1249" data-win-codecategories="56.8" data-v-arena-dataviz="1165" data-win-dataviz="51.2" data-v-arena-gamedev="1148" data-win-gamedev="55.5" data-v-arena-svg="1190" data-win-svg="54.5" data-v-arena-uicomponent="1156" data-win-uicomponent="53.4" data-v-arena-website="1262" data-win-website="57.5" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>MiniMax M2.5</h3></div>
+          <p class="bd-meta">MiniMax · 上下文 19.8 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GLM 5" data-v-aa-multilingual_index="0.8" data-v-arena-androidnative="1134" data-win-androidnative="55" data-v-arena-fullstack="1169" data-win-fullstack="51.7" data-v-arena-godotgamedev="1144" data-win-godotgamedev="46.7" data-v-arena-htmlslides="1050" data-win-htmlslides="45.1" data-v-arena-mobileapps="1130" data-win-mobileapps="51.7" data-v-arena-3d="1194" data-win-3d="56.3" data-v-arena-asciiart="1132" data-win-asciiart="47.5" data-v-arena-codecategories="1288" data-win-codecategories="55.5" data-v-arena-dataviz="1222" data-win-dataviz="53" data-v-arena-gamedev="1207" data-win-gamedev="57.4" data-v-arena-svg="1209" data-win-svg="54.4" data-v-arena-uicomponent="1214" data-win-uicomponent="53.6" data-v-arena-website="1288" data-win-website="54.9" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GLM 5</h3></div>
+          <p class="bd-meta">智谱 · 上下文 20.5 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Claude Opus 4.6" data-v-aa-multilingual_index="0.9" data-v-arena-agenticgamedev="1144" data-win-agenticgamedev="45.5" data-v-arena-androidnative="1182" data-win-androidnative="61.2" data-v-arena-blender3d="936" data-win-blender3d="32.9" data-v-arena-codetovideo="1097" data-win-codetovideo="43" data-v-arena-fullstack="1265" data-win-fullstack="59" data-v-arena-mobileapps="1199" data-win-mobileapps="56.9" data-v-arena-pdf="1188" data-win-pdf="51.5" data-v-arena-spreadsheet="983" data-win-spreadsheet="22" data-v-arena-webapps="1173" data-win-webapps="55.4" data-v-arena-3d="1238" data-win-3d="62.4" data-v-arena-asciiart="1240" data-win-asciiart="61.9" data-v-arena-codecategories="1331" data-win-codecategories="61.3" data-v-arena-dataviz="1274" data-win-dataviz="58.7" data-v-arena-gamedev="1250" data-win-gamedev="61" data-v-arena-svg="1268" data-win-svg="60.9" data-v-arena-uicomponent="1268" data-win-uicomponent="59.8" data-v-arena-website="1332" data-win-website="61.2" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Claude Opus 4.6</h3></div>
+          <p class="bd-meta">Anthropic · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Qwen3 Coder Next" data-v-aa-multilingual_index="0.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Qwen3 Coder Next</h3></div>
+          <p class="bd-meta">阿里 · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Kimi K2.5" data-v-aa-multilingual_index="0.8" data-v-arena-androidnative="1104" data-win-androidnative="57.8" data-v-arena-fullstack="1160" data-win-fullstack="54.4" data-v-arena-godotgamedev="1219" data-win-godotgamedev="59.8" data-v-arena-mobileapps="1141" data-win-mobileapps="54.7" data-v-arena-webapps="1103" data-win-webapps="51.6" data-v-arena-3d="1170" data-win-3d="53.1" data-v-arena-asciiart="1153" data-win-asciiart="46.5" data-v-arena-codecategories="1278" data-win-codecategories="54.1" data-v-arena-dataviz="1213" data-win-dataviz="51.4" data-v-arena-gamedev="1179" data-win-gamedev="53.4" data-v-arena-svg="1190" data-win-svg="48.4" data-v-arena-uicomponent="1220" data-win-uicomponent="53.6" data-v-arena-website="1289" data-win-website="55.3" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Kimi K2.5</h3></div>
+          <p class="bd-meta">月之暗面 · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GLM 4.7 Flash" data-v-arena-3d="1086" data-win-3d="51.2" data-v-arena-codecategories="1219" data-win-codecategories="53" data-v-arena-dataviz="1118" data-win-dataviz="45.5" data-v-arena-gamedev="1107" data-win-gamedev="49.7" data-v-arena-svg="1078" data-win-svg="44.2" data-v-arena-uicomponent="1191" data-win-uicomponent="57.6" data-v-arena-website="1234" data-win-website="54" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GLM 4.7 Flash</h3></div>
+          <p class="bd-meta">智谱 · 上下文 20 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-5.2-Codex" data-v-arena-androidnative="1176" data-win-androidnative="47.5" data-v-arena-fullstack="1039" data-win-fullstack="37.2" data-v-arena-godotgamedev="1142" data-win-godotgamedev="47.8" data-v-arena-mobileapps="1083" data-win-mobileapps="46.6" data-v-arena-webapps="1019" data-win-webapps="39.6" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-5.2-Codex</h3></div>
+          <p class="bd-meta">OpenAI · 上下文 40 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GLM 4.7" data-v-aa-multilingual_index="0.8" data-v-arena-androidnative="1097" data-win-androidnative="55.8" data-v-arena-fullstack="1096" data-win-fullstack="45.1" data-v-arena-godotgamedev="1058" data-win-godotgamedev="35.8" data-v-arena-mobileapps="1099" data-win-mobileapps="48.9" data-v-arena-3d="1156" data-win-3d="54.3" data-v-arena-asciiart="1152" data-win-asciiart="48.1" data-v-arena-codecategories="1258" data-win-codecategories="54.8" data-v-arena-dataviz="1189" data-win-dataviz="51.2" data-v-arena-gamedev="1160" data-win-gamedev="55.2" data-v-arena-svg="1183" data-win-svg="54.3" data-v-arena-uicomponent="1183" data-win-uicomponent="51" data-v-arena-website="1266" data-win-website="55.3" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GLM 4.7</h3></div>
+          <p class="bd-meta">智谱 · 上下文 20.5 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemini 3 Flash Preview" data-v-aa-multilingual_index="0.9" data-v-arena-agenticslides="1073" data-win-agenticslides="39.3" data-v-arena-agenticslides(python-pptx)="1075" data-win-agenticslides(python-pptx)="39.3" data-v-arena-androidnative="1034" data-win-androidnative="47.7" data-v-arena-fullstack="1109" data-win-fullstack="47.4" data-v-arena-godotgamedev="1161" data-win-godotgamedev="50.6" data-v-arena-mobileapps="1084" data-win-mobileapps="46.6" data-v-arena-python-pptxslides="1036" data-win-python-pptxslides="38.3" data-v-arena-webapps="1078" data-win-webapps="48.5" data-v-arena-3d="1149" data-win-3d="62.7" data-v-arena-codecategories="1231" data-win-codecategories="57.6" data-v-arena-gamedev="1138" data-win-gamedev="58.3" data-v-arena-website="1236" data-win-website="57" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemini 3 Flash Preview</h3></div>
+          <p class="bd-meta">Google · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Nemotron 3 Nano 30B A3B" data-v-aa-multilingual_index="0.6" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Nemotron 3 Nano 30B A3B</h3></div>
+          <p class="bd-meta">NVIDIA · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-5.2" data-v-aa-multilingual_index="0.9" data-v-arena-website="1235" data-win-website="54.4" data-v-arena-androidnative="1045" data-win-androidnative="49.1" data-v-arena-fullstack="1089" data-win-fullstack="44.2" data-v-arena-godotgamedev="1142" data-win-godotgamedev="48.1" data-v-arena-mobileapps="1087" data-win-mobileapps="46.8" data-v-arena-webapps="1054" data-win-webapps="45.5" data-v-arena-3d="1044" data-win-3d="41.5" data-v-arena-codecategories="1211" data-win-codecategories="49.6" data-v-arena-dataviz="1202" data-win-dataviz="56.1" data-v-arena-gamedev="1167" data-win-gamedev="56" data-v-arena-uicomponent="1174" data-win-uicomponent="51.3" data-v-arena-asciiart="1137" data-win-asciiart="50.5" data-v-arena-svg="1179" data-win-svg="53.7" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-5.2</h3></div>
+          <p class="bd-meta">OpenAI · 上下文 40 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Devstral 2 2512" data-v-aa-multilingual_index="0.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Devstral 2 2512</h3></div>
+          <p class="bd-meta">Mistral · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GLM 4.6V" data-v-aa-multilingual_index="0.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GLM 4.6V</h3></div>
+          <p class="bd-meta">智谱 · 上下文 13.1 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Ministral 3 14B 2512" data-v-aa-multilingual_index="0.7" data-v-arena-3d="955" data-win-3d="39.6" data-v-arena-codecategories="1106" data-win-codecategories="44" data-v-arena-gamedev="1010" data-win-gamedev="43.6" data-v-arena-website="1121" data-win-website="44.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Ministral 3 14B 2512</h3></div>
+          <p class="bd-meta">Mistral · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Ministral 3 8B 2512" data-v-aa-multilingual_index="0.7" data-v-arena-3d="997" data-win-3d="46.2" data-v-arena-codecategories="1095" data-win-codecategories="42.9" data-v-arena-gamedev="962" data-win-gamedev="38.7" data-v-arena-website="1105" data-win-website="42.9" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Ministral 3 8B 2512</h3></div>
+          <p class="bd-meta">Mistral · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Ministral 3 3B 2512" data-v-aa-multilingual_index="0.6" data-v-arena-3d="928" data-win-3d="35.9" data-v-arena-codecategories="1052" data-win-codecategories="37.3" data-v-arena-gamedev="921" data-win-gamedev="33" data-v-arena-website="1068" data-win-website="38.2" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Ministral 3 3B 2512</h3></div>
+          <p class="bd-meta">Mistral · 上下文 13.1 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Mistral Large 3 2512" data-v-aa-multilingual_index="0.8" data-v-arena-3d="1064" data-win-3d="46.9" data-v-arena-asciiart="1053" data-win-asciiart="40.1" data-v-arena-codecategories="1183" data-win-codecategories="47.6" data-v-arena-dataviz="1130" data-win-dataviz="45.7" data-v-arena-gamedev="1052" data-win-gamedev="41.5" data-v-arena-svg="1033" data-win-svg="38" data-v-arena-uicomponent="1084" data-win-uicomponent="42.9" data-v-arena-website="1203" data-win-website="49.5" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Mistral Large 3 2512</h3></div>
+          <p class="bd-meta">Mistral · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="DeepSeek V3.2" data-v-aa-multilingual_index="0.9" data-v-arena-3d="1097" data-win-3d="49.4" data-v-arena-asciiart="1093" data-win-asciiart="43.7" data-v-arena-codecategories="1205" data-win-codecategories="49.3" data-v-arena-dataviz="1152" data-win-dataviz="48.1" data-v-arena-gamedev="1104" data-win-gamedev="46.6" data-v-arena-svg="1073" data-win-svg="40.8" data-v-arena-uicomponent="1133" data-win-uicomponent="46.8" data-v-arena-website="1215" data-win-website="50.2" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>DeepSeek V3.2</h3></div>
+          <p class="bd-meta">DeepSeek · 上下文 16.4 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Claude Opus 4.5" data-v-aa-multilingual_index="0.9" data-v-arena-3d="1179" data-win-3d="58.5" data-v-arena-asciiart="1173" data-win-asciiart="54.2" data-v-arena-codecategories="1284" data-win-codecategories="59.5" data-v-arena-dataviz="1236" data-win-dataviz="58.4" data-v-arena-gamedev="1201" data-win-gamedev="59.3" data-v-arena-svg="1221" data-win-svg="58.7" data-v-arena-uicomponent="1222" data-win-uicomponent="58.2" data-v-arena-website="1287" data-win-website="59.7" data-v-arena-androidnative="1162" data-win-androidnative="65.5" data-v-arena-fullstack="1202" data-win-fullstack="60.1" data-v-arena-mobileapps="1182" data-win-mobileapps="60.7" data-v-arena-webapps="1127" data-win-webapps="55.1" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Claude Opus 4.5</h3></div>
+          <p class="bd-meta">Anthropic · 上下文 20 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Nano Banana Pro (Gemini 3 Pro Image Preview)" data-v-arena-graphicdesign="1309" data-win-graphicdesign="65.8" data-v-arena-image="1286" data-win-image="62.1" data-v-arena-logo="1281" data-win-logo="61" data-v-arena-imageediting="1277" data-win-imageediting="66" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Nano Banana Pro (Gemini 3 Pro Image Preview)</h3></div>
+          <p class="bd-meta">Google · 上下文 6.55 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-5.1" data-v-aa-multilingual_index="0.9" data-v-arena-3d="1026" data-win-3d="43.7" data-v-arena-asciiart="1106" data-win-asciiart="48.4" data-v-arena-codecategories="1212" data-win-codecategories="53" data-v-arena-dataviz="1198" data-win-dataviz="58" data-v-arena-gamedev="1150" data-win-gamedev="55.8" data-v-arena-svg="1189" data-win-svg="57.3" data-v-arena-uicomponent="1150" data-win-uicomponent="52.9" data-v-arena-website="1227" data-win-website="54.1" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-5.1</h3></div>
+          <p class="bd-meta">OpenAI · 上下文 40 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-5.1-Codex" data-v-aa-multilingual_index="0.9" data-v-arena-fullstack="1086" data-win-fullstack="44.5" data-v-arena-mobileapps="1191" data-win-mobileapps="53.4" data-v-arena-webapps="986" data-win-webapps="44" data-v-arena-codecategories="1194" data-win-codecategories="54.6" data-v-arena-dataviz="1207" data-win-dataviz="55.9" data-v-arena-gamedev="1110" data-win-gamedev="50.5" data-v-arena-uicomponent="1221" data-win-uicomponent="60" data-v-arena-website="1202" data-win-website="56.1" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-5.1-Codex</h3></div>
+          <p class="bd-meta">OpenAI · 上下文 40 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-5.1-Codex-Mini" data-v-aa-multilingual_index="0.8" data-v-arena-3d="954" data-win-3d="32.8" data-v-arena-asciiart="1089" data-win-asciiart="42.5" data-v-arena-codecategories="1135" data-win-codecategories="41.5" data-v-arena-dataviz="1090" data-win-dataviz="40.6" data-v-arena-gamedev="1064" data-win-gamedev="43.4" data-v-arena-svg="1019" data-win-svg="35.3" data-v-arena-uicomponent="1065" data-win-uicomponent="41.1" data-v-arena-website="1151" data-win-website="42.9" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-5.1-Codex-Mini</h3></div>
+          <p class="bd-meta">OpenAI · 上下文 40 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Kimi K2 Thinking" data-v-aa-multilingual_index="0.7" data-v-arena-website="1153" data-win-website="48.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Kimi K2 Thinking</h3></div>
+          <p class="bd-meta">月之暗面 · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Nova Premier 1.0" data-v-aa-multilingual_index="0.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Nova Premier 1.0</h3></div>
+          <p class="bd-meta">Amazon · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-5 Image Mini" data-v-arena-graphicdesign="1223" data-win-graphicdesign="47.7" data-v-arena-image="1227" data-win-image="51" data-v-arena-logo="1249" data-win-logo="51.4" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-5 Image Mini</h3></div>
+          <p class="bd-meta">OpenAI · 上下文 40 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-5 Image" data-v-arena-graphicdesign="1230" data-win-graphicdesign="48.9" data-v-arena-image="1234" data-win-image="53.9" data-v-arena-logo="1242" data-win-logo="52.7" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-5 Image</h3></div>
+          <p class="bd-meta">OpenAI · 上下文 40 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Nano Banana (Gemini 2.5 Flash Image)" data-v-arena-graphicdesign="1225" data-win-graphicdesign="56.9" data-v-arena-image="1229" data-win-image="55.6" data-v-arena-logo="1209" data-win-logo="51.4" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Nano Banana (Gemini 2.5 Flash Image)</h3></div>
+          <p class="bd-meta">Google · 上下文 3.28 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GLM 4.6" data-v-aa-multilingual_index="0.9" data-v-arena-androidnative="1072" data-win-androidnative="52.8" data-v-arena-fullstack="1075" data-win-fullstack="42.3" data-v-arena-godotgamedev="1180" data-win-godotgamedev="53.2" data-v-arena-mobileapps="1090" data-win-mobileapps="47.2" data-v-arena-3d="1094" data-win-3d="54.2" data-v-arena-codecategories="1207" data-win-codecategories="54.3" data-v-arena-dataviz="1155" data-win-dataviz="52.6" data-v-arena-gamedev="1123" data-win-gamedev="54.8" data-v-arena-svg="1149" data-win-svg="52.1" data-v-arena-uicomponent="1131" data-win-uicomponent="52.5" data-v-arena-website="1214" data-win-website="54.3" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GLM 4.6</h3></div>
+          <p class="bd-meta">智谱 · 上下文 20.5 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Claude Sonnet 4.5" data-v-aa-multilingual_index="0.9" data-v-arena-3d="1122" data-win-3d="51" data-v-arena-asciiart="1191" data-win-asciiart="55.9" data-v-arena-codecategories="1224" data-win-codecategories="51.5" data-v-arena-dataviz="1161" data-win-dataviz="47.4" data-v-arena-gamedev="1138" data-win-gamedev="51.1" data-v-arena-svg="1156" data-win-svg="52.2" data-v-arena-uicomponent="1156" data-win-uicomponent="49.4" data-v-arena-website="1230" data-win-website="51.8" data-v-arena-fullstack="1096" data-win-fullstack="43.7" data-v-arena-mobileapps="1132" data-win-mobileapps="53" data-v-arena-webapps="1027" data-win-webapps="43.2" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Claude Sonnet 4.5</h3></div>
+          <p class="bd-meta">Anthropic · 上下文 100 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="DeepSeek V3.2 Exp" data-v-aa-multilingual_index="0.9" data-v-arena-3d="1113" data-win-3d="56.4" data-v-arena-codecategories="1212" data-win-codecategories="54.2" data-v-arena-dataviz="1146" data-win-dataviz="50.6" data-v-arena-gamedev="1116" data-win-gamedev="53" data-v-arena-svg="1072" data-win-svg="42" data-v-arena-uicomponent="1150" data-win-uicomponent="53.3" data-v-arena-website="1219" data-win-website="54.3" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>DeepSeek V3.2 Exp</h3></div>
+          <p class="bd-meta">DeepSeek · 上下文 16.4 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="DeepSeek V3.1 Terminus" data-v-aa-multilingual_index="0.8" data-v-arena-3d="1106" data-win-3d="56" data-v-arena-codecategories="1217" data-win-codecategories="56" data-v-arena-dataviz="1161" data-win-dataviz="53.4" data-v-arena-gamedev="1103" data-win-gamedev="52.5" data-v-arena-svg="1106" data-win-svg="50.1" data-v-arena-uicomponent="1166" data-win-uicomponent="59.5" data-v-arena-website="1227" data-win-website="56.4" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>DeepSeek V3.1 Terminus</h3></div>
+          <p class="bd-meta">DeepSeek · 上下文 16.4 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Kimi K2 0905" data-v-aa-multilingual_index="0.8" data-v-arena-codecategories="1139" data-win-codecategories="48.5" data-v-arena-website="1147" data-win-website="48.3" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Kimi K2 0905</h3></div>
+          <p class="bd-meta">月之暗面 · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="DeepSeek V3.1" data-v-arena-3d="1042" data-win-3d="47.9" data-v-arena-codecategories="1153" data-win-codecategories="47.8" data-v-arena-dataviz="1090" data-win-dataviz="46.2" data-v-arena-gamedev="1056" data-win-gamedev="47" data-v-arena-svg="1007" data-win-svg="38.2" data-v-arena-uicomponent="1069" data-win-uicomponent="47.1" data-v-arena-website="1163" data-win-website="48" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>DeepSeek V3.1</h3></div>
+          <p class="bd-meta">DeepSeek · 上下文 16.4 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Mistral Medium 3.1" data-v-arena-3d="1046" data-win-3d="44.6" data-v-arena-asciiart="987" data-win-asciiart="30.9" data-v-arena-codecategories="1162" data-win-codecategories="45.1" data-v-arena-dataviz="1138" data-win-dataviz="47.2" data-v-arena-gamedev="1046" data-win-gamedev="40.8" data-v-arena-svg="1033" data-win-svg="38.2" data-v-arena-uicomponent="1083" data-win-uicomponent="43.6" data-v-arena-website="1173" data-win-website="46" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Mistral Medium 3.1</h3></div>
+          <p class="bd-meta">Mistral · 上下文 13.1 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-5" data-v-aa-multilingual_index="0.9" data-v-arena-3d="1021" data-win-3d="41.3" data-v-arena-asciiart="1135" data-win-asciiart="49.3" data-v-arena-codecategories="1209" data-win-codecategories="54.5" data-v-arena-dataviz="1215" data-win-dataviz="60.5" data-v-arena-gamedev="1157" data-win-gamedev="59.3" data-v-arena-svg="1229" data-win-svg="64.1" data-v-arena-uicomponent="1163" data-win-uicomponent="57.4" data-v-arena-website="1225" data-win-website="53.7" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-5</h3></div>
+          <p class="bd-meta">OpenAI · 上下文 40 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-5 Mini" data-v-aa-multilingual_index="0.9" data-v-arena-3d="1002" data-win-3d="36.9" data-v-arena-asciiart="1115" data-win-asciiart="45.1" data-v-arena-codecategories="1156" data-win-codecategories="43.5" data-v-arena-dataviz="1124" data-win-dataviz="43.7" data-v-arena-gamedev="1101" data-win-gamedev="46.4" data-v-arena-svg="1132" data-win-svg="45.8" data-v-arena-uicomponent="1089" data-win-uicomponent="41.9" data-v-arena-website="1165" data-win-website="44.3" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-5 Mini</h3></div>
+          <p class="bd-meta">OpenAI · 上下文 40 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-5 Nano" data-v-aa-multilingual_index="0.8" data-v-arena-3d="931" data-win-3d="36.3" data-v-arena-codecategories="1126" data-win-codecategories="48" data-v-arena-dataviz="1050" data-win-dataviz="46.2" data-v-arena-gamedev="1017" data-win-gamedev="46.5" data-v-arena-uicomponent="1050" data-win-uicomponent="51.9" data-v-arena-website="1141" data-win-website="48.9" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-5 Nano</h3></div>
+          <p class="bd-meta">OpenAI · 上下文 40 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="gpt-oss-20b" data-v-aa-multilingual_index="0.8" data-v-arena-dataviz="933" data-win-dataviz="39.7" data-v-arena-website="893" data-win-website="27.9" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>gpt-oss-20b</h3></div>
+          <p class="bd-meta">OpenAI · 上下文 13.1 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Claude Opus 4.1" data-v-arena-3d="1118" data-win-3d="51.9" data-v-arena-asciiart="1151" data-win-asciiart="50.8" data-v-arena-codecategories="1212" data-win-codecategories="55.7" data-v-arena-dataviz="1160" data-win-dataviz="56.4" data-v-arena-gamedev="1143" data-win-gamedev="58.3" data-v-arena-svg="1193" data-win-svg="60.8" data-v-arena-uicomponent="1148" data-win-uicomponent="57.8" data-v-arena-website="1217" data-win-website="55.3" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Claude Opus 4.1</h3></div>
+          <p class="bd-meta">Anthropic · 上下文 20 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Codestral 2508" data-v-arena-codecategories="1049" data-win-codecategories="38.5" data-v-arena-dataviz="1011" data-win-dataviz="41.1" data-v-arena-gamedev="940" data-win-gamedev="36.3" data-v-arena-uicomponent="1001" data-win-uicomponent="46.7" data-v-arena-website="1053" data-win-website="37.8" data-v-arena-3d="985" data-win-3d="45.4" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Codestral 2508</h3></div>
+          <p class="bd-meta">Mistral · 上下文 25.6 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Qwen3 Coder 30B A3B Instruct" data-v-arena-dataviz="1085" data-win-dataviz="54.7" data-v-arena-uicomponent="1030" data-win-uicomponent="54.1" data-v-arena-website="1128" data-win-website="57.1" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Qwen3 Coder 30B A3B Instruct</h3></div>
+          <p class="bd-meta">阿里 · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Qwen3 30B A3B Instruct 2507" data-v-aa-multilingual_index="0.7" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Qwen3 30B A3B Instruct 2507</h3></div>
+          <p class="bd-meta">阿里 · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GLM 4.5" data-v-arena-3d="1135" data-win-3d="59.7" data-v-arena-codecategories="1207" data-win-codecategories="54.4" data-v-arena-dataviz="1153" data-win-dataviz="53.3" data-v-arena-gamedev="1117" data-win-gamedev="54.4" data-v-arena-svg="1137" data-win-svg="50.8" data-v-arena-uicomponent="1128" data-win-uicomponent="55" data-v-arena-website="1210" data-win-website="53.7" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GLM 4.5</h3></div>
+          <p class="bd-meta">智谱 · 上下文 13.1 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GLM 4.5 Air" data-v-arena-3d="1087" data-win-3d="54.1" data-v-arena-codecategories="1179" data-win-codecategories="51.4" data-v-arena-dataviz="1180" data-win-dataviz="58.5" data-v-arena-gamedev="1066" data-win-gamedev="48.4" data-v-arena-svg="1112" data-win-svg="50.8" data-v-arena-uicomponent="1107" data-win-uicomponent="54.4" data-v-arena-website="1187" data-win-website="51.3" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GLM 4.5 Air</h3></div>
+          <p class="bd-meta">智谱 · 上下文 13.1 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Qwen3 235B A22B Thinking 2507" data-v-aa-multilingual_index="0.9" data-v-arena-3d="963" data-win-3d="40.4" data-v-arena-codecategories="1074" data-win-codecategories="40.8" data-v-arena-dataviz="950" data-win-dataviz="32.6" data-v-arena-gamedev="929" data-win-gamedev="34.2" data-v-arena-uicomponent="929" data-win-uicomponent="34" data-v-arena-website="1093" data-win-website="42" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Qwen3 235B A22B Thinking 2507</h3></div>
+          <p class="bd-meta">阿里 · 上下文 12.8 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Qwen3 Coder 480B A35B" data-v-arena-codecategories="1184" data-win-codecategories="61.2" data-v-arena-dataviz="1084" data-win-dataviz="54.9" data-v-arena-gamedev="1071" data-win-gamedev="58.7" data-v-arena-uicomponent="1096" data-win-uicomponent="61.4" data-v-arena-website="1199" data-win-website="61.7" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Qwen3 Coder 480B A35B</h3></div>
+          <p class="bd-meta">阿里 · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemini 2.5 Flash Lite" data-v-aa-multilingual_index="0.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemini 2.5 Flash Lite</h3></div>
+          <p class="bd-meta">Google · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Qwen3 235B A22B Instruct 2507" data-v-arena-3d="959" data-win-3d="41.1" data-v-arena-codecategories="1080" data-win-codecategories="42.6" data-v-arena-dataviz="1064" data-win-dataviz="49" data-v-arena-gamedev="924" data-win-gamedev="35" data-v-arena-uicomponent="949" data-win-uicomponent="38.4" data-v-arena-website="1098" data-win-website="43.6" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Qwen3 235B A22B Instruct 2507</h3></div>
+          <p class="bd-meta">阿里 · 上下文 26.2 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Kimi K2 0711" data-v-aa-multilingual_index="0.8" data-v-arena-codecategories="1075" data-win-codecategories="51.7" data-v-arena-dataviz="1018" data-win-dataviz="49.4" data-v-arena-gamedev="946" data-win-gamedev="46.4" data-v-arena-uicomponent="1014" data-win-uicomponent="55.1" data-v-arena-website="1091" data-win-website="53.1" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Kimi K2 0711</h3></div>
+          <p class="bd-meta">月之暗面 · 上下文 13.1 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Mistral Small 3.2 24B" data-v-arena-codecategories="948" data-win-codecategories="39.8" data-v-arena-dataviz="929" data-win-dataviz="43.3" data-v-arena-gamedev="861" data-win-gamedev="39.4" data-v-arena-uicomponent="891" data-win-uicomponent="40.5" data-v-arena-website="936" data-win-website="38.3" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Mistral Small 3.2 24B</h3></div>
+          <p class="bd-meta">Mistral · 上下文 25.6 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemini 2.5 Flash" data-v-aa-multilingual_index="0.9" data-v-arena-3d="1036" data-win-3d="47.4" data-v-arena-codecategories="1146" data-win-codecategories="46.9" data-v-arena-dataviz="1128" data-win-dataviz="49.1" data-v-arena-gamedev="1038" data-win-gamedev="44.3" data-v-arena-uicomponent="1076" data-win-uicomponent="48.9" data-v-arena-website="1155" data-win-website="47.1" data-v-arena-svg="1060" data-win-svg="43.1" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemini 2.5 Flash</h3></div>
+          <p class="bd-meta">Google · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemini 2.5 Pro" data-v-aa-multilingual_index="0.9" data-v-arena-3d="1045" data-win-3d="50.6" data-v-arena-codecategories="1194" data-win-codecategories="57.5" data-v-arena-dataviz="1216" data-win-dataviz="68.2" data-v-arena-gamedev="1083" data-win-gamedev="54.2" data-v-arena-uicomponent="1123" data-win-uicomponent="57.5" data-v-arena-website="1207" data-win-website="58.4" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemini 2.5 Pro</h3></div>
+          <p class="bd-meta">Google · 上下文 104.9 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="R1 0528" data-v-aa-multilingual_index="0.9" data-v-arena-3d="1076" data-win-3d="53.3" data-v-arena-codecategories="1180" data-win-codecategories="52.6" data-v-arena-dataviz="1176" data-win-dataviz="60.9" data-v-arena-gamedev="1069" data-win-gamedev="49.3" data-v-arena-svg="1079" data-win-svg="48.7" data-v-arena-uicomponent="1086" data-win-uicomponent="54.9" data-v-arena-website="1189" data-win-website="52.7" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>R1 0528</h3></div>
+          <p class="bd-meta">DeepSeek · 上下文 16.4 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Mistral Medium 3" data-v-arena-3d="1049" data-win-3d="54.7" data-v-arena-codecategories="1110" data-win-codecategories="48.1" data-v-arena-dataviz="1028" data-win-dataviz="46" data-v-arena-gamedev="990" data-win-gamedev="45.2" data-v-arena-uicomponent="1008" data-win-uicomponent="49.6" data-v-arena-website="1119" data-win-website="47.6" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Mistral Medium 3</h3></div>
+          <p class="bd-meta">Mistral · 上下文 13.1 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Qwen3 30B A3B" data-v-arena-codecategories="983" data-win-codecategories="37.5" data-v-arena-dataviz="967" data-win-dataviz="39" data-v-arena-gamedev="871" data-win-gamedev="33.9" data-v-arena-uicomponent="929" data-win-uicomponent="42.4" data-v-arena-website="995" data-win-website="37.7" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Qwen3 30B A3B</h3></div>
+          <p class="bd-meta">阿里 · 上下文 4.1 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="o3" data-v-arena-codecategories="1061" data-win-codecategories="51.9" data-v-arena-dataviz="1200" data-win-dataviz="48.1" data-v-arena-gamedev="1006" data-win-gamedev="56.9" data-v-arena-uicomponent="1000" data-win-uicomponent="53.3" data-v-arena-website="1076" data-win-website="53.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>o3</h3></div>
+          <p class="bd-meta">OpenAI · 上下文 20 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-4.1" data-v-arena-3d="815" data-win-3d="30.9" data-v-arena-codecategories="1067" data-win-codecategories="50.9" data-v-arena-dataviz="1104" data-win-dataviz="59.5" data-v-arena-gamedev="1052" data-win-gamedev="59.1" data-v-arena-uicomponent="984" data-win-uicomponent="49.7" data-v-arena-website="1079" data-win-website="52.3" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-4.1</h3></div>
+          <p class="bd-meta">OpenAI · 上下文 104.8 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-4.1 Mini" data-v-arena-3d="802" data-win-3d="30.5" data-v-arena-codecategories="1035" data-win-codecategories="47.5" data-v-arena-dataviz="1034" data-win-dataviz="49.2" data-v-arena-gamedev="1043" data-win-gamedev="58.5" data-v-arena-uicomponent="945" data-win-uicomponent="45.4" data-v-arena-website="1038" data-win-website="47.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-4.1 Mini</h3></div>
+          <p class="bd-meta">OpenAI · 上下文 104.8 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-4.1 Nano" data-v-arena-3d="890" data-win-3d="46" data-v-arena-codecategories="1004" data-win-codecategories="47.3" data-v-arena-dataviz="885" data-win-dataviz="41.1" data-v-arena-gamedev="943" data-win-gamedev="49.6" data-v-arena-uicomponent="900" data-win-uicomponent="43.9" data-v-arena-website="1013" data-win-website="48.1" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-4.1 Nano</h3></div>
+          <p class="bd-meta">OpenAI · 上下文 104.8 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Llama 4 Maverick" data-v-aa-multilingual_index="0.8" data-v-arena-3d="866" data-win-3d="40.2" data-v-arena-codecategories="921" data-win-codecategories="35.8" data-v-arena-dataviz="882" data-win-dataviz="38.4" data-v-arena-gamedev="810" data-win-gamedev="33.7" data-v-arena-uicomponent="883" data-win-uicomponent="40.8" data-v-arena-website="911" data-win-website="34.4" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Llama 4 Maverick</h3></div>
+          <p class="bd-meta">Meta · 上下文 52.4 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Llama 4 Scout" data-v-aa-multilingual_index="0.7" data-v-arena-codecategories="831" data-win-codecategories="26.6" data-v-arena-dataviz="896" data-win-dataviz="39.3" data-v-arena-gamedev="745" data-win-gamedev="27.4" data-v-arena-uicomponent="751" data-win-uicomponent="25.5" data-v-arena-website="790" data-win-website="22.7" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Llama 4 Scout</h3></div>
+          <p class="bd-meta">Meta · 上下文 131.1 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemma 3 4B" data-v-aa-multilingual_index="0.5" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemma 3 4B</h3></div>
+          <p class="bd-meta">Google · 上下文 13.1 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemma 3 12B" data-v-aa-multilingual_index="0.7" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemma 3 12B</h3></div>
+          <p class="bd-meta">Google · 上下文 13.1 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemma 3 27B" data-v-aa-multilingual_index="0.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemma 3 27B</h3></div>
+          <p class="bd-meta">Google · 上下文 13.1 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="DeepSeek V3" data-v-arena-3d="1052" data-win-3d="50.5" data-v-arena-codecategories="1150" data-win-codecategories="48.4" data-v-arena-dataviz="1083" data-win-dataviz="50" data-v-arena-gamedev="1026" data-win-gamedev="43.8" data-v-arena-svg="1017" data-win-svg="38.8" data-v-arena-uicomponent="1077" data-win-uicomponent="52.7" data-v-arena-website="1160" data-win-website="48.5" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>DeepSeek V3</h3></div>
+          <p class="bd-meta">DeepSeek · 上下文 16.4 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Llama 3.3 70B Instruct" data-v-aa-multilingual_index="0.8" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Llama 3.3 70B Instruct</h3></div>
+          <p class="bd-meta">Meta · 上下文 13.1 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Llama 3.1 8B Instruct" data-v-aa-multilingual_index="0.4" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Llama 3.1 8B Instruct</h3></div>
+          <p class="bd-meta">Meta · 上下文 13.1 万</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="GPT-4o" data-v-arena-3d="834" data-win-3d="39.2" data-v-arena-codecategories="902" data-win-codecategories="34.8" data-v-arena-dataviz="858" data-win-dataviz="36" data-v-arena-gamedev="878" data-win-gamedev="42.3" data-v-arena-uicomponent="869" data-win-uicomponent="38.1" data-v-arena-website="871" data-win-website="31.5" hidden>
+        <span class="bd-rank">·</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GPT-4o</h3></div>
+          <p class="bd-meta">OpenAI · 上下文 12.8 万</p>
+        </div>
+      </article>
+    </div>
+    <span class="blk-stamp">抓取 2026-11-23 23:49 · 来源 OpenRouter / Artificial Analysis / LMArena · 每卡只显示该维度有分的模型，缺分的直接不出现，不估算</span>
+  </section>
+  <section class="blk" id="board-2">
+    <div class="blk-head">
+      <span class="blk-num">02.2</span>
+      <h2>模型台账</h2>
+      <span class="blk-note">按发布时间排，不是能力排名；同机构只留代表作。没出处的跑分不写，没查到的留空。</span>
+    </div>
+    <div class="bd-ctrl" data-ctrl="b2">
       <div class="seg" role="group" aria-label="按归属筛选"><button type="button" data-region="all" class="on">全部<i>18</i></button><button type="button" data-region="cn">国内<i>11</i></button><button type="button" data-region="intl">国外<i>7</i></button></div>
       <div class="span">
         <span class="span-label">时间跨度</span>
@@ -89,7 +1401,7 @@
       </div>
       <p class="bd-ctrl-note">按发布时间截断，滑块取近 N 个月。</p>
     </div>
-    <div class="board" data-board="b1">
+    <div class="board" data-board="b2">
       <article class="bd-card" data-k="Gemini 3 Pro *" data-region="国外" data-base="" data-date="2025-11">
         <span class="bd-rank">1</span>
         <div class="bd-main">
@@ -238,41 +1550,73 @@
     <p class="bd-empty-tip" hidden>这一档还没有数据。换成「全部」看完整榜单。</p>
     
     
-    <script type="application/json" data-spec="b1">{"mode":"date","unit":"","slider":{"default":24},"series":{},"anchor":"2025-11"}</script>
+    <script type="application/json" data-spec="b2">{"mode":"date","unit":"","slider":{"default":24},"series":{},"anchor":"2025-11"}</script>
+  </section>
+  <section class="blk" id="cards">
+    <div class="blk-head">
+      <span class="blk-num">03</span>
+      <h2>先弄清这几个词</h2>
+      <span class="blk-note">榜上的分只看数字会误读，四张卡各通向原理页的一节。</span>
+    </div>
+    <div class="cx-grid">
+      <a class="cx-card" href="principles.html#moe">
+        <span class="cx-no">01</span>
+        <span class="cx-kicker">结构</span>
+        <h3>MoE：总参数与激活参数</h3>
+        <p>总参数决定显存占用，激活参数决定单 token 计算量。看 MoE 模型别只比总参数量——同一句「1T 参数」，跑起来的成本可能差一个量级。</p>
+        <span class="cx-foot"><span>原理 · 05</span><span class="cx-go">打开 →</span></span>
+      </a>
+      <a class="cx-card" href="principles.html#inference">
+        <span class="cx-no">02</span>
+        <span class="cx-kicker">成本</span>
+        <h3>一次生成到底在算什么</h3>
+        <p>prefill 一次性并行算全量输入，吃算力；decode 每吐一个 token 都要把权重读一遍，吃带宽。长输出比长输入贵，根子在这里。</p>
+        <span class="cx-foot"><span>原理 · 01</span><span class="cx-go">打开 →</span></span>
+      </a>
+      <a class="cx-card" href="principles.html#reasoning">
+        <span class="cx-no">03</span>
+        <span class="cx-kicker">训练</span>
+        <h3>推理模型与 test-time compute</h3>
+        <p>把「想」变成显式的 token：先写中间步骤再给答案。用更多 token 换正确率，这笔账要算进单价里，而不是只看每百万 token 的标价。</p>
+        <span class="cx-foot"><span>原理 · 04</span><span class="cx-go">打开 →</span></span>
+      </a>
+      <a class="cx-card" href="principles.html#quant">
+        <span class="cx-no">04</span>
+        <span class="cx-kicker">部署</span>
+        <h3>量化与蒸馏</h3>
+        <p>量化省显存与带宽，蒸馏省参数与步数。两者常被混着说，代价完全不同：一个掉精度，一个掉能力上限。</p>
+        <span class="cx-foot"><span>原理 · 07</span><span class="cx-go">打开 →</span></span>
+      </a>
+    </div>
   </section>
   <section class="blk" id="reports">
     <div class="blk-head">
-      <span class="blk-num">03</span>
+      <span class="blk-num">04</span>
       <h2>报告</h2>
-      <span class="blk-note">共 3 篇</span>
+      <span class="blk-note">共 3 篇 · 点开是独立页</span>
     </div>
-    <div class="posts">
-      <a class="post-item" href="models/%E4%B8%89%E6%9D%A1%E4%B8%BB%E7%BA%BF-%E4%B8%80%E4%B8%AA%E8%BD%AC%E6%8A%98.html">
-        <div class="post-when"><time>2026-11-20</time><span class="post-tag">机制</span><span class="post-tag">时间线</span></div>
-        <div class="post-main">
-          <h3>三条主线，一个转折</h3>
-          <p>按时间看是一串发布，按机制看只有三条线在同时推进，外加 2025 年的一次转折。记住这四条，比记住模型名有用。</p>
-        </div>
-        <span class="post-go">读 →</span>
+    <div class="rpt-card">
+      <div class="rpt-grid">
+        <a class="rpt-item" data-tags="机制,时间线" href="models/%E4%B8%89%E6%9D%A1%E4%B8%BB%E7%BA%BF-%E4%B8%80%E4%B8%AA%E8%BD%AC%E6%8A%98.html">
+        <span class="rpt-top"><time>2026-11-20</time><span class="rpt-go">→</span></span>
+        <h3>三条主线，一个转折</h3>
+        <p>按时间看是一串发布，按机制看只有三条线在同时推进，外加 2025 年的一次转折。记住这四条，比记住模型名有用。</p>
+        <span class="rpt-tags"><span class="rpt-tag">机制</span><span class="rpt-tag">时间线</span></span>
       </a>
-      <a class="post-item" href="models/%E4%B8%8D%E6%8C%89%E6%A6%9C%E5%8D%95%E9%80%89-%E6%8C%89%E7%BA%A6%E6%9D%9F%E9%80%89.html">
-        <div class="post-when"><time>2026-11-18</time><span class="post-tag">选型</span><span class="post-tag">成本</span></div>
-        <div class="post-main">
-          <h3>不按榜单选，按约束选</h3>
-          <p>六个维度按对实际成本的影响排序：许可证、上下文、单价、吞吐、工具调用、可部署性。榜单只解决其中一个。</p>
-        </div>
-        <span class="post-go">读 →</span>
+        <a class="rpt-item" data-tags="选型,成本" href="models/%E4%B8%8D%E6%8C%89%E6%A6%9C%E5%8D%95%E9%80%89-%E6%8C%89%E7%BA%A6%E6%9D%9F%E9%80%89.html">
+        <span class="rpt-top"><time>2026-11-18</time><span class="rpt-go">→</span></span>
+        <h3>不按榜单选，按约束选</h3>
+        <p>六个维度按对实际成本的影响排序：许可证、上下文、单价、吞吐、工具调用、可部署性。榜单只解决其中一个。</p>
+        <span class="rpt-tags"><span class="rpt-tag">选型</span><span class="rpt-tag">成本</span></span>
       </a>
-      <a class="post-item" href="models/%E8%BF%99%E5%BC%A0%E5%A4%A9%E6%A2%AF%E6%A6%9C%E6%80%8E%E4%B9%88%E8%AF%BB.html">
-        <div class="post-when"><time>2026-11-16</time><span class="post-tag">口径</span><span class="post-tag">说明</span></div>
-        <div class="post-main">
-          <h3>这张天梯榜怎么读</h3>
-          <p>榜上的数字是发布时间顺序，不是能力分数。带 * 的条目细节待核，空值表示没查到——这三条决定了你能从中得出什么结论。</p>
-        </div>
-        <span class="post-go">读 →</span>
+        <a class="rpt-item" data-tags="口径,说明" href="models/%E8%BF%99%E5%BC%A0%E5%A4%A9%E6%A2%AF%E6%A6%9C%E6%80%8E%E4%B9%88%E8%AF%BB.html">
+        <span class="rpt-top"><time>2026-11-16</time><span class="rpt-go">→</span></span>
+        <h3>这张天梯榜怎么读</h3>
+        <p>榜上的数字是发布时间顺序，不是能力分数。带 * 的条目细节待核，空值表示没查到——这三条决定了你能从中得出什么结论。</p>
+        <span class="rpt-tags"><span class="rpt-tag">口径</span><span class="rpt-tag">说明</span></span>
       </a>
+      </div>
     </div>
-    
   </section>
   <nav class="pager">
     <a href="index.html"><span class="pg-l">← PREV</span><span class="pg-t">首页 · 九个板块</span></a>

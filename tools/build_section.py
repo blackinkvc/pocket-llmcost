@@ -176,9 +176,48 @@ class Section:
                 "date": meta.get("date") or dt.date.fromtimestamp(p.stat().st_mtime).isoformat(),
                 "summary": meta.get("summary", ""),
                 "tags": [t.strip() for t in meta.get("tags", "").split(",") if t.strip()],
+                "kicker": meta.get("kicker", ""),
+                "featured": str(meta.get("featured", "")).lower() in ("1", "true", "yes", "是"),
+                "rel": [t.strip() for t in meta.get("rel", "").split(",") if t.strip()],
                 "body": body,
             })
         out.sort(key=lambda x: x["date"], reverse=True)
+        return out
+
+    # 板块三：专题卡（大卡）。优先读 section.json 的 featured，其次看报告里的 featured: true
+    def featured(self, reports):
+        want = self.cfg.get("featured")
+        if isinstance(want, list) and want:
+            by_slug = {r["slug"]: r for r in reports}
+            return [by_slug[s] for s in want if s in by_slug]
+        return [r for r in reports if r["featured"]][:4]
+
+    # 报告之间的关系：共享标签 + frontmatter 的 rel。给单篇页底部的「同一话题」
+    def related(self, reports):
+        out = {}
+        for r in reports:
+            scored = []
+            for o in reports:
+                if o["slug"] == r["slug"]:
+                    continue
+                shared = set(r["tags"]) & set(o["tags"])
+                score = len(shared) * 2
+                if o["slug"] in r["rel"] or r["slug"] in o["rel"]:
+                    score += 10
+                if score:
+                    scored.append((score, o["date"], o))
+            scored.sort(key=lambda x: (-x[0], x[1]), reverse=False)
+            picked = [x[2] for x in scored[:3]]
+            # 只有一篇时这条网络就断了，用最近的同板块报告补一位
+            if len(picked) < 2:
+                have = {o["slug"] for o in picked} | {r["slug"]}
+                for o in reports:
+                    if o["slug"] not in have:
+                        picked.append(o)
+                        have.add(o["slug"])
+                    if len(picked) >= 2:
+                        break
+            out[r["slug"]] = picked[:3]
         return out
 
 
@@ -242,11 +281,13 @@ def doc_head(title, desc, active, prefix=""):
 <link rel="stylesheet" href="%sassets/css/site.css">
 <link rel="stylesheet" href="%sassets/css/section.css">
 <script src="%sassets/js/board.js" defer></script>
+<script src="%sassets/js/ranks.js" defer></script>
+<script src="%sassets/js/reports.js" defer></script>
 </head>
 <body>
 
 %s
-""" % (escape(title), escape(desc), p, p, p, topbar_html(active, p))
+""" % (escape(title), escape(desc), p, p, p, p, p, topbar_html(active, p))
 
 
 # ───────────────────────── 三个板块 ─────────────────────────
@@ -375,7 +416,122 @@ def board_series(sec, entry, rows, mode):
     return out
 
 
-def block_board(sec, entry, rows, stat, idx, total, series=None):
+def block_scores(sec, entry, idx, total, num, limit=30):
+    """能力分榜：只放有公开出处的分数，按维度切。
+
+    AA 指数和 LMArena Elo 是两套口径，不能混排，所以先选来源再选维度。
+    没有分数的维度直接不列，不拿 0 或估算值占位。
+    """
+    p = sec.dir / "data" / "scores.json"
+    if not p.exists():
+        return ""
+    try:
+        d = json.loads(read(p))
+    except json.JSONDecodeError:
+        return ""
+
+    subs = [s for s in d.get("sub", [])
+            if any(m["aa"].get(s["key"]) is not None for m in d["models"].values())]
+    cats = [c for c in d.get("cats", [])
+            if any(m["arena"].get(c["key"]) for m in d["models"].values())]
+    if not subs and not cats:
+        return ""
+
+    # 默认维度：AA 综合，没有就第一个
+    def_src = "aa" if subs else "arena"
+    def_dim = subs[0]["key"] if subs else cats[0]["key"]
+
+    def dim_buttons(items, prefix, active):
+        out = []
+        for it in items:
+            out.append('<button type="button" data-dim="%s%s"%s>%s</button>' % (
+                prefix, it["key"], ' class="on"' if prefix + it["key"] == active else "", it["label"]))
+        return "".join(out)
+
+    src_html = ""
+    if subs and cats:
+        src_html = ('<div class="seg rk-src">'
+                    '<button type="button" data-src="aa" class="on">Artificial Analysis</button>'
+                    '<button type="button" data-src="arena">LMArena</button></div>')
+    dims = ""
+    if subs:
+        dims += ('<div class="rk-dims" data-for="aa"%s>%s</div>'
+                 % ("" if def_src == "aa" else " hidden", dim_buttons(subs, "aa:", def_dim)))
+    if cats:
+        dims += ('<div class="rk-dims" data-for="arena"%s>%s</div>'
+                 % ("" if def_src == "arena" else " hidden", dim_buttons(cats, "arena:", def_dim)))
+
+    def vkey(src, dim):
+        return "v-%s-%s" % (src, dim)
+
+    def fmt(x):
+        if x is None:
+            return ""
+        return ("%.1f" % x).rstrip("0").rstrip(".") if isinstance(x, float) else str(x)
+
+    cards = []
+    ordered = sorted(d["models"].values(),
+                     key=lambda x: -(x["aa"].get(def_dim) or 0)
+                     if def_src == "aa" else -(x["arena"].get(def_dim, {}).get("elo") or 0))
+    for pos, m in enumerate(ordered):
+        attrs = []
+        for k, v in m["aa"].items():
+            attrs.append('data-%s="%s"' % (vkey("aa", k), fmt(v)))
+        for k, v in m["arena"].items():
+            if v.get("elo") is not None:
+                attrs.append('data-%s="%s"' % (vkey("arena", k), v["elo"]))
+                if v.get("win") is not None:
+                    attrs.append('data-win-%s="%s"' % (k, fmt(v["win"])))
+        if not attrs:
+            continue
+        # 初始值：默认维度没有就空着，JS 会按维度重排
+        if def_src == "aa":
+            init = m["aa"].get(def_dim)
+        else:
+            init = (m["arena"].get(def_dim) or {}).get("elo")
+
+        extra = []
+        if m.get("ctx"):
+            extra.append("上下文 %s" % human_num(str(m["ctx"])))
+        cards.append("""<article class="bd-card" data-k="%s" %s%s>
+        <span class="bd-rank">%s</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>%s</h3>%s</div>
+          <p class="bd-meta">%s</p>
+        </div>
+      </article>""" % (
+            escape(m["name"]), " ".join(attrs), "" if pos < limit else " hidden",
+            pos + 1 if pos < limit else "·",
+            escape(m["name"]),
+            ('<span class="bd-val"%s>%s</span>' % (
+                ' hidden' if init is None else "", fmt(init))) if init is not None else "",
+            " · ".join([escape(m["vendor"])] + extra)))
+
+    note = entry.get("note", "")
+    stamp = ""
+    ts = (d.get("generated_at") or "")[:16].replace("T", " ")
+    if ts:
+        stamp = ('<span class="blk-stamp">抓取 %s · 来源 %s · 每卡只显示该维度有分的模型，'
+                 '缺分的直接不出现，不估算</span>' % (escape(ts), escape(d.get("source", ""))))
+
+    return """  <section class="blk" id="board%s">
+    <div class="blk-head">
+      <span class="blk-num">%s</span>
+      <h2>%s</h2>
+      <span class="blk-note">%s</span>
+    </div>
+    <div class="rk-ctrl">%s%s<span class="rk-count"></span></div>
+    <div class="board rk-board" data-scores data-limit="%d">
+      %s
+    </div>
+    %s
+  </section>
+""" % ("" if total == 1 else "-%d" % (idx + 1),
+       num, escape(entry.get("title", "能力分榜")), R.inline(note),
+       src_html, dims, limit, "\n      ".join(cards), stamp)
+
+
+def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
     bcfg = entry
     title = bcfg.get("title", "天梯榜")
     note = bcfg.get("note", "")
@@ -464,10 +620,10 @@ def block_board(sec, entry, rows, stat, idx, total, series=None):
     spec = None
     if len(rows) > 1:
         seg = ""
-        for key, label, num in (("all", "全部", len(rows)), ("cn", "国内", n_cn),
+        for key, label, cnt in (("all", "全部", len(rows)), ("cn", "国内", n_cn),
                                 ("intl", "国外", n_intl)):
             seg += ('<button type="button" data-region="%s"%s>%s<i>%d</i></button>'
-                    % (key, ' class="on"' if key == "all" else "", label, num))
+                    % (key, ' class="on"' if key == "all" else "", label, cnt))
         span_html = ""
         if has_series:
             span_html = """
@@ -516,7 +672,7 @@ def block_board(sec, entry, rows, stat, idx, total, series=None):
         if anchor:
             spec["anchor"] = anchor
 
-    num = "02" if total == 1 else "02.%d" % (idx + 1)
+    num = num or ("02" if total == 1 else "02.%d" % (idx + 1))
     spec_html = ""
     if spec:
         spec_html = ('    <script type="application/json" data-spec="%s">%s</script>\n'
@@ -539,35 +695,110 @@ def block_board(sec, entry, rows, stat, idx, total, series=None):
        "\n      ".join(cards), stamp, "" if cards else empty, spec_html)
 
 
-def block_reports(sec, reports):
-    items = []
-    for r in reports:
-        tags = "".join('<span class="post-tag">%s</span>' % escape(t) for t in r["tags"])
-        items.append("""<a class="post-item" href="%s">
-        <div class="post-when"><time>%s</time>%s</div>
-        <div class="post-main">
-          <h3>%s</h3>
-          <p>%s</p>
-        </div>
-        <span class="post-go">读 →</span>
-      </a>""" % (r["url"], escape(r["date"]), tags,
-                 escape(r["title"]), R.inline(r["summary"])))
-    empty = ('<p class="blk-empty">还没有报告。往 <code>content/%s/报告/</code> 扔一个 '
-             '<code>.md</code>，frontmatter 写 title / date / summary，就跑一次。</p>' % sec.dir.name)
-    return """  <section class="blk" id="reports">
+def block_cards(sec, featured, num):
+    """专题卡：一页里的几个入口，每张卡通向一个子页面（可以是本板块的报告，
+    也可以是原理页的某一节）。section.json 的 cards.items 优先，没写就用 featured 报告。
+    """
+    cfg = sec.cfg.get("cards") or {}
+    items = cfg.get("items") or []
+    cards = []
+    if items:
+        for i, it in enumerate(items):
+            cards.append("""<a class="cx-card" href="%s">
+        <span class="cx-no">%02d</span>
+        <span class="cx-kicker">%s</span>
+        <h3>%s</h3>
+        <p>%s</p>
+        <span class="cx-foot"><span>%s</span><span class="cx-go">打开 →</span></span>
+      </a>""" % (it.get("href", "#"), i + 1, escape(it.get("kicker", "专题")),
+                 escape(it.get("title", "")), R.inline(it.get("desc", "")),
+                 escape(it.get("meta", ""))))
+    else:
+        for i, r in enumerate(featured):
+            kicker = r["kicker"] or (r["tags"][0] if r["tags"] else "专题")
+            cards.append("""<a class="cx-card" href="%s">
+        <span class="cx-no">%02d</span>
+        <span class="cx-kicker">%s</span>
+        <h3>%s</h3>
+        <p>%s</p>
+        <span class="cx-foot"><time>%s</time><span class="cx-go">打开 →</span></span>
+      </a>""" % (r["url"], i + 1, escape(kicker), escape(r["title"]),
+                 R.inline(r["summary"]), escape(r["date"])))
+    if not cards:
+        return ""
+    return """  <section class="blk" id="cards">
     <div class="blk-head">
-      <span class="blk-num">03</span>
+      <span class="blk-num">%s</span>
       <h2>%s</h2>
       <span class="blk-note">%s</span>
     </div>
-    <div class="posts">
+    <div class="cx-grid">
       %s
     </div>
-    %s
   </section>
-""" % (escape(sec.cfg.get("reports", {}).get("title", "报告")),
-       ("共 %d 篇" % len(reports)) if reports else "待补充",
-       "\n      ".join(items), "" if items else empty)
+""" % (num, escape(cfg.get("title", "专题")), R.inline(cfg.get("note", "")),
+       "\n      ".join(cards))
+
+
+def block_reports(sec, reports, num):
+    """报告：一整张卡，里面装全部报告；标签可筛，点开是独立子页面。"""
+    if not reports:
+        return """  <section class="blk" id="reports">
+    <div class="blk-head">
+      <span class="blk-num">%s</span>
+      <h2>%s</h2>
+      <span class="blk-note">待补充</span>
+    </div>
+    <p class="blk-empty">还没有报告。往 <code>content/%s/报告/</code> 扔一个
+      <code>.md</code>，frontmatter 写 title / date / summary / tags，就跑一次。</p>
+  </section>
+""" % (num, escape(sec.cfg.get("reports", {}).get("title", "报告")), sec.dir.name)
+
+    # 标签统计：按出现次数排，少于 2 篇的不做筛选按钮（点进去只有一篇，没意义）
+    cnt = {}
+    for r in reports:
+        for t in r["tags"]:
+            cnt[t] = cnt.get(t, 0) + 1
+    tags = sorted([t for t, c in cnt.items() if c >= 2], key=lambda t: (-cnt[t], t))
+
+    chips = ['<button class="rpt-chip on" data-tag="">全部 <i>%d</i></button>' % len(reports)]
+    for t in tags:
+        chips.append('<button class="rpt-chip" data-tag="%s">%s <i>%d</i></button>'
+                     % (escape(t), escape(t), cnt[t]))
+    # 一个标签只对应一篇时，筛了等于没筛，干脆不显示这一条
+    bar = ""
+    if tags:
+        bar = """      <div class="rpt-bar">
+        %s
+        <span class="rpt-hint" hidden></span>
+      </div>
+""" % "".join(chips)
+
+    items = []
+    for r in reports:
+        tag_html = "".join('<span class="rpt-tag">%s</span>' % escape(t) for t in r["tags"])
+        items.append("""<a class="rpt-item" data-tags="%s" href="%s">
+        <span class="rpt-top"><time>%s</time><span class="rpt-go">→</span></span>
+        <h3>%s</h3>
+        <p>%s</p>
+        <span class="rpt-tags">%s</span>
+      </a>""" % (escape(",".join(r["tags"])), r["url"], escape(r["date"]),
+                 escape(r["title"]), R.inline(r["summary"]), tag_html))
+
+    return """  <section class="blk" id="reports">
+    <div class="blk-head">
+      <span class="blk-num">%s</span>
+      <h2>%s</h2>
+      <span class="blk-note">共 %d 篇 · 点开是独立页</span>
+    </div>
+    <div class="rpt-card">
+%s      <div class="rpt-grid">
+        %s
+      </div>
+    </div>
+  </section>
+""" % (num, escape(sec.cfg.get("reports", {}).get("title", "报告")), len(reports),
+       bar, "\n        ".join(items))
 
 
 def pager_html(sec, prefix=""):
@@ -583,61 +814,97 @@ def pager_html(sec, prefix=""):
 
 def subnav_html(sec, prefix="", report_page=False):
     cfg = sec.cfg
-    n_b = len(cfg.get("boards") or [])
-    b_anchor = "#board" if n_b <= 1 else "#board-1"
+    boards = cfg.get("boards") or ([cfg["board"]] if cfg.get("board") else [])
+    has_cards = bool((cfg.get("cards") or {}).get("items")) or bool(cfg.get("featured"))
+
+    def anchors(joiner="\n    "):
+        out = ['<a href="#intro">简介</a>']
+        for i, b in enumerate(boards):
+            href = "#board" if len(boards) == 1 else "#board-%d" % (i + 1)
+            out.append('<a href="%s">%s</a>' % (href, escape(b.get("short") or b.get("title", "天梯榜"))))
+        if has_cards:
+            out.append('<a href="#cards">%s</a>' % escape((cfg.get("cards") or {}).get("short", "概念")))
+        out.append('<a href="#reports">报告</a>')
+        return joiner.join(out)
+
     if report_page:
+        # 报告页在 <slug>/ 下，锚点要回到板块页
+        links = anchors("\n    ").replace('href="#', 'href="%s%s#' % (prefix, sec.page))
         return """<div class="subnav">
   <div class="subnav-in">
     <span class="sn-label">%s</span>
     <a href="%s%s">← 回「%s」</a>
-    <a href="%s%s">天梯榜</a>
-    <a href="%s%s#reports">报告</a>
+    %s
   </div>
 </div>
-""" % (escape(cfg.get("en", "")),
-       prefix + sec.page, "", escape(sec.name),
-       prefix + sec.page, b_anchor,
-       prefix + sec.page, "")
-    n_boards = len(cfg.get("boards") or [])
-    board_anchor = "#board" if n_boards <= 1 else "#board-1"
+""" % (escape(cfg.get("en", "")), prefix + sec.page, "", escape(sec.name), links)
+
     return """<div class="subnav">
   <div class="subnav-in">
     <span class="sn-label">%s</span>
-    <a href="#intro">简介</a>
-    <a href="%s">%s</a>
-    <a href="#reports">报告</a>
+    %s
     <span class="sn-sep"></span>
     <a href="%sprinciples.html">原理 · 历史</a>
     <a href="%slocal.html">怎么本地跑</a>
   </div>
 </div>
-""" % (escape(cfg.get("en", "")), board_anchor,
-       escape(cfg["boards"][0].get("title", "天梯榜") if n_boards == 1 else "天梯榜"),
-       prefix, prefix)
+""" % (escape(cfg.get("en", "")), anchors(), prefix, prefix)
 
 
 # ───────────────────────── 生成 ─────────────────────────
+def related_html(items):
+    """单篇报告底部的「同一话题」：同标签或互标 rel 的其它报告。"""
+    if not items:
+        return ""
+    lis = ['<a href="%s.html"><b>%s</b><time>%s</time></a>'
+           % (slug_quote(o["slug"]), escape(o["title"]), escape(o["date"]))
+           for o in items]
+    return """  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list">%s</div>
+  </nav>
+""" % "".join(lis)
+
+
 def build_section(sec, out_dir, prefix=""):
     intro = sec.intro()
     reports = sec.reports()
+    featured = sec.featured(reports)
+    relmap = sec.related(reports)
+    by_slug = {r["slug"]: r for r in reports}
     stats = sec.stats().get("boards", {})
 
     desc = intro["meta"].get("desc") or sec.cfg.get("desc", "")
     blocks, counts = [], []
     for i, entry in enumerate(sec.boards):
+        num = "02" if len(sec.boards) == 1 else "02.%d" % (i + 1)
+        if entry.get("kind") == "scores":
+            blocks.append(block_scores(sec, entry, i, len(sec.boards), num))
+            counts.append("分")
+            continue
         _, rows = sec.board(entry)
         stat = stats.get(pathlib.Path(entry.get("file", "")).name, {})
         mode = entry.get("mode") or board_mode(entry, rows)
         series = board_series(sec, entry, rows, mode)
-        blocks.append(block_board(sec, entry, rows, stat, i, len(sec.boards), series))
+        blocks.append(block_board(sec, entry, rows, stat, i, len(sec.boards), series, num))
         counts.append(len(rows))
+
+    # 编号跟着实际有内容的块走，别出现「03 报告」下面其实是第四块
+    n = 2
+    cards_html = ""
+    if featured or (sec.cfg.get("cards") or {}).get("items"):
+        n += 1
+        cards_html = block_cards(sec, featured, "%02d" % n)
+    n += 1
+    reports_html = block_reports(sec, reports, "%02d" % n)
 
     body = "".join([
         subnav_html(sec, prefix),
         '<main class="wrap">\n\n',
         block_intro(sec, intro, prefix),
         "".join(blocks),
-        block_reports(sec, reports),
+        cards_html,
+        reports_html,
         pager_html(sec, prefix),
         "</main>\n\n",
         footer_html(prefix),
@@ -670,6 +937,7 @@ def build_section(sec, out_dir, prefix=""):
             ('    <p class="post-lede">%s</p>\n' % R.inline(r["summary"])) if r["summary"] else "",
             '    <div class="post-body">\n%s\n    </div>\n' % R.md_to_html(r["body"]),
             '  </article>\n',
+            related_html(relmap.get(r["slug"], [])),
             '  <nav class="pager"><a href="%s%s"><span class="pg-l">← BACK</span>'
             '<span class="pg-t">%s · 全部报告</span></a></nav>\n'
             % (r_prefix, sec.page, escape(sec.name)),

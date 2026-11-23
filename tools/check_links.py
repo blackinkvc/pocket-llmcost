@@ -22,7 +22,8 @@ def main():
     for p in pages:
         raw = p.read_text(encoding="utf-8", errors="ignore")
         html = NON_HTML.sub("", raw)
-        for m in re.finditer(r'(?:href|src)="([^"#?]+)"', html):
+        # 前面必须是空白：否则 data-src="aa" 里的 src="aa" 会被当成真实引用
+        for m in re.finditer(r'(?<=[\s"\'])(?:href|src)="([^"#?]+)"', html):
             u = m.group(1).strip()
             if not u or u.startswith(("http://", "https://", "//", "mailto:", "data:", "javascript:")):
                 continue
