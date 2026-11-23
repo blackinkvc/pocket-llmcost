@@ -378,7 +378,7 @@ def human_num(v):
     if abs(n) >= 1e4:
         # 一万多的数字只留一位小数会把 19558 压成「2 万」，误差太大
         return ("%.2f" % (n / 1e4)).rstrip("0").rstrip(".") + " 万"
-    return format(int(n), ",")
+    return format(int(n), ",") + " "   # 和 JS 侧一致：数字与单位之间留一个空格
 
 
 def board_mode(entry, rows):
