@@ -53,18 +53,38 @@ command -v git >/dev/null 2>&1 || { echo "需要 git"; exit 1; }
 say() { printf '%s\n' "$*"; }
 
 # ---------------------------------------------------------------- 1. 拉代码
+# 两条路：git（标准，有历史、增量小）和 codeload（GitHub 官方 tar.gz 域名）。
+# 国内网络里 github.com 的 git 协议经常被掐 —— CONNECT tunnel failed / HTTP2
+# framing layer —— 而 api.github.com、codeload.github.com 通常还通，所以
+# git 不通时自动退到 codeload，用户不用管。
+FETCHER="${HERE}/fetch_src.py"
+[ -f "${FETCHER}" ] || FETCHER="${CODE}/fetch_src.py"
+
+fetch_via_http() {   # $1=提示语
+  say "$1"
+  [ -f "${FETCHER}" ] || { say "  ⚠️ 找不到 fetch_src.py，没法走 codeload"; exit 1; }
+  "${PY}" "${FETCHER}" --dest "${CODE}" --repo "${REPO}" || { say "  ⚠️ codeload 也没取到，检查网络"; exit 1; }
+}
+
 if [ -d "${CODE}/.git" ]; then
-  say "· 更新代码：${CODE}"
+  say "· 更新代码（git pull）：${CODE}"
   if ! git -C "${CODE}" pull --ff-only --quiet; then
-    say "  ⚠️ git pull 失败（本地有改动或被分叉了）。先看一眼：git -C \"${CODE}\" status"
-    exit 1
+    fetch_via_http "  ⚠️ git pull 不通，改用 codeload 取最新一份"
   fi
-elif [ -d "${CODE}" ] && [ -f "${CODE}/llmcost.py" ]; then
-  say "· ${CODE} 已经有一份代码但不是 git 仓库，跳过拉取（当作用户自备目录）"
+elif [ -f "${CODE}/llmcost.py" ]; then
+  # 没有 .git 但有代码 = 上次是走 codeload 装的，直接查 SHA 比对
+  say "· 检查更新（codeload）：${CODE}"
+  if ! "${PY}" "${FETCHER}" --dest "${CODE}" --repo "${REPO}"; then
+    say "  ⚠️ 没查到（网络？），先接着用现有代码"
+  fi
 else
   say "· 克隆到：${CODE}"
   mkdir -p "$(dirname "${CODE}")"
-  git clone --quiet "${REPO}" "${CODE}" || { say "  ⚠️ clone 失败，检查网络或仓库地址"; exit 1; }
+  if ! git clone --quiet "${REPO}" "${CODE}"; then
+    # clone 失败会留下半个目录 + 半截 .git，不清掉后面 git 会当成已有仓库
+    rm -rf "${CODE}"
+    fetch_via_http "  ⚠️ git clone 不通（github.com 的 git 协议常被掐），改用 codeload 下 tar.gz"
+  fi
 fi
 
 VER="$("${PY}" "${CODE}/llmcost.py" --version 2>/dev/null || echo '0.0.0')"
