@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>概念释义速查 · 原理 · 历史</title>
+<meta name="description" content="18 个高频词的释义，按「什么时候进来」排。每条只写到能判断「该不该用它」的深度，不展开推导。">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/section.css">
+<script src="../assets/js/board.js" defer></script>
+<script src="../assets/js/ranks.js" defer></script>
+<script src="../assets/js/reports.js" defer></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a href="../models.html">基模</a>
+      <a href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a href="../hardware.html">硬件</a>
+      <a href="../templates.html">模板</a>
+      <a href="../apps.html">应用</a>
+      <a class="is-active" href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-24</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">Principles</span>
+    <a href="../principles.html">← 回「原理 · 历史」</a>
+    <a href="../principles.html#intro">简介</a>
+    <a href="../principles.html#board">机制</a>
+    <a href="../principles.html#cards">概念</a>
+    <a href="../principles.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../principles.html">原理 · 历史</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2025-11-24 · 速查 · 概念</p>
+    <h1 class="post-title">概念释义速查</h1>
+    <p class="post-lede">18 个高频词的释义，按「什么时候进来」排。每条只写到能判断「该不该用它」的深度，不展开推导。</p>
+    <div class="post-body">
+<p>这一页出现的词，有些是论文里的原始叫法，有些是工程圈后来起的简称。 下表按「什么时候进来」排，一句话说清它是什么、现在站在什么位置。</p>
+<p>释义只写到能判断「该不该用它」的深度，不展开推导。</p>
+<div class="md-table"><table><thead><tr><th>概念</th><th>一句话释义</th><th>首次出现</th><th>现在的位置</th></tr></thead><tbody><tr><td>多模态 Multimodal</td><td>文本、图像、音频、视频在同一套表示里训练，而不是后拼一个视觉编码器</td><td>2021（CLIP）</td><td>旗舰模型的默认形态</td></tr><tr><td>MoE 混合专家</td><td>总参数很大，但每个 token 只激活其中一部分专家</td><td>1991 / 2021（Switch）</td><td>主流开源模型的基本架构</td></tr><tr><td>自注意力 Attention</td><td>每个 token 与前文所有 token 计算相关性，取代循环结构</td><td>2017（Transformer）</td><td>所有主流模型的底座</td></tr><tr><td>Prefill / Decode</td><td>推理拆成两段：先并行读完整段提示，再逐字生成</td><td>2023 起成为工程口径</td><td>容量规划的基本单位</td></tr><tr><td>KV Cache</td><td>把已算过的键值缓存下来，避免每生成一个字重算前文</td><td>2020 前后</td><td>长上下文与显存的主因</td></tr><tr><td>上下文窗口</td><td>一次能读进多少 token，标称值与有效值差很远</td><td>2023 起成为卖点</td><td>百万级标称，有效长度另说</td></tr><tr><td>推理模型 / test-time compute</td><td>把算力从训练挪到推理，让模型先想再答</td><td>2024-09（o1）</td><td>被并回默认路由（GPT-5）</td></tr><tr><td>RLHF</td><td>用人类偏好训练奖励模型，再据此调优输出</td><td>2017 提出 / 2022（InstructGPT）</td><td>对齐的标准做法</td></tr><tr><td>RLVR 可验证奖励</td><td>只对有标准答案的任务给奖励，数学与代码先被吃透</td><td>2025</td><td>推理能力提升的主路径</td></tr><tr><td>蒸馏 Distillation</td><td>让小模型学大模型的输出分布，用算力换体积</td><td>2015（Hinton）</td><td>小模型追平上一代旗舰</td></tr><tr><td>量化 Quantization</td><td>把权重压到 8/4 bit，用精度换显存与速度</td><td>2022（GPTQ / LLM.int8）</td><td>本地部署的默认手段</td></tr><tr><td>扩散模型 Diffusion</td><td>从噪声逐步去噪生成图像，而不是一次画完</td><td>2015 / 2020（DDPM）</td><td>图像视频生成的主流</td></tr><tr><td>Agent</td><td>把模型放进循环：调工具、读结果、改计划</td><td>2023-03（AutoGPT）</td><td>编码场景率先跑通</td></tr><tr><td>工具调用 Function calling</td><td>模型按 schema 输出结构化调用，由外部执行</td><td>2023-06（OpenAI）</td><td>所有 Agent 的前提</td></tr><tr><td>RAG 检索增强</td><td>先检索再生成，用外部文档补知识</td><td>2020（Lewis 等）</td><td>长上下文部分替代了它</td></tr><tr><td>MCP</td><td>模型与外部工具之间的统一接口，工具方接一次全端可用</td><td>2024-11（Anthropic）</td><td>事实标准，两万多个服务器</td></tr><tr><td>Harness 运行脚手架</td><td>包住模型的那层循环与工具集，决定成绩与上限</td><td>2023 起在评测圈通用</td><td>2025 年成了产品差异点</td></tr><tr><td>AI 编程 AI coding</td><td>从补全一行，到接管整个 issue 的完整闭环</td><td>2021-06（Copilot）</td><td>Agent 最成熟的落地场景</td></tr></tbody></table></div>
+<h2>读这张表的两个提醒</h2>
+<p><strong>时间是「被公开提出」的时间，不是「开始好用」的时间。</strong> 后者通常晚一到两年。 带具体版本号的以官方发布为准，学术概念以论文首次公开为准。</p>
+<p><strong>「现在的位置」这一列会过期。</strong> 比如 RAG 那一行写「被长上下文部分替代」， 如果上下文成本和检索成本的关系再变一次，这句话就该改。前两列是历史，不会变。</p>
+    </div>
+  </article>
+  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list"><a href="10-%E5%8F%91%E5%B1%95%E8%BF%BD%E8%B8%AA.html"><b>发展追踪：三个时间点</b><time>2025-11-24</time></a><a href="03-%E8%AE%AD%E7%BB%83%E5%88%86%E4%B8%89%E6%AE%B5.html"><b>训练分三段</b><time>2025-11-24</time></a><a href="05-MoE-%E6%80%BB%E5%8F%82%E6%95%B0%E4%B8%8E%E6%BF%80%E6%B4%BB%E5%8F%82%E6%95%B0.html"><b>MoE：总参数与激活参数</b><time>2025-11-24</time></a></div>
+  </nav>
+  <nav class="pager"><a href="../principles.html"><span class="pg-l">← BACK</span><span class="pg-t">原理 · 历史 · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2025-11 公开资料<br>2026 年新增进展：待补充<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">应用</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

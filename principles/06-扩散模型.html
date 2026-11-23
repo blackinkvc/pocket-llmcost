@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>扩散模型：图像是怎么出来的 · 原理 · 历史</title>
+<meta name="description" content="训练时给图片逐步加噪，让网络学会预测噪声；生成时从纯噪声出发反复去噪。真正决定出图效果的是四个旋钮：步数、CFG、denoise、潜空间通道数。">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/section.css">
+<script src="../assets/js/board.js" defer></script>
+<script src="../assets/js/ranks.js" defer></script>
+<script src="../assets/js/reports.js" defer></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a href="../models.html">基模</a>
+      <a href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a href="../hardware.html">硬件</a>
+      <a href="../templates.html">模板</a>
+      <a href="../apps.html">应用</a>
+      <a class="is-active" href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-24</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">Principles</span>
+    <a href="../principles.html">← 回「原理 · 历史」</a>
+    <a href="../principles.html#intro">简介</a>
+    <a href="../principles.html#board">机制</a>
+    <a href="../principles.html#cards">概念</a>
+    <a href="../principles.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../principles.html">原理 · 历史</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2025-11-24 · 图像 · 扩散</p>
+    <h1 class="post-title">扩散模型：图像是怎么出来的</h1>
+    <p class="post-lede">训练时给图片逐步加噪，让网络学会预测噪声；生成时从纯噪声出发反复去噪。真正决定出图效果的是四个旋钮：步数、CFG、denoise、潜空间通道数。</p>
+    <div class="post-body">
+<p>训练时给图片逐步加噪，让网络学会「预测这一步的噪声」；生成时从纯噪声出发，反复去噪，最后得到图像。</p>
+<p>潜空间扩散（Latent Diffusion）先把图压到 VAE 潜空间，再在潜空间里去噪，算力省一个数量级。 这是 Stable Diffusion 之后所有主流图像模型的基本形态。</p>
+<pre><code>步数 steps     越多越细，但耗时线性上涨；蒸馏模型可压到 4–8 步
+CFG            无分类器引导强度；越高越贴提示词，也越容易过饱和
+denoise (i2i)  从参考图加噪到第 t 步再开始去噪；越低越像原图
+latent 通道数  不同架构不通用，SDXL 4 通道 ≠ Z-Image 16 通道</code></pre>
+<h2>四个旋钮分别在管什么</h2>
+<p><strong>步数</strong>是质量与时间的直接兑换。20–30 步是常见甜点，超过 40 步边际收益很小。蒸馏过的模型能压到 4–8 步，代价是细节与多样性略降。</p>
+<p><strong>CFG</strong> 控制「多听提示词」。调高更贴文字，但颜色会过饱和、构图会僵硬。多数模型的甜点在 5–8，具体看模型。</p>
+<p><strong>denoise</strong> 只在图生图里有意义。它决定从参考图的第几步开始接手：设 0.3 基本保留原图，设 0.9 几乎重画。 本地生图里人物一律走 i2i 而不是纯 t2i，就是因为 denoise 能把「长相」锁住。</p>
+<p><strong>latent 通道数</strong>是个容易被忽略的兼容性问题。不同架构的潜空间不能互换， 所以 LoRA、ControlNet 这类附加件必须和底座架构匹配，跨架构直接加载会报错或出乱图。</p>
+<h2>「Agent 化」体现在控制件</h2>
+<p>图像侧这几年真正的进展不是画得更好看，而是<strong>可控</strong>： ControlNet 锁结构（姿势、深度、边缘），IPAdapter 锁风格与身份，inpainting 锁局部。</p>
+<p>它们都不改变扩散过程本身，只是把条件注入去噪的每一步。 所以判断一个生图工作流成不成熟，看它有多少条件件、这些件能不能叠加，比看它用哪个底座更准。</p>
+    </div>
+  </article>
+  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list"><a href="01-%E4%B8%80%E6%AC%A1%E7%94%9F%E6%88%90%E5%9C%A8%E7%AE%97%E4%BB%80%E4%B9%88.html"><b>一次生成到底在算什么</b><time>2025-11-24</time></a><a href="07-%E9%87%8F%E5%8C%96%E4%B8%8E%E8%92%B8%E9%A6%8F.html"><b>量化与蒸馏</b><time>2025-11-24</time></a></div>
+  </nav>
+  <nav class="pager"><a href="../principles.html"><span class="pg-l">← BACK</span><span class="pg-t">原理 · 历史 · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2025-11 公开资料<br>2026 年新增进展：待补充<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">应用</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

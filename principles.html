@@ -1,11 +1,16 @@
 <!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>原理 · 历史 · AI.TRACK</title>
-<meta name="description" content="AI 原理与历史合页：prefill/decode、注意力、训练三段、推理模型、MoE、扩散、量化与评估；下半部是 1943 至今的五个阶段时间线。">
+<meta name="description" content="原理与历史：17 个机制一张索引表，公式与推导拆成 14 篇报告，含 1943 至今的四段时间线。">
 <link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/section.css">
+<script src="assets/js/board.js" defer></script>
+<script src="assets/js/ranks.js" defer></script>
+<script src="assets/js/reports.js" defer></script>
 </head>
 <body>
 
@@ -29,429 +34,348 @@
       <a href="llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
     </nav>
     <div class="topbar-right">
-      <span class="meta">2026-11-23</span>
-      <a class="btn is-primary" href="hardware.html">算力账</a>
+      <span class="meta">2026-11-24</span>
+      <a class="btn is-primary" href="principles.html#e1">时间线</a>
     </div>
   </div>
 </header>
-
 <div class="subnav">
   <div class="subnav-in">
     <span class="sn-label">Principles</span>
-    <a href="#inference">推理账</a>
-    <a href="#attention">注意力</a>
-    <a href="#training">训练</a>
-    <a href="#reasoning">推理模型</a>
-    <a href="#moe">MoE</a>
-    <a href="#diffusion">扩散</a>
-    <a href="#quant">量化</a>
-    <a href="#eval">评估</a>
-    <a href="#concepts">概念释义</a>
-    <a href="#tracking">发展追踪</a>
+    <a href="#intro">简介</a>
+    <a href="#board">机制</a>
+    <a href="#cards">概念</a>
+    <a href="#reports">报告</a>
     <span class="sn-sep"></span>
-    <a href="#e1">1943–1997</a>
-    <a href="#e2">2006–2016</a>
-    <a href="#e3">2017–2022</a>
-    <a href="#e4">2023–2025</a>
-    <a href="#e5">2026</a>
+    <a href="principles.html">原理 · 历史</a>
+    <a href="local.html">怎么本地跑</a>
   </div>
 </div>
-
 <main class="wrap">
 
   <p class="crumb"><a href="index.html">首页</a><span class="sep">/</span><span>07</span><span class="sep">/</span><span>原理 · 历史</span></p>
 
-  <section class="page-head">
+  <section class="page-head" id="intro">
     <div class="ph-grid">
       <div>
         <div class="card-top" style="margin-bottom:14px;justify-content:flex-start;gap:10px">
-          <span class="chip">速查</span>
-          <span class="chip green">公式 + 直觉</span>
-          <span class="chip orange">15 章</span>
+          <span class="chip purple">推理</span><span class="chip green">注意力</span><span class="chip orange">训练</span><span class="chip purple">MoE</span><span class="chip green">扩散</span><span class="chip orange">量化</span>
         </div>
         <h1 class="ph-title">原理 · 历史</h1>
-        <p class="ph-sub">HOW IT WORKS · 1943 → 2025 · 15 SECTIONS</p>
-        <p class="ph-lede">
-          不追求教科书式完整，只回答监控时最常遇到的那几个「为什么」：
-          为什么长上下文贵、为什么量化能提速、为什么 MoE 显存按总参数算、
-          为什么扩散模型加 ControlNet 就能锁姿势。
-        </p>
-        <p class="ph-lede" style="margin-top:10px">
-          后半页是时间线：这些机制分别在什么时候被提出、什么时候变成默认做法。
-          两件事放在一页，是因为「原理」解释了为什么这样算，而「历史」解释了为什么现在是这样。
-        </p>
+        <p class="ph-sub">HOW IT WORKS · 1943 → 2025</p>
+        <div class="ph-lede"><p>不追求教科书式完整，只回答监控时最常遇到的那几个「为什么」： 为什么长上下文贵、为什么量化能提速、为什么 MoE 显存按总参数算、 为什么扩散模型加 ControlNet 就能锁姿势。</p>
+<p>机制解释了「为什么这样算」，历史解释了「为什么现在是这样」。 两部分都拆成了独立报告，下面的机制索引可以直接点进去。</p></div>
       </div>
       <aside class="spec-card">
-        <div class="spec-head"><span>SCOPE</span><span>SIMPLIFIED</span></div>
+        <div class="spec-head"><span>SNAPSHOT</span><span>MANUAL</span></div>
         <dl class="spec-body" style="margin:0">
-          <div class="spec-row"><dt>覆盖</dt><dd>LLM / 扩散</dd></div>
-          <div class="spec-row"><dt>公式</dt><dd>数量级口径</dd></div>
-          <div class="spec-row"><dt>推导</dt><dd>省略常数项</dd></div>
-          <div class="spec-row"><dt>适用</dt><dd>估算与排障</dd></div>
-          <div class="spec-row"><dt>不适用</dt><dd>精确性能建模</dd></div>
-          <div class="spec-row"><dt>历史</dt><dd>5 段 · 1943 →</dd></div>
+          <div class="spec-row"><dt>覆盖</dt><dd>LLM / 扩散</dd></div><div class="spec-row"><dt>公式</dt><dd>数量级口径</dd></div><div class="spec-row"><dt>推导</dt><dd>省略常数项</dd></div><div class="spec-row"><dt>适用</dt><dd>估算与排障</dd></div><div class="spec-row"><dt>不适用</dt><dd>精确性能建模</dd></div><div class="spec-row"><dt>历史</dt><dd>4 段 · 1943 →</dd></div>
         </dl>
       </aside>
     </div>
+    <div class="verdict-box"><p class="vb-label">结论 / VERDICT</p><ol><li><b>长上下文贵在两处，都不在参数。</b><span>自注意力的计算量随序列长度平方增长，KV Cache 的显存随长度线性增长。参数规模决定「装不装得下」，序列长度决定「一次能塞多少并发」。</span></li><li><b>decode 的瓶颈是带宽，不是算力。</b><span>每生成一个 token 都要把全部权重从显存读一遍，所以理论速度 ≈ 带宽 ÷ 权重大小。量化加速的主要就是这一步：读的字节变少了。</span></li><li><b>MoE 让显存先于算力成为门槛。</b><span>总参数决定显存占用，激活参数决定单 token 计算量。看到「1T 参数」不等于需要 1T 稠密模型的算力，但确实需要 1T 的显存。</span></li></ol></div>
+    <div class="intro-extra"><h3>这一页的读法</h3><ul><li><strong>机制索引</strong>：一个机制一行，标出所属环节、代表工作和提出时间。点标题进对应报告，报告底部有「接着读」，同一个环节的几篇会互相串起来。</li><li><strong>环节</strong>：分生成、结构、训练、推理、压缩、图像、评估七类。分类是我的判断，不是论文里的官方划分——比如「推理模型」既是训练方法的产物，也是推理期的开销问题，我放在推理这一类。</li><li><strong>没有区域切换和时间滑块</strong>：机制没有国别，提出时间也不能靠拖动截断来比较快慢。这两档控件在这张表上都是空的，所以没做，不是漏了。</li><li><strong>公式</strong>：全部是数量级口径，省略常数项与实现细节，只用于估算和排障，不能当性能建模的依据。</li><li><strong>历史四段</strong>：符号主义到连接主义（1943–1997）、深度学习复兴（2006–2016）、大模型奠基（2017–2022）、多模态与 Agent（2023–2025）。只收提出新机制的论文和改变默认做法的产品。</li></ul></div><div class="intro-extra"><h3>已知的取舍</h3><ul><li><strong>没有收录具体评测分数。</strong> 没有统一脚手架、采样次数与成本口径的分数，放在一起比较会误导——这一条写在评估那篇报告里。</li><li><strong>2026 年留空。</strong> 要逐条核对官方发布、日期与权重形态后才写，不按趋势推测。这一段在时间线最后一篇的末尾，是空的。</li><li><strong>概念释义停在「够判断该不该用」的深度。</strong> 展开推导会让这一页变成教科书，那不是它要解决的问题。</li></ul></div>
   </section>
-
-  <section class="doc">
-    <article class="chapter" id="inference">
-      <div class="ch-head"><span class="ch-num">01</span><h2>一次生成到底在算什么</h2></div>
-      <p>
-        自回归生成分两段。<b>Prefill</b> 把整段输入一次性送进模型，所有 token 并行算，
-        吃的是算力；<b>decode</b> 每次只生成一个 token，却要把全部权重从显存读一遍，吃的是带宽。
-      </p>
-
-      <div class="recipe">
-        <div class="recipe-head"><span>INFERENCE</span><span>数量级估算</span></div>
-<pre>prefill FLOPs ≈ 2 × N_params × N_tokens
-decode 每 token 读权重 ≈ N_params × bytes_per_param
-理论 tok/s ≈ 带宽 ÷ (N_params × bytes_per_param)
-
-KV Cache ≈ 2 × layers × kv_heads × head_dim × seq × batch × bytes
-  （2 = K 和 V；GQA 会让 kv_heads 远小于注意力头数）</pre>
-      </div>
-
-      <p>
-        这解释了三件事：第一，上下文越长，KV Cache 越占显存，能并发的请求越少；
-        第二，量化主要加速 decode，因为读的字节变少了；
-        第三，统一内存机器能装下大模型，但 decode 速度被带宽卡住。
-      </p>
-    </article>
-
-    <article class="chapter" id="attention">
-      <div class="ch-head"><span class="ch-num">02</span><h2>Transformer 与注意力</h2></div>
-      <p>
-        每个 token 生成 Q、K、V 三个向量，用 Q 和所有历史 K 做点积得到权重，再对 V 加权求和。
-        causal mask 保证只能看前面，这就是「自回归」。
-      </p>
-
-      <div class="recipe">
-        <div class="recipe-head"><span>ATTENTION</span><span>单头，省略 batch</span></div>
-<pre>Attention(Q, K, V) = softmax( Q·Kᵀ / √d_k ) · V
-
-复杂度：O(n² · d)     n = 序列长度
-长上下文成本主要来自这里，而不是参数规模</pre>
-      </div>
-
-      <p>
-        工程上有三种常见优化：<b>FlashAttention</b> 不改变数学结果，只减少显存读写；
-        <b>GQA / MQA</b> 让多个 Query 共享少量 KV 头，直接压缩 KV Cache；
-        <b>稀疏注意力</b>只算部分位置，用近似换长度。三者可以叠加。
-      </p>
-    </article>
-
-    <article class="chapter" id="training">
-      <div class="ch-head"><span class="ch-num">03</span><h2>训练分三段</h2></div>
-
-      <div class="mini-grid">
-        <div class="mini on">
-          <h4>① 预训练 <span>Pretrain</span></h4>
-          <p>在万亿级 token 上做下一词预测，学到语言与世界知识。决定能力上限，成本最高。</p>
-        </div>
-        <div class="mini on">
-          <h4>② 监督微调 <span>SFT</span></h4>
-          <p>用人工或模型生成的高质量对话，把「补全器」变成「助手」。</p>
-        </div>
-        <div class="mini on">
-          <h4>③ 偏好优化 <span>RLHF / DPO</span></h4>
-          <p>用人类偏好排序调整输出风格：更有用、更少有害内容、更愿意承认不知道。</p>
-        </div>
-        <div class="mini warn">
-          <h4>④ 可验证强化学习 <span>RLVR</span></h4>
-          <p>数学、代码这类能自动判对错的领域，直接用结果奖励训练推理链，是 2025 年的主要增量。</p>
-        </div>
-      </div>
-
-      <p class="table-note">
-        「后训练」这个词通常指 ②③④ 全部。它不增加知识，只改变模型使用知识的方式。
-      </p>
-    </article>
-
-    <article class="chapter" id="reasoning">
-      <div class="ch-head"><span class="ch-num">04</span><h2>推理模型与 test-time compute</h2></div>
-      <p>
-        推理模型把「想」变成显式的 token：先写中间步骤，再给答案。训练时用 RL 奖励正确答案，
-        推理时用更多 token 换更高正确率。
-      </p>
-
-      <div class="recipe">
-        <div class="recipe-head"><span>TRADE-OFF</span><span>直觉口径</span></div>
-<pre>总成本 ≈ 输入 token + 思考 token + 输出 token
-正确率随思考长度上升，但边际收益递减
-超过某个长度后，错误会开始自我强化</pre>
-      </div>
-
-      <p>
-        所以「推理模型更强」是有条件的：题目越难、越可验证，收益越大；
-        简单任务上，它只是更贵、更慢。GPT-5 把快慢思考做成自动路由，本质是在压这部分浪费。
-      </p>
-    </article>
-
-    <article class="chapter" id="moe">
-      <div class="ch-head"><span class="ch-num">05</span><h2>MoE：总参数与激活参数</h2></div>
-      <p>
-        混合专家把 FFN 拆成很多组，每个 token 只选 top-k 组计算。
-        于是「总参数」决定显存占用，「激活参数」决定单 token 计算量。
-      </p>
-
-      <div class="recipe">
-        <div class="recipe-head"><span>MoE</span><span>简化</span></div>
-<pre>显存 ≈ 总参数 × bytes_per_param
-计算 ≈ 激活参数 × bytes_per_param（decode 读权重）
-路由：每个 token 选 top-k 专家，需要负载均衡避免塌缩</pre>
-      </div>
-
-      <p>
-        这带来一个常见误判：看到「1T 参数」就以为需要 1T 稠密模型的算力。
-        实际计算按激活部分走，但显存仍要装下全部专家，所以 MoE 对显存更敏感、对算力更友好。
-      </p>
-    </article>
-
-    <article class="chapter" id="diffusion">
-      <div class="ch-head"><span class="ch-num">06</span><h2>扩散模型：图像是怎么出来的</h2></div>
-      <p>
-        训练时给图片逐步加噪，让网络学会「预测这一步的噪声」；生成时从纯噪声出发，
-        反复去噪，最后得到图像。潜空间扩散（Latent Diffusion）先把图压到 VAE 潜空间，
-        再在潜空间里去噪，算力省一个数量级。
-      </p>
-
-      <div class="recipe">
-        <div class="recipe-head"><span>DIFFUSION</span><span>关键旋钮</span></div>
-<pre>步数 steps     越多越细，但耗时线性上涨；蒸馏模型可压到 4–8 步
-CFG            无分类器引导强度；越高越贴提示词，也越容易过饱和
-denoise (i2i)  从参考图加噪到第 t 步再开始去噪；越低越像原图
-latent 通道数  不同架构不通用，SDXL 4 通道 ≠ Z-Image 16 通道</pre>
-      </div>
-
-      <p>
-        图像侧的「Agent 化」体现在控制件：ControlNet 锁结构，IPAdapter 锁风格与身份，
-        inpainting 锁局部。它们都不改变扩散本身，只是把条件注入去噪过程。
-        这就是为什么本地生图实例里，人物一律走 i2i 而不是纯 t2i。
-      </p>
-    </article>
-
-    <article class="chapter" id="quant">
-      <div class="ch-head"><span class="ch-num">07</span><h2>量化与蒸馏</h2></div>
-      <p>两者常被混为一谈，其实目标不同：量化省显存与带宽，蒸馏省参数与步数。</p>
-
-      <div class="table-wrap">
-        <table class="data">
-          <thead><tr><th>手段</th><th>做什么</th><th>主要收益</th><th>主要代价</th></tr></thead>
-          <tbody>
-            <tr><td><b>FP16 / BF16</b></td><td>半精度权重</td><td>通用基线</td><td>显存占用最大</td></tr>
-            <tr><td><b>FP8</b></td><td>8 位浮点</td><td>显存减半，精度损失小</td><td>需要硬件与框架支持</td></tr>
-            <tr><td><b>INT8 / INT4</b></td><td>整数量化 + 缩放</td><td>显存显著下降，decode 提速</td><td>低比特下细节与长链推理退化</td></tr>
-            <tr><td><b>GGUF</b></td><td>面向 CPU / 混合推理的格式</td><td>本地部署友好，可按层量化</td><td>生态以 llama.cpp 为主</td></tr>
-            <tr><td><b>AWQ / GPTQ</b></td><td>面向 GPU 的权重量化</td><td>推理吞吐高</td><td>需要校准数据</td></tr>
-            <tr><td><b>蒸馏</b></td><td>大模型教小模型，或多步教少步</td><td>小模型接近大模型，步数下降</td><td>上限受教师与数据限制</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <p class="table-note">
-        经验上，8 位量化几乎无损；4 位在通用对话上可接受，但在数学、代码和长链推理上更容易掉点。是否可接受要用自己的任务测。
-      </p>
-    </article>
-
-    <article class="chapter" id="eval">
-      <div class="ch-head"><span class="ch-num">08</span><h2>评估与幻觉</h2></div>
-      <p>
-        幻觉不是「模型撒谎」，而是下一词预测在缺乏依据时仍会生成流畅文本。
-        检索、引用、工具调用和「允许说不知道」都在缓解它，但都不能消除。
-      </p>
-
-      <div class="checklist">
-        <div><b>基准污染</b>测试集进入训练语料，分数虚高。</div>
-        <div class="no"><b>单次采样</b>只看一次结果，忽略方差。</div>
-        <div class="no"><b>脚手架混淆</b>把工具与提示词的功劳算给模型。</div>
-        <div><b>人类偏好</b>胜率不等于正确率，讨喜与准确是两回事。</div>
-        <div><b>分布外</b>真实业务的长尾远多于基准。</div>
-        <div><b>成本维度</b>不看 token 与延迟的评测没有工程意义。</div>
-      </div>
-
-      <p class="callout mute">
-        本站在各板块页不收录具体分数，原因就在这里：没有统一脚手架、采样次数与成本的分数，放一起比较会误导。
-      </p>
-    </article>
-
-    <article class="chapter" id="concepts">
-      <div class="ch-head"><span class="ch-num">09</span><h2>新概念释义</h2></div>
-      <p>
-        这一页出现的词，有些是论文里的原始叫法，有些是工程圈后来起的简称。
-        下表按「什么时候进来」排，一句话说清它是什么、现在站在什么位置。
-        释义只写到能判断「该不该用它」的深度，不展开推导。
-      </p>
-
-      <div class="table-wrap">
-        <table class="data">
-          <thead>
-            <tr><th>概念</th><th>一句话释义</th><th>首次出现</th><th>现在的位置</th></tr>
-          </thead>
-          <tbody>
-            <tr><td><b>多模态 Multimodal</b></td><td>文本、图像、音频、视频在同一套表示里训练，而不是后拼一个视觉编码器</td><td class="num">2021（CLIP）</td><td>旗舰模型的默认形态</td></tr>
-            <tr><td><b>MoE 混合专家</b></td><td>总参数很大，但每个 token 只激活其中一部分专家</td><td class="num">1991 / 2021（Switch）</td><td>主流开源模型的基本架构</td></tr>
-            <tr><td><b>自注意力 Attention</b></td><td>每个 token 与前文所有 token 计算相关性，取代循环结构</td><td class="num">2017（Transformer）</td><td>所有主流模型的底座</td></tr>
-            <tr><td><b>Prefill / Decode</b></td><td>推理拆成两段：先并行读完整段提示，再逐字生成</td><td class="num">2023 起成为工程口径</td><td>容量规划的基本单位</td></tr>
-            <tr><td><b>KV Cache</b></td><td>把已算过的键值缓存下来，避免每生成一个字重算前文</td><td class="num">2020 前后</td><td>长上下文与显存的主因</td></tr>
-            <tr><td><b>上下文窗口</b></td><td>一次能读进多少 token，标称值与有效值差很远</td><td class="num">2023 起成为卖点</td><td>百万级标称，有效长度另说</td></tr>
-            <tr><td><b>推理模型 / test-time compute</b></td><td>把算力从训练挪到推理，让模型先想再答</td><td class="num">2024-09（o1）</td><td>被并回默认路由（GPT-5）</td></tr>
-            <tr><td><b>RLHF</b></td><td>用人类偏好训练奖励模型，再据此调优输出</td><td class="num">2017 提出 / 2022（InstructGPT）</td><td>对齐的标准做法</td></tr>
-            <tr><td><b>RLVR 可验证奖励</b></td><td>只对有标准答案的任务给奖励，数学与代码先被吃透</td><td class="num">2025</td><td>推理能力提升的主路径</td></tr>
-            <tr><td><b>蒸馏 Distillation</b></td><td>让小模型学大模型的输出分布，用算力换体积</td><td class="num">2015（Hinton）</td><td>小模型追平上一代旗舰</td></tr>
-            <tr><td><b>量化 Quantization</b></td><td>把权重压到 8/4 bit，用精度换显存与速度</td><td class="num">2022（GPTQ / LLM.int8）</td><td>本地部署的默认手段</td></tr>
-            <tr><td><b>扩散模型 Diffusion</b></td><td>从噪声逐步去噪生成图像，而不是一次画完</td><td class="num">2015 / 2020（DDPM）</td><td>图像视频生成的主流</td></tr>
-            <tr><td><b>Agent</b></td><td>把模型放进循环：调工具、读结果、改计划</td><td class="num">2023-03（AutoGPT）</td><td>编码场景率先跑通</td></tr>
-            <tr><td><b>工具调用 Function calling</b></td><td>模型按 schema 输出结构化调用，由外部执行</td><td class="num">2023-06（OpenAI）</td><td>所有 Agent 的前提</td></tr>
-            <tr><td><b>RAG 检索增强</b></td><td>先检索再生成，用外部文档补知识</td><td class="num">2020（Lewis 等）</td><td>长上下文部分替代了它</td></tr>
-            <tr><td><b>MCP</b></td><td>模型与外部工具之间的统一接口，工具方接一次全端可用</td><td class="num">2024-11（Anthropic）</td><td>事实标准，两万多个服务器</td></tr>
-            <tr><td><b>Harness 运行脚手架</b></td><td>包住模型的那层循环与工具集，决定成绩与上限</td><td class="num">2023 起在评测圈通用</td><td>2025 年成了产品差异点</td></tr>
-            <tr><td><b>AI 编程 AI coding</b></td><td>从补全一行，到接管整个 issue 的完整闭环</td><td class="num">2021-06（Copilot）</td><td>Agent 最成熟的落地场景</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="table-note">
-        时间是「被公开提出」的时间，不是「开始好用」的时间；后者通常晚一到两年。
-        带具体版本号的以官方发布为准，学术概念以论文首次公开为准。
-      </p>
-    </article>
-
-    <article class="chapter" id="tracking">
-      <div class="ch-head"><span class="ch-num">10</span><h2>发展追踪</h2></div>
-      <p>
-        同一个概念有三个不同时间点：被提出、变成默认做法、暴露短板。
-        第三个最有用——它告诉你现在该防什么。
-      </p>
-
-      <div class="table-wrap">
-        <table class="data">
-          <thead>
-            <tr><th>概念</th><th>提出</th><th>变成默认</th><th>现在卡在哪</th></tr>
-          </thead>
-          <tbody>
-            <tr><td><b>注意力</b></td><td class="num">2017 Transformer</td><td>2019 起所有模型默认</td><td>长上下文下的计算量</td></tr>
-            <tr><td><b>多模态</b></td><td class="num">2021 CLIP</td><td>2024 起旗舰原生</td><td>视频与音频的统一表示</td></tr>
-            <tr><td><b>扩散</b></td><td class="num">2020 DDPM</td><td>2022 起图像默认</td><td>推理步数与可控性</td></tr>
-            <tr><td><b>RLHF</b></td><td class="num">2022 InstructGPT</td><td>2023 起对齐标配</td><td>偏好数据贵、易被讨好</td></tr>
-            <tr><td><b>工具调用</b></td><td class="num">2023-06</td><td>2024 起全平台支持</td><td>长链调用下的参数稳定性</td></tr>
-            <tr><td><b>Agent</b></td><td class="num">2023-03</td><td>2025 起进 IDE 与终端</td><td>十几步后错误累积</td></tr>
-            <tr><td><b>RAG</b></td><td class="num">2020</td><td>2023 起企业标配</td><td>被长上下文挤压</td></tr>
-            <tr><td><b>推理模型</b></td><td class="num">2024-09 o1</td><td>2025 部分并入默认路由</td><td>成本与延迟</td></tr>
-            <tr><td><b>RLVR</b></td><td class="num">2025</td><td>2025 下半年成为主路径</td><td>只适用于可验证任务</td></tr>
-            <tr><td><b>MCP</b></td><td class="num">2024-11</td><td>2025 起成事实标准</td><td>鉴权与工具质量参差</td></tr>
-            <tr><td><b>AI coding</b></td><td class="num">2021 Copilot</td><td>2025 起接管完整任务</td><td>仓库级理解与回归风险</td></tr>
-            <tr><td><b>Harness</b></td><td class="num">2023 评测圈内部用语</td><td>2025 变成产品卖点</td><td>不可比、不透明</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <p class="callout mute">
-        这张表每季度复核一次：只改「现在卡在哪」这一列，前两列是历史，不该变。
-        2026 年的新概念等有公开出处后再加，不按趋势预填。
-      </p>
-    </article>
-
-    <div class="legend" style="margin-top:44px">
-      <span><i></i>一般节点</span>
-      <span><i class="g"></i>范式改变</span>
-      <span><i class="o"></i>最近一段 / 待补</span>
+  <section class="blk" id="board">
+    <div class="blk-head">
+      <span class="blk-num">02</span>
+      <h2>机制索引 · 一个机制一行</h2>
+      <span class="blk-note is-long">一个机制一张卡，点标题进对应报告。按所属环节分组排，组内按提出时间。这一榜没有区域切换和时间滑块——机制没有国别，提出时间也不能靠拖动截断来比较快慢，硬做只会做出两个空控件。</span>
     </div>
-    <p class="muted" style="margin:0 0 4px">
-      以下进入时间线：原理讲「怎么算」，历史讲「这些机制是什么时候出现的」。
-      只收提出新机制的论文与改变默认做法的产品。
-    </p>
-
-    <article class="chapter" id="e1">
-      <div class="ch-head"><span class="ch-num">11</span><h2>符号主义与连接主义（1943–1997）</h2></div>
-      <ul class="timeline">
-        <li class="tl-item key"><span class="tl-year">1943</span><span class="tl-dot"></span><div class="tl-body"><h4>McCulloch–Pitts 神经元模型</h4><p>用阈值逻辑描述神经元，第一次把「思考」写成可计算的网络。</p></div></li>
-        <li class="tl-item"><span class="tl-year">1950</span><span class="tl-dot"></span><div class="tl-body"><h4>图灵测试</h4><p>图灵提出「机器能思考吗」的可操作判据：以对话 indistinguishable 为准。</p></div></li>
-        <li class="tl-item key"><span class="tl-year">1956</span><span class="tl-dot"></span><div class="tl-body"><h4>达特茅斯会议</h4><p>「人工智能」正式命名，符号主义成为此后三十年的主流路线。</p></div></li>
-        <li class="tl-item"><span class="tl-year">1958</span><span class="tl-dot"></span><div class="tl-body"><h4>感知机</h4><p>Rosenblatt 提出可学习的线性分类器，连接主义第一次有可训练模型。</p></div></li>
-        <li class="tl-item"><span class="tl-year">1969</span><span class="tl-dot"></span><div class="tl-body"><h4>《Perceptrons》</h4><p>指出单层感知机无法解决异或，神经网络研究进入第一次低潮。</p></div></li>
-        <li class="tl-item key"><span class="tl-year">1986</span><span class="tl-dot"></span><div class="tl-body"><h4>反向传播普及</h4><p>多层网络有了可行的训练方法，连接主义复兴。</p></div></li>
-        <li class="tl-item"><span class="tl-year">1989</span><span class="tl-dot"></span><div class="tl-body"><h4>卷积网络识别手写数字</h4><p>LeCun 把卷积与反向传播结合，奠定视觉网络的基本结构。</p></div></li>
-        <li class="tl-item"><span class="tl-year">1997</span><span class="tl-dot"></span><div class="tl-body"><h4>LSTM 与 Deep Blue</h4><p>序列建模有了长记忆结构；同年深蓝战胜国际象棋世界冠军。</p></div></li>
-      </ul>
-    </article>
-
-    <article class="chapter" id="e2">
-      <div class="ch-head"><span class="ch-num">12</span><h2>深度学习复兴（2006–2016）</h2></div>
-      <ul class="timeline">
-        <li class="tl-item"><span class="tl-year">2006</span><span class="tl-dot"></span><div class="tl-body"><h4>深度信念网络</h4><p>逐层预训练让深层网络可训练，「深度学习」重新获得关注。</p></div></li>
-        <li class="tl-item"><span class="tl-year">2009</span><span class="tl-dot"></span><div class="tl-body"><h4>ImageNet 发布</h4><p>大规模标注数据集，为之后的算力与模型竞赛提供同一把尺子。</p></div></li>
-        <li class="tl-item key"><span class="tl-year">2012</span><span class="tl-dot"></span><div class="tl-body"><h4>AlexNet</h4><p>GPU + 深层卷积在 ImageNet 上大幅领先，深度学习进入工业界。</p></div></li>
-        <li class="tl-item"><span class="tl-year">2014</span><span class="tl-dot"></span><div class="tl-body"><h4>GAN</h4><p>生成对抗训练提出，图像生成有了新的范式。</p></div></li>
-        <li class="tl-item"><span class="tl-year">2015</span><span class="tl-dot"></span><div class="tl-body"><h4>ResNet</h4><p>残差连接让上百层网络可训练，成为后续主干网络的标准件。</p></div></li>
-        <li class="tl-item key"><span class="tl-year">2016</span><span class="tl-dot"></span><div class="tl-body"><h4>AlphaGo</h4><p>深度网络 + 蒙特卡洛树搜索战胜李世石，强化学习进入公众视野。</p></div></li>
-      </ul>
-    </article>
-
-    <article class="chapter" id="e3">
-      <div class="ch-head"><span class="ch-num">13</span><h2>大模型奠基（2017–2022）</h2></div>
-      <ul class="timeline">
-        <li class="tl-item key"><span class="tl-year">2017</span><span class="tl-dot"></span><div class="tl-body"><h4>Transformer</h4><p>《Attention Is All You Need》去掉循环结构，成为之后所有大模型的底座。</p></div></li>
-        <li class="tl-item"><span class="tl-year">2018</span><span class="tl-dot"></span><div class="tl-body"><h4>BERT 与 GPT-1</h4><p>预训练 + 微调分成两条路线：双向理解与自回归生成。</p></div></li>
-        <li class="tl-item key"><span class="tl-year">2020</span><span class="tl-dot"></span><div class="tl-body"><h4>GPT-3 / Scaling Laws / DDPM</h4><p>175B 参数展示上下文学习；缩放规律给出「堆规模」的经验曲线；扩散模型成为图像生成主线。</p></div></li>
-        <li class="tl-item"><span class="tl-year">2021</span><span class="tl-dot"></span><div class="tl-body"><h4>CLIP / DALL·E / Codex / LoRA</h4><p>图文对齐、文本生成图像、代码生成与低秩微调先后出现。</p></div></li>
-        <li class="tl-item"><span class="tl-year">2022</span><span class="tl-dot"></span><div class="tl-body"><h4>Chinchilla 与 Stable Diffusion</h4><p>「数据与参数同比例增长」修正了缩放策略；开放权重扩散模型催生本地生态。</p></div></li>
-        <li class="tl-item key"><span class="tl-year">2022-11</span><span class="tl-dot"></span><div class="tl-body"><h4>ChatGPT</h4><p>对话界面把大模型变成大众产品，RLHF 成为默认后训练手段。</p></div></li>
-      </ul>
-    </article>
-
-    <article class="chapter" id="e4">
-      <div class="ch-head"><span class="ch-num">14</span><h2>多模态、推理与 Agent（2023–2025）</h2></div>
-      <ul class="timeline">
-        <li class="tl-item key"><span class="tl-year">2023-03</span><span class="tl-dot"></span><div class="tl-body"><h4>GPT-4 发布</h4><p>多模态输入与更强的考试能力，闭源旗舰的门槛被抬高。</p></div></li>
-        <li class="tl-item"><span class="tl-year">2023</span><span class="tl-dot"></span><div class="tl-body"><h4>LLaMA 与开源追赶</h4><p>开放权重模型让本地部署与二次训练成为可能。</p></div></li>
-        <li class="tl-item"><span class="tl-year">2024-02</span><span class="tl-dot"></span><div class="tl-body"><h4>Sora 演示 / Gemini 1.5</h4><p>视频生成展示长时一致性；百万级上下文进入产品讨论。</p></div></li>
-        <li class="tl-item key"><span class="tl-year">2024-05</span><span class="tl-dot"></span><div class="tl-body"><h4>GPT-4o</h4><p>文本、视觉、语音端到端，延迟大幅下降。</p></div></li>
-        <li class="tl-item"><span class="tl-year">2024-07</span><span class="tl-dot"></span><div class="tl-body"><h4>Llama 3.1 405B</h4><p>开放权重第一次接近闭源旗舰的量级。</p></div></li>
-        <li class="tl-item key"><span class="tl-year">2024-09</span><span class="tl-dot"></span><div class="tl-body"><h4>o1</h4><p>把推理链作为产品：用更多思考 token 换正确率，test-time compute 成为新维度。</p></div></li>
-        <li class="tl-item key"><span class="tl-year">2024-11</span><span class="tl-dot"></span><div class="tl-body"><h4>MCP 开源</h4><p>工具接入有了统一协议，Agent 生态开始标准化。</p></div></li>
-        <li class="tl-item"><span class="tl-year">2024-12</span><span class="tl-dot"></span><div class="tl-body"><h4>DeepSeek-V3</h4><p>以较低训练成本达到接近头部的通用能力，MoE 路线受到关注。</p></div></li>
-        <li class="tl-item key"><span class="tl-year">2025-01</span><span class="tl-dot"></span><div class="tl-body"><h4>DeepSeek-R1</h4><p>开放权重的推理模型，蒸馏版带动一批小模型具备思维链。</p></div></li>
-        <li class="tl-item"><span class="tl-year">2025-02</span><span class="tl-dot"></span><div class="tl-body"><h4>Claude Code / Claude 3.7</h4><p>编码 Agent 从补全走向「读写整个仓库并执行命令」。</p></div></li>
-        <li class="tl-item"><span class="tl-year">2025-03</span><span class="tl-dot"></span><div class="tl-body"><h4>Gemini 2.5 Pro</h4><p>长上下文与推理结合，百万 token 成为旗舰标配讨论项。</p></div></li>
-        <li class="tl-item"><span class="tl-year">2025-04</span><span class="tl-dot"></span><div class="tl-body"><h4>Llama 4 / Qwen3</h4><p>开放权重进入 MoE 与「思考模式可切换」阶段。</p></div></li>
-        <li class="tl-item"><span class="tl-year">2025-05</span><span class="tl-dot"></span><div class="tl-body"><h4>Claude 4 / Veo 3</h4><p>编码 Agent 产品化；视频生成开始原生带音频。</p></div></li>
-        <li class="tl-item"><span class="tl-year">2025-07</span><span class="tl-dot"></span><div class="tl-body"><h4>Kimi K2 / GLM-4.5 / ChatGPT Agent</h4><p>开放权重继续上探；通用 Agent 进入消费级产品。</p></div></li>
-        <li class="tl-item key"><span class="tl-year">2025-08</span><span class="tl-dot"></span><div class="tl-body"><h4>GPT-5</h4><p>快慢思考合并为自动路由，推理不再是单独售卖的产品线。</p></div></li>
-        <li class="tl-item"><span class="tl-year">2025-09</span><span class="tl-dot"></span><div class="tl-body"><h4>DeepSeek-V3.2-Exp</h4><p>稀疏注意力把长上下文成本压下来，API 同步降价。</p></div></li>
-        <li class="tl-item now"><span class="tl-year">2025-11</span><span class="tl-dot"></span><div class="tl-body"><h4>Gemini 3 / Claude Opus 4.5 / K2 Thinking</h4><p>多模态、长任务与工具调用同时推进；开放权重继续逼近。这是本页知识基线的终点。</p></div></li>
-      </ul>
-    </article>
-
-    <article class="chapter" id="e5">
-      <div class="ch-head"><span class="ch-num">15</span><h2>2026：待补充</h2></div>
-      <div class="empty">
-        <span class="glyph">2026 / PENDING</span>
-        <p>这一段留空。需要逐条核对官方发布、日期与权重形态后再写，不按趋势推测。</p>
-      </div>
-      <p class="table-note">
-        补充时沿用上面的规则：只收「新机制」与「改变默认做法」的节点；日期不确定到月就不写日。
-      </p>
-    </article>
+    <div class="board is-static" data-board="b1">
+      <article class="bd-card" data-k="两段式推理 Prefill / Decode" data-region="" data-base="">
+        <span class="bd-rank">01</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3><a href="principles/01-%E4%B8%80%E6%AC%A1%E7%94%9F%E6%88%90%E5%9C%A8%E7%AE%97%E4%BB%80%E4%B9%88.html">两段式推理 Prefill / Decode</a></h3><span class="bd-when">2023-01</span></div>
+          <p class="bd-meta">生成 · 工程口径，无单篇论文</p>
+          <p class="bd-note">输入并行算、输出逐字算；容量规划按这两段分开算，混在一起会算出错的并发数。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="KV Cache" data-region="" data-base="">
+        <span class="bd-rank">02</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3><a href="principles/01-%E4%B8%80%E6%AC%A1%E7%94%9F%E6%88%90%E5%9C%A8%E7%AE%97%E4%BB%80%E4%B9%88.html">KV Cache</a></h3><span class="bd-when">2020-06</span></div>
+          <p class="bd-meta">生成 · vLLM 等推理框架</p>
+          <p class="bd-note">缓存已算过的键值，避免每生成一个字重算前文；长上下文吃显存的主因。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="自注意力" data-region="" data-base="">
+        <span class="bd-rank">03</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3><a href="principles/02-%E6%B3%A8%E6%84%8F%E5%8A%9B%E4%B8%8E%E9%95%BF%E4%B8%8A%E4%B8%8B%E6%96%87.html">自注意力</a></h3><span class="bd-when">2017-06</span></div>
+          <p class="bd-meta">结构 · Transformer</p>
+          <p class="bd-note">每个 token 与前文所有 token 算相关性，计算量随序列长度平方增长。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="多头与 GQA / MQA" data-region="" data-base="">
+        <span class="bd-rank">04</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3><a href="principles/02-%E6%B3%A8%E6%84%8F%E5%8A%9B%E4%B8%8E%E9%95%BF%E4%B8%8A%E4%B8%8B%E6%96%87.html">多头与 GQA / MQA</a></h3><span class="bd-when">2023-07</span></div>
+          <p class="bd-meta">结构 · LLaMA 2 起成为默认</p>
+          <p class="bd-note">多个 Query 共享少量 KV 头，直接压缩 KV Cache，代价是表达能力略降。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="FlashAttention" data-region="" data-base="">
+        <span class="bd-rank">05</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3><a href="principles/02-%E6%B3%A8%E6%84%8F%E5%8A%9B%E4%B8%8E%E9%95%BF%E4%B8%8A%E4%B8%8B%E6%96%87.html">FlashAttention</a></h3><span class="bd-when">2022-06</span></div>
+          <p class="bd-meta">结构 · Dao 等</p>
+          <p class="bd-note">不改变数学结果，只减少显存读写；它省的是 IO，不是 FLOPs。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="稀疏注意力" data-region="" data-base="">
+        <span class="bd-rank">06</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3><a href="principles/02-%E6%B3%A8%E6%84%8F%E5%8A%9B%E4%B8%8E%E9%95%BF%E4%B8%8A%E4%B8%8B%E6%96%87.html">稀疏注意力</a></h3><span class="bd-when">2025-09</span></div>
+          <p class="bd-meta">结构 · DeepSeek-V3.2-Exp</p>
+          <p class="bd-note">只算部分位置，用近似换长度；长上下文降价的直接来源。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="MoE 混合专家" data-region="" data-base="">
+        <span class="bd-rank">07</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3><a href="principles/05-MoE-%E6%80%BB%E5%8F%82%E6%95%B0%E4%B8%8E%E6%BF%80%E6%B4%BB%E5%8F%82%E6%95%B0.html">MoE 混合专家</a></h3><span class="bd-when">2021-01</span></div>
+          <p class="bd-meta">结构 · Switch Transformer</p>
+          <p class="bd-note">显存按总参数、算力按激活参数；看到 1T 参数不等于要 1T 稠密的算力。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="预训练" data-region="" data-base="">
+        <span class="bd-rank">08</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3><a href="principles/03-%E8%AE%AD%E7%BB%83%E5%88%86%E4%B8%89%E6%AE%B5.html">预训练</a></h3><span class="bd-when">2020-05</span></div>
+          <p class="bd-meta">训练 · GPT-3 / Scaling Laws</p>
+          <p class="bd-note">万亿级 token 上做下一词预测，决定能力上限，成本也最高。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="监督微调 SFT" data-region="" data-base="">
+        <span class="bd-rank">09</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3><a href="principles/03-%E8%AE%AD%E7%BB%83%E5%88%86%E4%B8%89%E6%AE%B5.html">监督微调 SFT</a></h3><span class="bd-when">2022-01</span></div>
+          <p class="bd-meta">训练 · InstructGPT</p>
+          <p class="bd-note">用高质量对话把「补全器」变成「助手」，不增加知识。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="偏好优化 RLHF / DPO" data-region="" data-base="">
+        <span class="bd-rank">10</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3><a href="principles/03-%E8%AE%AD%E7%BB%83%E5%88%86%E4%B8%89%E6%AE%B5.html">偏好优化 RLHF / DPO</a></h3><span class="bd-when">2022-03</span></div>
+          <p class="bd-meta">训练 · InstructGPT / DPO</p>
+          <p class="bd-note">用人类偏好排序调输出风格：更有用、更少有害、更愿意承认不知道。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="可验证强化学习 RLVR" data-region="" data-base="">
+        <span class="bd-rank">11</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3><a href="principles/03-%E8%AE%AD%E7%BB%83%E5%88%86%E4%B8%89%E6%AE%B5.html">可验证强化学习 RLVR</a></h3><span class="bd-when">2025-01</span></div>
+          <p class="bd-meta">训练 · DeepSeek-R1</p>
+          <p class="bd-note">只在能自动判对错的领域给奖励，数学与代码先被吃透。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="test-time compute" data-region="" data-base="">
+        <span class="bd-rank">12</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3><a href="principles/04-%E6%8E%A8%E7%90%86%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%80%9D%E8%80%83%E9%A2%84%E7%AE%97.html">test-time compute</a></h3><span class="bd-when">2024-09</span></div>
+          <p class="bd-meta">推理 · o1</p>
+          <p class="bd-note">用更多思考 token 换正确率，边际收益递减；简单任务上只是更贵更慢。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="权重量化" data-region="" data-base="">
+        <span class="bd-rank">13</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3><a href="principles/07-%E9%87%8F%E5%8C%96%E4%B8%8E%E8%92%B8%E9%A6%8F.html">权重量化</a></h3><span class="bd-when">2022-08</span></div>
+          <p class="bd-meta">压缩 · GPTQ / LLM.int8</p>
+          <p class="bd-note">压到 8/4 bit，省显存与带宽；4 位在数学与长链推理上更容易掉点。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="蒸馏" data-region="" data-base="">
+        <span class="bd-rank">14</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3><a href="principles/07-%E9%87%8F%E5%8C%96%E4%B8%8E%E8%92%B8%E9%A6%8F.html">蒸馏</a></h3><span class="bd-when">2015-03</span></div>
+          <p class="bd-meta">压缩 · Hinton / 扩散步数蒸馏</p>
+          <p class="bd-note">大模型教小模型，或多步教少步；上限受教师与数据限制。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="潜空间扩散" data-region="" data-base="">
+        <span class="bd-rank">15</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3><a href="principles/06-%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B.html">潜空间扩散</a></h3><span class="bd-when">2021-12</span></div>
+          <p class="bd-meta">图像 · Latent Diffusion / Stable Diffusion</p>
+          <p class="bd-note">先压到 VAE 潜空间再去噪，比像素空间省一个数量级算力。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="条件注入 ControlNet / IPAdapter" data-region="" data-base="">
+        <span class="bd-rank">16</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3><a href="principles/06-%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B.html">条件注入 ControlNet / IPAdapter</a></h3><span class="bd-when">2023-02</span></div>
+          <p class="bd-meta">图像 · ControlNet</p>
+          <p class="bd-note">不改变扩散本身，只把结构、风格或身份条件注入去噪过程。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="脚手架与评测口径" data-region="" data-base="">
+        <span class="bd-rank">17</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3><a href="principles/08-%E8%AF%84%E4%BC%B0%E4%B8%8E%E5%B9%BB%E8%A7%89.html">脚手架与评测口径</a></h3><span class="bd-when">2025-06</span></div>
+          <p class="bd-meta">评估 · 2025 起评测圈内部用语</p>
+          <p class="bd-note">分数必须带脚手架、采样次数与成本，否则放在一起比较会误导。</p>
+        </div>
+      </article>
+    </div>
+    <p class="bd-empty-tip" hidden>这一档还没有数据。换成「全部」看完整榜单。</p>
+    
+    
   </section>
-
+  <section class="blk" id="cards">
+    <div class="blk-head">
+      <span class="blk-num">03</span>
+      <h2>先看这四篇</h2>
+      <span class="blk-note">如果只读四篇，读这四篇：成本从哪来、词是什么意思、哪些说法已经过期、事情是按什么顺序发生的。</span>
+    </div>
+    <div class="cx-grid">
+      <a class="cx-card" href="principles/01-一次生成在算什么.html">
+        <span class="cx-no">01</span>
+        <span class="cx-kicker">基础</span>
+        <h3>一次生成在算什么</h3>
+        <p>prefill 吃算力、decode 吃带宽。这一条区分能解释长上下文为什么贵、量化为什么提速。</p>
+        <span class="cx-foot"><span>推理成本</span><span class="cx-go">打开 →</span></span>
+      </a>
+      <a class="cx-card" href="principles/09-概念释义速查.html">
+        <span class="cx-no">02</span>
+        <span class="cx-kicker">速查</span>
+        <h3>概念释义</h3>
+        <p>18 个高频词，按「什么时候进来」排，每条写到能判断该不该用的深度。</p>
+        <span class="cx-foot"><span>术语</span><span class="cx-go">打开 →</span></span>
+      </a>
+      <a class="cx-card" href="principles/10-发展追踪.html">
+        <span class="cx-no">03</span>
+        <span class="cx-kicker">复核</span>
+        <h3>发展追踪</h3>
+        <p>每个概念的三个时间点：被提出、变成默认、暴露短板。第三列每季度复核。</p>
+        <span class="cx-foot"><span>时效</span><span class="cx-go">打开 →</span></span>
+      </a>
+      <a class="cx-card" href="principles/11-时间线-符号主义到连接主义.html">
+        <span class="cx-no">04</span>
+        <span class="cx-kicker">历史</span>
+        <h3>时间线 · 1943 → 2025</h3>
+        <p>四段时间线，只收提出新机制的论文与改变默认做法的产品。2026 年留空。</p>
+        <span class="cx-foot"><span>四段</span><span class="cx-go">打开 →</span></span>
+      </a>
+    </div>
+  </section>
+  <section class="blk" id="reports">
+    <div class="blk-head">
+      <span class="blk-num">04</span>
+      <h2>报告</h2>
+      <span class="blk-note">共 14 篇 · 点开是独立页</span>
+    </div>
+    <div class="rpt-card">
+      <div class="rpt-bar">
+        <button class="rpt-chip on" data-tag="">全部 <i>14</i></button><button class="rpt-chip" data-tag="历史">历史 <i>5</i></button><button class="rpt-chip" data-tag="时间线">时间线 <i>4</i></button><button class="rpt-chip" data-tag="显存">显存 <i>3</i></button><button class="rpt-chip" data-tag="成本">成本 <i>2</i></button><button class="rpt-chip" data-tag="推理">推理 <i>2</i></button><button class="rpt-chip" data-tag="结构">结构 <i>2</i></button><button class="rpt-chip" data-tag="训练">训练 <i>2</i></button><button class="rpt-chip" data-tag="速查">速查 <i>2</i></button>
+        <span class="rpt-hint" hidden></span>
+      </div>
+      <div class="rpt-grid">
+        <a class="rpt-item" data-tags="推理,成本,显存" href="principles/01-%E4%B8%80%E6%AC%A1%E7%94%9F%E6%88%90%E5%9C%A8%E7%AE%97%E4%BB%80%E4%B9%88.html">
+        <span class="rpt-top"><time>2025-11-24</time><span class="rpt-go">→</span></span>
+        <h3>一次生成到底在算什么</h3>
+        <p>自回归生成分 prefill 和 decode 两段，前者吃算力，后者吃带宽。这一条区分能解释长上下文为什么贵、量化为什么提速、统一内存机器为什么慢。</p>
+        <span class="rpt-tags"><span class="rpt-tag">推理</span><span class="rpt-tag">成本</span><span class="rpt-tag">显存</span></span>
+      </a>
+        <a class="rpt-item" data-tags="结构,注意力,长上下文" href="principles/02-%E6%B3%A8%E6%84%8F%E5%8A%9B%E4%B8%8E%E9%95%BF%E4%B8%8A%E4%B8%8B%E6%96%87.html">
+        <span class="rpt-top"><time>2025-11-24</time><span class="rpt-go">→</span></span>
+        <h3>注意力与长上下文</h3>
+        <p>每个 token 与前文所有 token 算相关性，计算量随长度平方增长。三种主流优化分别治不同病：FlashAttention 治 IO，GQA 治缓存，稀疏注意力治长度。</p>
+        <span class="rpt-tags"><span class="rpt-tag">结构</span><span class="rpt-tag">注意力</span><span class="rpt-tag">长上下文</span></span>
+      </a>
+        <a class="rpt-item" data-tags="训练,对齐" href="principles/03-%E8%AE%AD%E7%BB%83%E5%88%86%E4%B8%89%E6%AE%B5.html">
+        <span class="rpt-top"><time>2025-11-24</time><span class="rpt-go">→</span></span>
+        <h3>训练分三段</h3>
+        <p>预训练定上限，SFT 把补全器变成助手，偏好优化调风格。2025 年多出来的第四段是可验证强化学习——只在能自动判对错的领域有效。</p>
+        <span class="rpt-tags"><span class="rpt-tag">训练</span><span class="rpt-tag">对齐</span></span>
+      </a>
+        <a class="rpt-item" data-tags="推理,训练,成本" href="principles/04-%E6%8E%A8%E7%90%86%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%80%9D%E8%80%83%E9%A2%84%E7%AE%97.html">
+        <span class="rpt-top"><time>2025-11-24</time><span class="rpt-go">→</span></span>
+        <h3>推理模型与思考预算</h3>
+        <p>推理模型把「想」变成显式的 token：先写中间步骤再给答案。它更强是有条件的——题目越难越可验证，收益越大；简单任务上只是更贵更慢。</p>
+        <span class="rpt-tags"><span class="rpt-tag">推理</span><span class="rpt-tag">训练</span><span class="rpt-tag">成本</span></span>
+      </a>
+        <a class="rpt-item" data-tags="结构,显存,MoE" href="principles/05-MoE-%E6%80%BB%E5%8F%82%E6%95%B0%E4%B8%8E%E6%BF%80%E6%B4%BB%E5%8F%82%E6%95%B0.html">
+        <span class="rpt-top"><time>2025-11-24</time><span class="rpt-go">→</span></span>
+        <h3>MoE：总参数与激活参数</h3>
+        <p>混合专家把 FFN 拆成多组，每个 token 只选 top-k 组计算。于是总参数决定显存，激活参数决定单 token 算力。这是理解开源模型规格表的第一道门槛。</p>
+        <span class="rpt-tags"><span class="rpt-tag">结构</span><span class="rpt-tag">显存</span><span class="rpt-tag">MoE</span></span>
+      </a>
+        <a class="rpt-item" data-tags="图像,扩散" href="principles/06-%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B.html">
+        <span class="rpt-top"><time>2025-11-24</time><span class="rpt-go">→</span></span>
+        <h3>扩散模型：图像是怎么出来的</h3>
+        <p>训练时给图片逐步加噪，让网络学会预测噪声；生成时从纯噪声出发反复去噪。真正决定出图效果的是四个旋钮：步数、CFG、denoise、潜空间通道数。</p>
+        <span class="rpt-tags"><span class="rpt-tag">图像</span><span class="rpt-tag">扩散</span></span>
+      </a>
+        <a class="rpt-item" data-tags="压缩,显存,部署" href="principles/07-%E9%87%8F%E5%8C%96%E4%B8%8E%E8%92%B8%E9%A6%8F.html">
+        <span class="rpt-top"><time>2025-11-24</time><span class="rpt-go">→</span></span>
+        <h3>量化与蒸馏</h3>
+        <p>量化省显存与带宽，蒸馏省参数与步数，两者常被混为一谈。经验上 8 位几乎无损，4 位在数学、代码和长链推理上更容易掉点，能不能接受要用自己的任务测。</p>
+        <span class="rpt-tags"><span class="rpt-tag">压缩</span><span class="rpt-tag">显存</span><span class="rpt-tag">部署</span></span>
+      </a>
+        <a class="rpt-item" data-tags="评估,幻觉" href="principles/08-%E8%AF%84%E4%BC%B0%E4%B8%8E%E5%B9%BB%E8%A7%89.html">
+        <span class="rpt-top"><time>2025-11-24</time><span class="rpt-go">→</span></span>
+        <h3>评估与幻觉</h3>
+        <p>幻觉不是「模型撒谎」，而是下一词预测在缺乏依据时仍会生成流畅文本。分数不可比的原因有六个，其中基准污染和脚手架混淆最容易被忽略。</p>
+        <span class="rpt-tags"><span class="rpt-tag">评估</span><span class="rpt-tag">幻觉</span></span>
+      </a>
+        <a class="rpt-item" data-tags="速查,概念" href="principles/09-%E6%A6%82%E5%BF%B5%E9%87%8A%E4%B9%89%E9%80%9F%E6%9F%A5.html">
+        <span class="rpt-top"><time>2025-11-24</time><span class="rpt-go">→</span></span>
+        <h3>概念释义速查</h3>
+        <p>18 个高频词的释义，按「什么时候进来」排。每条只写到能判断「该不该用它」的深度，不展开推导。</p>
+        <span class="rpt-tags"><span class="rpt-tag">速查</span><span class="rpt-tag">概念</span></span>
+      </a>
+        <a class="rpt-item" data-tags="速查,历史" href="principles/10-%E5%8F%91%E5%B1%95%E8%BF%BD%E8%B8%AA.html">
+        <span class="rpt-top"><time>2025-11-24</time><span class="rpt-go">→</span></span>
+        <h3>发展追踪：三个时间点</h3>
+        <p>同一个概念有三个时间点：被提出、变成默认做法、暴露短板。第三个最有用——它告诉你现在该防什么。每季度只复核最后一列。</p>
+        <span class="rpt-tags"><span class="rpt-tag">速查</span><span class="rpt-tag">历史</span></span>
+      </a>
+        <a class="rpt-item" data-tags="历史,时间线" href="principles/11-%E6%97%B6%E9%97%B4%E7%BA%BF-%E7%AC%A6%E5%8F%B7%E4%B8%BB%E4%B9%89%E5%88%B0%E8%BF%9E%E6%8E%A5%E4%B8%BB%E4%B9%89.html" id="e1">
+        <span class="rpt-top"><time>2025-11-24</time><span class="rpt-go">→</span></span>
+        <h3>时间线 ①：符号主义与连接主义（1943–1997）</h3>
+        <p>AI 的头五十年换了三次主导路线：符号主义靠规则，连接主义靠可训练网络，中间夹着两次低潮。这一段的价值是看清「路线之争」从来不是纯技术问题。</p>
+        <span class="rpt-tags"><span class="rpt-tag">历史</span><span class="rpt-tag">时间线</span></span>
+      </a>
+        <a class="rpt-item" data-tags="历史,时间线" href="principles/12-%E6%97%B6%E9%97%B4%E7%BA%BF-%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%A4%8D%E5%85%B4.html">
+        <span class="rpt-top"><time>2025-11-24</time><span class="rpt-go">→</span></span>
+        <h3>时间线 ②：深度学习复兴（2006–2016）</h3>
+        <p>十年里发生了三件关键的事：逐层预训练证明深层网络可训，ImageNet 提供了统一尺子，GPU 让训练变得可行。缺任何一件，深度学习都不会在 2012 年爆发。</p>
+        <span class="rpt-tags"><span class="rpt-tag">历史</span><span class="rpt-tag">时间线</span></span>
+      </a>
+        <a class="rpt-item" data-tags="历史,时间线" href="principles/13-%E6%97%B6%E9%97%B4%E7%BA%BF-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%A5%A0%E5%9F%BA.html">
+        <span class="rpt-top"><time>2025-11-24</time><span class="rpt-go">→</span></span>
+        <h3>时间线 ③：大模型奠基（2017–2022）</h3>
+        <p>六年里定下了此后所有模型的基本形状：Transformer 做底座，预训练+微调做范式，缩放规律做决策依据，ChatGPT 把这一切做成了产品。</p>
+        <span class="rpt-tags"><span class="rpt-tag">历史</span><span class="rpt-tag">时间线</span></span>
+      </a>
+        <a class="rpt-item" data-tags="历史,时间线" href="principles/14-%E6%97%B6%E9%97%B4%E7%BA%BF-%E5%A4%9A%E6%A8%A1%E6%80%81%E6%8E%A8%E7%90%86%E4%B8%8EAgent.html">
+        <span class="rpt-top"><time>2025-11-24</time><span class="rpt-go">→</span></span>
+        <h3>时间线 ④：多模态、推理与 Agent（2023–2025）</h3>
+        <p>三年里三条线并行推进：多模态成为旗舰默认形态，推理从单独产品并回默认路由，Agent 从演示走进 IDE 和终端。2026 年这一段留空待补。</p>
+        <span class="rpt-tags"><span class="rpt-tag">历史</span><span class="rpt-tag">时间线</span></span>
+      </a>
+      </div>
+    </div>
+  </section>
   <nav class="pager">
     <a href="apps.html"><span class="pg-l">← PREV</span><span class="pg-t">06 应用</span></a>
     <a class="next" href="local.html"><span class="pg-l">NEXT →</span><span class="pg-t">08 本地部署</span></a>
   </nav>
-
 </main>
 
 <footer class="footer">
   <div class="wrap footer-grid">
     <div>
       <h5>定位</h5>
-      <p>AI 发展监控台：把基模、Agent、公司、硬件、应用、原理、历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
-      <p class="fine">公式为数量级口径，省略常数项与实现细节，只用于估算与排障。</p>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
     </div>
     <div>
       <h5>数据口径</h5>
-      <p class="fine">知识基线：2025-11 公开资料<br>2026 年新增进展：待补充<br>公式：简化，不作精确性能建模<br>评测分数：无出处不收录</p>
+      <p class="fine">知识基线：2025-11 公开资料<br>2026 年新增进展：待补充<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
       <p class="fine">页面不含本机路径、账号与未公开数据。</p>
     </div>
     <div>
@@ -466,6 +390,5 @@ latent 通道数  不同架构不通用，SDXL 4 通道 ≠ Z-Image 16 通道</p
     </div>
   </div>
 </footer>
-
 </body>
 </html>

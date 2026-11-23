@@ -1,0 +1,18 @@
+排名,机制,环节,代表工作,时间,说明,链接
+01,两段式推理 Prefill / Decode,生成,工程口径，无单篇论文,2023-01,输入并行算、输出逐字算；容量规划按这两段分开算，混在一起会算出错的并发数。,principles/01-%E4%B8%80%E6%AC%A1%E7%94%9F%E6%88%90%E5%9C%A8%E7%AE%97%E4%BB%80%E4%B9%88.html
+02,KV Cache,生成,vLLM 等推理框架,2020-06,缓存已算过的键值，避免每生成一个字重算前文；长上下文吃显存的主因。,principles/01-%E4%B8%80%E6%AC%A1%E7%94%9F%E6%88%90%E5%9C%A8%E7%AE%97%E4%BB%80%E4%B9%88.html
+03,自注意力,结构,Transformer,2017-06,每个 token 与前文所有 token 算相关性，计算量随序列长度平方增长。,principles/02-%E6%B3%A8%E6%84%8F%E5%8A%9B%E4%B8%8E%E9%95%BF%E4%B8%8A%E4%B8%8B%E6%96%87.html
+04,多头与 GQA / MQA,结构,LLaMA 2 起成为默认,2023-07,多个 Query 共享少量 KV 头，直接压缩 KV Cache，代价是表达能力略降。,principles/02-%E6%B3%A8%E6%84%8F%E5%8A%9B%E4%B8%8E%E9%95%BF%E4%B8%8A%E4%B8%8B%E6%96%87.html
+05,FlashAttention,结构,Dao 等,2022-06,不改变数学结果，只减少显存读写；它省的是 IO，不是 FLOPs。,principles/02-%E6%B3%A8%E6%84%8F%E5%8A%9B%E4%B8%8E%E9%95%BF%E4%B8%8A%E4%B8%8B%E6%96%87.html
+06,稀疏注意力,结构,DeepSeek-V3.2-Exp,2025-09,只算部分位置，用近似换长度；长上下文降价的直接来源。,principles/02-%E6%B3%A8%E6%84%8F%E5%8A%9B%E4%B8%8E%E9%95%BF%E4%B8%8A%E4%B8%8B%E6%96%87.html
+07,MoE 混合专家,结构,Switch Transformer,2021-01,显存按总参数、算力按激活参数；看到 1T 参数不等于要 1T 稠密的算力。,principles/05-MoE-%E6%80%BB%E5%8F%82%E6%95%B0%E4%B8%8E%E6%BF%80%E6%B4%BB%E5%8F%82%E6%95%B0.html
+08,预训练,训练,GPT-3 / Scaling Laws,2020-05,万亿级 token 上做下一词预测，决定能力上限，成本也最高。,principles/03-%E8%AE%AD%E7%BB%83%E5%88%86%E4%B8%89%E6%AE%B5.html
+09,监督微调 SFT,训练,InstructGPT,2022-01,用高质量对话把「补全器」变成「助手」，不增加知识。,principles/03-%E8%AE%AD%E7%BB%83%E5%88%86%E4%B8%89%E6%AE%B5.html
+10,偏好优化 RLHF / DPO,训练,InstructGPT / DPO,2022-03,用人类偏好排序调输出风格：更有用、更少有害、更愿意承认不知道。,principles/03-%E8%AE%AD%E7%BB%83%E5%88%86%E4%B8%89%E6%AE%B5.html
+11,可验证强化学习 RLVR,训练,DeepSeek-R1,2025-01,只在能自动判对错的领域给奖励，数学与代码先被吃透。,principles/03-%E8%AE%AD%E7%BB%83%E5%88%86%E4%B8%89%E6%AE%B5.html
+12,test-time compute,推理,o1,2024-09,用更多思考 token 换正确率，边际收益递减；简单任务上只是更贵更慢。,principles/04-%E6%8E%A8%E7%90%86%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%80%9D%E8%80%83%E9%A2%84%E7%AE%97.html
+13,权重量化,压缩,GPTQ / LLM.int8,2022-08,压到 8/4 bit，省显存与带宽；4 位在数学与长链推理上更容易掉点。,principles/07-%E9%87%8F%E5%8C%96%E4%B8%8E%E8%92%B8%E9%A6%8F.html
+14,蒸馏,压缩,Hinton / 扩散步数蒸馏,2015-03,大模型教小模型，或多步教少步；上限受教师与数据限制。,principles/07-%E9%87%8F%E5%8C%96%E4%B8%8E%E8%92%B8%E9%A6%8F.html
+15,潜空间扩散,图像,Latent Diffusion / Stable Diffusion,2021-12,先压到 VAE 潜空间再去噪，比像素空间省一个数量级算力。,principles/06-%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B.html
+16,条件注入 ControlNet / IPAdapter,图像,ControlNet,2023-02,不改变扩散本身，只把结构、风格或身份条件注入去噪过程。,principles/06-%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B.html
+17,脚手架与评测口径,评估,2025 起评测圈内部用语,2025-06,分数必须带脚手架、采样次数与成本，否则放在一起比较会误导。,principles/08-%E8%AF%84%E4%BC%B0%E4%B8%8E%E5%B9%BB%E8%A7%89.html

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>评估与幻觉 · 原理 · 历史</title>
+<meta name="description" content="幻觉不是「模型撒谎」，而是下一词预测在缺乏依据时仍会生成流畅文本。分数不可比的原因有六个，其中基准污染和脚手架混淆最容易被忽略。">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/section.css">
+<script src="../assets/js/board.js" defer></script>
+<script src="../assets/js/ranks.js" defer></script>
+<script src="../assets/js/reports.js" defer></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a href="../models.html">基模</a>
+      <a href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a href="../hardware.html">硬件</a>
+      <a href="../templates.html">模板</a>
+      <a href="../apps.html">应用</a>
+      <a class="is-active" href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-24</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">Principles</span>
+    <a href="../principles.html">← 回「原理 · 历史」</a>
+    <a href="../principles.html#intro">简介</a>
+    <a href="../principles.html#board">机制</a>
+    <a href="../principles.html#cards">概念</a>
+    <a href="../principles.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../principles.html">原理 · 历史</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2025-11-24 · 评估 · 幻觉</p>
+    <h1 class="post-title">评估与幻觉</h1>
+    <p class="post-lede">幻觉不是「模型撒谎」，而是下一词预测在缺乏依据时仍会生成流畅文本。分数不可比的原因有六个，其中基准污染和脚手架混淆最容易被忽略。</p>
+    <div class="post-body">
+<p>幻觉不是「模型撒谎」，而是下一词预测在缺乏依据时仍会生成流畅文本。 检索、引用、工具调用和「允许说不知道」都在缓解它，但都不能消除。</p>
+<p>这句话听起来像在替模型辩解，实际是在说：这是机制层面的产物，不是态度问题。 所以「让模型别瞎编」这类指令只能降低频率，不能变成保证。</p>
+<h2>分数不可比的六个原因</h2>
+<ul><li><strong>基准污染</strong>：测试集进入训练语料，分数虚高。</li><li><strong>单次采样</strong>：只看一次结果，忽略方差。</li><li><strong>脚手架混淆</strong>：把工具与提示词的功劳算给模型。</li><li><strong>人类偏好</strong>：胜率不等于正确率，讨喜与准确是两回事。</li><li><strong>分布外</strong>：真实业务的长尾远多于基准。</li><li><strong>成本维度</strong>：不看 token 与延迟的评测没有工程意义。</li></ul>
+<p>前两条是技术性的，中间两条是方法论的，后两条是工程性的。</p>
+<p><strong>基准污染</strong>最难排除：模型厂商和评测方都很难证明测试集没进语料，公开榜单里因此长期存在无法验证的分数。 <strong>脚手架混淆</strong>最常被忽略：同一个模型换一套工具和循环，成绩能差出数倍，但排行榜通常只写模型名。</p>
+<h2>本站因此不写分数</h2>
+<p>各板块页不收录具体分数，原因就在这里：没有统一脚手架、采样次数与成本的分数，放一起比较会误导。</p>
+<p>替代做法是写<strong>口径</strong>：这个榜算的是什么、漏了什么、不能用来做什么。 这比一个没有出处的数字有用——数字会随时间过期，口径不会。</p>
+<h2>自己测的时候</h2>
+<ul><li>用真实任务的长尾样本，不要用公开基准的题。</li><li>每条跑 5 次以上，看通过率而不是看最好的那次。</li><li>记录 token 与延迟，否则无法判断「更好」是不是只是「更贵」。</li><li>换脚手架再测一遍，能看出多少成绩来自工具、多少来自模型。</li></ul>
+    </div>
+  </article>
+  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list"><a href="03-%E8%AE%AD%E7%BB%83%E5%88%86%E4%B8%89%E6%AE%B5.html"><b>训练分三段</b><time>2025-11-24</time></a><a href="04-%E6%8E%A8%E7%90%86%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%80%9D%E8%80%83%E9%A2%84%E7%AE%97.html"><b>推理模型与思考预算</b><time>2025-11-24</time></a><a href="10-%E5%8F%91%E5%B1%95%E8%BF%BD%E8%B8%AA.html"><b>发展追踪：三个时间点</b><time>2025-11-24</time></a></div>
+  </nav>
+  <nav class="pager"><a href="../principles.html"><span class="pg-l">← BACK</span><span class="pg-t">原理 · 历史 · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2025-11 公开资料<br>2026 年新增进展：待补充<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">应用</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

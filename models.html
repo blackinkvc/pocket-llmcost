@@ -1556,31 +1556,31 @@
     <div class="blk-head">
       <span class="blk-num">03</span>
       <h2>先弄清这几个词</h2>
-      <span class="blk-note">榜上的分只看数字会误读，四张卡各通向原理页的一节。</span>
+      <span class="blk-note">榜上的分只看数字会误读，四张卡各通向原理板块的一篇报告。</span>
     </div>
     <div class="cx-grid">
-      <a class="cx-card" href="principles.html#moe">
+      <a class="cx-card" href="principles/05-MoE-%E6%80%BB%E5%8F%82%E6%95%B0%E4%B8%8E%E6%BF%80%E6%B4%BB%E5%8F%82%E6%95%B0.html">
         <span class="cx-no">01</span>
         <span class="cx-kicker">结构</span>
         <h3>MoE：总参数与激活参数</h3>
         <p>总参数决定显存占用，激活参数决定单 token 计算量。看 MoE 模型别只比总参数量——同一句「1T 参数」，跑起来的成本可能差一个量级。</p>
         <span class="cx-foot"><span>原理 · 05</span><span class="cx-go">打开 →</span></span>
       </a>
-      <a class="cx-card" href="principles.html#inference">
+      <a class="cx-card" href="principles/01-%E4%B8%80%E6%AC%A1%E7%94%9F%E6%88%90%E5%9C%A8%E7%AE%97%E4%BB%80%E4%B9%88.html">
         <span class="cx-no">02</span>
         <span class="cx-kicker">成本</span>
         <h3>一次生成到底在算什么</h3>
         <p>prefill 一次性并行算全量输入，吃算力；decode 每吐一个 token 都要把权重读一遍，吃带宽。长输出比长输入贵，根子在这里。</p>
         <span class="cx-foot"><span>原理 · 01</span><span class="cx-go">打开 →</span></span>
       </a>
-      <a class="cx-card" href="principles.html#reasoning">
+      <a class="cx-card" href="principles/04-%E6%8E%A8%E7%90%86%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%80%9D%E8%80%83%E9%A2%84%E7%AE%97.html">
         <span class="cx-no">03</span>
         <span class="cx-kicker">训练</span>
         <h3>推理模型与 test-time compute</h3>
         <p>把「想」变成显式的 token：先写中间步骤再给答案。用更多 token 换正确率，这笔账要算进单价里，而不是只看每百万 token 的标价。</p>
         <span class="cx-foot"><span>原理 · 04</span><span class="cx-go">打开 →</span></span>
       </a>
-      <a class="cx-card" href="principles.html#quant">
+      <a class="cx-card" href="principles/07-%E9%87%8F%E5%8C%96%E4%B8%8E%E8%92%B8%E9%A6%8F.html">
         <span class="cx-no">04</span>
         <span class="cx-kicker">部署</span>
         <h3>量化与蒸馏</h3>

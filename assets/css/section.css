@@ -57,12 +57,17 @@
 }
 /* 前三名用橙色：排序会随筛选变化，所以按位置而不是固定序号 */
 .board .bd-card:nth-child(-n+3) .bd-rank{color:var(--orange)}
+/* 静态索引表的序号是编号，不是名次，不套用前三高亮 */
+.board.is-static .bd-card .bd-rank{color:var(--t3)}
 .bd-main{flex:1;min-width:0}
 .bd-top{display:flex;align-items:baseline;gap:8px}
 .bd-top h3{
   margin:0;font-size:13.5px;font-weight:600;letter-spacing:-.01em;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  overflow-wrap:anywhere;      /* 机制名常带英文缩写，截断比换行更难读 */
 }
+/* 标题可点：指向这篇机制 / 这条目的报告 */
+.bd-top h3 a{color:inherit;text-decoration:none;border-bottom:1px solid transparent}
+.bd-top h3 a:hover{color:var(--orange);border-bottom-color:currentColor}
 .bd-when{
   margin-left:auto;flex:none;font-family:var(--mono);font-size:10.5px;color:var(--t3);
 }

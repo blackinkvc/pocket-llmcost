@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>量化与蒸馏 · 原理 · 历史</title>
+<meta name="description" content="量化省显存与带宽，蒸馏省参数与步数，两者常被混为一谈。经验上 8 位几乎无损，4 位在数学、代码和长链推理上更容易掉点，能不能接受要用自己的任务测。">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/section.css">
+<script src="../assets/js/board.js" defer></script>
+<script src="../assets/js/ranks.js" defer></script>
+<script src="../assets/js/reports.js" defer></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a href="../models.html">基模</a>
+      <a href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a href="../hardware.html">硬件</a>
+      <a href="../templates.html">模板</a>
+      <a href="../apps.html">应用</a>
+      <a class="is-active" href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-24</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">Principles</span>
+    <a href="../principles.html">← 回「原理 · 历史」</a>
+    <a href="../principles.html#intro">简介</a>
+    <a href="../principles.html#board">机制</a>
+    <a href="../principles.html#cards">概念</a>
+    <a href="../principles.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../principles.html">原理 · 历史</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2025-11-24 · 压缩 · 显存 · 部署</p>
+    <h1 class="post-title">量化与蒸馏</h1>
+    <p class="post-lede">量化省显存与带宽，蒸馏省参数与步数，两者常被混为一谈。经验上 8 位几乎无损，4 位在数学、代码和长链推理上更容易掉点，能不能接受要用自己的任务测。</p>
+    <div class="post-body">
+<p>两者常被混为一谈，其实目标不同：<strong>量化省显存与带宽，蒸馏省参数与步数。</strong></p>
+<div class="md-table"><table><thead><tr><th>手段</th><th>做什么</th><th>主要收益</th><th>主要代价</th></tr></thead><tbody><tr><td>FP16 / BF16</td><td>半精度权重</td><td>通用基线</td><td>显存占用最大</td></tr><tr><td>FP8</td><td>8 位浮点</td><td>显存减半，精度损失小</td><td>需要硬件与框架支持</td></tr><tr><td>INT8 / INT4</td><td>整数量化 + 缩放</td><td>显存显著下降，decode 提速</td><td>低比特下细节与长链推理退化</td></tr><tr><td>GGUF</td><td>面向 CPU / 混合推理的格式</td><td>本地部署友好，可按层量化</td><td>生态以 llama.cpp 为主</td></tr><tr><td>AWQ / GPTQ</td><td>面向 GPU 的权重量化</td><td>推理吞吐高</td><td>需要校准数据</td></tr><tr><td>蒸馏</td><td>大模型教小模型，或多步教少步</td><td>小模型接近大模型，步数下降</td><td>上限受教师与数据限制</td></tr></tbody></table></div>
+<h2>量化到底在省什么</h2>
+<p>回到 decode 的性质：每生成一个 token 要把全部权重读一遍。 权重从 16 位压到 4 位，读的字节变成四分之一，速度就快——所以量化主要加速 decode，对 prefill 影响小。</p>
+<p>显存方面，权重占的部分直接降到四分之一，但 <strong>KV Cache 不会跟着降</strong>（除非单独做 KV 量化）。 长上下文场景下，这可能意味着量化后还是装不下同一条长请求。</p>
+<h2>「4 位能用吗」</h2>
+<p>经验上，8 位量化几乎无损；4 位在通用对话上可接受，但在数学、代码和长链推理上更容易掉点。</p>
+<p>这句话的重点是<strong>看任务</strong>：同一个 4 位模型，做闲聊毫无差别，做多步代码修改可能明显变差。 所以本站不写「4 位相当于损失 X%」，没有通用数字，只有你的任务上的数字。要判断就自己跑一遍同一批任务，对比通过率。</p>
+<h2>蒸馏的两条线</h2>
+<p><strong>语言侧</strong>：大模型教小模型，让小模型学的不只是答案，还有整个输出分布。效果是小模型接近上一代大模型。 <strong>扩散侧</strong>：把多步去噪蒸馏成少步，4–8 步出图。代价是细节和多样性略降。</p>
+<p>两条线共同的限制：学生不可能超过老师，能接近就已经是很好的结果。</p>
+    </div>
+  </article>
+  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list"><a href="01-%E4%B8%80%E6%AC%A1%E7%94%9F%E6%88%90%E5%9C%A8%E7%AE%97%E4%BB%80%E4%B9%88.html"><b>一次生成到底在算什么</b><time>2025-11-24</time></a><a href="05-MoE-%E6%80%BB%E5%8F%82%E6%95%B0%E4%B8%8E%E6%BF%80%E6%B4%BB%E5%8F%82%E6%95%B0.html"><b>MoE：总参数与激活参数</b><time>2025-11-24</time></a><a href="02-%E6%B3%A8%E6%84%8F%E5%8A%9B%E4%B8%8E%E9%95%BF%E4%B8%8A%E4%B8%8B%E6%96%87.html"><b>注意力与长上下文</b><time>2025-11-24</time></a></div>
+  </nav>
+  <nav class="pager"><a href="../principles.html"><span class="pg-l">← BACK</span><span class="pg-t">原理 · 历史 · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2025-11 公开资料<br>2026 年新增进展：待补充<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">应用</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

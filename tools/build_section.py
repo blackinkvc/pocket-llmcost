@@ -544,6 +544,7 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
     k_note = f.get("note", "一句话")
     k_when = f.get("when", "时间")
     k_val = f.get("value")
+    k_link = f.get("link")          # 可选：这一列的地址让标题变成链接
     if isinstance(k_meta, str):
         k_meta = [k_meta]
 
@@ -559,6 +560,9 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
         note_txt = (r.get(k_note) or "").strip()
         when = (r.get(k_when) or "").strip()
         val = (r.get(k_val) or "").strip() if k_val else ""
+        link = (r.get(k_link) or "").strip() if k_link else ""
+        name_html = ('<a href="%s">%s</a>' % (escape(link), escape(name))
+                     if link else escape(name))
 
         reg = regions.normalize(r.get("区域"))
         if not reg:
@@ -593,7 +597,7 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
       </article>""" % (
             escape(name), reg, escape(val), date_attr,
             escape(rank) or "·",
-            escape(name),
+            name_html,
             right,
             " · ".join(escape(m) for m in metas),
             '<span class="bd-delta"></span>' if (k_val and mode in ("flow", "stock", "npm")) else "",
@@ -682,6 +686,9 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
     ncls = "blk-note is-long" if len(re.sub(r"<[^>]+>", "", note)) > 50 else "blk-note"
     # 条目少的时候拉成单列：3 列网格里只放 1~3 项，右边总缺一块，看着像没做完
     board_cls = "board is-few" if len(rows) < 4 else "board"
+    if mode == "static":
+        # 静态索引表里的序号不是名次，别让「前三」高亮读出排名含义
+        board_cls += " is-static"
     return """  <section class="blk" id="board%s">
     <div class="blk-head">
       <span class="blk-num">%s</span>
@@ -779,15 +786,20 @@ def block_reports(sec, reports, num):
       </div>
 """ % "".join(chips)
 
+    # 旧锚点兼容：历史页面、各页页头的「时间线」按钮都指向 principles.html#e1，
+    # 板块改成报告结构后原 id 消失了，这里把它落到对应那篇报告的卡片上。
+    alias_of = {t: a for a, t in (sec.cfg.get("anchor_alias") or {}).items()}
+
     items = []
     for r in reports:
         tag_html = "".join('<span class="rpt-tag">%s</span>' % escape(t) for t in r["tags"])
-        items.append("""<a class="rpt-item" data-tags="%s" href="%s">
+        extra_id = (' id="%s"' % escape(alias_of[r["slug"]])) if r["slug"] in alias_of else ""
+        items.append("""<a class="rpt-item" data-tags="%s" href="%s"%s>
         <span class="rpt-top"><time>%s</time><span class="rpt-go">→</span></span>
         <h3>%s</h3>
         <p>%s</p>
         <span class="rpt-tags">%s</span>
-      </a>""" % (escape(",".join(r["tags"])), r["url"], escape(r["date"]),
+      </a>""" % (escape(",".join(r["tags"])), r["url"], extra_id, escape(r["date"]),
                  escape(r["title"]), R.inline(r["summary"]), tag_html))
 
     return """  <section class="blk" id="reports">
