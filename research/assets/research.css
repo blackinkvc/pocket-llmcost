@@ -31,6 +31,15 @@
 .rs-badge.is-published{background:var(--green-bg);color:#0f7a37}
 .rs-badge.is-review{background:var(--orange-bg);color:#9a5b12}
 .rs-badge.is-stub{background:#eef0f2;color:var(--t3)}
+/* 板块标签：研究条目归属哪个站点板块 */
+.rs-chip{
+  display:inline-block;font-size:11px;line-height:1;padding:4px 8px;border-radius:999px;
+  color:var(--t2);background:transparent;border:1px solid var(--line);
+  text-decoration:none;white-space:nowrap;margin-left:6px;
+}
+a.rs-chip:hover{color:var(--t1);border-color:var(--line-2)}
+.rs-card-top .rs-chip{margin-left:6px}
+.rs-table .rs-col-sec{color:var(--t2);font-size:12px;white-space:nowrap}
 
 .rs-lead,.rs-summary{
   font-size:15px;line-height:1.75;color:var(--t2);
@@ -183,13 +192,25 @@
   .rs-wrap{padding-top:18px}
   .rs-kpis{grid-template-columns:repeat(2,1fr)}
   .rs-grid{grid-template-columns:1fr}
-  /* 390px 宽只留「标题 / 状态 / 操作」，其余列折进卡片式阅读 */
+  /* 390px 宽只留「标题 / 状态 / 操作」，板块与日期折进卡片式阅读 */
   .rs-table th:nth-child(3),.rs-table td:nth-child(3),
   .rs-table th:nth-child(4),.rs-table td:nth-child(4),
   .rs-table th:nth-child(5),.rs-table td:nth-child(5),
-  .rs-table th:nth-child(6),.rs-table td:nth-child(6){display:none}
+  .rs-table th:nth-child(6),.rs-table td:nth-child(6),
+  .rs-table th:nth-child(7),.rs-table td:nth-child(7){display:none}
   .rs-table td{padding:9px 8px;font-size:12.5px}
   .rs-table th{padding:9px 8px}
   .rs-table td:first-child{min-width:150px}
   .rs-foot span{margin-left:0;width:100%}
 }
+
+/* 原件是网页时：列表里可点开，正文上方给直达入口 */
+.rs-fn.is-open{color:var(--t1);text-decoration:none;display:inline-flex;align-items:center;gap:7px}
+.rs-fn.is-open:hover{color:#1a56db}
+.rs-open{
+  font-size:10.5px;line-height:1;padding:3px 6px;border-radius:5px;
+  background:var(--line-2);color:var(--t2);font-weight:500;
+}
+.rs-rawopen{margin:16px 0 0;font-size:13px;color:var(--t3)}
+.rs-rawopen a{color:#1a56db;text-decoration:none;margin-right:14px}
+.rs-rawopen a:hover{text-decoration:underline}

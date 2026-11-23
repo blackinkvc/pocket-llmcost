@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenWorker 使用量、产品特点与竞品对比分析</title>
+<style>
+  :root{
+    --bg:#f5f7fa;
+    --paper:#ffffff;
+    --ink:#1f2733;
+    --ink-2:#4a5768;
+    --ink-3:#76839a;
+    --line:#e3e8f0;
+    --brand:#2563eb;
+    --brand-soft:#eaf1ff;
+    --accent:#0f9d8a;
+    --warn:#c2410c;
+    --warn-soft:#fff3ec;
+    --note:#6b46c1;
+    --note-soft:#f3eeff;
+    --radius:12px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"WenQuanYi Micro Hei","PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+    font-size:15px;
+    line-height:1.85;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:32px 24px 80px;}
+
+  /* ---------- Header ---------- */
+  header.hero{
+    background:linear-gradient(135deg,#1b2a4a 0%,#244a86 55%,#2563eb 100%);
+    color:#fff;border-radius:18px;padding:40px 44px 36px;
+    box-shadow:0 12px 32px rgba(28,58,110,.18);
+    position:relative;overflow:hidden;
+  }
+  header.hero::after{
+    content:"";position:absolute;right:-80px;top:-90px;width:300px;height:300px;
+    background:radial-gradient(circle,rgba(255,255,255,.14),transparent 70%);border-radius:50%;
+  }
+  .kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.78;margin:0 0 12px;}
+  header.hero h1{margin:0 0 12px;font-size:30px;line-height:1.4;font-weight:700;letter-spacing:.5px;}
+  header.hero .sub{margin:0;font-size:15px;opacity:.9;max-width:760px;}
+  .meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:10px;}
+  .meta span{
+    background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+    padding:5px 13px;border-radius:999px;font-size:12.5px;
+  }
+
+  /* ---------- Summary cards ---------- */
+  .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px;}
+  .summary .card{
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px 22px;box-shadow:0 2px 10px rgba(30,50,80,.04);
+  }
+  .summary .card .tag{
+    display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.06em;
+    color:var(--brand);background:var(--brand-soft);padding:2px 9px;border-radius:5px;margin-bottom:10px;
+  }
+  .summary .card h3{margin:0 0 8px;font-size:16px;}
+  .summary .card p{margin:0;color:var(--ink-2);font-size:13.5px;line-height:1.75;}
+
+  /* ---------- Layout: nav + main ---------- */
+  .layout{display:grid;grid-template-columns:220px 1fr;gap:28px;margin-top:30px;align-items:start;}
+  nav.toc{
+    position:sticky;top:24px;background:var(--paper);border:1px solid var(--line);
+    border-radius:var(--radius);padding:18px 16px;box-shadow:0 2px 10px rgba(30,50,80,.04);
+  }
+  nav.toc h4{margin:0 0 12px;font-size:12px;letter-spacing:.12em;color:var(--ink-3);text-transform:uppercase;}
+  nav.toc a{
+    display:block;color:var(--ink-2);text-decoration:none;font-size:13px;
+    padding:6px 8px;border-radius:6px;border-left:2px solid transparent;
+  }
+  nav.toc a:hover{background:var(--brand-soft);color:var(--brand);border-left-color:var(--brand);}
+  nav.toc a.lv2{padding-left:20px;font-size:12.5px;color:var(--ink-3);}
+  nav.toc .divider{height:1px;background:var(--line);margin:10px 4px;}
+
+  main{min-width:0;}
+  section{
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+    padding:28px 32px;margin-bottom:22px;box-shadow:0 2px 10px rgba(30,50,80,.04);
+    scroll-margin-top:24px;
+  }
+  section > h2{
+    margin:0 0 6px;font-size:22px;line-height:1.45;padding-bottom:14px;
+    border-bottom:2px solid var(--brand-soft);
+  }
+  section > h2 .num{color:var(--brand);font-weight:800;margin-right:10px;}
+  .lead{color:var(--ink-3);font-size:13px;margin:0 0 22px;}
+  h3{font-size:16.5px;margin:26px 0 10px;color:var(--ink);}
+  h3:first-of-type{margin-top:18px;}
+  h4{font-size:14.5px;margin:18px 0 8px;color:var(--ink-2);}
+  p{margin:0 0 12px;}
+  ul,ol{margin:0 0 14px;padding-left:22px;}
+  li{margin-bottom:7px;}
+  strong{color:#111c2e;font-weight:700;}
+  code{
+    background:#f1f4f9;border:1px solid #e1e7f0;border-radius:4px;
+    padding:1px 6px;font-size:12.5px;color:#2b3b57;
+    font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  }
+
+  /* ---------- Callouts ---------- */
+  .callout{
+    border-radius:10px;padding:16px 20px;margin:16px 0;border-left:4px solid var(--brand);
+    background:var(--brand-soft);
+  }
+  .callout.key{border-left-color:var(--accent);background:#e9f8f5;}
+  .callout.warn{border-left-color:var(--warn);background:var(--warn-soft);}
+  .callout.note{border-left-color:var(--note);background:var(--note-soft);}
+  .callout .label{
+    font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--brand);display:block;margin-bottom:6px;
+  }
+  .callout.key .label{color:var(--accent);}
+  .callout.warn .label{color:var(--warn);}
+  .callout.note .label{color:var(--note);}
+  .callout p:last-child{margin-bottom:0;}
+
+  /* ---------- Table ---------- */
+  .table-wrap{overflow-x:auto;margin:14px 0 20px;border:1px solid var(--line);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560px;}
+  thead th{
+    background:#f0f4fa;color:var(--ink);font-weight:700;text-align:left;
+    padding:12px 14px;border-bottom:2px solid #dbe4f0;white-space:nowrap;
+  }
+  tbody td{padding:11px 14px;border-bottom:1px solid #edf1f6;vertical-align:top;color:var(--ink-2);}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:nth-child(even){background:#fafbfd;}
+  tbody td:first-child{color:var(--ink);font-weight:600;}
+  td .em{color:var(--brand);font-weight:700;}
+
+  /* ---------- Timeline ---------- */
+  .timeline{margin:16px 0 20px;padding-left:18px;border-left:2px solid #cddcf5;}
+  .tl-item{position:relative;padding:0 0 16px 22px;}
+  .tl-item::before{
+    content:"";position:absolute;left:-27px;top:9px;width:11px;height:11px;
+    border-radius:50%;background:var(--brand);border:2px solid #fff;box-shadow:0 0 0 2px #cddcf5;
+  }
+  .tl-item .when{font-size:12.5px;font-weight:800;color:var(--brand);letter-spacing:.02em;}
+  .tl-item .what{font-size:13.5px;color:var(--ink-2);}
+
+  /* ---------- Feature grid ---------- */
+  .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:14px 0 20px;}
+  .tile{
+    border:1px solid var(--line);border-radius:10px;padding:16px 18px;background:#fcfdff;
+  }
+  .tile h4{margin:0 0 8px;font-size:14.5px;color:var(--ink);}
+  .tile h4 span{
+    display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;
+    background:var(--brand);color:#fff;border-radius:6px;font-size:12px;margin-right:8px;
+  }
+  .tile p{font-size:13.3px;color:var(--ink-2);margin:0;}
+  .drop3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0 20px;}
+
+  /* ---------- Choice list ---------- */
+  .choices{display:grid;gap:12px;margin:14px 0 8px;}
+  .choice{
+    display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:start;
+    border:1px solid var(--line);border-radius:10px;padding:15px 18px;background:#fcfdff;
+  }
+  .choice .who{font-weight:800;color:var(--brand);font-size:14px;}
+  .choice .desc{font-size:13.5px;color:var(--ink-2);}
+
+  /* ---------- Source list ---------- */
+  .src-cols{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
+  .src-cols ul{font-size:13px;color:var(--ink-2);margin:0;padding-left:20px;}
+
+  footer.foot{text-align:center;color:var(--ink-3);font-size:12.5px;margin-top:26px;line-height:1.9;}
+
+  .backtop{
+    position:fixed;right:26px;bottom:26px;background:var(--brand);color:#fff;
+    width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    text-decoration:none;box-shadow:0 6px 18px rgba(37,99,235,.35);font-size:18px;
+  }
+  .backtop:hover{background:#1d4ed8;}
+
+  @media (max-width:860px){
+    .layout{grid-template-columns:1fr;}
+    nav.toc{position:static;}
+    .summary,.grid2,.drop3,.src-cols{grid-template-columns:1fr;}
+    .choice{grid-template-columns:1fr;gap:4px;}
+    header.hero{padding:28px 24px;}
+    section{padding:22px 20px;}
+  }
+  @media print{
+    body{background:#fff;}
+    nav.toc,.backtop{display:none;}
+    .layout{display:block;}
+    section,.summary .card,header.hero{box-shadow:none;break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap" id="top">
+
+  <header class="hero">
+    <p class="kicker">Research Note · AI Agent</p>
+    <h1>OpenWorker 使用量、产品特点与竞品对比分析</h1>
+    <p class="sub">从公开可查的 GitHub 热度代理指标出发，梳理其真实使用量口径、相对其他 Agent 的差异化优势，以及与腾讯 WorkBuddy、字节 TraeWork / 豆包工作的正面对比。</p>
+    <div class="meta">
+      <span>整理日期：2026-11-23</span>
+      <span>语言：中文</span>
+      <span>范围：使用量 / 产品特点 / 竞品对比</span>
+      <span>项目状态：Open Beta（v0.3.1）</span>
+    </div>
+  </header>
+
+  <div class="summary">
+    <div class="card">
+      <span class="tag">01 · 使用量</span>
+      <h3>没有公开的「真实使用量」</h3>
+      <p>本地运行、无需注册、自带模型密钥（BYOK）的 MIT 开源桌面 Agent，官方无中心化遥测，未公布 DAU/MAU、安装量、任务调用量，连自主任务完成率都明确未发布。可看的只有 GitHub 热度代理指标。</p>
+    </div>
+    <div class="card">
+      <span class="tag">02 · 特点</span>
+      <h3>优势不是「更聪明」，是「把控制权还给你」</h3>
+      <p>少见的集齐「本地优先 + MIT 开源 + 任意模型（含完全离线）+ 成品交付」四样。治理写进架构：硬性人工底线、审批阶梯、复核熔断、执行沙箱、全量审计轨迹。</p>
+    </div>
+    <div class="card">
+      <span class="tag">03 · 竞品</span>
+      <h3>不是同一量级的比较</h3>
+      <p>WorkBuddy 日活超 1000 万、日均 Token 超 100 万亿；TraeWork / 豆包工作同在千万量级。OpenWorker 是三个月大、19K Star 的开源 beta，规模差约三个数量级。</p>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <nav class="toc">
+      <h4>目录</h4>
+      <a href="#s1">一、使用量现状</a>
+      <a class="lv2" href="#s1-1">1.1 核心结论</a>
+      <a class="lv2" href="#s1-2">1.2 可查规模</a>
+      <a class="lv2" href="#s1-3">1.3 增长曲线</a>
+      <a class="lv2" href="#s1-4">1.4 社区活跃度</a>
+      <a class="lv2" href="#s1-5">1.5 早期项目旁证</a>
+      <a class="lv2" href="#s1-6">1.6 如何解读</a>
+      <div class="divider"></div>
+      <a href="#s2">二、特点与优势</a>
+      <a class="lv2" href="#s2-1">2.1 一句话定位</a>
+      <a class="lv2" href="#s2-2">2.2 主动放弃三样</a>
+      <a class="lv2" href="#s2-3">2.3 六个差异化特点</a>
+      <a class="lv2" href="#s2-4">2.4 按对手对比</a>
+      <a class="lv2" href="#s2-5">2.5 容易误读的边界</a>
+      <a class="lv2" href="#s2-6">2.6 遥测补充与选型</a>
+      <div class="divider"></div>
+      <a href="#s3">三、与 WorkBuddy / Trae 对比</a>
+      <a class="lv2" href="#s3-1">3.1 先厘清 Trae</a>
+      <a class="lv2" href="#s3-2">3.2 量级对比</a>
+      <a class="lv2" href="#s3-3">3.3 五个维度</a>
+      <a class="lv2" href="#s3-4">3.4 成本</a>
+      <a class="lv2" href="#s3-5">3.5 选型建议</a>
+      <div class="divider"></div>
+      <a href="#s4">四、数据来源与口径说明</a>
+    </nav>
+
+    <main>
+
+      <!-- ============ 第一章 ============ -->
+      <section id="s1">
+        <h2><span class="num">01</span>OpenWorker 现在的使用量如何</h2>
+        <p class="lead">问题：openworker 这个 agent 现在使用量如何。</p>
+
+        <div id="s1-1"></div>
+        <h3>1.1 核心结论</h3>
+        <div class="callout key">
+          <span class="label">结论</span>
+          <p><strong>OpenWorker 没有公开的「真实使用量」数据。</strong>它是本地运行、无需注册、自带模型密钥（BYOK）的 MIT 开源桌面 Agent，官方既没有中心化遥测，也从未公布 DAU/MAU、安装量或任务调用量，连「自主任务完成率」都明确未发布。所以目前能看的只是 <strong>GitHub 热度代理指标</strong>：关注度不低，但增长已从 7–8 月的爆发期明显回落，整体仍属「高热度、早期 beta、尚无规模化生产验证」。</p>
+        </div>
+
+        <div id="s1-2"></div>
+        <h3>1.2 能查到的规模（截至 2026-11-16）</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>指标</th><th>数值</th><th>来源时点</th></tr></thead>
+            <tbody>
+              <tr><td>Stars</td><td><span class="em">19.3K</span>（另一观测 19,389）</td><td>2026-11-16</td></tr>
+              <tr><td>Forks</td><td>2.8K / 2,762</td><td>同上</td></tr>
+              <tr><td>Watchers / Contributors</td><td>128 / 67</td><td>2026-11-16</td></tr>
+              <tr><td>Open Issues + PR</td><td>408–411</td><td>2026-11 月中</td></tr>
+              <tr><td>近 90 天发布</td><td>5 个版本，最新距今 8 天</td><td>2026-11-16</td></tr>
+              <tr><td>最新稳定版</td><td>v0.3.1（2026-10-05）</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="s1-3"></div>
+        <h3>1.3 增长曲线：爆发在 7–8 月，现在趋于平缓</h3>
+        <div class="timeline">
+          <div class="tl-item"><div class="when">2026-07-20</div><div class="what">仓库创建；数日冲到 3.7K–4K Star，5 天登上 GitHub Trending。</div></div>
+          <div class="tl-item"><div class="when">2026-08 初</div><div class="what">约 12K Star；8/25 达 15.3K（同期 15.3K stars / 2.1K forks / 16 contributors）。</div></div>
+          <div class="tl-item"><div class="when">2026-08-27</div><div class="what">单日峰值 +768 Star，为本轮扩散最高点。</div></div>
+          <div class="tl-item"><div class="when">2026-09-18</div><div class="what">约 18.3K Star（第三方目录收录时点）。</div></div>
+          <div class="tl-item"><div class="when">2026-09-30</div><div class="what">18,371 stars / 2,598 forks。</div></div>
+          <div class="tl-item"><div class="when">2026-10-26</div><div class="what">18,685 stars / 2,645 forks / 787 issues &amp; PRs / 122 watchers；近 7 个完整日仅新增 126 Star，第三方监测评级为「增长平稳 / 有机」。</div></div>
+          <div class="tl-item"><div class="when">2026-11 月中</div><div class="what">19.0–19.3K Star；周增约 +70、月增约 +460；11/18 观测 19,426（本周 +499）。</div></div>
+        </div>
+        <ul>
+          <li>111 天累计 <strong>+375.8%</strong>（从首次收录 4K 到 19K，约 +135.3/日均值）。</li>
+          <li>一句话：<strong>新增关注速度比夏天降了一个数量级</strong>，Star 数还在涨，但靠的是存量长尾，不是新一轮扩散。</li>
+        </ul>
+
+        <div id="s1-4"></div>
+        <h3>1.4 社区活跃度：核心团队在跑，外部消化偏慢</h3>
+        <ul>
+          <li>近 90 天 <strong>504 个 PR / 263 个 Issue</strong>，近 30 天 <strong>79 个 PR / 13 个 Issue</strong>，PR 合并率 100%，迭代节奏不慢。</li>
+          <li>维护高度集中：Top1 贡献者占全部提交约 <strong>67%</strong>，Top3 占 98%（核心维护者 rohitprasad15 审核把关质量）。</li>
+          <li>Issue 平均关闭时长 <strong>93.6 天</strong>；第三方健康评分 <strong>7.3/10</strong> 并标注「生产就绪未验证」；适用性打分 Hobby 5/5、Startup 3/5、SMB 2/5、Enterprise 2/5。</li>
+          <li>版本节奏：平均发布间隔约 11 天，v0.3.1（10/05）为当时最新；11 月另有 skills-v0.1.0-beta.2 等发布。</li>
+        </ul>
+
+        <div id="s1-5"></div>
+        <h3>1.5 旁证一致指向「早期」</h3>
+        <p>仍标 <strong>Open Beta</strong>；Windows 10/11 安装包未代码签名（安装时触发 SmartScreen 警告，官网仍列 Coming soon）；无 G2 / Capterra / Product Hunt 收录；无 SOC 2 / ISO 27001 等审计认证；Harness SDK 还停在 <code>0.1.0-beta.4</code>。</p>
+
+        <div id="s1-6"></div>
+        <h3>1.6 怎么读这个数 / 一个补充说明</h3>
+        <div class="callout warn">
+          <span class="label">口径提醒</span>
+          <p><strong>Star ≠ 用户，更 ≠ 活跃使用。</strong>Fork 里相当一部分是读代码或接 SDK 的开发者；BYOK + 纯本地执行意味着哪怕真有几十万人在用，官方也统计不到。如果你是在评估<strong>要不要引入</strong>，建议把判断锚点放在「下载量、活跃贡献者数、Issue 收敛速度、是否有企业案例」上，而不是 19K Star——目前这些信号都还是早期项目形态。</p>
+        </div>
+        <p>另外，如果问的是<strong>你们自己平台 / 团队里这个 Agent 的使用量</strong>（后台调用量、席位、任务数），那是另一回事：把导出表或截图发来，可以直接帮算趋势和活跃度。</p>
+      </section>
+
+      <!-- ============ 第二章 ============ -->
+      <section id="s2">
+        <h2><span class="num">02</span>相比其他 Agent 有什么特点和优势</h2>
+        <p class="lead">问题：相比其他 agent 有什么特点和优势。</p>
+
+        <div id="s2-1"></div>
+        <h3>2.1 一句话定位</h3>
+        <div class="callout key">
+          <span class="label">核心判断</span>
+          <p>它的优势不是「更聪明」，而是<strong>「把控制权还给你」</strong>——OpenWorker 是少见的、把「本地优先 + MIT 开源 + 任意模型（含完全离线）+ 成品交付」四样集齐的桌面 Agent，模型能力上限其实取决于你自己带的 key。</p>
+        </div>
+
+        <div id="s2-2"></div>
+        <h3>2.2 它主动放弃了三样东西</h3>
+        <p>相比同类，最干净的理解方式是看它<strong>不做什么</strong>：</p>
+        <div class="drop3">
+          <div class="tile"><h4>放弃云端执行</h4><p>对话、密钥、连接器 token 都在本机；模型调用直接从电脑发往模型厂商，不经 OpenWorker 中转。唯一上云的是 OAuth 握手，甚至可以手动填凭据完全不登录、断网也能跑。</p></div>
+          <div class="tile"><h4>放弃模型锁定</h4><p>基于 aisuite 统一路由，OpenAI / Anthropic / Gemini / DeepSeek / Qwen / Kimi / GLM / MiniMax / Mistral / Grok 及 Ollama 都能接，换模型不改工作流、任务中途可切。</p></div>
+          <div class="tile"><h4>放弃全托管</h4><p>不像 Manus 类云端 Agent 把执行打包在云上、用户看不到中间过程；它把「权限」当成一等公民，写文件、跑 Shell、发外部请求都要走审批流程。</p></div>
+        </div>
+
+        <div id="s2-3"></div>
+        <h3>2.3 六个真正拉开差距的特点</h3>
+        <div class="grid2">
+          <div class="tile">
+            <h4><span>1</span>治理是架构，不是 UI 上的确认按钮</h4>
+            <p>四层边界：<strong>① 硬底线</strong>——危险且不可逆的操作永远人工专属，全自动模式也不能降格；<strong>② 逐次审批</strong>——默认逐次确认，一次批准可升级为常驻规则、再升级为配置白名单，每步可见可撤销；<strong>③ 自动批准复核</strong>——复核模型放行常规动作，不确定的交回人，连续拒绝触发熔断交还控制权；<strong>④ 执行沙箱</strong>——命令和文件工具可跑在 NVIDIA OpenShell 容器 / macOS 沙箱 / Windows 隐藏账户里，沙箱内只有本次会话文件夹、没有模型 key。每次工具调用都记录「谁批准、为什么」，可复盘而非只看最后一段自然语言解释。</p>
+          </div>
+          <div class="tile">
+            <h4><span>2</span>无人值守不自我批准</h4>
+            <p>定时任务碰上有后果的动作，请求进收件箱等人复核，不会因为人不在就放宽权限。这点在同类里几乎独一份。</p>
+          </div>
+          <div class="tile">
+            <h4><span>3</span>交付成品 + 全过程记录</h4>
+            <p>交回的是 <code>brief.md</code>、修好的 PR、可直接发出的 Slack 草稿，附带完整运行记录，而不是「你可以先看这几个线程」的一长串指引。</p>
+          </div>
+          <div class="tile">
+            <h4><span>4</span>跨工具广度，从代码扩展到整个工作流</h4>
+            <p>25+ 原生连接器 + 任意 MCP；Slack 里 @ 一下桌面端自动起会话、结果回线程；定时晨报 / 周报。边界不是代码仓库，而是文件系统 + 终端 + 日历 + 邮件 + Jira / GitHub / Notion。</p>
+          </div>
+          <div class="tile">
+            <h4><span>5</span>安全 coworker 是首批专职角色</h4>
+            <p>semgrep 等确定性扫描器 + 模型推理找漏洞，修复后重扫、diff 复核再交人批准——「写修复的 agent 不是唯一的检查者」。还内置把工具 / 日志 / 文件 / 外部消息一律视为不可信数据的 ops 人设，防提示注入。</p>
+          </div>
+          <div class="tile">
+            <h4><span>6</span>桌面 App + Harness SDK 双形态，MIT 可审计</h4>
+            <p>既能开箱用，也能把 agent 循环、审批、流式会话嵌进自己的产品（TypeScript / Rust SDK）。相比自建框架，省了桌面壳、连接器、权限阶梯和沙箱适配；相比闭源产品，代码能读能 fork 能商用。</p>
+          </div>
+        </div>
+
+        <div id="s2-4"></div>
+        <h3>2.4 按对手一句话说清</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>对比对象</th><th>OpenWorker 的优势</th><th>代价 / 不如对方之处</th></tr></thead>
+            <tbody>
+              <tr><td>Claude Cowork / ChatGPT 桌面版</td><td>模型不锁、数据留本机、免费且可用本地模型零成本</td><td>没有 SOC 2 / ISO 27001 / HIPAA、无厂商 SLA，模型能力未必更强</td></tr>
+              <tr><td>Manus 等云端 Agent</td><td>不上传文件、不依赖厂商云 VM</td><td>换不来长时间异步云端研究和 Wide Research 式并行批量抓取</td></tr>
+              <tr><td>Claude Code / Cursor</td><td>不绑编辑器、不绑单厂商、跨办公工具交付文档</td><td>纯编码深度和 IDE 内循环不如专精工具</td></tr>
+              <tr><td>Copilot / ClickUp Brain 等 SaaS 内嵌 Agent</td><td>不被锁在单一平台数据里</td><td>没有企业合规认证和统一后台管理</td></tr>
+              <tr><td>AutoGPT / LangGraph 等框架</td><td>成品可用、治理现成</td><td>要接受它的目录结构和 beta 期的接口变动</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="s2-5"></div>
+        <h3>2.5 几个容易被误读的边界</h3>
+        <ul>
+          <li><strong>「本地优先」≠ 零数据外发</strong>：接云端模型时上下文仍发给模型厂商，真正全离线只有 Ollama / LM Studio / llama.cpp / vLLM 这条路。</li>
+          <li><strong>自动批准的复核是模型判断，不是硬边界</strong>：真正兜底的是硬性底线和审计轨迹，官网自己也这么写。</li>
+          <li><strong>平台与成熟度</strong>：桌面端只有 macOS / Windows（Linux 仅有 CLI），Windows 包未代码签名、仍是 open beta、400+ 未关 Issue；第三方评测只给 3.9/5，并直言「三个月大、路线图由内部清单主导」。</li>
+        </ul>
+
+        <div id="s2-6"></div>
+        <h3>2.6 遥测补充与选型建议</h3>
+        <div class="callout note">
+          <span class="label">顺带补上一轮的结论</span>
+          <p>登录后默认会发一个<strong>内容无关</strong>的启动事件（哪种 coworker、何时启动），可关闭；未登录什么都不发。这解释了为什么查不到真实使用量——它本来就不统计任务级数据。</p>
+        </div>
+        <p><strong>值得试：</strong>在意隐私 / 私有化、想把 agent 权限逻辑读一遍再信任它、需要跨 Slack + Gmail + GitHub + 日历交成品，或者想用 DeepSeek / Qwen / Ollama 驱动。</p>
+        <p><strong>还不到时候：</strong>要企业级合规与 SLA、长时间云端异步研究、纯 IDE 编码流，或完全不想配 API key。</p>
+      </section>
+
+      <!-- ============ 第三章 ============ -->
+      <section id="s3">
+        <h2><span class="num">03</span>跟 WorkBuddy 和 Trae 对比</h2>
+        <p class="lead">问题：跟 WorkBuddy 和 trae 对比。</p>
+
+        <div id="s3-1"></div>
+        <h3>3.1 先把「Trae」说清楚</h3>
+        <p>它现在是两条线：<strong>Trae IDE / CLI</strong>（AI 编程工具）和 <strong>TraeWork</strong>（2026 年 6 月由 TRAE SOLO 更名的 AI 办公平台，Work / Code / Design 三模式）。8 月字节把 TRAE 和扣子（Coze）团队并入豆包体系，TraeWork 的能力整合进了独立品牌「<strong>豆包工作</strong>」，IDE / CLI 继续作为豆包旗下编程产品线。所以今天拿办公 Agent 对比，实际对标的是 <strong>TraeWork / 豆包工作</strong>。</p>
+
+        <div id="s3-2"></div>
+        <h3>3.2 结论：这不是同一量级的比较</h3>
+        <div class="callout warn">
+          <span class="label">量级</span>
+          <p>OpenWorker 是一个三个月大、19K Star 的开源 beta 项目；WorkBuddy 和豆包工作是千万 DAU、有财报和收费体系的国民级商用产品。先看规模，差距大概<strong>三个数量级</strong>。</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>产品</th><th>公开规模数据</th></tr></thead>
+            <tbody>
+              <tr><td>WorkBuddy（腾讯）</td><td>日活超 <span class="em">1000 万</span>；日均 Token 消耗超 <span class="em">100 万亿</span>；累计 90 亿次任务请求；9 月 MAU 3235 万；6 月单月访问量 2097 万次（超第二、三名总和）；近七天年化收入超 5 亿美元；企业版落地 50+ 行业、覆盖半数中国 500 强 / 60% 中国 100 强；腾讯内部超 12000 名员工常态化使用。</td></tr>
+              <tr><td>Trae / 豆包（字节）</td><td>TraeWork 2026 年 6 月注册用户破 1000 万、企业客户超 1 万家、日均 Token 5.6 万亿；6 月国内访问量 1279 万排第二；豆包工作上线三个月 DAU 破 800 万、企业客户 ARR 破 20 亿元；TRAE 在国内 AI 编程市场份额 41.2%，个人用户数百万量级；豆包 App 2026 年 6 月月活 3.82 亿。</td></tr>
+              <tr><td>OpenWorker</td><td>19,426 Star（11/18）、open beta、413 个未关闭 Issue；官方没有中心化遥测，压根不公布使用量。</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>正呼应上一轮——不是查不到，是它设计上就不统计；而这两款国内产品的规模是公开可查的。</p>
+
+        <div id="s3-3"></div>
+        <h3>3.3 五个维度，差异在哪</h3>
+
+        <h4>① 开源与「谁掌握控制权」</h4>
+        <p>OpenWorker 是 MIT，代码可读、可 fork、可商用，权限逻辑能逐行审计；WorkBuddy 官方未发布源码或开源许可，TraeWork 也是闭源。后两家给的是「厂商开放给你的管控」——WorkBuddy 企业版有审计日志、SSO、私有化 / VPC，TraeWork 企业版有企业级沙箱策略、SSO、Hook——但底层不归你。</p>
+
+        <h4>② 数据落在哪</h4>
+        <p><strong>OpenWorker 最彻底</strong>：agent 循环、对话、连接器 token、模型 key 全在本机，唯一上云的是一个可跳过的 OAuth 握手，接 Ollama / vLLM 可完全离线。<strong>WorkBuddy</strong> 默认本地沙箱 + 授权目录、高危操作前确认，但也提供纯云端 Managed Agents。<strong>TraeWork 是双轨</strong>：本地任务项目目录可写、受保护目录只读；云端任务跑在独立沙箱容器里、碰不到宿主机文件系统（macOS 的 Work / Code / Design 与 Windows 的 Code 模式适用；Windows 的 Work/Design 用隔离虚拟化运行环境，仅能读写当前项目目录）。</p>
+
+        <h4>③ 模型自由度</h4>
+        <ul>
+          <li><strong>OpenWorker</strong> 完全厂商无关：OpenAI / Anthropic / Gemini / DeepSeek / Kimi / Qwen / GLM / MiniMax / Mistral / Grok，加 Together / Fireworks，再到 Ollama 全离线，换模型不改工作流。</li>
+          <li><strong>WorkBuddy 其实也很开放</strong>：混元 Hy3 / Hy4flash、DeepSeek、GLM、Kimi、MiniMax 等十几个模型，可填自己的 API key，也支持 Ollama，只是出于竞争没接百度 / 阿里 / 字节的模型。自选模型用户中选择 Hy3 的占比曾达 60% 以上。</li>
+          <li><strong>TraeWork</strong> 以豆包（Doubao-Seed 系列）为主，内置 GLM、Kimi、MiniMax，可自定义接 DeepSeek，海外版才支持 GPT / Gemini。</li>
+        </ul>
+        <div class="callout note">
+          <span class="label">顺带纠个偏</span>
+          <p>网上早期那篇「三条路线」评测把 WorkBuddy 写成「绑自家模型、跑云端」，已经和 2026 年下半年的官方形态对不上了。</p>
+        </div>
+
+        <h4>④ 审批治理的颗粒度</h4>
+        <p>这是 <strong>OpenWorker 唯一明显领先</strong>的地方：硬底线（不可逆操作永远人工专属）→ 逐次审批可升级为常驻规则 / 白名单 → 自动批准的复核模型 + 连续拒绝熔断 → OpenShell 沙箱，每次工具调用都记「谁批准、为什么」，无人值守任务把请求停进收件箱而不是自行放行。</p>
+        <p><strong>WorkBuddy</strong> 是 Ask / Plan / Craft 三档 + 高危指令拦截 + 操作留痕；<strong>TraeWork</strong> 是 Plan 逐步弹窗 / Go 全自动，甚至有命令白名单绕过沙箱、自动运行跳过确认的模式。后两家更偏「够用且省心」，不是「可回看的行动边界」。</p>
+
+        <h4>⑤ 生态与开箱即用——国内用户最致命的一条</h4>
+        <ul>
+          <li><strong>WorkBuddy</strong>：打通企业微信、腾讯会议、腾讯文档、乐享、ima，微信 / 企微 / QQ / 飞书 / 钉钉手机端远程派活；100+ 专家和技能包、资料库、人机双写、多 Agent 并行；开放平台首批超百家生态伙伴。</li>
+          <li><strong>TraeWork / 豆包工作</strong>：Work / Code / Design 三模式在同一 Workspace 接力、桌面 / 网页 / 移动三端同步、飞书深度打通、200+ 技能与连接器；豆包工作支持多 Agents 并行，并可从 ChatGPT / Claude Code / Trae Work 迁入任务偏好、技能、连接器、工作记忆和历史会话。</li>
+          <li><strong>OpenWorker</strong>：25+ 连接器清一色海外 SaaS（Slack、Gmail、Jira、Notion、Linear、HubSpot、Outlook、Google Calendar、Attio、Stripe、Figma 等），<span class="em">飞书、钉钉、企业微信一个都没有</span>；界面全英文、无 i18n 框架，语音只认英文，社区汉化包得自己打。它的演示场景（Slack 里 @ 一下派活、Gmail 准备续约电话）在国内基本不成立。</li>
+        </ul>
+
+        <div id="s3-4"></div>
+        <h3>3.4 成本</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>产品</th><th>计费方式</th></tr></thead>
+            <tbody>
+              <tr><td>OpenWorker</td><td>软件免费（MIT），只付模型 token；接 Ollama 可为零成本；模型用量由所接供应商计费。</td></tr>
+              <tr><td>WorkBuddy</td><td>体验版月送 500 积分；个人标准 ¥99/月、高级 ¥199/月、旗舰 ¥999/月（连续包月 ¥70 / ¥140 / ¥700）；企业旗舰版 198 元/人/月、企业专享版 316 元/人/月（100 席位起购）；Credit 可单独加购；Hy4flash 等有限时免费。</td></tr>
+              <tr><td>TraeWork</td><td>积分计费，新用户每月赠送 500 积分；简单对话消耗低，多步骤 Agent、大型工程调试、代码运行会快速消耗积分；高峰期有排队机制，付费档优先响应。</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="s3-5"></div>
+        <h3>3.5 怎么选</h3>
+        <div class="choices">
+          <div class="choice"><div class="who">OpenWorker</div><div class="desc">要读代码、要完全离线、要把 agent 循环嵌进自己产品、要做安全审计 / 权限原型 → 只有它满足；代价是自己配 key、自己接国内工具、忍受 beta 坑（自定义 OpenAI 兼容接口报错、订阅账号不认、Linux 无桌面包等）。</div></div>
+          <div class="choice"><div class="who">WorkBuddy</div><div class="desc">国内职场日常交付（周报、PPT、表格）、想用微信远程指挥电脑、需要企业合规和售后 → 成熟度当前领先；短板是画图仍扣积分、白天高峰排队。</div></div>
+          <div class="choice"><div class="who">TraeWork / 豆包工作</div><div class="desc">产研一体、代码 + 数据 + 设计一条链、飞书重度用户 → 编码基因最厚；但 PPT 版式美感和定时任务稳定性（电脑息屏会中断）被评测吐槽过。</div></div>
+        </div>
+        <div class="callout key">
+          <span class="label">一句大白话</span>
+          <p>OpenWorker 赢在<strong>「自由与可审计」</strong>，输在<strong>「生态、成熟度、省心」</strong>。如果是想给团队换生产工具，现在国内这两款更现实；如果是想搞清楚「Agent 的权限到底该怎么做」，把 OpenWorker 的 README 读一遍，比用哪款产品都值。</p>
+        </div>
+      </section>
+
+      <!-- ============ 第四章 ============ -->
+      <section id="s4">
+        <h2><span class="num">04</span>数据来源与口径说明</h2>
+        <p class="lead">为保证「不遗漏」，此处汇总本分析所依据的公开信息类型与读数口径。</p>
+
+        <h3>4.1 主要公开来源</h3>
+        <div class="src-cols">
+          <ul>
+            <li>OpenWorker 官网与 GitHub 仓库 README / Releases / Issues</li>
+            <li>The AI Agent Index（产品条目与 OpenWorker vs Claude Cowork 对比页）</li>
+            <li>GStars.dev、gitnova.dev、discovergit.app、FOSSHUNTER、POMOAI 等 GitHub 观测站</li>
+            <li>OpenAppScout、ReviewRamble、AI Agent Index 评测与编辑评分</li>
+          </ul>
+          <ul>
+            <li>WorkBuddy 官网产品文档、腾讯云开发者社区与产品页</li>
+            <li>央广网、腾讯新闻、腾讯 2026 Q3 财报相关报道、沙利文 / IDC / 易观 / QuestMobile 报告转述</li>
+            <li>TRAE 官网与 TRAE 文档（沙箱、企业版更新日志）、百度百科（TRAE SOLO / 豆包工作）</li>
+            <li>澎湃新闻、中国经济网、第一财经 / 36氪 相关组织与产品整合报道</li>
+          </ul>
+        </div>
+
+        <h3>4.2 时间口径</h3>
+        <ul>
+          <li>整理基准日：<strong>2026-11-23</strong>。正文各项数据的观测时点并不一致，已在对应位置标注（主要为 2026-09-18、09-30、10-05、10-26、11-16、11-18）。</li>
+          <li>Star / Fork / Issue 数来自不同第三方快照，彼此存在小幅差异，属正常采样误差，不宜当作精确实时值。</li>
+          <li>WorkBuddy 与 Trae / 豆包的规模数字来自厂商披露或媒体转述的报告，口径包含「访问量」「MAU」「DAU」「Token 消耗」「任务请求数」「收入」等不同维度，不可直接横向相加比较。</li>
+        </ul>
+
+        <h3>4.3 阅读本报告时的三个注意点</h3>
+        <ol>
+          <li><strong>代理指标不等于使用量</strong>：GitHub Star / Fork / PR 反映的是开发者关注度，不等于装机量、活跃用户或任务完成数。</li>
+          <li><strong>Beta 项目变动快</strong>：OpenWorker 仍处于开放测试，接口、平台支持（尤其 Windows 签名、Linux 桌面包、中文化）与连接器列表可能快速变化。</li>
+          <li><strong>对比是「站位」而非「排名」</strong>：三款产品的设计哲学不同（自由可审计 / 开箱省心 / 工作流深度），适用场景差异大于能力高低，选型应先看自身生态绑定与合规要求。</li>
+        </ol>
+      </section>
+
+      <footer class="foot">
+        OpenWorker 使用量、产品特点与竞品对比分析 · 整理于 2026-11-23<br>
+        本文为公开资料整理与对比分析，数据以各来源标注的观测时点为准，不构成采购或投资建议。
+      </footer>
+    </main>
+  </div>
+</div>
+<a class="backtop" href="#top" title="返回顶部">↑</a>
+</body>
+</html>

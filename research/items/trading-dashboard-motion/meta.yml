@@ -1,0 +1,6 @@
+title: 实时交易仪表盘 · 1-8 区域动效展示
+summary: 把一个实时交易仪表盘的 8 个区域动效逐段拆开演示：原生 Canvas + CSS + JS、零依赖，附区域／动效／参数对照表，可直接当模板复用。
+channel: cases
+origin: 交易仪表盘动效展示.html
+created_at: 2026-11-23
+sources: 1

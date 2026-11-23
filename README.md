@@ -118,8 +118,12 @@ python3 llmcost.py --version
 | 待审核 | 存在 `items/<slug>/draft.md` | 同上，看板里多一个「通过审核」按钮 |
 | 已上线 | 存在 `published/<slug>.md` | 完整文章页，可被索引，进列表页 |
 
+**投料区在仓库外**：`/Volumes/AI仓库/AI行业研究/`。它的子文件夹就是站点板块——`基模` `agent` `公司` `硬件` `应用` `原理` `历史` `本地部署` `实例`，另有 `_其他`（拿不准先丢这）和 `_已收录`（脚本自动归档，别手动放）。**放在哪个文件夹，条目就归哪个板块**：研究页与看板上会显示板块标签，点它跳回对应站点页。
+
+外置盘没挂载时自动退回仓库内 `research/inbox/`（没有板块归属）；要换位置用 `RESEARCH_DROPZONE=/path/to/zone`。原件收走后进 `<板块>/_已收录/<日期>/`，所以投料区平时是空的，空就代表都收完了。
+
 ```bash
-# 1) 投料：把 md / pdf / 截图 / 整个文件夹丢进 research/inbox/，然后
+# 1) 投料：把 md / pdf / 截图 / 整个文件夹丢进投料区的板块文件夹，然后
 python3 tools/research.py sync
 
 # 2) 整理：让 AI 按 research/templates/research.md 写 items/<slug>/draft.md，
@@ -175,7 +179,7 @@ security add-generic-password -s pocket-llmcost-gh-token -a "$USER" -w ghp_你�
 index.html … cases.html        门户九板块（静态，无构建）
 lab/                           实例 01 生图实验
 research/                      研究板块
-  inbox/                       投料区（丢进来的文件会被移走）
+  inbox/                       备用投料区（外置盘没挂载时用；文件会被搬走）
   items/<slug>/                meta.yml + raw/ + draft.md
   published/                   定稿（有它才算上线）
   templates/research.md        标准模板

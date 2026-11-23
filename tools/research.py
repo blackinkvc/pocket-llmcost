@@ -30,6 +30,28 @@ INBOX = RES / "inbox"
 PUB = RES / "published"
 TPL = RES / "templates" / "research.md"
 
+# 投料区：目录名即站点板块。默认在仓库旁边的外置盘上，没挂载就退回仓库内 research/inbox。
+DROPZONE = pathlib.Path(os.environ.get("RESEARCH_DROPZONE") or "/Volumes/AI仓库/AI行业研究")
+
+# (文件夹名, channel, 站点页, 显示名)；文件夹比较时忽略大小写（exFAT 大小写不敏感）
+SECTIONS = [
+    ("基模",     "models",     "models.html",     "基模"),
+    ("agent",    "agents",     "agents.html",     "Agent"),
+    ("公司",     "companies",  "companies.html",  "公司"),
+    ("硬件",     "hardware",   "hardware.html",   "硬件"),
+    ("应用",     "apps",       "apps.html",       "应用"),
+    ("原理",     "principles", "principles.html", "原理"),
+    ("历史",     "history",    "history.html",    "历史"),
+    ("本地部署", "local",      "local.html",      "本地部署"),
+    ("实例",     "cases",      "cases.html",      "实例"),
+    ("_其他",    "misc",       "",                "其他"),
+]
+SECTION_ALIAS = {"基础模型": "models", "智能体": "agents", "agents": "agents",
+                 "models": "models", "apps": "apps", "cases": "cases"}
+CHANNEL_LABEL = {c: label for _, c, _, label in SECTIONS}
+CHANNEL_PAGE = {c: page for _, c, page, _ in SECTIONS}
+CHANNEL_LABEL[""] = ""
+
 OWNER_REPO = os.environ.get("GH_SLUG") or "blackinkvc/pocket-llmcost"
 GH_BASE = "https://github.com/" + OWNER_REPO
 
@@ -77,7 +99,7 @@ def parse_meta(path):
 
 
 def dump_meta(d, path):
-    order = ["title", "summary", "tags", "origin", "created_at", "draft_at",
+    order = ["title", "summary", "channel", "tags", "origin", "created_at", "draft_at",
              "published_at", "sources", "note"]
     lines = []
     for k in order:
@@ -122,10 +144,38 @@ def read_text_of(p):
             if is_junk(cand.name):
                 continue
             return cand.read_text(encoding="utf-8", errors="ignore")
+        for cand in sorted(p.rglob("*.htm*")):
+            if not is_junk(cand.name):
+                return html_title_summary(cand)[1]
         return ""
     if p.suffix.lower() in (".md", ".markdown", ".txt"):
         return p.read_text(encoding="utf-8", errors="ignore")
     return ""
+
+
+def strip_tags(s):
+    s = re.sub(r"<(script|style)[\s\S]*?</\1>", " ", s, flags=re.I)
+    s = re.sub(r"<[^>]+>", " ", s)
+    return re.sub(r"\s+", " ", H.unescape(s)).strip()
+
+
+def html_title_summary(p):
+    """HTML 投料也要能抽出像样的标题与摘要，否则占位页只有文件名。"""
+    s = p.read_text(encoding="utf-8", errors="ignore")
+    t = re.search(r"<title[^>]*>([\s\S]*?)</title>", s, re.I)
+    title = re.sub(r"\s+", " ", H.unescape(strip_tags(t.group(1)))).strip() if t else None
+    summary = ""
+    for m in re.finditer(r"<p[^>]*>([\s\S]*?)</p>", s, re.I):
+        cand = strip_tags(m.group(1))
+        if len(cand) > 40:
+            summary = cand
+            break
+    if not summary:
+        body = re.sub(r"<(header|nav|h1)[\s\S]*?</\1>", " ", s, flags=re.I)
+        summary = strip_tags(body)[:120]
+    if title and summary.startswith(title):        # 兜底路径常把标题再抄一遍
+        summary = summary[len(title):].lstrip(" ·-|/／").strip()
+    return title, summary
 
 
 def trim(s, n=88):
@@ -319,6 +369,7 @@ def load_items():
             "title": meta.get("title") or d.name,
             "summary": meta.get("summary") or "",
             "tags": meta.get("tags") or [],
+            "channel": meta.get("channel") or "",
             "created_at": meta.get("created_at") or "",
             "draft_at": meta.get("draft_at") or "",
             "published_at": meta.get("published_at") or "",
@@ -336,6 +387,17 @@ def approve_url(slug, title):
     b = quote("审核通过《%s》。\n\n点 Submit 后由 Actions 定稿上线，关掉这个 issue 即可。\n\nslug: %s"
               % (title, slug))
     return "%s/issues/new?title=%s&body=%s" % (GH_BASE, t, b)
+
+
+def channel_chip(ch, prefix="../", link=True):
+    """板块标签。卡整张是 <a>，里面不能再套 <a>（浏览器会拆标签），所以卡片里传 link=False。"""
+    label = CHANNEL_LABEL.get(ch or "", "")
+    if not label:
+        return ""
+    page = CHANNEL_PAGE.get(ch or "")
+    if page and link:
+        return '<a class="rs-chip" href="%s%s">%s</a>' % (prefix, page, H.escape(label))
+    return '<span class="rs-chip">%s</span>' % H.escape(label)
 
 
 # ───────────────────────── 渲染：单条 ─────────────────────────
@@ -356,7 +418,8 @@ def render_item(it):
     head = ['<header class="rs-head">',
             '<div class="rs-crumb"><a href="index.html">研究</a> / %s</div>' % H.escape(it["title"]),
             "<h1>%s</h1>" % H.escape(it["title"]),
-            '<div class="rs-metabar">%s %s</div>' % (badge, '<span class="rs-sep">·</span>'.join(meta_bits)),
+            '<div class="rs-metabar">%s%s %s</div>' % (badge, channel_chip(it["channel"]),
+                                                       '<span class="rs-sep">·</span>'.join(meta_bits)),
             '<div class="rs-tags">%s</div>' % tags,
             "</header>"]
 
@@ -379,6 +442,13 @@ def render_item(it):
                '<p class="rs-pending-t">%s</p>' % note,
                "<p>这里现在只有标题和摘要。完整内容包括：结论、关键事实、怎么做、反方与不确定处、来源。</p>",
                "</div>"]
+        # 原件是网页时给个直达入口，否则读者点进来只能看到一段摘要
+        html_raw = [p for p in it["raw"] if p.suffix.lower() in (".html", ".htm")]
+        if html_raw:
+            art.append('<p class="rs-rawopen">原件可以直接看：%s</p>' % "".join(
+                '<a href="%s%s" target="_blank" rel="noopener">%s →</a>'
+                % (raw_base(it), p.relative_to(ITEMS / it["slug"] / "raw").as_posix(),
+                   H.escape(p.stem)) for p in html_raw))
         if it["raw"]:
             art.append(render_raw_block(it))
 
@@ -386,9 +456,22 @@ def render_item(it):
                  "\n".join(head + art), noindex=(st != "published"))
 
 
+def raw_base(it):
+    return "items/%s/raw/" % it["slug"]
+
+
 def render_raw_block(it):
-    lis = "".join('<li><span class="rs-fn">%s</span><span class="rs-fs">%s</span></li>'
-                  % (H.escape(p.name), human_size(p.stat().st_size)) for p in it["raw"])
+    lis = []
+    for p in it["raw"]:
+        rel = p.relative_to(ITEMS / it["slug"] / "raw").as_posix()
+        if p.suffix.lower() in (".html", ".htm"):
+            # HTML 原件本身就是网页，Pages 会直接当页面发出去，点开就能看
+            name = ('<a class="rs-fn is-open" href="%s%s" target="_blank" rel="noopener">%s'
+                    '<span class="rs-open">打开</span></a>' % (raw_base(it), rel, H.escape(p.name)))
+        else:
+            name = '<span class="rs-fn">%s</span>' % H.escape(p.name)
+        lis.append('<li>%s<span class="rs-fs">%s</span></li>' % (name, human_size(p.stat().st_size)))
+    lis = "".join(lis)
     return ('<section class="rs-raw"><h2>原始资料</h2>'
             '<ul class="rs-rawlist">%s</ul>'
             '<p class="rs-hint">原件在仓库里：<a href="%s/tree/main/research/items/%s/raw" rel="noopener">'
@@ -414,9 +497,10 @@ def render_index(items):
         cls = "rs-card" + ("" if st == "published" else " is-pending")
         tags = "".join('<span class="rs-tag">%s</span>' % H.escape(t) for t in it["tags"][:4])
         return ('<a class="%s" href="%s.html">'
-                '<div class="rs-card-top"><span class="rs-badge is-%s">%s</span>%s</div>'
+                '<div class="rs-card-top"><span class="rs-badge is-%s">%s</span>%s%s</div>'
                 '<h2>%s</h2><p>%s</p></a>'
-                % (cls, it["slug"], st, ST_LABEL[st], tags,
+                % (cls, it["slug"], st, ST_LABEL[st],
+                   channel_chip(it["channel"], link=False), tags,
                    H.escape(it["title"]), H.escape(it["summary"] or "（摘要待补）")))
 
     body = ['<header class="rs-head"><div class="rs-crumb">研究</div>',
@@ -432,8 +516,8 @@ def render_index(items):
                     '<p class="rs-hint">这些标题是我已经在做、还没定稿的。点进去能看到摘要和已经收进来的原始资料。</p>'
                     '<div class="rs-grid">%s</div></section>' % (len(pend), "".join(card(x) for x in pend)))
     if not items:
-        body.append('<div class="rs-empty">还没有登记任何研究。往 <code>research/inbox/</code> 丢一个文件，'
-                    '跑 <code>python3 tools/research.py sync</code> 就有了。</div>')
+        body.append('<div class="rs-empty">还没有登记任何研究。往投料区 <code>AI行业研究/&lt;板块&gt;/</code> '
+                    '丢一个文件，跑 <code>python3 tools/research.py sync</code> 就有了。</div>')
 
     return shell("研究 · AI.TRACK",
                  "AI 研究的自有产出：已完成 %d 份，整理中 %d 份。每条都附结论、证据、反方观点与原始资料。"
@@ -466,8 +550,10 @@ def render_status(items):
         else:
             act = '<span class="rs-muted">等待整理</span>'
         rows.append('<tr class="is-%s"><td><a href="%s.html">%s</a></td><td><span class="rs-badge is-%s">%s</span></td>'
+                    '<td class="rs-col-sec">%s</td>'
                     '<td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>'
                     % (st, it["slug"], H.escape(it["title"]), st, ST_LABEL[st],
+                       H.escape(CHANNEL_LABEL.get(it["channel"], "") or "—"),
                        "".join(H.escape(t) + " " for t in it["tags"][:3]) or "—",
                        it["created_at"] or "—", it["draft_at"] or "—", it["published_at"] or "—", act))
 
@@ -478,7 +564,7 @@ def render_status(items):
             '<section class="rs-kpis">%s</section>' % kpi_html]
     if rows:
         body.append('<section class="rs-sec"><div class="rs-tablewrap"><table class="rs-table">'
-                    '<thead><tr><th>标题</th><th>状态</th><th>标签</th><th>投料</th>'
+                    '<thead><tr><th>标题</th><th>状态</th><th>板块</th><th>标签</th><th>投料</th>'
                     '<th>整理</th><th>上线</th><th>操作</th></tr></thead>'
                     '<tbody>%s</tbody></table></div></section>' % "".join(rows))
     else:
@@ -486,7 +572,7 @@ def render_status(items):
 
     body.append('<section class="rs-sec rs-howto"><h2 class="rs-sec-t">这张表是怎么跑的</h2>'
                 '<ol class="rs-steps">'
-                '<li><b>投料</b>：把资料丢进 <code>research/inbox/</code>，跑 sync → 立刻出现「整理中」占位页。</li>'
+                '<li><b>投料</b>：把资料按板块丢进投料区 <code>AI行业研究/&lt;板块&gt;/</code>，跑 <code>sync</code> → 立刻出现「整理中」占位页。</li>'
                 '<li><b>整理</b>：AI 按固定模板写出结论、证据、做法、反方观点，落到草稿。</li>'
                 '<li><b>审核</b>：我点「通过审核」→ 定稿上线，状态从「待审核」变「已上线」。</li>'
                 '</ol><p class="rs-hint">状态不是我手填的，是脚本按仓库里的文件推出来的：'
@@ -532,14 +618,53 @@ def find_by_origin(origin):
     return None
 
 
+def dropzone():
+    """投料区根目录；没挂载就返回 None，退回仓库内 research/inbox。"""
+    return DROPZONE if DROPZONE.is_dir() else None
+
+
+def section_dirs(root):
+    """把投料区的实际目录名映射成 channel。兼容大小写不敏感与旧目录名。"""
+    have = {p.name.lower(): p for p in root.iterdir() if p.is_dir()}
+    out, known = [], set()
+    for name, ch, _page, _label in SECTIONS:
+        p = have.get(name.lower())
+        if p:
+            out.append((p, ch))
+            known.add(p.name.lower())
+    known.add("_已收录")
+    for key, p in sorted(have.items()):
+        if key not in known and not p.name.startswith((".", "_")):
+            out.append((p, SECTION_ALIAS.get(key, "misc")))
+    return out
+
+
+def collect_entries():
+    """返回 ([(路径, channel, 所属板块目录)], 投料区说明)。"""
+    dz = dropzone()
+    if dz:
+        entries = []
+        for d, ch in section_dirs(dz):
+            for p in sorted(d.iterdir()):
+                if p.name.startswith((".", "_")):
+                    continue
+                entries.append((p, ch, d))
+        return entries, "投料区 %s" % dz
+    if INBOX.is_dir():
+        return ([(p, "", INBOX) for p in sorted(INBOX.iterdir())
+                 if not p.name.startswith(".") and p.name != "README.md"],
+                "仓库内 research/inbox")
+    return [], "没有投料区"
+
+
 def sync():
     INBOX.mkdir(parents=True, exist_ok=True)
     ITEMS.mkdir(parents=True, exist_ok=True)
-    entries = [p for p in sorted(INBOX.iterdir())
-               if not p.name.startswith(".") and p.name != "README.md"]
+    entries, where = collect_entries()
+    print("%s（%d 个待收）" % (where, len(entries)))
     taken = {d.name for d in ITEMS.iterdir() if d.is_dir()} if ITEMS.exists() else set()
     added = 0
-    for p in entries:
+    for p, ch, secdir in entries:
         if p.is_file() and p.stat().st_size > 20 * 1024 * 1024:
             print("  跳过（>20MB，压缩后再投）：%s" % p.name)
             continue
@@ -548,35 +673,55 @@ def sync():
         d = ITEMS / slug
         raw = d / "raw"
         raw.mkdir(parents=True, exist_ok=True)
-        text = read_text_of(p)
-        title = (first_heading(text) if text else None) or (p.stem if p.is_file() else p.name)
+        # 标题与摘要：HTML 单独解析，md/txt 走正文首段
+        if p.is_file() and p.suffix.lower() in (".html", ".htm"):
+            title, summary = html_title_summary(p)
+        else:
+            text = read_text_of(p)
+            title = first_heading(text) if text else None
+            summary = first_para(text)
+        title = title or (p.stem if p.is_file() else p.name)
         meta_path = d / "meta.yml"
         meta = parse_meta(meta_path)
         meta.setdefault("title", title)
         if not meta.get("summary"):
-            meta["summary"] = trim(first_para(text)) or "（摘要待补）"
+            meta["summary"] = trim(summary) or "（摘要待补）"
         meta.setdefault("tags", [])
+        if ch:
+            meta["channel"] = ch
         meta["origin"] = p.name
         meta.setdefault("created_at", TODAY)
-        # 搬运
+        # 先复制进仓库，再决定原件怎么处理
         if p.is_dir():
             for f in sorted(p.rglob("*")):
                 if f.is_file() and not is_junk(f.name):
                     target = raw / f.relative_to(p)
                     target.parent.mkdir(parents=True, exist_ok=True)
-                    shutil.move(str(f), str(target))
+                    shutil.copy2(str(f), str(target))
+        else:
+            shutil.copy2(str(p), str(raw / p.name))
+        if secdir != INBOX:                       # 外置盘投料区：原件归档，投料区保持干净
+            arch = secdir / "_已收录" / TODAY
+            arch.mkdir(parents=True, exist_ok=True)
+            dest = arch / p.name
+            i = 2
+            while dest.exists():
+                dest = arch / ("%s-%d%s" % (p.stem, i, p.suffix))
+                i += 1
+            shutil.move(str(p), str(dest))
+        elif p.is_dir():                          # 仓库内 inbox：保持旧行为，直接搬走
             shutil.rmtree(p, ignore_errors=True)
         else:
-            shutil.move(str(p), str(raw / p.name))
+            p.unlink()
         meta["sources"] = len([x for x in raw.rglob("*") if x.is_file() and not is_junk(x.name)])
         dump_meta(meta, meta_path)
         taken.add(slug)
         added += 1
-        print("  登记 %-28s ← %s" % (slug, p.name))
+        print("  登记 %-30s [%s] ← %s" % (slug, CHANNEL_LABEL.get(ch, "其他") or "未分类", p.name))
     if added:
         print("新增 %d 条" % added)
     else:
-        print("inbox 没有新东西")
+        print("投料区没有新东西")
     build()
 
 
