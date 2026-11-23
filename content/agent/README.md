@@ -6,12 +6,13 @@
 
 ```
 content/agent/
-  section.json        板块元信息 + 六个榜的列映射
+  section.json        板块元信息 + 七个榜的列映射
   简介.md             ① 简介：说明 + 三条结论 + 榜的口径
   榜/                 ② 榜单数据（脚本写，别手改）
     使用量-cli.csv      npm 上周下载量
     使用量-ide.csv      VS Code 市场安装量
     mcp服务器.csv       Smithery 调用量
+    mcp-star.csv        GitHub star（开源热度）
     生态-mcp仓库.csv    GitHub topic 下的仓库数（按语言拆）
     生态-mcp平台.csv    MCP 平台的上架量
     生态-ide市场.csv    IDE 扩展市场存量
@@ -29,13 +30,14 @@ python3 tools/build_section.py --only agents
 GitHub Actions 每天 09:23（北京时间）跑同样两条命令，有变化就自己提交。
 抓取失败的那一个榜会保留上一次的 CSV，只在 `stats.json` 里记一笔，页面不会空。
 
-## 六个榜的口径（重要）
+## 七个榜的口径（重要）
 
 | 榜 | 来源 | 口径 | 不能用来做什么 |
 | --- | --- | --- | --- |
 | 使用量 · CLI | api.npmjs.org | 上周下载次数 | 不代表活跃用户，版本发布与 CI 会重复拉包放大 |
 | 使用量 · IDE | VS Code Marketplace | 累计安装量 | 卸载不扣减，老插件天然占优 |
 | MCP 服务器 · 调用量 | api.smithery.ai | 平台记录的 `useCount`，取默认排序前 50 位的前 15 | 不是全网排名，跨平台不可比 |
+| MCP 服务器 · 开源热度 | GitHub Search API | star 数，只取名字带 mcp 且非教程/清单/框架的仓库 | 收藏不是使用；标签被泛 AI 项目滥用，会漏个别服务器 |
 | MCP 仓库 · 按语言 | GitHub Search API | `topic:mcp-server` 下的公开仓库数，按主语言拆 | 话题靠作者自贴，不是所有 MCP 项目 |
 | MCP 平台 · 上架量 | api.smithery.ai | 平台登记的服务器条数 | 不是全网数量，不能和仓库数相减 |
 | IDE 市场 · 存量 | Marketplace / open-vsx.org | 各市场自己报的扩展总数 | 不是使用量，两边可能重复上架 |

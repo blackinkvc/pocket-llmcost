@@ -29,6 +29,7 @@ import pathlib
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -86,6 +87,16 @@ GH_TOPIC = "mcp-server"
 GH_LANGS = [("TypeScript", "typescript"), ("Python", "python"),
             ("JavaScript", "javascript"), ("Go", "go"),
             ("Rust", "rust"), ("Java", "java")]
+
+# 开源热度榜：topic:mcp-server 被大量「泛 AI 项目」自贴（n8n、gemini-cli 都在里面），
+# 直接按 star 排第一行会是工作流平台。所以多加一个「名字里带 mcp」的限制，
+# 再滤掉教程、清单、框架——这些不是能装起来用的服务器。
+GH_STAR_QUERY = "topic:mcp-server mcp in:name archived:false"
+GH_STAR_TOP = 15
+GH_STAR_NOISE = ("awesome", "for-beginners", "curriculum", "course", "tutorial",
+                 "cheatsheet", "handbook", "cookbook", "list of", "collection of",
+                 "framework", "boilerplate", "template", "starter kit")
+GH_STAR_SHORT = {"mcp", "mcp-server", "mcp-servers", "servers", "server", "mcp-server-"}
 
 
 def load_old(filename, key):
@@ -281,6 +292,57 @@ def gh_count(q, retries=3):
     raise ValueError("GitHub 查询失败（%s）：%s" % (q, last))
 
 
+def fetch_gh_stars():
+    """开源热度：GitHub star 数。和 Smithery 的调用量是两件事——
+    一个是「有人收藏」，一个是「平台记录过被调用」，两张榜互不包含。
+    """
+    # per_page 别开大：GitHub 的 search 接口翻 50 条经常 504，25 条稳定得多
+    url = ("https://api.github.com/search/repositories?q=%s&sort=stars&order=desc&per_page=25"
+           % urllib.parse.quote(GH_STAR_QUERY, safe=":"))
+    last = None
+    d = None
+    for i in range(4):
+        try:
+            d = get(url, headers=gh_headers(), timeout=45)
+            break
+        except Exception as e:  # noqa: BLE001  504 是常态，重试即可
+            last = e
+            if i < 3:
+                print("  · GitHub 搜索重试：%s" % e)
+                time.sleep(8 * (i + 1))
+    if not d:
+        raise ValueError("GitHub 搜索失败：%s" % last)
+
+    rows, skipped = [], []
+    for r in d.get("items", []):
+        name = (r.get("name") or "").strip()
+        full = (r.get("full_name") or "").strip()
+        desc = (r.get("description") or "").replace("\n", " ").strip()
+        blob = (name + " " + desc).lower()
+        hit = next((w for w in GH_STAR_NOISE if w in blob), None)
+        if hit:
+            skipped.append("%s(%s)" % (full, hit))
+            continue
+        stars = int(r.get("stargazers_count") or 0)
+        if not stars:
+            continue
+        owner = full.split("/")[0] if "/" in full else ""
+        # 有些仓库名就叫 mcp / mcp-server（awslabs/mcp、BrowserMCP/mcp），
+        # 单看标题分不出是谁的，退回 owner/name
+        label = full if len(name) < 6 or name.lower() in GH_STAR_SHORT else name
+        rows.append({"名称": label, "仓库": full,
+                     # 只拿 owner 和仓库名判断归属：描述里几乎都提 Claude / OpenAI，
+                     # 拿描述去猜会把中文作者的仓库判成国外
+                     "区域": regions.guess(owner, name),
+                     "星标": stars,
+                     "说明": desc[:70] + "…" if len(desc) > 70 else desc})
+        if len(rows) >= GH_STAR_TOP:
+            break
+    if len(rows) < 5:
+        raise ValueError("只筛出 %d 个，放弃本次写入" % len(rows))
+    return rows, skipped
+
+
 def fetch_eco_repos():
     """MCP 服务器仓库：同一个话题下按实现语言拆开。
 
@@ -459,7 +521,24 @@ def main():
         failures.append("smithery: %s" % e)
         print("  ✗ Smithery 失败：%s" % e)
 
-    # 4) 生态规模：三个口径三张表，各自算各自的
+    # 4) 开源热度：GitHub star
+    try:
+        rows, skipped = fetch_gh_stars()
+        boards["mcp-star.csv"] = {"source": "GitHub Search API（按 star 排序）",
+                                  "updated_at": when}
+        if not args.check:
+            write_csv(BOARD_DIR / "mcp-star.csv", rows,
+                      ["排名", "名称", "仓库", "区域", "星标", "说明", "时间"], when)
+            snapshot(history, "mcp-star.csv", rows, "仓库", "星标", day)
+        if skipped:
+            print("  · 滤掉 %d 个非服务器：%s" % (len(skipped), "、".join(skipped[:4])))
+        for r in rows[:3]:
+            print("      %-30s %12s" % (r["仓库"], format(r["星标"], ",")))
+    except Exception as e:  # noqa: BLE001
+        failures.append("gh-stars: %s" % e)
+        print("  ✗ GitHub star 榜失败：%s" % e)
+
+    # 5) 生态规模：三个口径三张表，各自算各自的
     #    4a 仓库数（GitHub topic + 语言）
     try:
         rows, total = fetch_eco_repos()
