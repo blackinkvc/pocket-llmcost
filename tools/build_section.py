@@ -184,6 +184,31 @@ class Section:
         out.sort(key=lambda x: x["date"], reverse=True)
         return out
 
+    # 板块三·全文：外面写好的独立 HTML（自带样式、图表、交互），原样复制过去，
+    # 不进 md 渲染器。它的文件名不能改——两份全文之间是用文件名互链的。
+    def fulltext(self):
+        out = []
+        for it in self.cfg.get("fulltext") or []:
+            p = self.dir / it["file"]
+            if not p.exists():
+                print("  ! 缺全文：%s" % p)
+                continue
+            out.append({
+                "path": p,
+                "slug": p.stem,
+                "url": "%s/%s.html" % (self.slug, slug_quote(p.stem)),
+                "title": it.get("title") or p.stem,
+                "date": it.get("date") or dt.date.fromtimestamp(p.stat().st_mtime).isoformat(),
+                "summary": it.get("summary", ""),
+                "tags": [t.strip() for t in it.get("tags", []) if t.strip()],
+                "kicker": it.get("kicker", ""),
+                "featured": False,
+                "rel": [],
+                "body": "",
+                "fulltext": True,
+            })
+        return out
+
     # 板块三：专题卡（大卡）。优先读 section.json 的 featured，其次看报告里的 featured: true
     def featured(self, reports):
         want = self.cfg.get("featured")
@@ -630,6 +655,7 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
             seg += ('<button type="button" data-region="%s"%s>%s<i>%d</i></button>'
                     % (key, ' class="on"' if key == "all" else "", label, cnt))
         span_html = ""
+        date_span = 0
         if has_series:
             span_html = """
       <div class="span">
@@ -644,16 +670,27 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
                                  for d in (7, 30, 90)),
             }
         elif mode == "date":
+            # 滑块上限跟着数据走：只收了 7 个月的表，给个 24 个月的上限，
+            # 拖到哪儿画面都不变，控件等于摆设。
+            months = sorted({(r.get(k_when) or "")[:7] for r in rows
+                             if re.match(r"^\d{4}-\d{2}", r.get(k_when) or "")})
+            if months:
+                y0, m0 = int(months[0][:4]), int(months[0][5:7])
+                y1, m1 = int(months[-1][:4]), int(months[-1][5:7])
+                date_span = max(1, (y1 - y0) * 12 + (m1 - m0) + 1)
+            date_span = min(date_span or 12, 36)
+            ticks = [d for d in (1, 3, 6, 12, 24) if d < date_span] + [date_span]
             span_html = """
       <div class="span">
         <span class="span-label">时间跨度</span>
-        <output class="span-out">近 24 个月</output>
-        <input type="range" min="1" max="24" step="1" value="24"
+        <output class="span-out">近 %(def)d 个月</output>
+        <input type="range" min="1" max="%(max)d" step="1" value="%(def)d"
                aria-label="时间跨度（月）">
         <div class="span-ticks">%(ticks)s</div>
       </div>""" % {
+                "max": date_span, "def": date_span,
                 "ticks": "".join('<button type="button" data-span="%d">%d 个月</button>' % (d, d)
-                                 for d in (3, 12, 24)),
+                                 for d in ticks),
             }
         default_note = ("拖动滑块改变统计窗口，榜单按新值重排。"
                         if has_series else
@@ -671,7 +708,8 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
                             if re.match(r"^\d{4}-\d{2}", r.get(k_when) or "")})
             anchor = dates[-1] if dates else ""
         spec = {
-            "mode": mode, "unit": unit, "slider": {"default": 7 if has_series else 24},
+            "mode": mode, "unit": unit,
+            "slider": {"default": 7 if has_series else (date_span or 24)},
             "series": series if has_series else {},
         }
         if anchor:
@@ -841,7 +879,8 @@ def subnav_html(sec, prefix="", report_page=False):
             out.append('<a href="%s">%s</a>' % (href, escape(b.get("short") or b.get("title", "天梯榜"))))
         if has_cards:
             out.append('<a href="#cards">%s</a>' % escape((cfg.get("cards") or {}).get("short", "概念")))
-        out.append('<a href="#reports">报告</a>')
+        out.append('<a href="#reports">%s</a>'
+                   % escape((cfg.get("reports") or {}).get("title", "报告")))
         return joiner.join(out)
 
     if report_page:
@@ -885,7 +924,10 @@ def related_html(items):
 
 def build_section(sec, out_dir, prefix=""):
     intro = sec.intro()
-    reports = sec.reports()
+    reports = sec.reports() + sec.fulltext()
+    if len({r["slug"] for r in reports}) != len(reports):
+        print("  ! %s 里有 slug 重名（md 与全文同名），全文会被挤掉" % sec.dir.name)
+    reports.sort(key=lambda x: x["date"], reverse=True)
     featured = sec.featured(reports)
     relmap = sec.related(reports)
     by_slug = {r["slug"]: r for r in reports}
@@ -938,6 +980,13 @@ def build_section(sec, out_dir, prefix=""):
     for r in reports:
         rout = out_dir / sec.slug / (r["slug"] + ".html")
         rout.parent.mkdir(parents=True, exist_ok=True)
+        if r.get("fulltext"):
+            # 原样复制，只补两样：回站内的入口，和窄屏下不撑破表格的规则——
+            # 两份全文都是外来的独立页面，没有入口，读者点进去就只剩浏览器后退。
+            html = r["path"].read_text(encoding="utf-8")
+            back = '<a href="../%s">← 回%s</a>' % (sec.page, escape(sec.name))
+            rout.write_text(R.dress_fulltext(html, back), encoding="utf-8")
+            continue
         r_prefix = prefix + "../"
         rbody = "".join([
             doc_head(r["title"] + " · " + sec.name, r["summary"], sec.name, r_prefix),

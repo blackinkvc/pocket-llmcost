@@ -361,7 +361,43 @@ def shell(title, desc, body, active="研究", noindex=False, prefix="../"):
 
 
 # ───────────────────────── 条目状态 ─────────────────────────
-def status_of(slug):
+# 外来的整篇 HTML 没做窄屏适配：引用来源里那 20 条长 URL 不能断行，
+# 390px 下把页面撑宽 318px（原文件在手机上也一样，不是拷进来才坏的）。
+# 只补一条断行规则，其余样式一概不动——改别人的版式，等于替他改稿。
+FULLTEXT_PATCH = ('<style data-injected="fulltext">'
+                  '@media(max-width:720px){'
+                  'p,li,blockquote,td{overflow-wrap:anywhere}'
+                  '}</style>')
+
+
+def dress_fulltext(html, back=""):
+    """给外来全文补两样东西：回站内的入口、窄屏下不撑破表格的规则。"""
+    if back and '<div class="nav">' in html and back not in html:
+        html = html.replace('<div class="nav">', '<div class="nav">' + back, 1)
+    if 'data-injected="fulltext"' not in html and "</head>" in html:
+        html = html.replace("</head>", FULLTEXT_PATCH + "</head>", 1)
+    return html
+
+
+def full_source(slug, meta):
+    """整篇 HTML 的成品条目：meta 里写 full，指向已经写好的独立页面。
+
+    路径先按仓库根目录解析（全文统一放在 content/<板块>/全文/，只存一份），
+    找不到再退回条目自己的 raw/ 目录。
+    """
+    name = (meta.get("full") or "").strip()
+    if not name:
+        return None
+    for p in (ROOT / name, ITEMS / slug / "raw" / name):
+        if p.is_file():
+            return p
+    return None
+
+
+def status_of(slug, meta=None):
+    meta = meta or parse_meta(ITEMS / slug / "meta.yml")
+    if full_source(slug, meta):
+        return "published"
     if (PUB / ("%s.md" % slug)).exists():
         return "published"
     if (ITEMS / slug / "draft.md").exists():
@@ -396,7 +432,8 @@ def load_items():
             "published_at": meta.get("published_at") or "",
             "note": meta.get("note") or "",
             "raw": raw,
-            "status": status_of(d.name),
+            "full": full_source(d.name, meta),
+            "status": status_of(d.name, meta),
         })
     items.sort(key=lambda x: (ST_RANK[x["status"]], x["created_at"] or "", x["title"]))
     return items
@@ -620,7 +657,18 @@ def build():
             p.unlink()
             print("  清理孤儿页 %s" % p.name)
     for it in items:
-        (RES / ("%s.html" % it["slug"])).write_text(render_item(it), encoding="utf-8")
+        out = RES / ("%s.html" % it["slug"])
+        if it["full"]:
+            # 已经写好的独立页面：原样拷过来，只往它的顶栏插一个回站内的入口。
+            # 文件名保持原样——这类全文之间常常用文件名互链，改名就断。
+            html = it["full"].read_text(encoding="utf-8")
+            page = CHANNEL_PAGE.get(it["channel"]) or "index.html"
+            back = ('<a href="../%s">← 回%s</a>'
+                    % (page, H.escape(CHANNEL_LABEL.get(it["channel"], "站内"))))
+            out.write_text(dress_fulltext(html, back), encoding="utf-8")
+            print("  拷入全文 %s" % out.name)
+            continue
+        out.write_text(render_item(it), encoding="utf-8")
     (RES / "index.html").write_text(render_index(items), encoding="utf-8")
     (RES / "status.html").write_text(render_status(items), encoding="utf-8")
     print("研究 %d 条（上线 %d / 待审 %d / 整理中 %d）→ research/ 4 类页面已重建"
