@@ -56,7 +56,7 @@ content/基模/
 | 文件夹 | 页面 | 说明 |
 |---|---|---|
 | `基模/` | `models.html` | 已切换（样板） |
-| `agent/` | `agents.html` | 已切换；四个榜每天自动抓 |
+| `agent/` | `agents.html` | 已切换；七个榜每天自动抓，卡片带作者地址 / 许可 / 功能 / 特点 |
 | `公司/` | `companies.html` | |
 | `硬件/` | `hardware.html` | |
 | `模板/` | `templates.html` | |

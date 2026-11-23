@@ -570,6 +570,8 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
     k_name = f.get("name", "名称")
     k_meta = f.get("meta", ["机构", "权重", "取向"])
     k_note = f.get("note", "一句话")
+    k_note2 = f.get("note2")        # 可选：第二行说明（特点），比 note 更轻
+    show_lab = bool(f.get("labels"))  # 两行说明都带上列名做前缀（功能 / 特点）
     k_when = f.get("when", "时间")
     k_val = f.get("value")
     k_link = f.get("link")          # 可选：这一列的地址让标题变成链接
@@ -586,6 +588,7 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
         metas = [(r.get(k) or "").strip() for k in k_meta]
         metas = [m for m in metas if m]
         note_txt = (r.get(k_note) or "").strip()
+        note2_txt = (r.get(k_note2) or "").strip() if k_note2 else ""
         when = (r.get(k_when) or "").strip()
         val = (r.get(k_val) or "").strip() if k_val else ""
         link = (r.get(k_link) or "").strip() if k_link else ""
@@ -614,7 +617,13 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
         date_attr = ""
         if mode == "date" and re.match(r"^\d{4}-\d{2}", when):
             date_attr = ' data-date="%s"' % escape(when[:7])
-        note_html = ('<p class="bd-note">%s</p>' % R.inline(note_txt)) if note_txt else ""
+        note_html = ""
+        if note_txt:
+            lab = '<span class="bd-lab">%s</span>' % escape(k_note) if show_lab else ""
+            note_html = '<p class="bd-note">%s%s</p>' % (lab, R.inline(note_txt))
+        if note2_txt:
+            lab = '<span class="bd-lab">%s</span>' % escape(k_note2) if show_lab else ""
+            note_html += '<p class="bd-note bd-sub">%s%s</p>' % (lab, R.inline(note2_txt))
         cards.append("""<article class="bd-card" data-k="%s" data-region="%s" data-base="%s"%s>
         <span class="bd-rank">%s</span>
         <div class="bd-main">
@@ -727,6 +736,9 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
     ncls = "blk-note is-long" if len(re.sub(r"<[^>]+>", "", note)) > 50 else "blk-note"
     # 条目少的时候拉成单列：3 列网格里只放 1~3 项，右边总缺一块，看着像没做完
     board_cls = "board is-few" if len(rows) < 4 else "board"
+    # 带功能/特点两行说明的榜，三列太窄，改成两列
+    if bcfg.get("cols") == 2 and len(rows) >= 4:
+        board_cls = "board is-two"
     if mode == "static":
         # 静态索引表里的序号不是名次，别让「前三」高亮读出排名含义
         board_cls += " is-static"

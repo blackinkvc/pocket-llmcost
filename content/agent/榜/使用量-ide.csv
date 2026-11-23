@@ -1,12 +1,12 @@
-﻿排名,名称,扩展ID,厂商,区域,安装量,时间
-1,GitHub Copilot,GitHub.copilot,GitHub,国外,74948068,2026-11-24T01:10:40+08:00
-2,Claude Code for VS Code,anthropic.claude-code,Anthropic,国外,30832402,2026-11-24T01:10:40+08:00
-3,Cline,saoudrizwan.claude-dev,Cline,国外,6015166,2026-11-24T01:10:40+08:00
-4,Continue,Continue.continue,Continue,国外,4602487,2026-11-24T01:10:40+08:00
-5,Windsurf Plugin,Codeium.codeium,Windsurf,国外,3977529,2026-11-24T01:10:40+08:00
-6,通义灵码 / Qoder,Alibaba-Cloud.tongyi-lingma,阿里云,国内,2774015,2026-11-24T01:10:40+08:00
-7,Roo Code,RooVeterinaryInc.roo-cline,Roo,国外,2120774,2026-11-24T01:10:40+08:00
-8,CodeGeeX,aminer.codegeex,智谱,国内,1398261,2026-11-24T01:10:40+08:00
-9,Cody,sourcegraph.cody-ai,Sourcegraph,国外,907789,2026-11-24T01:10:40+08:00
-10,Augment,Augment.vscode-augment,Augment,国外,785822,2026-11-24T01:10:40+08:00
-11,文心快码 Comate,BaiduComate.comate,百度,国内,404381,2026-11-24T01:10:40+08:00
+﻿排名,名称,厂商,扩展ID,评分,区域,安装量,功能,特点,地址,时间
+1,GitHub Copilot,GitHub,GitHub.copilot,4.1★ / 1059 评,国外,74946158,补全、内联对话、Chat 面板、Agent 模式，能读工作区并开 PR。,装机量最大，企业按席位结算；模型可在 OpenAI / Anthropic / Google 之间切。,https://github.com/features/copilot?editor=vscode,2026-11-24T04:53:02+08:00
+2,Claude Code for VS Code,Anthropic,anthropic.claude-code,3.7★ / 862 评,国外,30819747,把 Claude Code 会话嵌进编辑器，带 diff 预览，和终端共享同一份配置。,本质是 CLI 的前端，装它的人多半已经在用 CLI；闭源。,https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code,2026-11-24T04:53:02+08:00
+3,Cline,Cline,saoudrizwan.claude-dev,4.0★ / 328 评,国外,6015792,自主改文件、跑命令、开浏览器，每一步都能审批。,开源 + 自带 key（BYOK），不是订阅制；扩展 ID 还留着 claude-dev 的旧名。,https://github.com/cline/cline,2026-11-24T04:53:02+08:00
+4,Continue,Continue,Continue.continue,3.1★ / 197 评,国外,4603677,补全 + 对话 + Agent，模型与规则都写在配置文件里。,开源，可接 Ollama / vLLM 等本地服务；团队能统一发一份配置。,https://github.com/continuedev/continue,2026-11-24T04:53:02+08:00
+5,Windsurf Plugin,Windsurf,Codeium.codeium,4.7★ / 1472 评,国外,3977529,补全与 Cascade 入口。,插件是导流入口，完整体验在自家 IDE 里；扩展 ID 仍是 Codeium 的旧名。,,2026-11-24T04:53:02+08:00
+6,通义灵码 / Qoder,阿里云,Alibaba-Cloud.tongyi-lingma,3.5★ / 165 评,国内,2774858,中文补全、注释生成、仓库级问答与单测。,国内装机最高的编码插件；个人免费，企业版接阿里云。,https://tongyi.aliyun.com/lingma,2026-11-24T04:53:02+08:00
+7,Roo Code,Roo,RooVeterinaryInc.roo-cline,4.7★ / 354 评,国外,2120774,Cline 的分支，按 Architect / Code / Debug 等角色模式分工。,模式和自定义 prompt 更细，适合把流程拆成多个角色；成本仍取决于你接的模型。,https://github.com/RooCodeInc/Roo-Code,2026-11-24T04:53:02+08:00
+8,CodeGeeX,智谱,aminer.codegeex,4.1★ / 98 评,国内,1398469,补全、注释翻译、跨语言代码生成。,智谱出品，有免费额度；多语言互译是它最早打的功能点。,https://github.com/THUDM/CodeGeeX4,2026-11-24T04:53:02+08:00
+9,Cody,Sourcegraph,sourcegraph.cody-ai,4.0★ / 149 评,国外,907674,基于代码图索引的问答、补全与批量编辑。,强在跨仓库检索（Sourcegraph 的索引）；免费档额度小，企业向定价。,https://github.com/sourcegraph/cody,2026-11-24T04:53:02+08:00
+10,Augment,Augment,Augment.vscode-augment,3.6★ / 341 评,国外,785847,补全 + 对话 + Agent，主打大仓库的上下文检索。,企业向、按席位收费；上下文引擎是它唯一的卖点，也是最贵的部分。,https://marketplace.visualstudio.com/items?itemName=Augment.vscode-augment,2026-11-24T04:53:02+08:00
+11,文心快码 Comate,百度,BaiduComate.comate,4.4★ / 69 评,国内,404381,补全、单测生成、代码解释，可接企业内部知识库。,国内合规与私有化部署选项多；与百度智能云打包卖。,https://comate.baidu.com,2026-11-24T04:53:02+08:00

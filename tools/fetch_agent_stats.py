@@ -26,6 +26,7 @@ import datetime as dt
 import json
 import os
 import pathlib
+import re
 import sys
 import time
 import urllib.error
@@ -81,12 +82,130 @@ SMITHERY_TOP = 15
 SMITHERY_PAGES = 1
 SMITHERY_PAGE_SIZE = 50
 
+# ── 一行说明：功能 / 特点 ───────────────────────────────────
+# 这里是唯一手工维护的文案。作者、地址、许可、评分、托管方式一律从接口取，
+# 不写在这一节里——写死的东西会跟数据打架，而接口给的是当下的事实。
+CLI_PROFILE = {
+    "@openai/codex": (
+        "在终端里读仓库、改代码、跑命令与测试，可作为 MCP 客户端接入外部工具。",
+        "沙箱默认开（macOS Seatbelt / Linux Landlock）；额度并入 ChatGPT 订阅，也能换 API key 按量付费。",
+    ),
+    "@anthropic-ai/claude-code": (
+        "长任务编码 Agent：改文件、跑 Bash、开子 Agent，支持 MCP 与 hooks。",
+        "闭源分发，只有 npm 包；上下文压缩与计划模式是长任务的强项，按订阅或 API 计费。",
+    ),
+    "opencode-ai": (
+        "终端 TUI 编码 Agent，可接多家云端模型，也能指向本地推理服务。",
+        "MIT 开源，客户端与服务端分离，能自带 provider；不走订阅制，花多少取决于你接的模型。",
+    ),
+    "@github/copilot": (
+        "在终端里调 Copilot 编码 Agent，直接读写 GitHub 仓库、开 PR。",
+        "绑定 GitHub 账号与 Copilot 席位，企业策略集中下发；闭源，能力边界跟着订阅档位走。",
+    ),
+    "@google/gemini-cli": (
+        "终端 Agent，自带 Google 搜索接地、MCP 扩展与脚本调用。",
+        "Apache-2.0 开源，个人 Google 账号有较大免费额度；生态里多个工具是它的分支（Qwen Code 就在其中）。",
+    ),
+    "@qwen-code/qwen-code": (
+        "Gemini CLI 的分支，改成适配 Qwen 系列模型的终端 Agent。",
+        "面向 Qwen3-Coder 调优，国内网络可直连；沿用上游的扩展与 MCP 机制，升级也跟上游走。",
+    ),
+    "@tencent-ai/codebuddy-code": (
+        "终端编码 Agent，接腾讯云的模型与工程能力。",
+        "闭源，走国内计费与合规路径；与 CodeBuddy IDE 共用一套账号和额度。",
+    ),
+    "@musistudio/claude-code-router": (
+        "把 Claude Code 的请求转发到其它模型或供应商，带 Web 管理界面。",
+        "不用改 Claude Code 本体就能换模型、按路由分流；MIT 开源，规则自己写。",
+    ),
+    "@sourcegraph/amp": (
+        "Sourcegraph 的编码 Agent 命令行版。",
+        "包已改名为 `@ampcode/cli`，这一行统计的是旧包——数字里含没迁移的 CI 与镜像。",
+    ),
+    "@charmland/crush": (
+        "终端编码 Agent，带 LSP 感知与会话管理。",
+        "Go 写的单二进制，界面是 Charm 的 TUI 风格；FSL 许可：源码可见，但不许拿去做竞品。",
+    ),
+    "@continuedev/cli": (
+        "把 Continue 的配置化助手搬进终端，能跑 headless 与 CI 任务。",
+        "与 Continue 插件共用 `~/.continue` 的配置和模型表，同一份配置在 IDE 与流水线里复用。",
+    ),
+    "@iflow-ai/iflow-cli": (
+        "终端 Agent，接心流的模型与工作流。",
+        "国内团队出品，文档以中文为主；模型走自家网关，换别家要改配置。",
+    ),
+}
+
+# npm 的 repository 字段有的包干脆没填（opencode-ai 就是）。这里只兜底
+# 接口确实取不到的，能从 npm / 市场拿到的地址一律不写死。
+CLI_HOME = {
+    "opencode-ai": "https://github.com/sst/opencode",
+}
+
+VSIX_PROFILE = {
+    "GitHub.copilot": (
+        "补全、内联对话、Chat 面板、Agent 模式，能读工作区并开 PR。",
+        "装机量最大，企业按席位结算；模型可在 OpenAI / Anthropic / Google 之间切。",
+    ),
+    "anthropic.claude-code": (
+        "把 Claude Code 会话嵌进编辑器，带 diff 预览，和终端共享同一份配置。",
+        "本质是 CLI 的前端，装它的人多半已经在用 CLI；闭源。",
+    ),
+    "saoudrizwan.claude-dev": (
+        "自主改文件、跑命令、开浏览器，每一步都能审批。",
+        "开源 + 自带 key（BYOK），不是订阅制；扩展 ID 还留着 claude-dev 的旧名。",
+    ),
+    "Continue.continue": (
+        "补全 + 对话 + Agent，模型与规则都写在配置文件里。",
+        "开源，可接 Ollama / vLLM 等本地服务；团队能统一发一份配置。",
+    ),
+    "Codeium.codeium": (
+        "补全与 Cascade 入口。",
+        "插件是导流入口，完整体验在自家 IDE 里；扩展 ID 仍是 Codeium 的旧名。",
+    ),
+    "Alibaba-Cloud.tongyi-lingma": (
+        "中文补全、注释生成、仓库级问答与单测。",
+        "国内装机最高的编码插件；个人免费，企业版接阿里云。",
+    ),
+    "RooVeterinaryInc.roo-cline": (
+        "Cline 的分支，按 Architect / Code / Debug 等角色模式分工。",
+        "模式和自定义 prompt 更细，适合把流程拆成多个角色；成本仍取决于你接的模型。",
+    ),
+    "aminer.codegeex": (
+        "补全、注释翻译、跨语言代码生成。",
+        "智谱出品，有免费额度；多语言互译是它最早打的功能点。",
+    ),
+    "sourcegraph.cody-ai": (
+        "基于代码图索引的问答、补全与批量编辑。",
+        "强在跨仓库检索（Sourcegraph 的索引）；免费档额度小，企业向定价。",
+    ),
+    "Augment.vscode-augment": (
+        "补全 + 对话 + Agent，主打大仓库的上下文检索。",
+        "企业向、按席位收费；上下文引擎是它唯一的卖点，也是最贵的部分。",
+    ),
+    "BaiduComate.comate": (
+        "补全、单测生成、代码解释，可接企业内部知识库。",
+        "国内合规与私有化部署选项多；与百度智能云打包卖。",
+    ),
+}
+
 # 生态规模按口径拆表：仓库数只看 GitHub，扩展数只看 IDE 市场，
 # 上架数只看托管平台。三个口径互不换算，也就不放进同一张表里相加。
 GH_TOPIC = "mcp-server"
 GH_LANGS = [("TypeScript", "typescript"), ("Python", "python"),
             ("JavaScript", "javascript"), ("Go", "go"),
             ("Rust", "rust"), ("Java", "java")]
+
+# 语言的「特点」不是排名信息，是对这一档里都是些什么项目的判断
+GH_LANG_NOTE = {
+    "Python": "数据与科研类服务器的主场：数据库、爬取、科学计算都在这儿。",
+    "TypeScript": "IDE、前端与官方参考实现集中，npm 一键装，起步成本最低。",
+    "JavaScript": "老仓库多，不少是 TypeScript 之前的写法，新项目少往这里放。",
+    "Go": "云与基础设施类偏多，单二进制好分发，适合常年挂着的服务。",
+    "Rust": "追求单文件、低内存的服务器在往这儿迁，数量少但增长快。",
+    "Java": "企业内网集成（数据库、ERP、消息队列）居多，公开热度低。",
+    "其他 / 未标注语言": "作者没选主语言，或仓库本身是文档与清单型。",
+}
 
 # 开源热度榜：topic:mcp-server 被大量「泛 AI 项目」自贴（n8n、gemini-cli 都在里面），
 # 直接按 star 排第一行会是工作流平台。所以多加一个「名字里带 mcp」的限制，
@@ -130,6 +249,86 @@ def post(url, payload, headers=None, timeout=25):
         return json.loads(r.read().decode("utf-8"))
 
 
+# ── 元数据小工具 ───────────────────────────────────────────
+def clean_repo(u):
+    """把 npm / 市场里的仓库地址洗干净：去掉 git+ 、git@ 、.git 、#readme。"""
+    u = (u or "").strip()
+    if not u:
+        return ""
+    u = u.replace("git+", "").replace("ssh://git@", "https://").replace("git@", "")
+    u = re.sub(r"^https://[^/]*@", "https://", u)
+    u = re.sub(r"#.*$", "", u)      # 只去锚点；?itemName=... 是市场页的正文
+    u = re.sub(r"\.git$", "", u)
+    return u if u.startswith("http") else ""
+
+
+def lic_label(s):
+    """npm 的许可字段五花八门，归一到「能不能看源码」这个粒度。"""
+    s = (s or "").strip()
+    if not s:
+        return "未标注"
+    if s.upper().startswith("SEE LICENSE"):
+        return "专有"
+    return re.sub(r"-MIT$", "", s)
+
+
+_PROBE = {}
+
+
+def probe(url):
+    """外链到底通不通：只用来挡掉确定死了的地址（404 / 410）。
+
+    超时、被封、403 一律当「不知道」——网络抖动不该让一条好链接消失，
+    但 GitHub 上已经没有这个仓库、市场页也下架了，就不该再挂上去。
+    """
+    if not url:
+        return "dead"
+    try:
+        req = urllib.request.Request(url, headers={
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                          "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131 Safari/537.36",
+            "Accept": "text/html,*/*"})
+        with urllib.request.urlopen(req, timeout=10) as r:
+            r.read(1024)
+            return "ok" if r.status < 400 else "unknown"
+    except urllib.error.HTTPError as e:
+        return "dead" if e.code in (404, 410) else "unknown"
+    except Exception:  # noqa: BLE001
+        return "unknown"
+
+
+def resolve_addresses(rows, key="_cands"):
+    """并发探活，再按候选顺序落地址。
+
+    串行探活会把这支脚本从 1 分钟拖到 4 分钟，所以先收齐 URL 一起查，
+    每个 URL 只查一次（同一批里常有重复）。
+    """
+    urls = sorted({u for r in rows for u in map(clean_repo, r.get(key, [])) if u})
+    if urls:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
+            for u, st in zip(urls, pool.map(probe, urls)):
+                _PROBE[u] = st
+    for r in rows:
+        cands = [u for u in map(clean_repo, r.get(key, [])) if u]
+        if cands:                    # 没有候选的是沿用的旧行，保留它原来的地址
+            r["地址"] = next((u for u in cands if _PROBE.get(u) != "dead"), "")
+        r.pop(key, None)
+
+
+def npm_meta(pkg):
+    """npm 包自带的许可与仓库地址。取不到就留空，不猜。"""
+    try:
+        d = get("https://registry.npmjs.org/%s/latest"
+                % urllib.parse.quote(pkg, safe="@"), timeout=20)
+    except Exception:  # noqa: BLE001
+        return {}
+    repo = d.get("repository")
+    if isinstance(repo, dict):
+        repo = repo.get("url")
+    return {"许可": lic_label(d.get("license")),
+            "地址": clean_repo(repo) or clean_repo(d.get("homepage"))}
+
+
 # ── 各数据源 ───────────────────────────────────────────────
 def fetch_npm(days=HISTORY_DAYS):
     """拉最近 N 天的每日下载量。
@@ -154,6 +353,15 @@ def fetch_npm(days=HISTORY_DAYS):
                 time.sleep(1.5 * (attempt + 1))
         return item, None, last
 
+    def base(pkg, name, vendor, old=None):
+        """一行卡片的基础字段：人工文案 + 上一次取到的许可/地址。"""
+        fn, ft = CLI_PROFILE.get(pkg, ("", ""))
+        old = old or {}
+        return {"名称": name, "包名": pkg, "厂商": vendor,
+                "功能": fn, "特点": ft,
+                "许可": old.get("许可", ""),
+                "地址": old.get("地址", "") or CLI_HOME.get(pkg, "")}
+
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
         for (pkg, name, vendor), d, err in pool.map(one, CLI):
             if err is not None or not isinstance(d, dict) or not d.get("downloads"):
@@ -162,9 +370,13 @@ def fetch_npm(days=HISTORY_DAYS):
             daily = {x["day"]: int(x.get("downloads") or 0) for x in d["downloads"]}
             series[pkg] = daily
             last7 = sorted(daily)[-7:]
-            rows.append({"名称": name, "包名": pkg, "厂商": vendor,
-                         "周下载": sum(daily[k] for k in last7),
-                         "期间": "%s ~ %s" % (last7[0], last7[-1]) if last7 else ""})
+            row = base(pkg, name, vendor)
+            meta = npm_meta(pkg)            # 许可 / 地址 以 npm 当下返回为准
+            row["许可"] = meta.get("许可") or row["许可"]
+            row["地址"] = meta.get("地址") or row["地址"]
+            row.update({"周下载": sum(daily[k] for k in last7),
+                        "期间": "%s ~ %s" % (last7[0], last7[-1]) if last7 else ""})
+            rows.append(row)
 
     if miss:
         print("  · npm 缺 %d 个：%s" % (len(miss), ", ".join(miss)))
@@ -178,8 +390,9 @@ def fetch_npm(days=HISTORY_DAYS):
                 val = int(float(old[pkg].get("周下载") or 0))
             except (TypeError, ValueError):
                 val = 0
-            rows.append({"名称": name, "包名": pkg, "厂商": vendor,
-                         "周下载": val, "期间": old[pkg].get("期间", "")})
+            row = base(pkg, name, vendor, old[pkg])
+            row.update({"周下载": val, "期间": old[pkg].get("期间", "")})
+            rows.append(row)
             if pkg in old_series:
                 series[pkg] = old_series[pkg]
                 print("      ↺ 沿用旧值与旧曲线：%s" % name)
@@ -193,6 +406,14 @@ def fetch_npm(days=HISTORY_DAYS):
 
 def fetch_vsix():
     rows, miss = [], []
+
+    def base(ext, name, vendor, old=None):
+        fn, ft = VSIX_PROFILE.get(ext, ("", ""))
+        old = old or {}
+        return {"名称": name, "扩展ID": ext, "厂商": vendor,
+                "功能": fn, "特点": ft,
+                "评分": old.get("评分", ""), "地址": old.get("地址", "")}
+
     for ext, name, vendor in VSIX:
         payload = {"filters": [{"criteria": [{"filterType": 7, "value": ext}],
                                 "pageNumber": 1, "pageSize": 1}], "flags": 914}
@@ -202,9 +423,25 @@ def fetch_vsix():
             exts = d.get("results", [{}])[0].get("extensions", [])
             if not exts:
                 raise ValueError("查不到")
-            stats = {s["statisticName"]: s["value"] for s in exts[0].get("statistics", [])}
-            rows.append({"名称": name, "扩展ID": ext, "厂商": vendor,
-                         "安装量": int(stats.get("install", 0))})
+            e = exts[0]
+            stats = {s["statisticName"]: s["value"] for s in e.get("statistics", [])}
+            # 市场把仓库地址放在版本的 properties 里，不是顶层字段
+            props = {p["key"]: p["value"] for p in (e.get("versions") or [{}])[0].get("properties", [])}
+            src = (props.get("Microsoft.VisualStudio.Services.Links.Source")
+                   or props.get("Microsoft.VisualStudio.Services.Links.GitHub") or "")
+            home = (props.get("Microsoft.VisualStudio.Services.Links.Learn")
+                    or props.get("Microsoft.VisualStudio.Services.Links.Getstarted") or "")
+            rating, votes = stats.get("averagerating") or 0, int(stats.get("ratingcount") or 0)
+            row = base(ext, name, vendor)
+            row.update({
+                "安装量": int(stats.get("install", 0)),
+                # 仓库 → 官网 → 上架页：Cody 的仓库已经删了，市场页才活得下来
+                "_cands": [src, home,
+                           "https://marketplace.visualstudio.com/items?itemName=" + ext],
+                # 评价人数太少时不算「评价」，宁可不显示
+                "评分": ("%.1f★ / %d 评" % (rating, votes)) if votes >= 20 and rating else "",
+            })
+            rows.append(row)
         except Exception as e:  # noqa: BLE001
             miss.append("%s(%s)" % (name, e))
     if miss:
@@ -218,10 +455,11 @@ def fetch_vsix():
                 val = int(float(old[ext].get("安装量") or 0))
             except (TypeError, ValueError):
                 val = 0
-            rows.append({"名称": name, "扩展ID": ext, "厂商": vendor,
-                         "安装量": val,
-                         "时间": old[ext].get("时间", "")})
+            row = base(ext, name, vendor, old[ext])
+            row.update({"安装量": val})
+            rows.append(row)
             print("      ↺ 沿用旧值：%s" % name)
+    resolve_addresses(rows)
     if len(rows) < 4:
         raise ValueError("只拿到 %d 个插件，放弃本次写入" % len(rows))
     rows.sort(key=lambda x: -x["安装量"])
@@ -250,19 +488,36 @@ def fetch_smithery():
                 continue
             seen.add(qn)
             desc = (s.get("description") or "").replace("\n", " ").strip()
-            if len(desc) > 80:
-                desc = desc[:78].rstrip() + "…"
+            # 说明里混着 markdown 链接，卡片上留文字不留地址
+            desc = re.sub(r"\[([^\]]+)\]\((?:https?://[^)]+)\)", r"\1", desc)
+            desc = re.sub(r"^[#>*\s]+", "", desc)          # 开头常带 # 标题记号
+            desc = re.sub(r"\s+", " ", desc)
+            if len(desc) > 150:
+                cut = desc[:150]
+                sp = cut.rfind(" ")
+                desc = (cut[:sp] if sp > 90 else cut).rstrip(" ,.;:、，。") + "…"
             servers.append({"名称": s.get("displayName") or qn,
                             "标识": qn,
                             "说明": desc,
                             "调用量": int(s.get("useCount") or 0),
-                            "官方": "是" if s.get("bySmithery") else ""})
+                            "官方": "是" if s.get("bySmithery") else "",
+                            # remote = 平台代跑，不用本地装；否则要自己部署
+                            "形态": "远程托管" if s.get("remote") else "需自部署",
+                            "认证": "已认证" if s.get("verified") else "",
+                            "上架": (s.get("createdAt") or "")[:7],
+                            # 平台的 homepage 不少是死链（gmail 那条 404），
+                            # 标识写成 owner/repo 的退一步找 GitHub
+                            "_cands": [s.get("homepage"),
+                                       ("https://github.com/" + qn) if qn.count("/") == 1 else ""]})
     total = get("https://api.smithery.ai/servers?page=1&pageSize=1", timeout=45)
     total = (total.get("pagination") or {}).get("totalCount", 0)
     if not servers:
         raise ValueError("一页都没拿到")
     servers.sort(key=lambda x: -x["调用量"])
-    return servers[:SMITHERY_TOP], total, len(servers)
+    sample = len(servers)          # 样本量：截断前的条数，页面上的「样本 50 / 共 20743」
+    servers = servers[:SMITHERY_TOP]
+    resolve_addresses(servers)
+    return servers, total, sample
 
 
 def gh_headers():
@@ -327,6 +582,7 @@ def fetch_gh_stars():
         if not stars:
             continue
         owner = full.split("/")[0] if "/" in full else ""
+        lic = ((r.get("license") or {}).get("spdx_id") or "").strip()
         # 有些仓库名就叫 mcp / mcp-server（awslabs/mcp、BrowserMCP/mcp），
         # 单看标题分不出是谁的，退回 owner/name
         label = full if len(name) < 6 or name.lower() in GH_STAR_SHORT else name
@@ -334,8 +590,11 @@ def fetch_gh_stars():
                      # 只拿 owner 和仓库名判断归属：描述里几乎都提 Claude / OpenAI，
                      # 拿描述去猜会把中文作者的仓库判成国外
                      "区域": regions.guess(owner, name),
+                     "语言": r.get("language") or "",
+                     "许可": "" if lic.upper() in ("NOASSERTION", "OTHER") else lic,
                      "星标": stars,
-                     "说明": desc[:70] + "…" if len(desc) > 70 else desc})
+                     "地址": r.get("html_url") or ("https://github.com/" + full),
+                     "说明": desc[:110] + "…" if len(desc) > 110 else desc})
         if len(rows) >= GH_STAR_TOP:
             break
     if len(rows) < 5:
@@ -355,11 +614,12 @@ def fetch_eco_repos():
     for label, lang in GH_LANGS:
         time.sleep(6)          # 未认证时每分钟 10 次，留足间隔
         n = gh_count("topic:%s+language:%s" % (GH_TOPIC, lang))
-        rows.append({"语言": label, "仓库数": n})
+        rows.append({"语言": label, "仓库数": n, "备注": GH_LANG_NOTE.get(label, "")})
         seen += n
     rest = total - seen
     if rest > 0:
-        rows.append({"语言": "其他 / 未标注语言", "仓库数": rest})
+        rows.append({"语言": "其他 / 未标注语言", "仓库数": rest,
+                     "备注": GH_LANG_NOTE.get("其他 / 未标注语言", "")})
     for r in rows:
         r["占比"] = "%.1f%%" % (r["仓库数"] * 100.0 / total) if total else ""
     rows.sort(key=lambda x: -x["仓库数"])
@@ -380,6 +640,7 @@ def fetch_eco_markets():
     if not total:
         raise ValueError("VS Code 市场没返回 TotalCount")
     rows.append({"市场": "VS Code 市场", "区域": "国外", "扩展数": total,
+                 "备注": "微软官方市场，所有发布者都在这儿上架；条目含主题、语言包等非工具类扩展。",
                  "来源": "Marketplace extensionquery"})
 
     try:
@@ -387,6 +648,7 @@ def fetch_eco_markets():
         n = int(d.get("totalSize") or 0)
         if n:
             rows.append({"市场": "Open VSX", "区域": "国外", "扩展数": n,
+                         "备注": "面向 VSCodium / Theia 等非微软 IDE 的开放市场，条目少，但不受微软条款约束。",
                          "来源": "open-vsx.org /api/-/search"})
     except Exception as e:  # noqa: BLE001
         print("  ! Open VSX 总数失败：%s" % e)
@@ -400,7 +662,9 @@ def fetch_eco_hosted(smithery_total):
     if not smithery_total:
         raise ValueError("没拿到 Smithery 总数")
     return [{"平台": "Smithery", "区域": "国外", "类型": "MCP 服务器（上架）",
-             "上架数": smithery_total, "来源": "api.smithery.ai pagination.totalCount"}]
+             "上架数": smithery_total,
+             "备注": "免密钥接口直接给总数；上架里有相当一部分是平台代跑的远程服务器，装都不用装。",
+             "来源": "api.smithery.ai pagination.totalCount"}]
 
 
 # ── 写盘 ───────────────────────────────────────────────────
@@ -478,7 +742,7 @@ def main():
         boards["使用量-cli.csv"] = {"source": "npm registry（range，最近 90 天）", "updated_at": when}
         if not args.check:
             write_csv(BOARD_DIR / "使用量-cli.csv", rows,
-                      ["排名", "名称", "包名", "厂商", "区域", "周下载", "期间"], when)
+                      ["排名", "名称", "厂商", "包名", "许可", "区域", "周下载", "功能", "特点", "地址", "期间"], when)
             (DATA_DIR / "npm-series.json").write_text(
                 json.dumps({"generated_at": when, "days": HISTORY_DAYS, "series": series},
                            ensure_ascii=False) + "\n", encoding="utf-8")
@@ -496,7 +760,7 @@ def main():
         boards["使用量-ide.csv"] = {"source": "VS Code Marketplace", "updated_at": when}
         if not args.check:
             write_csv(BOARD_DIR / "使用量-ide.csv", rows,
-                      ["排名", "名称", "扩展ID", "厂商", "区域", "安装量", "时间"], when)
+                      ["排名", "名称", "厂商", "扩展ID", "评分", "区域", "安装量", "功能", "特点", "地址", "时间"], when)
             snapshot(history, "使用量-ide.csv", rows, "名称", "安装量", day)
         for r in rows[:3]:
             print("      %-22s %12s" % (r["名称"], format(r["安装量"], ",")))
@@ -512,7 +776,7 @@ def main():
                                    "sample": "%d / %d" % (sample, smithery_total)}
         if not args.check:
             write_csv(BOARD_DIR / "mcp服务器.csv", rows,
-                      ["排名", "名称", "标识", "区域", "调用量", "官方", "说明", "时间"], when)
+                      ["排名", "名称", "标识", "区域", "调用量", "官方", "形态", "认证", "上架", "说明", "地址", "时间"], when)
             snapshot(history, "mcp服务器.csv", rows, "名称", "调用量", day)
         for r in rows[:3]:
             print("      %-22s %12s" % (r["名称"], format(r["调用量"], ",")))
@@ -528,7 +792,7 @@ def main():
                                   "updated_at": when}
         if not args.check:
             write_csv(BOARD_DIR / "mcp-star.csv", rows,
-                      ["排名", "名称", "仓库", "区域", "星标", "说明", "时间"], when)
+                      ["排名", "名称", "仓库", "区域", "语言", "许可", "星标", "说明", "地址", "时间"], when)
             snapshot(history, "mcp-star.csv", rows, "仓库", "星标", day)
         if skipped:
             print("  · 滤掉 %d 个非服务器：%s" % (len(skipped), "、".join(skipped[:4])))
@@ -546,7 +810,7 @@ def main():
                                       "sample": "topic:%s 共 %d" % (GH_TOPIC, total)}
         if not args.check:
             write_csv(BOARD_DIR / "生态-mcp仓库.csv", rows,
-                      ["排名", "语言", "仓库数", "占比", "时间"], when)
+                      ["排名", "语言", "仓库数", "占比", "备注", "时间"], when)
             snapshot(history, "生态-mcp仓库.csv", rows, "语言", "仓库数", day)
         for r in rows[:3]:
             print("      %-22s %12s  %s" % (r["语言"], format(r["仓库数"], ","), r["占比"]))
@@ -560,7 +824,7 @@ def main():
         boards["生态-ide市场.csv"] = {"source": "各市场公开接口", "updated_at": when}
         if not args.check:
             write_csv(BOARD_DIR / "生态-ide市场.csv", rows,
-                      ["排名", "市场", "区域", "扩展数", "来源", "时间"], when)
+                      ["排名", "市场", "区域", "扩展数", "备注", "来源", "时间"], when)
             snapshot(history, "生态-ide市场.csv", rows, "市场", "扩展数", day)
         for r in rows:
             print("      %-22s %12s" % (r["市场"], format(r["扩展数"], ",")))
@@ -574,7 +838,7 @@ def main():
         boards["生态-mcp平台.csv"] = {"source": "api.smithery.ai", "updated_at": when}
         if not args.check:
             write_csv(BOARD_DIR / "生态-mcp平台.csv", rows,
-                      ["排名", "平台", "区域", "类型", "上架数", "来源", "时间"], when)
+                      ["排名", "平台", "区域", "类型", "上架数", "备注", "来源", "时间"], when)
             snapshot(history, "生态-mcp平台.csv", rows, "平台", "上架数", day)
         for r in rows:
             print("      %-22s %12s" % (r["平台"], format(r["上架数"], ",")))

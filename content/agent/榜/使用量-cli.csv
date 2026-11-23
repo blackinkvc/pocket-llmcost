@@ -1,13 +1,13 @@
-﻿排名,名称,包名,厂商,区域,周下载,期间
-1,Codex CLI,@openai/codex,OpenAI,国外,23690310,2026-11-17 ~ 2026-11-23
-2,Claude Code,@anthropic-ai/claude-code,Anthropic,国外,18598479,2026-11-17 ~ 2026-11-23
-3,OpenCode,opencode-ai,SST,国外,3005125,2026-11-17 ~ 2026-11-23
-4,Copilot CLI,@github/copilot,GitHub,国外,1310569,2026-11-17 ~ 2026-11-23
-5,Gemini CLI,@google/gemini-cli,Google,国外,487727,2026-11-17 ~ 2026-11-23
-6,Qwen Code,@qwen-code/qwen-code,阿里,国内,126103,2026-11-17 ~ 2026-11-23
-7,CodeBuddy Code,@tencent-ai/codebuddy-code,腾讯,国内,113355,2026-11-17 ~ 2026-11-23
-8,Claude Code Router,@musistudio/claude-code-router,社区,国外,23156,2026-11-17 ~ 2026-11-23
-9,Amp CLI,@sourcegraph/amp,Sourcegraph,国外,16880,2026-11-17 ~ 2026-11-23
-10,Crush,@charmland/crush,Charm,国外,11826,2026-11-17 ~ 2026-11-23
-11,Continue CLI,@continuedev/cli,Continue,国外,4423,2026-11-17 ~ 2026-11-23
-12,iFlow CLI,@iflow-ai/iflow-cli,心流,国内,883,2026-11-17 ~ 2026-11-23
+﻿排名,名称,厂商,包名,许可,区域,周下载,功能,特点,地址,期间
+1,Codex CLI,OpenAI,@openai/codex,Apache-2.0,国外,23690310,在终端里读仓库、改代码、跑命令与测试，可作为 MCP 客户端接入外部工具。,沙箱默认开（macOS Seatbelt / Linux Landlock）；额度并入 ChatGPT 订阅，也能换 API key 按量付费。,https://github.com/openai/codex,2026-11-17 ~ 2026-11-23
+2,Claude Code,Anthropic,@anthropic-ai/claude-code,专有,国外,18598479,长任务编码 Agent：改文件、跑 Bash、开子 Agent，支持 MCP 与 hooks。,闭源分发，只有 npm 包；上下文压缩与计划模式是长任务的强项，按订阅或 API 计费。,https://github.com/anthropics/claude-code,2026-11-17 ~ 2026-11-23
+3,OpenCode,SST,opencode-ai,MIT,国外,3005125,终端 TUI 编码 Agent，可接多家云端模型，也能指向本地推理服务。,MIT 开源，客户端与服务端分离，能自带 provider；不走订阅制，花多少取决于你接的模型。,https://github.com/sst/opencode,2026-11-17 ~ 2026-11-23
+4,Copilot CLI,GitHub,@github/copilot,专有,国外,1310569,在终端里调 Copilot 编码 Agent，直接读写 GitHub 仓库、开 PR。,绑定 GitHub 账号与 Copilot 席位，企业策略集中下发；闭源，能力边界跟着订阅档位走。,https://github.com/github/copilot-cli,2026-11-17 ~ 2026-11-23
+5,Gemini CLI,Google,@google/gemini-cli,Apache-2.0,国外,487727,终端 Agent，自带 Google 搜索接地、MCP 扩展与脚本调用。,Apache-2.0 开源，个人 Google 账号有较大免费额度；生态里多个工具是它的分支（Qwen Code 就在其中）。,https://github.com/google-gemini/gemini-cli,2026-11-17 ~ 2026-11-23
+6,Qwen Code,阿里,@qwen-code/qwen-code,未标注,国内,126103,Gemini CLI 的分支，改成适配 Qwen 系列模型的终端 Agent。,面向 Qwen3-Coder 调优，国内网络可直连；沿用上游的扩展与 MCP 机制，升级也跟上游走。,https://github.com/QwenLM/qwen-code,2026-11-17 ~ 2026-11-23
+7,CodeBuddy Code,腾讯,@tencent-ai/codebuddy-code,专有,国内,113355,终端编码 Agent，接腾讯云的模型与工程能力。,闭源，走国内计费与合规路径；与 CodeBuddy IDE 共用一套账号和额度。,https://cnb.cool/codebuddy/codebuddy-code,2026-11-17 ~ 2026-11-23
+8,Claude Code Router,社区,@musistudio/claude-code-router,MIT,国外,23156,把 Claude Code 的请求转发到其它模型或供应商，带 Web 管理界面。,不用改 Claude Code 本体就能换模型、按路由分流；MIT 开源，规则自己写。,https://github.com/musistudio/claude-code-router,2026-11-17 ~ 2026-11-23
+9,Amp CLI,Sourcegraph,@sourcegraph/amp,专有,国外,16880,Sourcegraph 的编码 Agent 命令行版。,包已改名为 `@ampcode/cli`，这一行统计的是旧包——数字里含没迁移的 CI 与镜像。,https://ampcode.com/,2026-11-17 ~ 2026-11-23
+10,Crush,Charm,@charmland/crush,FSL-1.1,国外,11826,终端编码 Agent，带 LSP 感知与会话管理。,Go 写的单二进制，界面是 Charm 的 TUI 风格；FSL 许可：源码可见，但不许拿去做竞品。,https://github.com/charmbracelet/crush,2026-11-17 ~ 2026-11-23
+11,Continue CLI,Continue,@continuedev/cli,Apache-2.0,国外,4423,把 Continue 的配置化助手搬进终端，能跑 headless 与 CI 任务。,与 Continue 插件共用 `~/.continue` 的配置和模型表，同一份配置在 IDE 与流水线里复用。,https://github.com/continuedev/continue,2026-11-17 ~ 2026-11-23
+12,iFlow CLI,心流,@iflow-ai/iflow-cli,未标注,国内,883,终端 Agent，接心流的模型与工作流。,国内团队出品，文档以中文为主；模型走自家网关，换别家要改配置。,https://github.com/iflow-ai/iflow-cli,2026-11-17 ~ 2026-11-23

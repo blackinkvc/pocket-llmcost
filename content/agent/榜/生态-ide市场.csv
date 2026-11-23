@@ -1,3 +1,3 @@
-﻿排名,市场,区域,扩展数,来源,时间
-1,VS Code 市场,国外,158953,Marketplace extensionquery,2026-11-24T01:10:40+08:00
-2,Open VSX,国外,22025,open-vsx.org /api/-/search,2026-11-24T01:10:40+08:00
+﻿排名,市场,区域,扩展数,备注,来源,时间
+1,VS Code 市场,国外,158969,微软官方市场，所有发布者都在这儿上架；条目含主题、语言包等非工具类扩展。,Marketplace extensionquery,2026-11-24T04:53:02+08:00
+2,Open VSX,国外,22085,面向 VSCodium / Theia 等非微软 IDE 的开放市场，条目少，但不受微软条款约束。,open-vsx.org /api/-/search,2026-11-24T04:53:02+08:00

@@ -1,16 +1,16 @@
-﻿排名,名称,标识,区域,调用量,官方,说明,时间
-1,Brave Search,brave,国外,87579,是,"Search the web with Brave's independent index — web, news, images, and videos.…",2026-11-24T01:10:40+08:00
-2,uk-due-diligence,bouch/uk-due-diligence,,60881,,Tools across five UK public registers. All official APIs.  Give an agent a com…,2026-11-24T01:10:40+08:00
-3,Paper Search,adamamer20/paper-search-mcp-openai,国外,59106,,"Search and download academic papers from arXiv, PubMed, bioRxiv, medRxiv, Goog…",2026-11-24T01:10:40+08:00
-4,Gmail,gmail,,57738,是,"Read, search, and send Gmail messages. Manage drafts, threads, and labels; rep…",2026-11-24T01:10:40+08:00
-5,Google Sheets,googlesheets,国外,56138,是,"Search and inspect Google Sheets, create and edit spreadsheets, scan for data…",2026-11-24T01:10:40+08:00
-6,Agent News,theagenttimes/news,,43392,,"The intelligence layer agents use before they act, sourced answers on the agen…",2026-11-24T01:10:40+08:00
-7,PubMed,pubmed,,42137,是,"Search biomedical literature across 36 million citations. Find papers, abstrac…",2026-11-24T01:10:40+08:00
-8,Polymarket Data by PolymarketScan,jordan-s648/PolymarketScan,,39483,,Real-time Polymarket analytics for AI agents. Query live prediction market dat…,2026-11-24T01:10:40+08:00
-9,sap-mcp,oobe-protocol/sap-mcp,,34350,,Use the SAP MCP Wizard or install the library from the npm registry to automat…,2026-11-24T01:10:40+08:00
-10,emblem-mcp,emblemai/emblem-mcp,,25084,,# EmblemAI MCP  EmblemAI is a hosted Model Context Protocol server that gives…,2026-11-24T01:10:40+08:00
-11,OneSignal,onesignal/onesignal,,22491,,OneSignal is a customer engagement platform that lets you send targeted push n…,2026-11-24T01:10:40+08:00
-12,Web Scout,pinkpixel-dev/web-scout-mcp,,19558,,"Search the web and extract clean, readable text from webpages. Process multipl…",2026-11-24T01:10:40+08:00
-13,United States Weather,smithery-ai/national-weather-service,国外,17177,是,Provide real-time and forecast weather information for locations in the United…,2026-11-24T01:10:40+08:00
-14,SubwayInfo NYC,subwayinfo,,16873,是,"Real-time NYC subway information. Check train status, view service alerts, and…",2026-11-24T01:10:40+08:00
-15,Zipp,deficlow/zipp,,16317,,"Multi-language crypto news for AI assistants — editorial summaries, sentiment…",2026-11-24T01:10:40+08:00
+﻿排名,名称,标识,区域,调用量,官方,形态,认证,上架,说明,地址,时间
+1,Brave Search,brave,国外,87579,是,远程托管,已认证,2025-09,"Search the web with Brave's independent index — web, news, images, and videos. Bring your own subscription token from the Brave Search API dashboard.",https://brave.com/search/api/,2026-11-24T04:53:02+08:00
+2,uk-due-diligence,bouch/uk-due-diligence,,60881,,远程托管,,2026-04,"Tools across five UK public registers. All official APIs. Give an agent a company name and it pulls corporate status, filing compliance, director…",https://bouch.dev/products/uk-due-diligence-mcp/,2026-11-24T04:53:02+08:00
+3,Paper Search,adamamer20/paper-search-mcp-openai,国外,59106,,远程托管,,2025-09,"Search and download academic papers from arXiv, PubMed, bioRxiv, medRxiv, Google Scholar, Semantic Scholar, and IACR. Fetch PDFs and extract full…",https://github.com/adamamer20/paper-search-mcp-openai,2026-11-24T04:53:02+08:00
+4,Gmail,gmail,,57738,是,远程托管,已认证,2025-11,"Read, search, and send Gmail messages. Manage drafts, threads, and labels; reply, forward, archive, trash, report spam, and triage your inbox.",,2026-11-24T04:53:02+08:00
+5,Google Sheets,googlesheets,国外,56138,是,远程托管,已认证,2025-11,"Search and inspect Google Sheets, create and edit spreadsheets, scan for data issues, review edit history, and manage comments.",,2026-11-24T04:53:02+08:00
+6,Agent News,theagenttimes/news,,43392,,远程托管,已认证,2026-02,"The intelligence layer agents use before they act, sourced answers on the agent economy. Query verified AI news with citations, confidence scores…",https://theagenttimes.com,2026-11-24T04:53:02+08:00
+7,PubMed,pubmed,,42137,是,远程托管,已认证,2026-03,"Search biomedical literature across 36 million citations. Find papers, abstracts, and related articles from MEDLINE and life science journals.",https://smithery.ai/servers/pubmed,2026-11-24T04:53:02+08:00
+8,Polymarket Data by PolymarketScan,jordan-s648/PolymarketScan,,39483,,远程托管,,2026-04,"Real-time Polymarket analytics for AI agents. Query live prediction market data including whale trades, market odds, trader profiles, and…",https://PolymarketScan.org/API,2026-11-24T04:53:02+08:00
+9,sap-mcp,oobe-protocol/sap-mcp,,34350,,远程托管,,2026-07,Use the SAP MCP Wizard or install the library from the npm registry to automatically create and configure a Solana/SAP wallet via…,https://mcp.sap.oobeprotocol.ai/,2026-11-24T04:53:02+08:00
+10,emblem-mcp,emblemai/emblem-mcp,,25084,,远程托管,,2026-05,EmblemAI MCP EmblemAI is a hosted Model Context Protocol server that gives AI agents a full-featured crypto wallet plus **200+ tools** for trading…,https://emblemvault.ai,2026-11-24T04:53:02+08:00
+11,OneSignal,onesignal/onesignal,,22491,,远程托管,已认证,2026-03,"OneSignal is a customer engagement platform that lets you send targeted push notifications, emails, SMS, and in-app messages, manage audiences, and…",https://onesignal.com/,2026-11-24T04:53:02+08:00
+12,Web Scout,pinkpixel-dev/web-scout-mcp,,19558,,远程托管,,2025-09,"Search the web and extract clean, readable text from webpages. Process multiple URLs at once to speed up research with reliable throttling and error…",https://github.com/pinkpixel-dev/web-scout-mcp,2026-11-24T04:53:02+08:00
+13,United States Weather,smithery-ai/national-weather-service,国外,17177,是,远程托管,,2025-05,Provide real-time and forecast weather information for locations in the United States using natural language queries. Access current conditions…,https://www.weather.gov,2026-11-24T04:53:02+08:00
+14,SubwayInfo NYC,subwayinfo,,16873,是,远程托管,已认证,2026-03,"Real-time NYC subway information. Check train status, view service alerts, and get station-level arrival times.",https://subwayinfo.nyc,2026-11-24T04:53:02+08:00
+15,Zipp,deficlow/zipp,,16317,,远程托管,,2026-05,"Multi-language crypto news for AI assistants — editorial summaries, sentiment labels (BULLISH/NEUTRAL/BEARISH), importance scores 0–100, and every…",https://zippfeed.com,2026-11-24T04:53:02+08:00

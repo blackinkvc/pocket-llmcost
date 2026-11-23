@@ -1,2 +1,2 @@
-﻿排名,平台,区域,类型,上架数,来源,时间
-1,Smithery,国外,MCP 服务器（上架）,20743,api.smithery.ai pagination.totalCount,2026-11-24T01:10:40+08:00
+﻿排名,平台,区域,类型,上架数,备注,来源,时间
+1,Smithery,国外,MCP 服务器（上架）,20743,免密钥接口直接给总数；上架里有相当一部分是平台代跑的远程服务器，装都不用装。,api.smithery.ai pagination.totalCount,2026-11-24T04:53:02+08:00

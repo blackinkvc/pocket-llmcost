@@ -9,10 +9,10 @@ content/agent/
   section.json        板块元信息 + 七个榜的列映射
   简介.md             ① 简介：说明 + 三条结论 + 榜的口径
   榜/                 ② 榜单数据（脚本写，别手改）
-    使用量-cli.csv      npm 上周下载量
-    使用量-ide.csv      VS Code 市场安装量
-    mcp服务器.csv       Smithery 调用量
-    mcp-star.csv        GitHub star（开源热度）
+    使用量-cli.csv      npm 上周下载量 + 许可 / 地址 / 功能 / 特点
+    使用量-ide.csv      VS Code 市场安装量 + 评分 / 地址 / 功能 / 特点
+    mcp服务器.csv       Smithery 调用量 + 托管形态 / 认证 / 上架月份
+    mcp-star.csv        GitHub star（开源热度）+ 语言 / 许可 / 地址
     生态-mcp仓库.csv    GitHub topic 下的仓库数（按语言拆）
     生态-mcp平台.csv    MCP 平台的上架量
     生态-ide市场.csv    IDE 扩展市场存量
@@ -32,6 +32,10 @@ GitHub Actions 每天 09:23（北京时间）跑同样两条命令，有变化�
 
 ## 七个榜的口径（重要）
 
+> 每张卡上，**作者地址**（仓库或上架页）、**许可 / 评分 / 语言 / 托管方式** 都来自接口，
+> **功能 / 特点** 两行是手写的（`tools/fetch_agent_stats.py` 顶部的 `CLI_PROFILE` / `VSIX_PROFILE`）。
+> 接口给的字段不要写进字典，写进去就会跟数据打架。
+
 | 榜 | 来源 | 口径 | 不能用来做什么 |
 | --- | --- | --- | --- |
 | 使用量 · CLI | api.npmjs.org | 上周下载次数 | 不代表活跃用户，版本发布与 CI 会重复拉包放大 |
@@ -45,7 +49,19 @@ GitHub Actions 每天 09:23（北京时间）跑同样两条命令，有变化�
 **生态的三张表是刻意拆开的**：仓库数、上架数、扩展数是三种口径，
 加在一起没有任何含义。谁想把它们塞回一张表，就是在造一个不存在的总量。
 
+## 累计值榜的门槛
+
+安装量 / 星标 / 调用量是累计值，页面想做的是「谁在涨」。但差值的信噪比取决于历史长度：
+只有一两天快照时，差值等于「两次抓取之间涨了多少」，排序会被抖动带跑（74 M 装的
+Copilot 会掉到第四）。所以 `assets/js/board.js` 里设了 `STOCK_MIN_DAYS = 7`：
+历史不够 7 天就按累计值排、并在说明行写明原因；攒够之后自动切成「日均新增」。
+这段逻辑在抓取脚本之外，改判据只改那一个常量。
+
 ## 加人或删人
 
-改 `tools/fetch_agent_stats.py` 顶部的 `CLI` / `VSIX` 列表，重新抓一次即可。
-加进来的名字会按数值自动排位，不用手工改 CSV。
+改 `tools/fetch_agent_stats.py` 顶部的 `CLI` / `VSIX` 列表，**同时在
+`CLI_PROFILE` / `VSIX_PROFILE` 里给一行「功能 / 特点」**——没有这一行，卡片上就是空的。
+然后重新抓一次，名字按数值自动排位，不用手工改 CSV。
+
+地址优先取 npm 的 `repository`、VS Code 市场的 `Links.Source`；两者都没有时，
+npm 包回落到 `CLI_HOME` 里手工补的地址，插件回落到自己的上架页。

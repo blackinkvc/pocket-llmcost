@@ -9,6 +9,8 @@
 
   var REGION_LABEL = { all: '全部', cn: '国内', intl: '国外' };
   var DOW = null;
+  /* 累计值榜切「日均新增」所需的最短历史。少于这个天数，差值只是一次抓取的抖动。 */
+  var STOCK_MIN_DAYS = 7;
 
   /* ---------- 数字格式化：和生成器里的 human_num 同一套口径 ---------- */
   function fmt(n) {
@@ -110,7 +112,14 @@
     var from = shift(latest, -(days - 1));
     var prevFrom = shift(from, -days), prevTo = shift(from, -1);
     var mode = spec.mode || 'flow';
-    var res = { from: from, to: latest, days: days, values: {} };
+    // 累计值类的榜（安装量、星标、调用量）想按「日均新增」排，得先有足够长的历史：
+    // 只有一两天快照时，差值等于「两次抓取之间涨了多少」，噪声大过信号。
+    var seenDays = {};
+    Object.keys(spec.series).forEach(function (k) {
+      Object.keys(spec.series[k]).forEach(function (d) { seenDays[d] = 1; });
+    });
+    var histDays = Object.keys(seenDays).length;
+    var res = { from: from, to: latest, days: days, histDays: histDays, values: {} };
 
     function slice(k, a, b) {
       return Object.keys(spec.series[k]).filter(function (d) { return d >= a && d <= b; }).sort();
@@ -124,7 +133,8 @@
       // 累计值：窗口内日均新增。快照还没拉开差距（平台没刷新）时不能给 0——
       // 那会让「有 8 万次调用的服务器」显示成 0.0 次/天，读起来像没人用。
       var gap = dayDiff(pts[0], pts[pts.length - 1]);
-      if (vals.length < 2 || gap <= 0 || vals[vals.length - 1] <= vals[0]) {
+      if (histDays < STOCK_MIN_DAYS || vals.length < 2 || gap <= 0 ||
+          vals[vals.length - 1] <= vals[0]) {
         return { v: null, n: vals.length };
       }
       return { v: (vals[vals.length - 1] - vals[0]) / gap, n: vals.length };
@@ -284,7 +294,12 @@
       }
       if (spec && spec.mode === 'flow') bits.push('值＝窗口内日均，不是总数');
       if (spec && spec.mode === 'stock') {
-        bits.push(stale ? stale + ' 条快照还没拉开差距，先显示累计值' : '值＝窗口内日均新增');
+        if (calc && calc.histDays && calc.histDays < STOCK_MIN_DAYS) {
+          bits.push('历史才 ' + calc.histDays + ' 天，先按累计值排；攒到 ' +
+                    STOCK_MIN_DAYS + ' 天再切「日均新增」');
+        } else {
+          bits.push(stale ? stale + ' 条快照还没拉开差距，先显示累计值' : '值＝窗口内日均新增');
+        }
       }
       if (calc) {
         var nd = 0;
