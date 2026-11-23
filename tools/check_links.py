@@ -23,8 +23,9 @@ def main():
         raw = p.read_text(encoding="utf-8", errors="ignore")
         html = NON_HTML.sub("", raw)
         # 前面必须是空白：否则 data-src="aa" 里的 src="aa" 会被当成真实引用
-        for m in re.finditer(r'(?<=[\s"\'])(?:href|src)="([^"#?]+)"', html):
-            u = m.group(1).strip()
+        # 允许 ?v= 这类版本参数：只看问号前的路径，否则加了指纹的资源就查不到
+        for m in re.finditer(r'(?<=[\s"\'])(?:href|src)="([^"#]+)"', html):
+            u = m.group(1).strip().split("?")[0]
             if not u or u.startswith(("http://", "https://", "//", "mailto:", "data:", "javascript:")):
                 continue
             if "${" in u or "' +" in u or '"+' in u:      # JS 拼接的占位

@@ -16,6 +16,7 @@
 import argparse
 import csv
 import datetime as dt
+import hashlib
 import json
 import pathlib
 import re
@@ -293,6 +294,19 @@ def topbar_html(active, prefix=""):
 </header>""" % (prefix, nav, dt.date.today().isoformat(), right)
 
 
+def asset(name):
+    """给静态资源带上内容指纹。
+
+    GitHub Pages 按路径缓存，改了 CSS / JS 不加参数，回访的人会继续用旧的，
+    看到的就是「DOM 更新了、样式没更新」的错位。
+    """
+    try:
+        h = hashlib.md5((ROOT / "assets" / name).read_bytes()).hexdigest()[:8]
+    except OSError:
+        return "assets/" + name
+    return "assets/%s?v=%s" % (name, h)
+
+
 def doc_head(title, desc, active, prefix=""):
     p = prefix
     return """<!DOCTYPE html>
@@ -303,16 +317,18 @@ def doc_head(title, desc, active, prefix=""):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>%s</title>
 <meta name="description" content="%s">
-<link rel="stylesheet" href="%sassets/css/site.css">
-<link rel="stylesheet" href="%sassets/css/section.css">
-<script src="%sassets/js/board.js" defer></script>
-<script src="%sassets/js/ranks.js" defer></script>
-<script src="%sassets/js/reports.js" defer></script>
+<link rel="stylesheet" href="%s%s">
+<link rel="stylesheet" href="%s%s">
+<script src="%s%s" defer></script>
+<script src="%s%s" defer></script>
+<script src="%s%s" defer></script>
 </head>
 <body>
 
 %s
-""" % (escape(title), escape(desc), p, p, p, p, p, topbar_html(active, p))
+""" % (escape(title), escape(desc), p, asset("css/site.css"), p, asset("css/section.css"),
+       p, asset("js/board.js"), p, asset("js/ranks.js"), p, asset("js/reports.js"),
+       topbar_html(active, p))
 
 
 # ───────────────────────── 三个板块 ─────────────────────────
