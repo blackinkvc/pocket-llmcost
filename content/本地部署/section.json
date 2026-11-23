@@ -1,0 +1,43 @@
+{
+  "slug": "local",
+  "name": "本地部署",
+  "en": "Local",
+  "page": "local.html",
+  "num": "08",
+  "sub": "RUN IT YOURSELF · SNAPSHOT 2025-11",
+  "chips": [
+    "推理框架",
+    "量化",
+    "显存",
+    "端侧"
+  ],
+  "desc": "本地部署：推理框架与量化方案的天梯榜，附显存估算与踩坑记录。",
+  "board": {
+    "title": "方案榜",
+    "note": "按上手成本排，不是性能排名；实测见报告。",
+    "file": "天梯榜.csv",
+    "fields": {
+      "rank": "排名",
+      "name": "工具",
+      "meta": [
+        "面向",
+        "平台",
+        "显存"
+      ],
+      "note": "注意",
+      "when": "时间"
+    }
+  },
+  "reports": {
+    "title": "报告",
+    "dir": "报告"
+  },
+  "prev": [
+    "principles.html",
+    "07 原理 · 历史"
+  ],
+  "next": [
+    "cases.html",
+    "09 实例"
+  ]
+}

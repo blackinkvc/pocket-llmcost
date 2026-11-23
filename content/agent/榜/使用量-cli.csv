@@ -1,0 +1,9 @@
+﻿排名,名称,包名,厂商,周下载,期间
+1,Codex CLI,@openai/codex,OpenAI,27601227,2026-11-16 ~ 2026-11-22
+2,Claude Code,@anthropic-ai/claude-code,Anthropic,22171378,2026-11-16 ~ 2026-11-22
+3,OpenCode,opencode-ai,SST,3540308,2026-11-16 ~ 2026-11-22
+4,Copilot CLI,@github/copilot,GitHub,1593030,2026-11-16 ~ 2026-11-22
+5,Gemini CLI,@google/gemini-cli,Google,565013,2026-11-16 ~ 2026-11-22
+6,Qwen Code,@qwen-code/qwen-code,阿里,147987,2026-11-16 ~ 2026-11-22
+7,Claude Code Router,@musistudio/claude-code-router,社区,27957,2026-11-16 ~ 2026-11-22
+8,Continue CLI,@continuedev/cli,Continue,5380,2026-11-16 ~ 2026-11-22

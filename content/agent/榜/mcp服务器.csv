@@ -1,0 +1,16 @@
+﻿排名,名称,标识,调用量,官方,说明,时间
+1,Brave Search,brave,87579,是,"Search the web with Brave's independent index — web, news, images, and videos.…",2026-11-23T22:26:28+08:00
+2,uk-due-diligence,bouch/uk-due-diligence,60881,,Tools across five UK public registers. All official APIs.  Give an agent a com…,2026-11-23T22:26:28+08:00
+3,Paper Search,adamamer20/paper-search-mcp-openai,59106,,"Search and download academic papers from arXiv, PubMed, bioRxiv, medRxiv, Goog…",2026-11-23T22:26:28+08:00
+4,Gmail,gmail,57738,是,"Read, search, and send Gmail messages. Manage drafts, threads, and labels; rep…",2026-11-23T22:26:28+08:00
+5,Google Sheets,googlesheets,56138,是,"Search and inspect Google Sheets, create and edit spreadsheets, scan for data…",2026-11-23T22:26:28+08:00
+6,Agent News,theagenttimes/news,43392,,"The intelligence layer agents use before they act, sourced answers on the agen…",2026-11-23T22:26:28+08:00
+7,PubMed,pubmed,42137,是,"Search biomedical literature across 36 million citations. Find papers, abstrac…",2026-11-23T22:26:28+08:00
+8,Polymarket Data by PolymarketScan,jordan-s648/PolymarketScan,39483,,Real-time Polymarket analytics for AI agents. Query live prediction market dat…,2026-11-23T22:26:28+08:00
+9,sap-mcp,oobe-protocol/sap-mcp,34350,,Use the SAP MCP Wizard or install the library from the npm registry to automat…,2026-11-23T22:26:28+08:00
+10,emblem-mcp,emblemai/emblem-mcp,25084,,# EmblemAI MCP  EmblemAI is a hosted Model Context Protocol server that gives…,2026-11-23T22:26:28+08:00
+11,OneSignal,onesignal/onesignal,22491,,OneSignal is a customer engagement platform that lets you send targeted push n…,2026-11-23T22:26:28+08:00
+12,Web Scout,pinkpixel-dev/web-scout-mcp,19558,,"Search the web and extract clean, readable text from webpages. Process multipl…",2026-11-23T22:26:28+08:00
+13,United States Weather,smithery-ai/national-weather-service,17177,是,Provide real-time and forecast weather information for locations in the United…,2026-11-23T22:26:28+08:00
+14,SubwayInfo NYC,subwayinfo,16873,是,"Real-time NYC subway information. Check train status, view service alerts, and…",2026-11-23T22:26:28+08:00
+15,Zipp,deficlow/zipp,16317,,"Multi-language crypto news for AI assistants — editorial summaries, sentiment…",2026-11-23T22:26:28+08:00

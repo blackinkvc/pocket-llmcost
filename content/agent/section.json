@@ -1,0 +1,46 @@
+{
+  "slug": "agents",
+  "name": "Agent",
+  "en": "Agents",
+  "page": "agents.html",
+  "num": "02",
+  "sub": "TOOLS · PROTOCOLS · LONG-HORIZON TASKS",
+  "chips": ["工程层", "工具调用", "长程执行"],
+  "desc": "Agent：命令行工具与 IDE 插件的实时使用量榜、MCP 服务器调用量榜、生态规模榜，以及能力栈与协议报告。",
+  "boards": [
+    {
+      "title": "使用量 · 命令行工具",
+      "file": "榜/使用量-cli.csv",
+      "unit": "次/周",
+      "note": "npm 上一周下载量。下载量是使用规模的代理指标，不等于活跃用户，同一人多台机器会重复计数。",
+      "fields": {"rank": "排名", "name": "名称", "meta": ["厂商", "包名"], "value": "周下载"}
+    },
+    {
+      "title": "使用量 · IDE 插件",
+      "file": "榜/使用量-ide.csv",
+      "unit": "次",
+      "note": "VS Code 市场累计安装量。装过不等于在用，卸载不扣减，只能看相对量级。",
+      "fields": {"rank": "排名", "name": "名称", "meta": ["厂商", "扩展ID"], "value": "安装量"}
+    },
+    {
+      "title": "MCP 服务器 · 调用量",
+      "file": "榜/mcp服务器.csv",
+      "unit": "次",
+      "note": "Smithery 记录的调用次数，取平台默认排序前 50 位里的前 15 位；平台没有全局排序接口，这不等同全网排名。",
+      "fields": {"rank": "排名", "name": "名称", "meta": ["标识"], "note": "说明", "value": "调用量"}
+    },
+    {
+      "title": "生态规模 · MCP / Skill / 插件",
+      "file": "榜/生态规模.csv",
+      "unit": "个",
+      "note": "各平台公开接口的计数口径不同（仓库数 / 上架数 / 扩展数），只能看量级，不能直接相加。",
+      "fields": {"rank": "排名", "name": "平台", "meta": ["类型"], "note": "来源", "value": "数量"}
+    }
+  ],
+  "reports": {
+    "title": "报告",
+    "dir": "报告"
+  },
+  "prev": ["models.html", "01 基模"],
+  "next": ["companies.html", "03 公司"]
+}

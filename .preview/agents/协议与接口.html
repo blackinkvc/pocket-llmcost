@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>协议为什么比模型更影响生态 · Agent</title>
+<meta name="description" content="2024 到 2025 年，Agent 生态最大的变化不是模型，而是接口开始标准化：MCP 管纵向接入，A2A 管横向协作，AGENTS.md 管仓库里的约定。">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<link rel="stylesheet" href="../../assets/css/section.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../../index.html">首页</a>
+      <a href="../../models.html">基模</a>
+      <a class="is-active" href="../../agents.html">Agent</a>
+      <a href="../../companies.html">公司</a>
+      <a href="../../hardware.html">硬件</a>
+      <a href="../../templates.html">模板</a>
+      <a href="../../apps.html">应用</a>
+      <a href="../../principles.html">原理 · 历史</a>
+      <a href="../../local.html">本地部署</a>
+      <a href="../../cases.html">实例</a>
+      <a href="../../research/index.html">研究</a>
+      <a href="../../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-23</span>
+      <a class="btn is-primary" href="../../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">Agents</span>
+    <a href="../../agents.html">← 回「Agent」</a>
+    <a href="../../agents.html#board">天梯榜</a>
+    <a href="../../agents.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../../index.html">首页</a><span class="sep">/</span><a href="../../agents.html">Agent</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2026-11-20 · 协议 · MCP</p>
+    <h1 class="post-title">协议为什么比模型更影响生态</h1>
+    <p class="post-lede">2024 到 2025 年，Agent 生态最大的变化不是模型，而是接口开始标准化：MCP 管纵向接入，A2A 管横向协作，AGENTS.md 管仓库里的约定。</p>
+    <div class="post-body">
+<p>2024 到 2025 年，Agent 生态最大的变化不是模型，而是接口开始标准化。</p>
+<div class="md-table"><table><thead><tr><th>协议</th><th>提出方</th><th>时间</th><th>解决什么</th><th>状态</th></tr></thead><tbody><tr><td>MCP</td><td>Anthropic</td><td>2024-11</td><td>模型 / 客户端如何统一接入外部工具与数据源</td><td>事实标准</td></tr><tr><td>A2A</td><td>Google</td><td>2025-04</td><td>不同厂商的 Agent 之间如何发现与协作</td><td>推进中</td></tr><tr><td>AGENTS.md</td><td>社区 / 多家</td><td>2025</td><td>把仓库里的操作约定写给编码 Agent 看</td><td>约定俗成</td></tr></tbody></table></div>
+<p>MCP 是「纵向」接口：Agent 往下接工具。A2A 是「横向」接口：Agent 之间互相调用。 两者不冲突，但成熟度差一截——MCP 已经有成千上万个现成服务器，A2A 还停在「有规范、没生态」。</p>
+<h2>为什么协议重要</h2>
+<p>工具方接入一次，就能被所有支持该协议的客户端使用。协议稳定之前，每接一个客户端都要重写一遍适配层， 成本高到没人愿意做；协议稳定之后，工具方才开始批量入场。</p>
+<p>这也是 MCP 服务器数量在 2025 年暴涨的直接原因。</p>
+<h2>看协议成熟度看什么</h2>
+<ul><li><strong>有没有参考实现</strong>：只有文档没有 SDK，等于没有</li><li><strong>鉴权怎么做</strong>：能不能细到单个工具、单个用户的权限</li><li><strong>错误怎么传</strong>：工具失败时返回什么，决定了 Agent 能不能自我纠错</li><li><strong>版本怎么演进</strong>：破坏性变更会不会把已接入的工具全部打断</li></ul>
+    </div>
+  </article>
+  <nav class="pager"><a href="../../agents.html"><span class="pg-l">← BACK</span><span class="pg-t">Agent · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2025-11 公开资料<br>2026 年新增进展：待补充<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../../models.html">基模</a><a href="../../agents.html">Agent</a>
+        <a href="../../companies.html">公司</a><a href="../../hardware.html">硬件</a>
+        <a href="../../templates.html">模板</a><a href="../../apps.html">应用</a>
+        <a href="../../principles.html">原理 · 历史</a><a href="../../local.html">本地部署</a>
+        <a href="../../cases.html">实例索引</a><a href="../../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

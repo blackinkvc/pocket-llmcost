@@ -1,0 +1,42 @@
+{
+  "slug": "templates",
+  "name": "模板",
+  "en": "Templates",
+  "page": "templates.html",
+  "num": "05",
+  "sub": "COPY & ADAPT · SNAPSHOT 2025-11",
+  "chips": [
+    "选型",
+    "成本",
+    "评测",
+    "部署"
+  ],
+  "desc": "模板：可以直接复制填空的骨架，按用途排成卡片。",
+  "board": {
+    "title": "模板卡",
+    "note": "一张卡一套骨架，点进报告看字段说明和填法。",
+    "file": "天梯榜.csv",
+    "fields": {
+      "rank": "排名",
+      "name": "模板",
+      "meta": [
+        "用途",
+        "适用"
+      ],
+      "note": "说明",
+      "when": "更新"
+    }
+  },
+  "reports": {
+    "title": "报告",
+    "dir": "报告"
+  },
+  "prev": [
+    "hardware.html",
+    "04 硬件"
+  ],
+  "next": [
+    "apps.html",
+    "06 应用"
+  ]
+}

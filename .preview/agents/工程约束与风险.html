@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>工程约束与风险清单 · Agent</title>
+<meta name="description" content="提示注入、权限过大、错误累积、成本失控、不可观测、人机边界——六条都是在真实项目里先出事、后补规范。">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<link rel="stylesheet" href="../../assets/css/section.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../../index.html">首页</a>
+      <a href="../../models.html">基模</a>
+      <a class="is-active" href="../../agents.html">Agent</a>
+      <a href="../../companies.html">公司</a>
+      <a href="../../hardware.html">硬件</a>
+      <a href="../../templates.html">模板</a>
+      <a href="../../apps.html">应用</a>
+      <a href="../../principles.html">原理 · 历史</a>
+      <a href="../../local.html">本地部署</a>
+      <a href="../../cases.html">实例</a>
+      <a href="../../research/index.html">研究</a>
+      <a href="../../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-23</span>
+      <a class="btn is-primary" href="../../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">Agents</span>
+    <a href="../../agents.html">← 回「Agent」</a>
+    <a href="../../agents.html#board">天梯榜</a>
+    <a href="../../agents.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../../index.html">首页</a><span class="sep">/</span><a href="../../agents.html">Agent</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2026-11-18 · 风险 · 工程</p>
+    <h1 class="post-title">工程约束与风险清单</h1>
+    <p class="post-lede">提示注入、权限过大、错误累积、成本失控、不可观测、人机边界——六条都是在真实项目里先出事、后补规范。</p>
+    <div class="post-body">
+<h2>提示注入</h2>
+<p>网页与文件里的指令会被当成任务执行。必须做来源隔离：外部内容只能当数据，不能当指令； 工具调用前要校验参数来源，别让读进来的网页决定写什么文件。</p>
+<h2>权限过大</h2>
+<p>默认可写、可联网，等于把生产环境交出去。最小权限要落到工具级：读文件不给写权限， 写文件限定目录，联网走白名单。</p>
+<h2>错误累积</h2>
+<p>步数越多，单步小错越容易滚成整体失败。工程解法是拆任务、加检查点、限制单步影响面， 而不是换更大的模型。</p>
+<h2>成本失控</h2>
+<p>循环没有硬上限时，token 消耗会指数级上涨。必须设：单任务 token 上限、单步重试次数上限、 总时长上限，三条都要能中途熔断。</p>
+<h2>可观测性</h2>
+<p>必须记录每一步的输入、工具调用与结果。没有日志就无法复盘，也就无法判断失败到底出在哪一层。</p>
+<h2>人机边界</h2>
+<p>高风险动作（付款、删除、发布）应强制人工确认。判断标准不是「模型有多聪明」， 而是「这一步做错了能不能撤销」。</p>
+    </div>
+  </article>
+  <nav class="pager"><a href="../../agents.html"><span class="pg-l">← BACK</span><span class="pg-t">Agent · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2025-11 公开资料<br>2026 年新增进展：待补充<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../../models.html">基模</a><a href="../../agents.html">Agent</a>
+        <a href="../../companies.html">公司</a><a href="../../hardware.html">硬件</a>
+        <a href="../../templates.html">模板</a><a href="../../apps.html">应用</a>
+        <a href="../../principles.html">原理 · 历史</a><a href="../../local.html">本地部署</a>
+        <a href="../../cases.html">实例索引</a><a href="../../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{
+  "slug": "companies",
+  "name": "公司",
+  "en": "Companies",
+  "page": "companies.html",
+  "num": "03",
+  "sub": "INDUSTRY MAP · SNAPSHOT 2025-11",
+  "chips": [
+    "算力",
+    "云",
+    "基模",
+    "工具",
+    "应用"
+  ],
+  "desc": "公司：按站位与商业形态整理的天梯榜，以及按主题整理的报告。",
+  "board": {
+    "title": "站位榜",
+    "note": "按产业链位置分层，不是市值排名。",
+    "file": "天梯榜.csv",
+    "fields": {
+      "rank": "排名",
+      "name": "公司",
+      "meta": [
+        "主站位",
+        "商业形态"
+      ],
+      "note": "备注",
+      "when": "时间"
+    }
+  },
+  "reports": {
+    "title": "报告",
+    "dir": "报告"
+  },
+  "prev": [
+    "agents.html",
+    "02 Agent"
+  ],
+  "next": [
+    "hardware.html",
+    "04 硬件"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "slug": "hardware",
+  "name": "硬件",
+  "en": "Hardware",
+  "page": "hardware.html",
+  "num": "04",
+  "sub": "SILICON & MEMORY · SNAPSHOT 2025-11",
+  "chips": [
+    "训练卡",
+    "推理卡",
+    "端侧",
+    "显存"
+  ],
+  "desc": "硬件：算力卡与整机的天梯榜，附显存估算与实测记录。",
+  "board": {
+    "title": "型号榜",
+    "note": "按显存容量与定位排，不是跑分排名；实测数字见报告。",
+    "file": "天梯榜.csv",
+    "fields": {
+      "rank": "排名",
+      "name": "型号",
+      "meta": [
+        "厂商",
+        "显存",
+        "带宽"
+      ],
+      "note": "备注",
+      "when": "时间"
+    }
+  },
+  "reports": {
+    "title": "报告",
+    "dir": "报告"
+  },
+  "prev": [
+    "companies.html",
+    "03 公司"
+  ],
+  "next": [
+    "templates.html",
+    "05 模板"
+  ]
+}

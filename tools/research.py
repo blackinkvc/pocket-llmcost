@@ -261,6 +261,24 @@ def md_to_html(text):
                 i += 1
             out.append("<ul>%s</ul>" % "".join(buf))
             continue
+        if s.startswith("|"):
+            buf = []
+            while i < len(lines) and lines[i].strip().startswith("|"):
+                buf.append(lines[i].strip())
+                i += 1
+            def cells(row):
+                return [c.strip() for c in row.strip().strip("|").split("|")]
+            if len(buf) >= 2 and re.match(r"^\|?[\s:|-]+\|?$", buf[1]):
+                head = cells(buf[0])
+                body = [cells(r) for r in buf[2:]]
+                th = "".join("<th>%s</th>" % inline(c) for c in head)
+                trs = "".join("<tr>%s</tr>" % "".join("<td>%s</td>" % inline(c) for c in row)
+                              for row in body)
+                out.append('<div class="md-table"><table><thead><tr>%s</tr></thead>'
+                           '<tbody>%s</tbody></table></div>' % (th, trs))
+            else:
+                out.append("<p>%s</p>" % inline(" ".join(buf)))
+            continue
         if re.match(r"^\d+\.\s+", s):
             buf = []
             while i < len(lines) and re.match(r"^\s*\d+\.\s+", lines[i]):
@@ -270,7 +288,7 @@ def md_to_html(text):
             continue
         buf = []
         while i < len(lines) and lines[i].strip() and not re.match(
-                r"^(#{1,4}\s|[-*]\s|\d+\.\s|>|```|-{3,})", lines[i].strip()):
+                r"^(#{1,4}\s|[-*]\s|\d+\.\s|>|```|-{3,}|\|)", lines[i].strip()):
             buf.append(inline(lines[i].strip()))
             i += 1
         out.append("<p>%s</p>" % " ".join(buf))

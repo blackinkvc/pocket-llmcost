@@ -7,9 +7,10 @@
 import pathlib
 import re
 import sys
+import urllib.parse
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SKIP_DIRS = {"build", ".git", "node_modules", "__pycache__"}
+SKIP_DIRS = {"build", ".git", "node_modules", "__pycache__", ".preview"}
 # 脚本/样式里的 src="..." 是拼出来的（模板串、字符串相加），不是真实引用
 NON_HTML = re.compile(r"<(script|style)\b[\s\S]*?</\1>", re.I)
 
@@ -28,6 +29,8 @@ def main():
             if "${" in u or "' +" in u or '"+' in u:      # JS 拼接的占位
                 continue
             n += 1
+            # 中文文件名在 href 里是百分号编码的，找文件前要先解回来
+            u = urllib.parse.unquote(u)
             if not (p.parent / u).resolve().exists():
                 bad.append("%s -> %s" % (p.relative_to(ROOT), u))
     print("页面 %d 个，本地引用 %d 条，断链 %d 条" % (len(pages), n, len(bad)))

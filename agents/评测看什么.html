@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>评测 Agent 时看什么，不看什么 · Agent</title>
+<meta name="description" content="同一模型在不同脚手架、不同工具集下的成绩差异很大。比起分数，更该问「这个基准考的是什么、跑了几次、花了多少 token」。">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/section.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a href="../models.html">基模</a>
+      <a class="is-active" href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a href="../hardware.html">硬件</a>
+      <a href="../templates.html">模板</a>
+      <a href="../apps.html">应用</a>
+      <a href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-23</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">Agents</span>
+    <a href="../agents.html">← 回「Agent」</a>
+    <a href="../agents.html#board">天梯榜</a>
+    <a href="../agents.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../agents.html">Agent</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2026-11-19 · 评测 · 基准</p>
+    <h1 class="post-title">评测 Agent 时看什么，不看什么</h1>
+    <p class="post-lede">同一模型在不同脚手架、不同工具集下的成绩差异很大。比起分数，更该问「这个基准考的是什么、跑了几次、花了多少 token」。</p>
+    <div class="post-body">
+<p>本页不收录具体分数，因为同一模型在不同脚手架、不同工具集下的成绩差异很大。 更有参考价值的是「这个基准考的是什么」。</p>
+<div class="md-table"><table><thead><tr><th>基准</th><th>考什么</th><th>说明</th></tr></thead><tbody><tr><td>SWE-bench Verified</td><td>编码</td><td>给真实仓库的 issue，看能否改到测试通过，考定位、修改与验证的完整闭环</td></tr><tr><td>Terminal-Bench</td><td>终端</td><td>在命令行里完成多步系统任务，考工具使用与环境理解</td></tr><tr><td>τ-bench</td><td>对话 + 工具</td><td>模拟客服等业务对话并调用后端工具，考规则遵循与状态一致性</td></tr><tr><td>OSWorld / WebArena</td><td>操作</td><td>在真实桌面或网页环境里完成任务，考视觉定位与长程操作</td></tr></tbody></table></div>
+<h2>三个共同问题</h2>
+<ul><li><strong>基准会泄漏进训练集</strong>：越有名的基准，越可能已经被「背下来」。</li><li><strong>脚手架不同导致不可比</strong>：同样的模型，给 3 个工具和给 30 个工具，成绩不是一回事。</li><li><strong>单次成功率不反映成本</strong>：跑十次成功八次，但每次都烧掉几十万 token，账要单独算。</li></ul>
+<h2>拿到一个分数时该问的四句</h2>
+<ol><li>用的什么脚手架、什么工具集？</li><li>跑了几次，方差多大？</li><li>每次任务花了多少 token、多少分钟？</li><li>失败的那些，是错在规划、工具调用，还是环境不稳定？</li></ol>
+<p>四问答不全的分数，只能当参考。</p>
+    </div>
+  </article>
+  <nav class="pager"><a href="../agents.html"><span class="pg-l">← BACK</span><span class="pg-t">Agent · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2025-11 公开资料<br>2026 年新增进展：待补充<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">应用</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

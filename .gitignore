@@ -20,3 +20,6 @@ __pycache__/
 
 # macOS 外置盘（exFAT）生成的伴生文件
 ._*
+
+# 预览输出（build_section.py --dry）
+.preview/

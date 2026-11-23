@@ -1,0 +1,21 @@
+{
+  "slug": "models",
+  "name": "基模",
+  "en": "Models",
+  "page": "models.html",
+  "num": "01",
+  "sub": "FRONTIER MODELS · SNAPSHOT 2025-11",
+  "chips": ["闭源旗舰", "开放权重", "推理模型"],
+  "desc": "基模：闭源旗舰、开放权重与推理模型的天梯榜，以及按主题整理的报告。快照 2025-11，2026 条目待补充。",
+  "board": {
+    "title": "天梯榜",
+    "note": "按发布时间排，不是能力排名；同机构只留代表作，跑分无出处不列入。",
+    "file": "天梯榜.csv"
+  },
+  "reports": {
+    "title": "报告",
+    "dir": "报告"
+  },
+  "prev": ["index.html", "首页 · 九个板块"],
+  "next": ["agents.html", "02 Agent"]
+}

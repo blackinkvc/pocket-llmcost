@@ -1,11 +1,13 @@
 <!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Agent · AI.TRACK</title>
-<meta name="description" content="Agent 工程层台账：工具调用、记忆、沙箱、MCP/A2A 协议、编码与通用 Agent 产品，以及评测与风险。">
+<meta name="description" content="Agent：命令行工具与 IDE 插件的实时使用量榜、MCP 服务器调用量榜、生态规模榜，以及能力栈与协议报告。">
 <link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/section.css">
 </head>
 <body>
 
@@ -34,189 +36,410 @@
     </div>
   </div>
 </header>
-
 <div class="subnav">
   <div class="subnav-in">
     <span class="sn-label">Agents</span>
-    <a href="#stack">能力栈</a>
-    <a href="#protocol">协议</a>
-    <a href="#products">产品台账</a>
-    <a href="#eval">评测</a>
-    <a href="#risk">风险</a>
-    <a href="#gap">待补充</a>
+    <a href="#intro">简介</a>
+    <a href="#board-1">天梯榜</a>
+    <a href="#reports">报告</a>
+    <span class="sn-sep"></span>
+    <a href="principles.html">原理 · 历史</a>
+    <a href="local.html">怎么本地跑</a>
   </div>
 </div>
-
 <main class="wrap">
 
   <p class="crumb"><a href="index.html">首页</a><span class="sep">/</span><span>02</span><span class="sep">/</span><span>Agent</span></p>
 
-  <section class="page-head">
+  <section class="page-head" id="intro">
     <div class="ph-grid">
       <div>
         <div class="card-top" style="margin-bottom:14px;justify-content:flex-start;gap:10px">
-          <span class="chip orange">工程层</span>
-          <span class="chip">工具调用</span>
-          <span class="chip purple">长程执行</span>
+          <span class="chip purple">工程层</span><span class="chip green">工具调用</span><span class="chip orange">长程执行</span>
         </div>
         <h1 class="ph-title">Agent</h1>
         <p class="ph-sub">TOOLS · PROTOCOLS · LONG-HORIZON TASKS</p>
-        <p class="ph-lede">
-          Agent 不是新模型，是<b>把模型放进循环</b>：调工具、读结果、改计划、再调工具。
-          决定它能不能干活的，往往不是模型分数，而是权限、沙箱、失败恢复和成本上限。
-        </p>
+        <p class="ph-lede">Agent 不是新模型，是<strong>把模型放进循环</strong>：调工具、读结果、改计划、再调工具。 决定它能不能干活的，往往不是模型分数，而是权限、沙箱、失败恢复和成本上限。</p>
       </div>
       <aside class="spec-card">
         <div class="spec-head"><span>SNAPSHOT</span><span>MANUAL</span></div>
         <dl class="spec-body" style="margin:0">
-          <div class="spec-row"><dt>知识基线</dt><dd>2025-11</dd></div>
-          <div class="spec-row"><dt>协议</dt><dd>MCP / A2A / AGENTS.md</dd></div>
-          <div class="spec-row"><dt>产品条目</dt><dd>8 个</dd></div>
-          <div class="spec-row"><dt>评测分数</dt><dd class="null">未收录</dd></div>
-          <div class="spec-row"><dt>本机实测</dt><dd class="null">待补充</dd></div>
+          <div class="spec-row"><dt>协议</dt><dd>MCP / A2A / AGENTS.md</dd></div><div class="spec-row"><dt>实时榜</dt><dd>4 个</dd></div><div class="spec-row"><dt>抓取频率</dt><dd>每日</dd></div><div class="spec-row"><dt>评测分数</dt><dd>未收录</dd></div><div class="spec-row"><dt>本机实测</dt><dd>待补充</dd></div>
         </dl>
       </aside>
     </div>
-
-    <div class="verdict-box">
-      <p class="vb-label">结论先行 / VERDICT</p>
-      <ol>
-        <li><b>编码 Agent 是第一个跑通的场景。</b><span>代码有编译器、测试和版本控制，反馈可验证，所以 Agent 能自我纠错；通用办公场景缺少这套「判卷人」。</span></li>
-        <li><b>协议比模型更影响生态。</b><span>MCP 统一了「模型怎么接工具」，A2A 试图统一「Agent 怎么互相调用」。协议稳定后，工具方才有动力接入。</span></li>
-        <li><b>长程可靠性仍是短板。</b><span>任务超过十几步后，错误会累积；当前工程解法是拆任务、加检查点、限制单步权限，而不是换更大的模型。</span></li>
-      </ol>
+    <div class="verdict-box"><p class="vb-label">结论 / VERDICT</p><ol><li><b>编码 Agent 是第一个跑通的场景。</b><span>代码有编译器、测试和版本控制，反馈可验证，所以 Agent 能自我纠错；通用办公场景缺少这套「判卷人」。</span></li><li><b>协议比模型更影响生态。</b><span>MCP 统一了「模型怎么接工具」，A2A 试图统一「Agent 怎么互相调用」。协议稳定后，工具方才有动力接入。</span></li><li><b>榜单只能看量级，不能当市场份额。</b><span>下载量、安装量、调用量都是代理指标，口径各不相同；真实活跃用户数没有任何厂商公开。</span></li></ol></div>
+    <div class="intro-extra"><h3>几个榜的口径</h3><ul><li><strong>命令行工具</strong>：npm 上周下载量，每天由 GitHub Action 抓一次。发布新版本会带来下载尖峰，所以单看某一天会被版本号误伤。</li><li><strong>IDE 插件</strong>：VS Code 市场累计安装量，卸载不扣减，老插件天然占优。</li><li><strong>MCP 服务器</strong>：Smithery 的 <code>useCount</code>，是平台自己记账的调用次数，跨平台不可比。</li><li><strong>生态规模</strong>：仓库数、上架数、扩展数混在一起，只能看量级。</li></ul></div><div class="intro-extra"><h3>待补充</h3><ul><li><strong>2026 年新产品</strong>：等官方文档核对后再补，不按趋势推测。</li><li><strong>基准分数</strong>：不抄厂商自测，等统一脚手架下的可比结果。</li><li><strong>本机实测</strong>：本地 Agent 工作流的耗时、显存与成功率尚未采集，占位在实例索引 #04。</li><li><strong>定价</strong>：订阅与按量计费差异大，本页不写具体价格。</li></ul></div>
+  </section>
+  <section class="blk" id="board-1">
+    <div class="blk-head">
+      <span class="blk-num">02.1</span>
+      <h2>使用量 · 命令行工具</h2>
+      <span class="blk-note">npm 上一周下载量。下载量是使用规模的代理指标，不等于活跃用户，同一人多台机器会重复计数。</span>
     </div>
+    <div class="board">
+      <article class="bd-card">
+        <span class="bd-rank">1</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Codex CLI</h3><span class="bd-val">2760.1 万<small>次/周</small></span></div>
+          <p class="bd-meta">OpenAI · @openai/codex</p>
+          <p class="bd-note"></p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">2</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Claude Code</h3><span class="bd-val">2217.1 万<small>次/周</small></span></div>
+          <p class="bd-meta">Anthropic · @anthropic-ai/claude-code</p>
+          <p class="bd-note"></p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">3</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>OpenCode</h3><span class="bd-val">354 万<small>次/周</small></span></div>
+          <p class="bd-meta">SST · opencode-ai</p>
+          <p class="bd-note"></p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">4</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Copilot CLI</h3><span class="bd-val">159.3 万<small>次/周</small></span></div>
+          <p class="bd-meta">GitHub · @github/copilot</p>
+          <p class="bd-note"></p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">5</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemini CLI</h3><span class="bd-val">56.5 万<small>次/周</small></span></div>
+          <p class="bd-meta">Google · @google/gemini-cli</p>
+          <p class="bd-note"></p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">6</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Qwen Code</h3><span class="bd-val">14.8 万<small>次/周</small></span></div>
+          <p class="bd-meta">阿里 · @qwen-code/qwen-code</p>
+          <p class="bd-note"></p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">7</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Claude Code Router</h3><span class="bd-val">2.8 万<small>次/周</small></span></div>
+          <p class="bd-meta">社区 · @musistudio/claude-code-router</p>
+          <p class="bd-note"></p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">8</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Continue CLI</h3><span class="bd-val">5,380<small>次/周</small></span></div>
+          <p class="bd-meta">Continue · @continuedev/cli</p>
+          <p class="bd-note"></p>
+        </div>
+      </article>
+    </div>
+    <span class="blk-stamp">更新 2026-11-23 22:26 · npm registry（last-week）</span>
+    
   </section>
-
-  <section class="doc">
-    <article class="chapter" id="stack">
-      <div class="ch-head"><span class="ch-num">01</span><h2>能力栈</h2></div>
-      <p>一个能用的 Agent 至少由五层组成，缺一层就会在真实任务里暴露：</p>
-
-      <div class="recipe">
-        <div class="recipe-head"><span>AGENT STACK</span><span>自上而下</span></div>
-<pre>编排层    <span class="k">plan → act → observe → replan</span>   任务拆解、循环控制、停止条件
-工具层    <span class="k">MCP / function calling</span>       文件、终端、浏览器、API
-记忆层    <span class="k">context + 外部存储</span>          上下文压缩、检索、检查点
-执行层    <span class="k">sandbox / VM / 容器</span>          权限、网络、文件系统隔离
-模型层    <span class="k">reasoning model</span>               规划质量与工具调用稳定性</pre>
-      </div>
-
-      <p>
-        常见误解是把 Agent 当成「更聪明的模型」。实际上同一模型换一套工具与沙箱，
-        任务成功率会差出数倍——工程层的权重不低于模型层。
-      </p>
-      <div class="callout warn">
-        <p><b>权限是最容易被忽略的一层。</b>给 Agent 一个能写文件、能发网络请求的终端，等于把整台机器交给它；生产环境必须按最小权限切分，并给每一步留可回滚的检查点。</p>
-      </div>
-    </article>
-
-    <article class="chapter" id="protocol">
-      <div class="ch-head"><span class="ch-num">02</span><h2>协议与接口</h2></div>
-      <p>2024 到 2025 年，Agent 生态最大的变化不是模型，而是接口开始标准化。</p>
-
-      <div class="table-wrap">
-        <table class="data">
-          <thead><tr><th>协议</th><th>提出方</th><th>时间</th><th>解决什么</th><th>状态</th></tr></thead>
-          <tbody>
-            <tr><td><b>MCP</b></td><td>Anthropic</td><td class="num">2024-11</td><td>模型 / 客户端如何统一接入外部工具与数据源</td><td><span class="chip green">事实标准</span></td></tr>
-            <tr><td><b>A2A</b></td><td>Google</td><td class="num">2025-04</td><td>不同厂商的 Agent 之间如何发现与协作</td><td><span class="chip orange">推进中</span></td></tr>
-            <tr><td><b>AGENTS.md</b></td><td>社区 / 多家</td><td class="num">2025</td><td>把仓库里的操作约定写给编码 Agent 看</td><td><span class="chip">约定俗成</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="table-note">
-        MCP 是「纵向」接口：Agent 往下接工具。A2A 是「横向」接口：Agent 之间互相调用。两者不冲突，但成熟度差一截。
-      </p>
-    </article>
-
-    <article class="chapter" id="products">
-      <div class="ch-head"><span class="ch-num">03</span><h2>产品台账</h2></div>
-      <p>按形态分三类：编码 Agent、通用 Agent、浏览器 / 计算机操作。</p>
-
-      <div class="table-wrap">
-        <table class="data">
-          <thead><tr><th>时间</th><th>产品</th><th>厂商</th><th>形态</th><th>说明</th></tr></thead>
-          <tbody>
-            <tr><td class="num">2025-02</td><td><b>Claude Code</b></td><td>Anthropic</td><td>终端编码 Agent</td><td>研究预览起步，2025-05 正式可用。</td></tr>
-            <tr><td class="num">2025-05</td><td><b>OpenAI Codex</b></td><td>OpenAI</td><td>云端编码 Agent</td><td>在隔离环境中并行跑任务。</td></tr>
-            <tr><td class="num">2025-07</td><td><b>ChatGPT Agent</b></td><td>OpenAI</td><td>通用 Agent</td><td>浏览、下载、执行多步任务的统一入口。</td></tr>
-            <tr><td class="num">2025-03</td><td><b>Manus</b></td><td>Manus</td><td>通用 Agent</td><td>以「交付结果」为卖点的通用执行体。</td></tr>
-            <tr><td class="num">2025-01</td><td><b>Operator</b></td><td>OpenAI</td><td>浏览器操作</td><td>用视觉理解直接操作网页。</td></tr>
-            <tr><td class="num">2024-10</td><td><b>Computer Use</b></td><td>Anthropic</td><td>计算机操作</td><td>Claude 直接控制桌面环境。</td></tr>
-            <tr><td class="num">2024-03</td><td><b>Devin</b></td><td>Cognition</td><td>编码 Agent</td><td>早期「AI 软件工程师」形态。</td></tr>
-            <tr><td class="num">2023-</td><td><b>Cursor</b></td><td>Anysphere</td><td>IDE 内 Agent</td><td>编辑器内的补全、改写与多文件编辑。</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </article>
-
-    <article class="chapter" id="eval">
-      <div class="ch-head"><span class="ch-num">04</span><h2>评测：看什么，不看什么</h2></div>
-      <p>
-        本页不收录具体分数，因为同一模型在不同脚手架、不同工具集下的成绩差异很大。
-        更有参考价值的是「这个基准考的是什么」。
-      </p>
-
-      <div class="mini-grid">
-        <div class="mini">
-          <h4>SWE-bench Verified <span>编码</span></h4>
-          <p>给真实仓库的 issue，看能否改到测试通过。考的是定位、修改与验证的完整闭环。</p>
+  <section class="blk" id="board-2">
+    <div class="blk-head">
+      <span class="blk-num">02.2</span>
+      <h2>使用量 · IDE 插件</h2>
+      <span class="blk-note">VS Code 市场累计安装量。装过不等于在用，卸载不扣减，只能看相对量级。</span>
+    </div>
+    <div class="board">
+      <article class="bd-card">
+        <span class="bd-rank">1</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GitHub Copilot</h3><span class="bd-val">7494.7 万<small>次</small></span></div>
+          <p class="bd-meta">GitHub · GitHub.copilot</p>
+          <p class="bd-note"></p>
         </div>
-        <div class="mini">
-          <h4>Terminal-Bench <span>终端</span></h4>
-          <p>在命令行里完成多步系统任务，考工具使用与环境理解。</p>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">2</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Claude Code for VS Code</h3><span class="bd-val">3082.1 万<small>次</small></span></div>
+          <p class="bd-meta">Anthropic · anthropic.claude-code</p>
+          <p class="bd-note"></p>
         </div>
-        <div class="mini">
-          <h4>τ-bench <span>对话 + 工具</span></h4>
-          <p>模拟客服等业务对话，同时调用后端工具，考规则遵循与状态一致性。</p>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">3</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Cline</h3><span class="bd-val">601.8 万<small>次</small></span></div>
+          <p class="bd-meta">Cline · saoudrizwan.claude-dev</p>
+          <p class="bd-note"></p>
         </div>
-        <div class="mini">
-          <h4>OSWorld / WebArena <span>操作</span></h4>
-          <p>在真实桌面或网页环境里完成任务，考视觉定位与长程操作。</p>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">4</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Continue</h3><span class="bd-val">460.3 万<small>次</small></span></div>
+          <p class="bd-meta">Continue · Continue.continue</p>
+          <p class="bd-note"></p>
         </div>
-      </div>
-      <p class="table-note">
-        共同问题：基准会泄漏进训练集；脚手架不同导致不可比；单次成功率不反映成本。看结论时要问「跑了几次、什么工具、花了多少 token」。
-      </p>
-    </article>
-
-    <article class="chapter" id="risk">
-      <div class="ch-head"><span class="ch-num">05</span><h2>工程约束与风险</h2></div>
-      <div class="checklist">
-        <div class="no"><b>提示注入</b>网页与文件里的指令会被当成任务执行，必须做来源隔离。</div>
-        <div class="no"><b>权限过大</b>默认可写可联网，等于把生产环境交出去。</div>
-        <div class="no"><b>错误累积</b>步数越多，单步小错越容易滚成整体失败。</div>
-        <div class="no"><b>成本失控</b>循环没有硬上限时，token 消耗会指数级上涨。</div>
-        <div><b>可观测性</b>必须记录每一步的输入、工具调用与结果，否则无法复盘。</div>
-        <div><b>人机边界</b>高风险动作（付款、删除、发布）应强制人工确认。</div>
-      </div>
-    </article>
-
-    <article class="chapter" id="gap">
-      <div class="ch-head"><span class="ch-num">06</span><h2>待补充 / 数据限制</h2></div>
-      <ul>
-        <li><b>2026 年产品</b>：整体未收录，等官方文档核对后补。</li>
-        <li><b>基准分数</b>：不抄厂商自测，等统一脚手架下的可比结果。</li>
-        <li><b>本机实测</b>：本地 Agent 工作流的耗时、显存与成功率尚未采集，占位在实例索引 #04。</li>
-        <li><b>协议细节</b>：MCP 的传输方式、鉴权与工具描述规范未展开，等实际接入后再写。</li>
-        <li><b>定价</b>：订阅与按量计费差异大，本页不写具体价格。</li>
-      </ul>
-    </article>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">5</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Windsurf Plugin</h3><span class="bd-val">397.8 万<small>次</small></span></div>
+          <p class="bd-meta">Windsurf · Codeium.codeium</p>
+          <p class="bd-note"></p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">6</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Roo Code</h3><span class="bd-val">212.1 万<small>次</small></span></div>
+          <p class="bd-meta">Roo · RooVeterinaryInc.roo-cline</p>
+          <p class="bd-note"></p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">7</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Cody</h3><span class="bd-val">90.8 万<small>次</small></span></div>
+          <p class="bd-meta">Sourcegraph · sourcegraph.cody-ai</p>
+          <p class="bd-note"></p>
+        </div>
+      </article>
+    </div>
+    <span class="blk-stamp">更新 2026-11-23 22:26 · VS Code Marketplace</span>
+    
   </section>
-
+  <section class="blk" id="board-3">
+    <div class="blk-head">
+      <span class="blk-num">02.3</span>
+      <h2>MCP 服务器 · 调用量</h2>
+      <span class="blk-note">Smithery 记录的调用次数，取平台默认排序前 50 位里的前 15 位；平台没有全局排序接口，这不等同全网排名。</span>
+    </div>
+    <div class="board">
+      <article class="bd-card">
+        <span class="bd-rank">1</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Brave Search</h3><span class="bd-val">8.8 万<small>次</small></span></div>
+          <p class="bd-meta">brave</p>
+          <p class="bd-note">Search the web with Brave's independent index — web, news, images, and videos.…</p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">2</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>uk-due-diligence</h3><span class="bd-val">6.1 万<small>次</small></span></div>
+          <p class="bd-meta">bouch/uk-due-diligence</p>
+          <p class="bd-note">Tools across five UK public registers. All official APIs.  Give an agent a com…</p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">3</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Paper Search</h3><span class="bd-val">5.9 万<small>次</small></span></div>
+          <p class="bd-meta">adamamer20/paper-search-mcp-openai</p>
+          <p class="bd-note">Search and download academic papers from arXiv, PubMed, bioRxiv, medRxiv, Goog…</p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">4</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gmail</h3><span class="bd-val">5.8 万<small>次</small></span></div>
+          <p class="bd-meta">gmail</p>
+          <p class="bd-note">Read, search, and send Gmail messages. Manage drafts, threads, and labels; rep…</p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">5</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Google Sheets</h3><span class="bd-val">5.6 万<small>次</small></span></div>
+          <p class="bd-meta">googlesheets</p>
+          <p class="bd-note">Search and inspect Google Sheets, create and edit spreadsheets, scan for data…</p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">6</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Agent News</h3><span class="bd-val">4.3 万<small>次</small></span></div>
+          <p class="bd-meta">theagenttimes/news</p>
+          <p class="bd-note">The intelligence layer agents use before they act, sourced answers on the agen…</p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">7</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>PubMed</h3><span class="bd-val">4.2 万<small>次</small></span></div>
+          <p class="bd-meta">pubmed</p>
+          <p class="bd-note">Search biomedical literature across 36 million citations. Find papers, abstrac…</p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">8</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Polymarket Data by PolymarketScan</h3><span class="bd-val">3.9 万<small>次</small></span></div>
+          <p class="bd-meta">jordan-s648/PolymarketScan</p>
+          <p class="bd-note">Real-time Polymarket analytics for AI agents. Query live prediction market dat…</p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">9</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>sap-mcp</h3><span class="bd-val">3.4 万<small>次</small></span></div>
+          <p class="bd-meta">oobe-protocol/sap-mcp</p>
+          <p class="bd-note">Use the SAP MCP Wizard or install the library from the npm registry to automat…</p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">10</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>emblem-mcp</h3><span class="bd-val">2.5 万<small>次</small></span></div>
+          <p class="bd-meta">emblemai/emblem-mcp</p>
+          <p class="bd-note"># EmblemAI MCP  EmblemAI is a hosted Model Context Protocol server that gives…</p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">11</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>OneSignal</h3><span class="bd-val">2.2 万<small>次</small></span></div>
+          <p class="bd-meta">onesignal/onesignal</p>
+          <p class="bd-note">OneSignal is a customer engagement platform that lets you send targeted push n…</p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">12</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Web Scout</h3><span class="bd-val">2 万<small>次</small></span></div>
+          <p class="bd-meta">pinkpixel-dev/web-scout-mcp</p>
+          <p class="bd-note">Search the web and extract clean, readable text from webpages. Process multipl…</p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">13</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>United States Weather</h3><span class="bd-val">1.7 万<small>次</small></span></div>
+          <p class="bd-meta">smithery-ai/national-weather-service</p>
+          <p class="bd-note">Provide real-time and forecast weather information for locations in the United…</p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">14</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>SubwayInfo NYC</h3><span class="bd-val">1.7 万<small>次</small></span></div>
+          <p class="bd-meta">subwayinfo</p>
+          <p class="bd-note">Real-time NYC subway information. Check train status, view service alerts, and…</p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">15</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Zipp</h3><span class="bd-val">1.6 万<small>次</small></span></div>
+          <p class="bd-meta">deficlow/zipp</p>
+          <p class="bd-note">Multi-language crypto news for AI assistants — editorial summaries, sentiment…</p>
+        </div>
+      </article>
+    </div>
+    <span class="blk-stamp">更新 2026-11-23 22:26 · Smithery useCount · 样本 50 / 20743</span>
+    
+  </section>
+  <section class="blk" id="board-4">
+    <div class="blk-head">
+      <span class="blk-num">02.4</span>
+      <h2>生态规模 · MCP / Skill / 插件</h2>
+      <span class="blk-note">各平台公开接口的计数口径不同（仓库数 / 上架数 / 扩展数），只能看量级，不能直接相加。</span>
+    </div>
+    <div class="board">
+      <article class="bd-card">
+        <span class="bd-rank">1</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>VS Code 市场</h3><span class="bd-val">15.9 万<small>个</small></span></div>
+          <p class="bd-meta">扩展（全部）</p>
+          <p class="bd-note">Marketplace extensionquery</p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">2</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GitHub</h3><span class="bd-val">4.7 万<small>个</small></span></div>
+          <p class="bd-meta">MCP 仓库（topic:mcp-server）</p>
+          <p class="bd-note">GitHub Search API</p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">3</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Smithery</h3><span class="bd-val">2.1 万<small>个</small></span></div>
+          <p class="bd-meta">MCP 服务器</p>
+          <p class="bd-note">smithery.ai 接口 totalCount</p>
+        </div>
+      </article>
+      <article class="bd-card">
+        <span class="bd-rank">4</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Anthropic Skills 仓库</h3><span class="bd-val">19<small>个</small></span></div>
+          <p class="bd-meta">官方 Skill</p>
+          <p class="bd-note">github.com/anthropics/skills</p>
+        </div>
+      </article>
+    </div>
+    <span class="blk-stamp">更新 2026-11-23 22:26 · 各平台公开接口</span>
+    
+  </section>
+  <section class="blk" id="reports">
+    <div class="blk-head">
+      <span class="blk-num">03</span>
+      <h2>报告</h2>
+      <span class="blk-note">共 4 篇</span>
+    </div>
+    <div class="posts">
+      <a class="post-item" href="agents/%E4%BA%94%E5%B1%82%E8%83%BD%E5%8A%9B%E6%A0%88.html">
+        <div class="post-when"><time>2026-11-21</time><span class="post-tag">架构</span><span class="post-tag">工程</span></div>
+        <div class="post-main">
+          <h3>Agent 的五层能力栈</h3>
+          <p>编排、工具、记忆、执行、模型五层，缺一层就会在真实任务里暴露。同一模型换一套工具与沙箱，成功率能差出数倍。</p>
+        </div>
+        <span class="post-go">读 →</span>
+      </a>
+      <a class="post-item" href="agents/%E5%8D%8F%E8%AE%AE%E4%B8%8E%E6%8E%A5%E5%8F%A3.html">
+        <div class="post-when"><time>2026-11-20</time><span class="post-tag">协议</span><span class="post-tag">MCP</span></div>
+        <div class="post-main">
+          <h3>协议为什么比模型更影响生态</h3>
+          <p>2024 到 2025 年，Agent 生态最大的变化不是模型，而是接口开始标准化：MCP 管纵向接入，A2A 管横向协作，AGENTS.md 管仓库里的约定。</p>
+        </div>
+        <span class="post-go">读 →</span>
+      </a>
+      <a class="post-item" href="agents/%E8%AF%84%E6%B5%8B%E7%9C%8B%E4%BB%80%E4%B9%88.html">
+        <div class="post-when"><time>2026-11-19</time><span class="post-tag">评测</span><span class="post-tag">基准</span></div>
+        <div class="post-main">
+          <h3>评测 Agent 时看什么，不看什么</h3>
+          <p>同一模型在不同脚手架、不同工具集下的成绩差异很大。比起分数，更该问「这个基准考的是什么、跑了几次、花了多少 token」。</p>
+        </div>
+        <span class="post-go">读 →</span>
+      </a>
+      <a class="post-item" href="agents/%E5%B7%A5%E7%A8%8B%E7%BA%A6%E6%9D%9F%E4%B8%8E%E9%A3%8E%E9%99%A9.html">
+        <div class="post-when"><time>2026-11-18</time><span class="post-tag">风险</span><span class="post-tag">工程</span></div>
+        <div class="post-main">
+          <h3>工程约束与风险清单</h3>
+          <p>提示注入、权限过大、错误累积、成本失控、不可观测、人机边界——六条都是在真实项目里先出事、后补规范。</p>
+        </div>
+        <span class="post-go">读 →</span>
+      </a>
+    </div>
+    
+  </section>
   <nav class="pager">
     <a href="models.html"><span class="pg-l">← PREV</span><span class="pg-t">01 基模</span></a>
     <a class="next" href="companies.html"><span class="pg-l">NEXT →</span><span class="pg-t">03 公司</span></a>
   </nav>
-
 </main>
 
 <footer class="footer">
   <div class="wrap footer-grid">
     <div>
       <h5>定位</h5>
-      <p>AI 发展监控台：把基模、Agent、公司、硬件、应用、原理、历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
       <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
     </div>
     <div>
@@ -236,6 +459,5 @@
     </div>
   </div>
 </footer>
-
 </body>
 </html>

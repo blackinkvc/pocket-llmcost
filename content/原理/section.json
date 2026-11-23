@@ -1,0 +1,44 @@
+{
+  "slug": "principles",
+  "name": "原理 · 历史",
+  "en": "Principles",
+  "page": "principles.html",
+  "num": "07",
+  "sub": "HOW IT WORKS · 1943 → 2025",
+  "chips": [
+    "推理",
+    "注意力",
+    "训练",
+    "MoE",
+    "扩散",
+    "量化"
+  ],
+  "desc": "原理与历史：机制索引、关键论文，以及 1943 至今的时间线。",
+  "board": {
+    "title": "机制榜",
+    "note": "按所属环节排，一个机制一张卡；详细推导写在报告里。",
+    "file": "天梯榜.csv",
+    "fields": {
+      "rank": "排名",
+      "name": "机制",
+      "meta": [
+        "所属环节",
+        "代表工作"
+      ],
+      "note": "说明",
+      "when": "时间"
+    }
+  },
+  "reports": {
+    "title": "报告",
+    "dir": "报告"
+  },
+  "prev": [
+    "apps.html",
+    "06 应用"
+  ],
+  "next": [
+    "local.html",
+    "08 本地部署"
+  ]
+}

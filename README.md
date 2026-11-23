@@ -34,6 +34,29 @@
 | `local.html` | 本地部署：推理栈、显存档位、硬件路线、常见坑、本机实践 |
 | `cases.html` | 实例索引：01 已上线，02–06 占位与字段规范 |
 
+## 板块内容怎么改（`content/`）
+
+除首页外，板块页统一成三段：**简介 → 天梯榜卡片 → 报告**。内容不在 HTML 里，在 `content/<板块>/`：
+
+```
+content/基模/
+  section.json   标题、副标题、标签、右栏指标、翻页
+  简介.md        板块一：说明 + 三条结论
+  天梯榜.csv     板块二：一行一张卡片
+  报告/*.md      板块三：一篇一个文件，生成独立页
+```
+
+改完跑 `python3 tools/build_section.py`（`--only models` 只重建一个，`--dry` 出到 `.preview/`）。
+细节见 [`content/README.md`](content/README.md)。
+
+三类板块不走这套：
+
+| 板块 | 为什么 |
+| --- | --- |
+| 实例 | 讲自己做的东西的**迭代过程** + 硬件实测，字段和「天梯榜」不是一回事 |
+| 研究 | 研究项目的**管理看板**，状态由 `research/items/` 推导，已有流水线 |
+| 价格 | **实时追踪**，要抓数、要快照、要能现场重算，数据在 `seed/` |
+
 ## 实例 01（`lab/`）
 
 同一台机器、同一批参考图、串行出图。142 行生成台账 × 26 列、128 份候选边车、
@@ -181,6 +204,13 @@ security add-generic-password -s pocket-llmcost-gh-token -a "$USER" -w ghp_你�
 
 ```
 index.html … templates.html    门户九板块（静态，无构建；history.html 是跳转页）
+content/                       板块内容源：一个文件夹一个板块
+  基模/                        已切换（样板）：简介 / 天梯榜 / 报告
+  agent/                       已切换：四个实时榜（npm / VS Code / Smithery / 生态规模）
+  公司/ 硬件/ …                 结构已就位，等填内容后切换
+  实例/ 研究/ 价格/             只放说明，数据仍在各自流水线里
+tools/build_section.py         从 content/ 生成板块页（三板块结构）
+tools/fetch_agent_stats.py     抓 Agent 榜单（每天由 Actions 跑）
 lab/                           实例 01 生图实验
 research/                      研究板块
   inbox/                       备用投料区（外置盘没挂载时用；文件会被搬走）

@@ -1,0 +1,44 @@
+{
+  "slug": "apps",
+  "name": "应用",
+  "en": "Products",
+  "page": "apps.html",
+  "num": "06",
+  "sub": "PRODUCTS · SNAPSHOT 2025-11",
+  "chips": [
+    "助手",
+    "编码",
+    "图像视频",
+    "音频",
+    "搜索",
+    "办公"
+  ],
+  "desc": "应用：六类产品的天梯榜，以及形态变化与选型报告。",
+  "board": {
+    "title": "产品榜",
+    "note": "按发布时间排，记录形态变化而不是热度。",
+    "file": "天梯榜.csv",
+    "fields": {
+      "rank": "排名",
+      "name": "产品",
+      "meta": [
+        "厂商",
+        "类别"
+      ],
+      "note": "形态 / 关键点",
+      "when": "时间"
+    }
+  },
+  "reports": {
+    "title": "报告",
+    "dir": "报告"
+  },
+  "prev": [
+    "templates.html",
+    "05 模板"
+  ],
+  "next": [
+    "principles.html",
+    "07 原理 · 历史"
+  ]
+}
