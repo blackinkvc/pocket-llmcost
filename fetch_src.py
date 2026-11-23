@@ -94,7 +94,12 @@ def download(slug: str, rev: str, dest: str, token: str) -> int:
                 continue
             m.name = head[1]
             members.append(m)
-        tf.extractall(tmp, members=members)
+        # 3.12 起 extractall 有了 filter 参数（默认值将来会变 data，届时会警告）。
+        # 这里显式走 data（拒绝绝对路径/穿越），老 Python 不给这个参数。
+        try:
+            tf.extractall(tmp, members=members, filter="data")
+        except TypeError:
+            tf.extractall(tmp, members=members)
 
     n = 0
     for name in os.listdir(tmp):
