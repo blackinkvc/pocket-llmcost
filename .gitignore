@@ -1,0 +1,19 @@
+# 运行时产物 —— 数据应该在数据目录里（LLMCOST_DIR），这里只是防手滑
+# 只锚定仓库根那一层，别把 llmcost/data/（线上快照）一起扫掉
+/data/
+/out/
+.llmcost-dir
+
+# 打包中间产物（PyInstaller）
+/build/dist/
+/build/work/
+
+# Python / macOS
+__pycache__/
+*.pyc
+.DS_Store
+
+# 就地备份
+*.bak-*
+
+# Jekyll：站点是纯静态 HTML，别让它过滤下划线开头的目录

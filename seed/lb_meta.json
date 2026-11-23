@@ -1,0 +1,12 @@
+{
+ "fetched_at": "2026-11-21 22:27:40",
+ "hf_dataset": "lmarena-ai/leaderboard-dataset",
+ "gh_repo": "vectara/hallucination-leaderboard",
+ "n_rows": 2487,
+ "n_halluc": 111,
+ "dates": [
+  "2026-11-18",
+  "2026-11-19",
+  "2026-11-20"
+ ]
+}

@@ -1,0 +1,46 @@
+source_id,provider,model,metric,value,currency,unit,scope,price_kind,captured_at,url,note
+aicostbudget,OpenAI,gpt-6-luna,input,0.10,USD,1M tokens,first_party,standard,2026-11-18,https://github.com/aicostbudget/ai-api-pricing-data,真实快照 models[].pricing.input
+aicostbudget,OpenAI,gpt-6-luna,output,0.50,USD,1M tokens,first_party,standard,2026-11-18,https://github.com/aicostbudget/ai-api-pricing-data,真实快照
+aicostbudget,Anthropic,claude-sonnet-5,input,2.00,USD,1M tokens,first_party,standard,2026-11-18,https://github.com/aicostbudget/ai-api-pricing-data,该源仍记 2/10；官方 9/1 起 3/15；疑似版本滞后待核验
+aicostbudget,Anthropic,claude-sonnet-5,output,10.00,USD,1M tokens,first_party,standard,2026-11-18,https://github.com/aicostbudget/ai-api-pricing-data,同上
+aicostbudget,Zhipu,glm-5-3-flash,input,0.15,USD,1M tokens,first_party,standard,2026-11-18,https://github.com/aicostbudget/ai-api-pricing-data,国际 USD 口径；主表为国内 CNY 0.8/2.8
+aicostbudget,Zhipu,glm-5-3-flash,output,0.50,USD,1M tokens,first_party,standard,2026-11-18,https://github.com/aicostbudget/ai-api-pricing-data,国际 USD 口径
+liutasil,OpenAI,gpt-6-luna,input,0.10,USD,1M tokens,reseller,standard,2026-11-16,https://github.com/Liutasil501/ai-api-prices,aws-bedrock/azure/gmi 三家同价
+liutasil,OpenAI,gpt-6-luna,output,0.50,USD,1M tokens,reseller,standard,2026-11-16,https://github.com/Liutasil501/ai-api-prices,与上一致
+liutasil,Anthropic,claude-sonnet-5,input,2.00,USD,1M tokens,first_party,standard,2026-11-16,https://github.com/Liutasil501/ai-api-prices,anthropic/aws/azure 同价
+liutasil,Anthropic,claude-sonnet-5,output,10.00,USD,1M tokens,first_party,standard,2026-11-16,https://github.com/Liutasil501/ai-api-prices,同上
+liutasil,Google,gemini-3-6-flash,input,0.75,USD,1M tokens,first_party,standard,2026-11-16,https://github.com/Liutasil501/ai-api-prices,google 官方渠道
+liutasil,Google,gemini-3-6-flash,output,3.75,USD,1M tokens,first_party,standard,2026-11-16,https://github.com/Liutasil501/ai-api-prices,google 官方渠道
+liutasil,Google,gemini-3-6-flash,input,1.50,USD,1M tokens,reseller,standard,2026-11-16,https://github.com/Liutasil501/ai-api-prices,gmi 渠道同模型贵 2 倍；第三方托管价不可与官方价混比
+liutasil,Google,gemini-3-6-flash,output,7.50,USD,1M tokens,reseller,standard,2026-11-16,https://github.com/Liutasil501/ai-api-prices,gmi 渠道
+liutasil,xAI,grok-4-7,input,2.00,USD,1M tokens,first_party,standard,2026-11-16,https://github.com/Liutasil501/ai-api-prices,aws/azure 渠道
+liutasil,xAI,grok-4-7,output,6.00,USD,1M tokens,first_party,standard,2026-11-16,https://github.com/Liutasil501/ai-api-prices,aws/azure 渠道
+liutasil,xAI,grok-4-7,input,2.49998,USD,1M tokens,reseller,standard,2026-11-16,https://github.com/Liutasil501/ai-api-prices,databricks 渠道溢价 25%
+liutasil,xAI,grok-4-7,output,7.50001,USD,1M tokens,reseller,standard,2026-11-16,https://github.com/Liutasil501/ai-api-prices,databricks 渠道
+pricemon,Zhipu,glm-5-3-flash,output,2.80,CNY,1M tokens,first_party,standard,2026-11-18,https://pricemon.net/,日报：输出 8→2.8 缓存 0.56→0.23（每千 tokens 口径换算）
+pricemon,Baidu,ernie-5-5-flash-preview,input,0.36,CNY,1M tokens,first_party,offpeak+promo,2026-11-18,https://pricemon.net/,含 2026-11-30 前限时活动
+wechat_daily,Zhipu,glm-5-3-flash,input,0.40,CNY,1M tokens,first_party,promo,2026-11-19,https://pricemon.net/en/api-docs,公众号日报：智谱限时 5 折 0.4/1.4；非现价
+wechat_daily,Zhipu,glm-5-3-flash,input,0.80,CNY,1M tokens,first_party,standard,2026-10-29,https://pricemon.net/en/api-docs,公众号 LLM API 价格日报 10-29：GLM-5.3-Flash 常设价 0.8/2.8；5 折为限时活动
+wechat_daily,Zhipu,glm-5-3-flash,output,2.80,CNY,1M tokens,first_party,standard,2026-10-29,https://pricemon.net/en/api-docs,同上
+wechat_daily,Zhipu,glm-5-3,input,8.00,CNY,1M tokens,first_party,standard,2026-10-29,https://pricemon.net/en/api-docs,公众号日报 10-29：GLM-5.3 8/28(缓存2) 多平台同价
+wechat_daily,Zhipu,glm-5-3,output,28.00,CNY,1M tokens,first_party,standard,2026-10-29,https://pricemon.net/en/api-docs,同上
+wechat_daily,Moonshot,kimi-k3-1-pro,input,13.00,CNY,1M tokens,first_party,standard,2026-10-29,https://pricemon.net/en/api-docs,公众号日报 10-29：Kimi-K3.1-Pro 13/68(1.3)
+wechat_daily,Moonshot,kimi-k3-1-pro,output,68.00,CNY,1M tokens,first_party,standard,2026-10-29,https://pricemon.net/en/api-docs,同上
+wechat_daily,MiniMax,minimax-m3-1-flash,input,1.00,CNY,1M tokens,first_party,standard,2026-10-29,https://pricemon.net/en/api-docs,公众号日报 10-29：MiniMax-M3.1-Flash 1/4(0.10)
+wechat_daily,MiniMax,minimax-m3-1-flash,output,4.00,CNY,1M tokens,first_party,standard,2026-10-29,https://pricemon.net/en/api-docs,同上
+wechat_daily,Alibaba,qwen3-8-max,input,6.00,CNY,1M tokens,reseller,promo,2026-10-29,https://pricemon.net/en/api-docs,日报：Qwen3.8-Max 6/18 仅 TokenRhythm 特惠 5 折；非官方现价 12/36
+wechat_daily,Alibaba,qwen3-8-max,output,18.00,CNY,1M tokens,reseller,promo,2026-10-29,https://pricemon.net/en/api-docs,同上；第三方渠道价不可与官方价混比
+wechat_daily,Tencent,hy4-flash,input,0.50,CNY,1M tokens,first_party,standard,2026-11-19,https://pricemon.net/en/api-docs,公众号日报对齐官方发布价
+wechat_daily,Tencent,hy4-flash,output,2.00,CNY,1M tokens,first_party,standard,2026-11-19,https://pricemon.net/en/api-docs,公众号日报对齐官方发布价
+wechat_daily,Volcengine,doubao-seed-2-0-mini,input,0.40,CNY,1M tokens,first_party,standard,2026-11-19,https://ark.volcengine.com/region:cn-beijing/docs/ark/model-pricing,价格日报核对官方价目 ≤32K 起价；仅单源
+wechat_daily,Volcengine,doubao-seed-2-0-mini,output,4.00,CNY,1M tokens,first_party,standard,2026-11-19,https://ark.volcengine.com/region:cn-beijing/docs/ark/model-pricing,价格日报核对官方价目
+pricemon,Zhipu,glm-5-3,input,8.00,CNY,1M tokens,reseller,standard,2026-11-18,https://pricemon.net/,日报：百度千帆托管 GLM-5.3 输入 6.9→8；第三方渠道价只记价差不参与一致性判定
+pricemon,Zhipu,glm-5-3,output,28.00,CNY,1M tokens,reseller,standard,2026-11-18,https://pricemon.net/,日报：百度千帆托管 GLM-5.3 输出 24→28
+mozhenzhen,WorkBuddy,workbuddy-credits,credits_per_1m,54.0,credits,1M tokens,first_party,standard,2026-11-19,https://www.bilibili.com/video/BV1Y7xw6fEgH,缓存95%/未命中5%/输出0.5%口径下每百万token扣54积分
+mozhenzhen,Volcengine,volcengine-coding-lite,limit_5h,1200,requests,5h,first_party,standard,2026-11-19,https://www.bilibili.com/video/BV1Y7xw6fEgH,实测：5小时仅1200次；GLM长对话一轮约耗830次
+mozhenzhen,Baidu,baidu-token-lite,token_per_credit,2600000000,token,month,first_party,promo,2026-11-19,https://www.bilibili.com/video/BV1Y7xw6fEgH,积分制夜间叠满约26亿token/月≈官方0.9折；推算未实测
+llmprice_plans,OpenAI,gpt-6-luna,output,0.50,USD,1M tokens,first_party,standard,2026-11-18,https://llmprice.gitlab.io/,订阅视图给出套餐胜过API的用量临界点
+llmstatus,OpenAI,status,availability_probe,1,flag,bool,monitor,standard,2026-11-19,https://llmstatus.io/methodology,7地域30-60s真实推理探测；429计入错误率
+local_benchmarks,Local,rtx-5060ti-16g,tok_s,25,token/s,decode,measured,standard,2026-11-19,https://post.smzdm.com/p/a2679p7n/,Qwen3.8-27B IQ3 实测；个人样本非受控
+local_benchmarks,Local,rtx-4090,tok_s,43,token/s,decode,measured,standard,2026-11-19,https://llm-speed.com/m/qwen3-32b,Qwen3-32B Q4_K_M 短对话 decode 基准
+arguslm,Local,ollama,tok_s,0,token/s,decode,self_host,standard,2026-11-19,https://github.com/bluet/arguslm,建议自托管实测回灌；本表留0表示尚未采集

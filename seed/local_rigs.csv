@@ -1,0 +1,9 @@
+rig,model,quant,hardware_cny,depreciation_years,power_w,electricity_cny_kwh,tok_s,utilization,source_url,verified_at,source_type,price_version,note
+单卡 RTX 5060Ti 16G,Qwen3.8-27B,IQ3,5000,3,250,0.55,25,0.30,https://post.smzdm.com/p/a2679p7n/,2026-11-19,community_measured,v20261119,16G是能玩线;高强度推理降到约20 tok/s;上下文勉强96k
+单卡 RTX 4080 16G(已有),Qwen3.8-27B,Q3_K_XL,0,3,250,0.55,42,0.30,https://post.smzdm.com/p/a2679p7n/,2026-11-19,community_measured,v20261119,旧设备=最大隐藏折扣;硬件成本按0计仅算电费
+双卡 RTX 5060Ti 16G,Qwen3.8-27B,Q5,10000,3,410,0.55,40,0.30,https://post.smzdm.com/p/a2679p7n/,2026-11-19,community_measured,v20261119,支持长上下文;整机功耗为推算
+MacBook Air M5 32G(已有),Qwen3.6-35B-A3B,4bit,0,3,60,0.55,52,0.30,https://post.smzdm.com/p/a2679p7n/,2026-11-19,community_measured,v20261119,统一内存;MoE低比特量化可能出现门问题/死循环
+RTX 5070Ti,Gemma4-26B,QAT,9300,3,300,0.55,110,0.30,https://post.smzdm.com/p/a2679p7n/,2026-11-19,community_measured,v20261119,文档翻译场景实测;非通用对话基准
+Mac mini(新购/轻负载),小模型/8B,Q4,4500,4,40,0.55,20,0.10,https://www.util.cn/blog/articles/local-vs-api-cost,2026-11-19,community_estimate,v20261119,轻度用量(50万token/月)API约4元 vs 折旧约92元;API完胜
+RTX 4090 工作站(重度),Qwen3-32B,Q4_K_M,22000,4,450,0.55,43,0.60,https://www.util.cn/blog/articles/local-vs-api-cost,2026-11-19,community_estimate,v20261119,重度1亿token/月:折旧333+电费115 vs API约800元;本地明显胜
+A100/H100 整机,671B MoE,低比特,1100000,3,6500,0.80,300,0.45,https://llm-speed.com/m/qwen3-32b,2026-11-19,estimate,v20261119,粗估;KV cache/offload/PCIe带宽会显著改变实际速度;前期资本与工程风险极高

@@ -1,0 +1,61 @@
+date,provider,model,currency,input,output,cache_hit,unit,price_kind,basis,source_id,source_url,note
+2026-08-19,Alibaba,qwen3-8-max,CNY,12.00,36.00,1.50,1M tokens,standard,carry,official,https://bailian.console.aliyun.com/#/model-market/detail/qwen3.8-max,10-29 TokenRhythm 渠道限时 5 折 6/18 元，官方价未变；窗口内未发现调价记录，按现值回溯
+2026-08-19,Anthropic,claude-sonnet-5,USD,2.00,10.00,0.20,1M tokens,standard,event,official,https://platform.claude.com/docs/en/about-claude/pricing,2026-09-01 前官方价；缓存按当期 10% 比例反推
+2026-08-19,Baidu,ernie-5-5-flash-preview,CNY,0.36,1.44,0.036,1M tokens,offpeak+promo,carry,official,https://cloud.baidu.com/product/qianfan_home/model_3.html,空闲时段+限时 5 折，活动至 2026-11-30；高峰价 0.72/2.88；窗口内未发现调价记录，按现值回溯
+2026-08-19,DeepSeek,deepseek-v4-1-flash,USD,0.15,0.60,0.006,1M tokens,offpeak,carry,official,https://api-docs.deepseek.com/quick_start/pricing/,低谷价口径，高峰翻倍；周末夜间半价；窗口内未发现调价记录，按现值回溯
+2026-08-19,DeepSeek,deepseek-v4-pro,USD,0.66,1.98,,1M tokens,offpeak,carry,official,https://api-docs.deepseek.com/quick_start/pricing/,低谷价口径；缓存价独立计费；窗口内未发现调价记录，按现值回溯
+2026-08-19,Google,gemini-3-6-flash,USD,0.75,3.75,0.075,1M tokens,standard,carry,official,https://ai.google.dev/gemini-api/docs/pricing,窗口内未发现调价记录，按现值回溯
+2026-08-19,MiniMax,minimax-m3-1-flash,CNY,1.00,4.00,0.10,1M tokens,standard,carry,official,https://platform.minimax.cn/docs/pricing/overview,窗口内未发现调价记录，按现值回溯
+2026-08-19,Mistral,mistral-large-4,USD,0.70,2.10,0.07,1M tokens,standard,carry,official,https://mistral.ai/pricing,2026-11-04 官方页复核未变（此前由促销价 0.68/2.09 更正）；窗口内未发现调价记录，按现值回溯
+2026-08-19,Moonshot,kimi-k3-1-pro,CNY,13.00,68.00,1.30,1M tokens,standard,carry,official,https://platform.moonshot.cn/docs/pricing/chat-k3,窗口内未发现调价记录，按现值回溯
+2026-08-19,OpenAI,gpt-6-luna,USD,0.10,0.50,0.01,1M tokens,standard,carry,official,https://openai.com/api/pricing/,窗口内未发现调价记录，按现值回溯
+2026-08-19,Tencent,hy4-flash,CNY,0.50,2.00,0.02,1M tokens,standard,carry,official,https://www.tencent.com/tencent-launches-hy4-flash-to-power-high-speed-cost-efficient-ai-deployment-for-everyday-workflows,窗口内未发现调价记录，按现值回溯
+2026-08-19,Volcengine,doubao-seed-2-0-mini,CNY,0.40,4.00,,1M tokens,standard,carry,official,https://ark.volcengine.com/region:cn-beijing/docs/ark/model-pricing,窗口内未发现调价记录，按现值回溯
+2026-08-19,Zhipu,glm-5-3,CNY,8.00,28.00,2.00,1M tokens,standard,carry,official,https://open.bigmodel.cn/pricing,11-18 百度千帆托管 6.9→8 / 24→28，官方价未变；窗口内未发现调价记录，按现值回溯
+2026-08-19,Zhipu,glm-5-3-flash,CNY,0.80,8.00,0.56,1M tokens,standard,event,official,https://open.bigmodel.cn/pricing,输出 8 元时期，缓存 0.56（11-18 日报记录 8→2.8 / 0.56→0.23）
+2026-08-19,xAI,grok-4-7,USD,2.00,6.00,,1M tokens,standard,carry,official,https://www.x.ai/news/grok-47,窗口内未发现调价记录，按现值回溯
+2026-09-19,Alibaba,qwen3-8-max,CNY,12.00,36.00,1.50,1M tokens,standard,carry,official,https://bailian.console.aliyun.com/#/model-market/detail/qwen3.8-max,10-29 TokenRhythm 渠道限时 5 折 6/18 元，官方价未变；窗口内未发现调价记录，按现值回溯
+2026-09-19,Anthropic,claude-sonnet-5,USD,3.00,15.00,0.30,1M tokens,standard,event,official,https://platform.claude.com/docs/en/about-claude/pricing,2026-09-01 起由 2/10 调为 3/15，缓存写入 6.25
+2026-09-19,Baidu,ernie-5-5-flash-preview,CNY,0.36,1.44,0.036,1M tokens,offpeak+promo,carry,official,https://cloud.baidu.com/product/qianfan_home/model_3.html,空闲时段+限时 5 折，活动至 2026-11-30；高峰价 0.72/2.88；窗口内未发现调价记录，按现值回溯
+2026-09-19,DeepSeek,deepseek-v4-1-flash,USD,0.15,0.60,0.006,1M tokens,offpeak,carry,official,https://api-docs.deepseek.com/quick_start/pricing/,低谷价口径，高峰翻倍；周末夜间半价；窗口内未发现调价记录，按现值回溯
+2026-09-19,DeepSeek,deepseek-v4-pro,USD,0.66,1.98,,1M tokens,offpeak,carry,official,https://api-docs.deepseek.com/quick_start/pricing/,低谷价口径；缓存价独立计费；窗口内未发现调价记录，按现值回溯
+2026-09-19,Google,gemini-3-6-flash,USD,0.75,3.75,0.075,1M tokens,standard,carry,official,https://ai.google.dev/gemini-api/docs/pricing,窗口内未发现调价记录，按现值回溯
+2026-09-19,MiniMax,minimax-m3-1-flash,CNY,1.00,4.00,0.10,1M tokens,standard,carry,official,https://platform.minimax.cn/docs/pricing/overview,窗口内未发现调价记录，按现值回溯
+2026-09-19,Mistral,mistral-large-4,USD,0.70,2.10,0.07,1M tokens,standard,carry,official,https://mistral.ai/pricing,2026-11-04 官方页复核未变（此前由促销价 0.68/2.09 更正）；窗口内未发现调价记录，按现值回溯
+2026-09-19,Moonshot,kimi-k3-1-pro,CNY,13.00,68.00,1.30,1M tokens,standard,carry,official,https://platform.moonshot.cn/docs/pricing/chat-k3,窗口内未发现调价记录，按现值回溯
+2026-09-19,OpenAI,gpt-6-luna,USD,0.10,0.50,0.01,1M tokens,standard,carry,official,https://openai.com/api/pricing/,窗口内未发现调价记录，按现值回溯
+2026-09-19,Tencent,hy4-flash,CNY,0.50,2.00,0.02,1M tokens,standard,carry,official,https://www.tencent.com/tencent-launches-hy4-flash-to-power-high-speed-cost-efficient-ai-deployment-for-everyday-workflows,窗口内未发现调价记录，按现值回溯
+2026-09-19,Volcengine,doubao-seed-2-0-mini,CNY,0.40,4.00,,1M tokens,standard,carry,official,https://ark.volcengine.com/region:cn-beijing/docs/ark/model-pricing,窗口内未发现调价记录，按现值回溯
+2026-09-19,Zhipu,glm-5-3,CNY,8.00,28.00,2.00,1M tokens,standard,carry,official,https://open.bigmodel.cn/pricing,11-18 百度千帆托管 6.9→8 / 24→28，官方价未变；窗口内未发现调价记录，按现值回溯
+2026-09-19,Zhipu,glm-5-3-flash,CNY,0.80,8.00,0.56,1M tokens,standard,event,official,https://open.bigmodel.cn/pricing,同 8 月；变动落在 9 月下旬至 10 月上旬之间
+2026-09-19,xAI,grok-4-7,USD,2.00,6.00,,1M tokens,standard,carry,official,https://www.x.ai/news/grok-47,窗口内未发现调价记录，按现值回溯
+2026-10-19,Alibaba,qwen3-8-max,CNY,12.00,36.00,1.50,1M tokens,standard,carry,official,https://bailian.console.aliyun.com/#/model-market/detail/qwen3.8-max,10-29 TokenRhythm 渠道限时 5 折 6/18 元，官方价未变；窗口内未发现调价记录，按现值回溯
+2026-10-19,Anthropic,claude-sonnet-5,USD,3.00,15.00,0.30,1M tokens,standard,official,official,https://platform.claude.com/docs/en/about-claude/pricing,官方现价
+2026-10-19,Baidu,ernie-5-5-flash-preview,CNY,0.36,1.44,0.036,1M tokens,offpeak+promo,carry,official,https://cloud.baidu.com/product/qianfan_home/model_3.html,空闲时段+限时 5 折，活动至 2026-11-30；高峰价 0.72/2.88；窗口内未发现调价记录，按现值回溯
+2026-10-19,DeepSeek,deepseek-v4-1-flash,USD,0.15,0.60,0.006,1M tokens,offpeak,carry,official,https://api-docs.deepseek.com/quick_start/pricing/,低谷价口径，高峰翻倍；周末夜间半价；窗口内未发现调价记录，按现值回溯
+2026-10-19,DeepSeek,deepseek-v4-pro,USD,0.66,1.98,,1M tokens,offpeak,carry,official,https://api-docs.deepseek.com/quick_start/pricing/,低谷价口径；缓存价独立计费；窗口内未发现调价记录，按现值回溯
+2026-10-19,Google,gemini-3-6-flash,USD,0.75,3.75,0.075,1M tokens,standard,carry,official,https://ai.google.dev/gemini-api/docs/pricing,窗口内未发现调价记录，按现值回溯
+2026-10-19,MiniMax,minimax-m3-1-flash,CNY,1.00,4.00,0.10,1M tokens,standard,carry,official,https://platform.minimax.cn/docs/pricing/overview,窗口内未发现调价记录，按现值回溯
+2026-10-19,Mistral,mistral-large-4,USD,0.70,2.10,0.07,1M tokens,standard,carry,official,https://mistral.ai/pricing,2026-11-04 官方页复核未变（此前由促销价 0.68/2.09 更正）；窗口内未发现调价记录，按现值回溯
+2026-10-19,Moonshot,kimi-k3-1-pro,CNY,13.00,68.00,1.30,1M tokens,standard,carry,official,https://platform.moonshot.cn/docs/pricing/chat-k3,窗口内未发现调价记录，按现值回溯
+2026-10-19,OpenAI,gpt-6-luna,USD,0.10,0.50,0.01,1M tokens,standard,carry,official,https://openai.com/api/pricing/,窗口内未发现调价记录，按现值回溯
+2026-10-19,Tencent,hy4-flash,CNY,0.50,2.00,0.02,1M tokens,standard,carry,official,https://www.tencent.com/tencent-launches-hy4-flash-to-power-high-speed-cost-efficient-ai-deployment-for-everyday-workflows,窗口内未发现调价记录，按现值回溯
+2026-10-19,Volcengine,doubao-seed-2-0-mini,CNY,0.40,4.00,,1M tokens,standard,carry,official,https://ark.volcengine.com/region:cn-beijing/docs/ark/model-pricing,窗口内未发现调价记录，按现值回溯
+2026-10-19,Zhipu,glm-5-3,CNY,8.00,28.00,2.00,1M tokens,standard,carry,official,https://open.bigmodel.cn/pricing,11-18 百度千帆托管 6.9→8 / 24→28，官方价未变；窗口内未发现调价记录，按现值回溯
+2026-10-19,Zhipu,glm-5-3-flash,CNY,0.80,2.80,0.23,1M tokens,standard,event,official,https://open.bigmodel.cn/pricing,10-29 日报已记常设价 0.8/2.8，11-18 为追记
+2026-10-19,xAI,grok-4-7,USD,2.00,6.00,,1M tokens,standard,carry,official,https://www.x.ai/news/grok-47,窗口内未发现调价记录，按现值回溯
+2026-11-19,Alibaba,qwen3-8-max,CNY,12.00,36.00,1.50,1M tokens,standard,official,official,https://bailian.console.aliyun.com/#/model-market/detail/qwen3.8-max,10-29 TokenRhythm 渠道限时 5 折 6/18 元，官方价未变
+2026-11-19,Anthropic,claude-sonnet-5,USD,3.00,15.00,0.30,1M tokens,standard,official,official,https://platform.claude.com/docs/en/about-claude/pricing,官方现价
+2026-11-19,Baidu,ernie-5-5-flash-preview,CNY,0.36,1.44,0.036,1M tokens,offpeak+promo,official,official,https://cloud.baidu.com/product/qianfan_home/model_3.html,空闲时段+限时 5 折，活动至 2026-11-30；高峰价 0.72/2.88
+2026-11-19,DeepSeek,deepseek-v4-1-flash,USD,0.15,0.60,0.006,1M tokens,offpeak,official,official,https://api-docs.deepseek.com/quick_start/pricing/,低谷价口径，高峰翻倍；周末夜间半价
+2026-11-19,DeepSeek,deepseek-v4-pro,USD,0.66,1.98,,1M tokens,offpeak,official,official,https://api-docs.deepseek.com/quick_start/pricing/,低谷价口径；缓存价独立计费
+2026-11-19,Google,gemini-3-6-flash,USD,0.75,3.75,0.075,1M tokens,standard,official,official,https://ai.google.dev/gemini-api/docs/pricing,官方现价
+2026-11-19,MiniMax,minimax-m3-1-flash,CNY,1.00,4.00,0.10,1M tokens,standard,official,official,https://platform.minimax.cn/docs/pricing/overview,官方现价
+2026-11-19,Mistral,mistral-large-4,USD,0.70,2.10,0.07,1M tokens,standard,official,official,https://mistral.ai/pricing,2026-11-04 官方页复核未变（此前由促销价 0.68/2.09 更正）
+2026-11-19,Moonshot,kimi-k3-1-pro,CNY,13.00,68.00,1.30,1M tokens,standard,official,official,https://platform.moonshot.cn/docs/pricing/chat-k3,官方现价
+2026-11-19,OpenAI,gpt-6-luna,USD,0.10,0.50,0.01,1M tokens,standard,official,official,https://openai.com/api/pricing/,官方现价
+2026-11-19,Tencent,hy4-flash,CNY,0.50,2.00,0.02,1M tokens,standard,official,official,https://www.tencent.com/tencent-launches-hy4-flash-to-power-high-speed-cost-efficient-ai-deployment-for-everyday-workflows,官方现价
+2026-11-19,Volcengine,doubao-seed-2-0-mini,CNY,0.40,4.00,,1M tokens,standard,official,official,https://ark.volcengine.com/region:cn-beijing/docs/ark/model-pricing,官方现价
+2026-11-19,Zhipu,glm-5-3,CNY,8.00,28.00,2.00,1M tokens,standard,official,official,https://open.bigmodel.cn/pricing,11-18 百度千帆托管 6.9→8 / 24→28，官方价未变
+2026-11-19,Zhipu,glm-5-3-flash,CNY,0.80,2.80,0.23,1M tokens,standard,official,official,https://open.bigmodel.cn/pricing,官方现价（含 10-29 限时 5 折 0.4/1.4 活动）
+2026-11-19,xAI,grok-4-7,USD,2.00,6.00,,1M tokens,standard,official,official,https://www.x.ai/news/grok-47,官方现价

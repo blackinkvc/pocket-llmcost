@@ -1,0 +1,141 @@
+name: build
+
+# 打 tag（v1.0.0 这种）就出三平台可执行包，挂到 Release 上；
+# 手动跑只出 artifact，不动 Release。
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    name: ${{ matrix.asset }}
+    runs-on: ${{ matrix.os }}
+    # arm64 runner 只在公开仓库免费；拿不到就让这一个 job 失败，别拖累另外三个
+    continue-on-error: ${{ matrix.optional || false }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-14-arm64
+            asset: llmcost-macos-arm64
+            optional: true
+          - os: macos-13
+            asset: llmcost-macos-x64
+          - os: windows-latest
+            asset: llmcost-windows-x64
+          - os: ubuntu-latest
+            asset: llmcost-linux-x64
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 装 PyInstaller
+        run: python -m pip install --upgrade pip pyinstaller
+
+      - name: 打包
+        run: pyinstaller build/llmcost.spec --distpath build/dist --workpath build/work --noconfirm
+
+      - name: 冒烟（打得出、跑得起来）
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" = "Windows" ]; then BIN=build/dist/llmcost.exe; else BIN=build/dist/llmcost; fi
+          chmod +x "$BIN" 2>/dev/null || true
+          "$BIN" --version
+          ls -lh "$BIN"
+
+      - name: 冒烟（能起服务、接口通）
+        shell: bash
+        env:
+          LLMCOST_DIR: ${{ runner.temp }}/lc
+        run: |
+          if [ "$RUNNER_OS" = "Windows" ]; then BIN=build/dist/llmcost.exe; else BIN=build/dist/llmcost; fi
+          "$BIN" --serve --no-open --port 8799 &
+          for i in $(seq 1 40); do
+            sleep 1
+            if curl -sf http://127.0.0.1:8799/api/ping > /dev/null; then break; fi
+          done
+          curl -sf http://127.0.0.1:8799/api/ping
+          echo
+          curl -sf -o /dev/null -w "首页 HTTP %{http_code}\n" http://127.0.0.1:8799/
+
+      - name: 压缩
+        shell: bash
+        env:
+          ASSET: ${{ matrix.asset }}
+        run: |
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            python -c "import shutil; shutil.make_archive('$ASSET','zip','build/dist')"
+          elif [ "$RUNNER_OS" = "macOS" ]; then
+            (cd build/dist && zip -q -r "../../$ASSET.zip" llmcost)
+          else
+            tar -czf "$ASSET.tar.gz" -C build/dist llmcost
+          fi
+          ls -lh "$ASSET".*
+
+      - name: 校验和
+        shell: bash
+        env:
+          ASSET: ${{ matrix.asset }}
+        run: |
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            python -c "
+import hashlib,glob,pathlib
+for f in glob.glob('$ASSET.zip'):
+    h=hashlib.sha256(pathlib.Path(f).read_bytes()).hexdigest()
+    pathlib.Path(f+'.sha256').write_text('%s  %s\n' % (h,f))
+"
+          else
+            shasum -a 256 "$ASSET".* | grep -v '\.sha256$' > "$ASSET.sha256" || true
+          fi
+          cat "$ASSET.sha256"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset }}
+          path: |
+            ${{ matrix.asset }}.zip
+            ${{ matrix.asset }}.tar.gz
+            ${{ matrix.asset }}.sha256
+          if-no-files-found: error
+
+  release:
+    needs: package
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: assets
+          merge-multiple: true
+
+      - name: 列一下要发的东西
+        run: ls -lhR assets
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: assets/*
+          generate_release_notes: true
+          body: |
+            ## Token 价格追踪 ${{ github.ref_name }}
+
+            线上站点：<https://blackinkvc.github.io/pocket-llmcost/llmcost/download.html>
+
+            | 平台 | 文件 |
+            | --- | --- |
+            | macOS · Apple 芯片 | `llmcost-macos-arm64.zip` |
+            | macOS · Intel | `llmcost-macos-x64.zip` |
+            | Windows · 64 位 | `llmcost-windows-x64.zip` |
+            | Linux · x86_64 | `llmcost-linux-x64.tar.gz` |
+
+            解压后直接运行 `llmcost`（Windows 是 `llmcost.exe`），浏览器会自动打开
+            <http://127.0.0.1:8776/>。未签名，首次打开按下载页里「装完打不开」那节处理。
+
+            `.sha256` 是校验和文件。

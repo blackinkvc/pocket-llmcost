@@ -1,0 +1,224 @@
+date,platform_id,model,tier,currency,input,output,cache_hit,unit,basis,source,note
+2026-08-19,anthropic,claude-sonnet-5,standard,USD,2.00,10.00,0.20,1M tokens,event,price_history.csv,2026-09-01 前官方价；缓存按当期 10% 比例反推
+2026-08-19,deepseek,deepseek-v4-1-flash,offpeak,USD,0.15,0.60,0.006,1M tokens,carry,price_history.csv,低谷价口径，高峰翻倍；周末夜间半价；窗口内未发现调价记录，按现值回溯
+2026-08-19,deepseek,deepseek-v4-pro,offpeak,USD,0.66,1.98,,1M tokens,carry,price_history.csv,低谷价口径；缓存价独立计费；窗口内未发现调价记录，按现值回溯
+2026-08-19,volcengine,doubao-seed-2-0-mini,standard,CNY,0.40,4.00,,1M tokens,carry,price_history.csv,窗口内未发现调价记录，按现值回溯
+2026-08-19,baidu,ernie-5-5-flash-preview,standard,CNY,0.36,1.44,0.036,1M tokens,carry,price_history.csv,空闲时段+限时 5 折，活动至 2026-11-30；高峰价 0.72/2.88；窗口内未发现调价记录，按现值回溯
+2026-08-19,google,gemini-3-6-flash,standard,USD,0.75,3.75,0.075,1M tokens,carry,price_history.csv,窗口内未发现调价记录，按现值回溯
+2026-08-19,zhipu,glm-5-3,standard,CNY,8.00,28.00,2.00,1M tokens,carry,price_history.csv,11-18 百度千帆托管 6.9→8 / 24→28，官方价未变；窗口内未发现调价记录，按现值回溯
+2026-08-19,zhipu,glm-5-3-flash,standard,CNY,0.80,8.00,0.56,1M tokens,event,price_history.csv,输出 8 元时期，缓存 0.56（11-18 日报记录 8→2.8 / 0.56→0.23）
+2026-08-19,openai,gpt-6-luna,standard,USD,0.10,0.50,0.01,1M tokens,carry,price_history.csv,窗口内未发现调价记录，按现值回溯
+2026-08-19,xai,grok-4-7,standard,USD,2.00,6.00,,1M tokens,carry,price_history.csv,窗口内未发现调价记录，按现值回溯
+2026-08-19,tencent,hy4-flash,standard,CNY,0.50,2.00,0.02,1M tokens,carry,price_history.csv,窗口内未发现调价记录，按现值回溯
+2026-08-19,moonshot,kimi-k3-1-pro,standard,CNY,13.00,68.00,1.30,1M tokens,carry,price_history.csv,窗口内未发现调价记录，按现值回溯
+2026-08-19,minimax,minimax-m3-1-flash,standard,CNY,1.00,4.00,0.10,1M tokens,carry,price_history.csv,窗口内未发现调价记录，按现值回溯
+2026-08-19,mistral,mistral-large-4,standard,USD,0.70,2.10,0.07,1M tokens,carry,price_history.csv,2026-11-04 官方页复核未变（此前由促销价 0.68/2.09 更正）；窗口内未发现调价记录，按现值回溯
+2026-08-19,aliyun,qwen3-8-max,standard,CNY,12.00,36.00,1.50,1M tokens,carry,price_history.csv,10-29 TokenRhythm 渠道限时 5 折 6/18 元，官方价未变；窗口内未发现调价记录，按现值回溯
+2026-09-19,anthropic,claude-sonnet-5,standard,USD,3.00,15.00,0.30,1M tokens,event,price_history.csv,2026-09-01 起由 2/10 调为 3/15，缓存写入 6.25
+2026-09-19,deepseek,deepseek-v4-1-flash,offpeak,USD,0.15,0.60,0.006,1M tokens,carry,price_history.csv,低谷价口径，高峰翻倍；周末夜间半价；窗口内未发现调价记录，按现值回溯
+2026-09-19,deepseek,deepseek-v4-pro,offpeak,USD,0.66,1.98,,1M tokens,carry,price_history.csv,低谷价口径；缓存价独立计费；窗口内未发现调价记录，按现值回溯
+2026-09-19,volcengine,doubao-seed-2-0-mini,standard,CNY,0.40,4.00,,1M tokens,carry,price_history.csv,窗口内未发现调价记录，按现值回溯
+2026-09-19,baidu,ernie-5-5-flash-preview,standard,CNY,0.36,1.44,0.036,1M tokens,carry,price_history.csv,空闲时段+限时 5 折，活动至 2026-11-30；高峰价 0.72/2.88；窗口内未发现调价记录，按现值回溯
+2026-09-19,google,gemini-3-6-flash,standard,USD,0.75,3.75,0.075,1M tokens,carry,price_history.csv,窗口内未发现调价记录，按现值回溯
+2026-09-19,zhipu,glm-5-3,standard,CNY,8.00,28.00,2.00,1M tokens,carry,price_history.csv,11-18 百度千帆托管 6.9→8 / 24→28，官方价未变；窗口内未发现调价记录，按现值回溯
+2026-09-19,zhipu,glm-5-3-flash,standard,CNY,0.80,8.00,0.56,1M tokens,event,price_history.csv,同 8 月；变动落在 9 月下旬至 10 月上旬之间
+2026-09-19,openai,gpt-6-luna,standard,USD,0.10,0.50,0.01,1M tokens,carry,price_history.csv,窗口内未发现调价记录，按现值回溯
+2026-09-19,xai,grok-4-7,standard,USD,2.00,6.00,,1M tokens,carry,price_history.csv,窗口内未发现调价记录，按现值回溯
+2026-09-19,tencent,hy4-flash,standard,CNY,0.50,2.00,0.02,1M tokens,carry,price_history.csv,窗口内未发现调价记录，按现值回溯
+2026-09-19,moonshot,kimi-k3-1-pro,standard,CNY,13.00,68.00,1.30,1M tokens,carry,price_history.csv,窗口内未发现调价记录，按现值回溯
+2026-09-19,minimax,minimax-m3-1-flash,standard,CNY,1.00,4.00,0.10,1M tokens,carry,price_history.csv,窗口内未发现调价记录，按现值回溯
+2026-09-19,mistral,mistral-large-4,standard,USD,0.70,2.10,0.07,1M tokens,carry,price_history.csv,2026-11-04 官方页复核未变（此前由促销价 0.68/2.09 更正）；窗口内未发现调价记录，按现值回溯
+2026-09-19,aliyun,qwen3-8-max,standard,CNY,12.00,36.00,1.50,1M tokens,carry,price_history.csv,10-29 TokenRhythm 渠道限时 5 折 6/18 元，官方价未变；窗口内未发现调价记录，按现值回溯
+2026-09-28,azure,claude-sonnet-5,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,bedrock,claude-sonnet-5,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,vertex,claude-sonnet-5,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,baseten,deepseek-v4-1-flash,standard,USD,0.3,1.2,0.007,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,coreweave,deepseek-v4-1-flash,standard,USD,0.2,0.65,0.03,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,together,deepseek-v4-1-flash,standard,USD,0.3,1.2,0.006,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,azure,deepseek-v4-pro,standard,USD,1.74,3.48,0.145,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,deepinfra,deepseek-v4-pro,standard,USD,1.3,2.6,0.1,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,novita,deepseek-v4-pro,standard,USD,1.6,3.2,0.135,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,siliconflow,deepseek-v4-pro,standard,USD,1.50162,3.135,0.135,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,vertex,gemini-3-6-flash,standard,USD,0.75,3.75,0.075,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,baseten,glm-5-3,standard,USD,1.4,4.4,0.14,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,cloudflare,glm-5-3,standard,USD,1.4,4.4,0.26,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,deepinfra,glm-5-3,standard,USD,0.9,4,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,fireworks,glm-5-3,standard,USD,1.4,4.4,0.26,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,friendli,glm-5-3,standard,USD,1.26,3.96,0.234,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,novita,glm-5-3,standard,USD,1.4,4.4,0.26,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,siliconflow,glm-5-3,standard,USD,1.4,4.4,0.26,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,together,glm-5-3,standard,USD,1.4,4.4,0.26,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,zhipu-intl,glm-5-3,standard,USD,1.4,4.4,0.26,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,baseten,glm-5-3-flash,standard,USD,0.15,0.5,0.03,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,deepinfra,glm-5-3-flash,standard,USD,0.15,0.5,0.03,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,fireworks,glm-5-3-flash,standard,USD,0.15,0.5,0.03,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,friendli,glm-5-3-flash,standard,USD,0.15,0.5,0.03,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,siliconflow,glm-5-3-flash,standard,USD,0.15,0.5,0.03,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,together,glm-5-3-flash,standard,USD,0.15,0.5,0.03,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,zhipu-intl,glm-5-3-flash,standard,USD,0.15,0.5,0.03,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,azure,gpt-6-luna,standard,USD,0.1,0.5,0.01,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,bedrock,gpt-6-luna,standard,USD,0.1,0.5,0.01,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,aliyun-intl,qwen3-8-max,standard,USD,2,6,0.25,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；Singapore (International) list price; other regions differ.
+2026-09-28,deepinfra,qwen3-8-max,standard,USD,1.65,4.951,0.206,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,fireworks,qwen3-8-max,standard,USD,2,6,0.25,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-28,novita,qwen3-8-max,standard,USD,2,6,0.25,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-09-29,azure,deepseek-v4-1-flash,standard,USD,0.3,1.2,0.006,1M tokens,snapshot,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；2026-09-29 改过价，之前的价格未知
+2026-10-03,fireworks,deepseek-v4-1-flash,standard,USD,0.3,1.2,0.006,1M tokens,snapshot,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；2026-10-03 改过价，之前的价格未知
+2026-10-03,vertex,grok-4-7,standard,USD,2,6,0.5,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-10-07,bedrock,glm-5-3,standard,USD,1.68,5.28,0.312,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-10-08,azure,grok-4-7,standard,USD,2,6,0.5,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-10-11,novita,deepseek-v4-1-flash,standard,USD,0.3,1.2,0.006,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-10-11,novita,glm-5-3-flash,standard,USD,0.15,0.5,0.03,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-10-19,anthropic,claude-sonnet-5,standard,USD,3.00,15.00,0.30,1M tokens,official,price_history.csv,官方现价
+2026-10-19,deepinfra,deepseek-v4-1-flash,standard,USD,0.14,0.42,0.0042,1M tokens,snapshot,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；2026-10-19 改过价，之前的价格未知
+2026-10-19,deepseek,deepseek-v4-1-flash,offpeak,USD,0.15,0.60,0.006,1M tokens,carry,price_history.csv,低谷价口径，高峰翻倍；周末夜间半价；窗口内未发现调价记录，按现值回溯
+2026-10-19,deepseek,deepseek-v4-pro,offpeak,USD,0.66,1.98,,1M tokens,carry,price_history.csv,低谷价口径；缓存价独立计费；窗口内未发现调价记录，按现值回溯
+2026-10-19,volcengine,doubao-seed-2-0-mini,standard,CNY,0.40,4.00,,1M tokens,carry,price_history.csv,窗口内未发现调价记录，按现值回溯
+2026-10-19,baidu,ernie-5-5-flash-preview,standard,CNY,0.36,1.44,0.036,1M tokens,carry,price_history.csv,空闲时段+限时 5 折，活动至 2026-11-30；高峰价 0.72/2.88；窗口内未发现调价记录，按现值回溯
+2026-10-19,google,gemini-3-6-flash,standard,USD,0.75,3.75,0.075,1M tokens,carry,price_history.csv,窗口内未发现调价记录，按现值回溯
+2026-10-19,zhipu,glm-5-3,standard,CNY,8.00,28.00,2.00,1M tokens,carry,price_history.csv,11-18 百度千帆托管 6.9→8 / 24→28，官方价未变；窗口内未发现调价记录，按现值回溯
+2026-10-19,zhipu,glm-5-3-flash,standard,CNY,0.80,2.80,0.23,1M tokens,event,price_history.csv,10-29 日报已记常设价 0.8/2.8，11-18 为追记
+2026-10-19,openai,gpt-6-luna,standard,USD,0.10,0.50,0.01,1M tokens,carry,price_history.csv,窗口内未发现调价记录，按现值回溯
+2026-10-19,xai,grok-4-7,standard,USD,2.00,6.00,,1M tokens,carry,price_history.csv,窗口内未发现调价记录，按现值回溯
+2026-10-19,tencent,hy4-flash,standard,CNY,0.50,2.00,0.02,1M tokens,carry,price_history.csv,窗口内未发现调价记录，按现值回溯
+2026-10-19,moonshot,kimi-k3-1-pro,standard,CNY,13.00,68.00,1.30,1M tokens,carry,price_history.csv,窗口内未发现调价记录，按现值回溯
+2026-10-19,minimax,minimax-m3-1-flash,standard,CNY,1.00,4.00,0.10,1M tokens,carry,price_history.csv,窗口内未发现调价记录，按现值回溯
+2026-10-19,mistral,mistral-large-4,standard,USD,0.70,2.10,0.07,1M tokens,carry,price_history.csv,2026-11-04 官方页复核未变（此前由促销价 0.68/2.09 更正）；窗口内未发现调价记录，按现值回溯
+2026-10-19,aliyun,qwen3-8-max,standard,CNY,12.00,36.00,1.50,1M tokens,carry,price_history.csv,10-29 TokenRhythm 渠道限时 5 折 6/18 元，官方价未变；窗口内未发现调价记录，按现值回溯
+2026-10-21,fireworks,minimax-m3-1-flash,standard,USD,0.15,0.6,0.015,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-10-24,novita,minimax-m3-1-flash,standard,USD,0.15,0.6,0.015,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-10-25,moonshot-intl,kimi-k3-1-pro,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-10-25,together,minimax-m3-1-flash,standard,USD,0.15,0.6,0.015,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-10-26,novita,kimi-k3-1-pro,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-02,vertex,deepseek-v4-1-flash,standard,USD,0.3,1.2,0.03,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-02,bedrock,grok-4-7,standard,USD,2,6,0.5,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-08,gmi,deepseek-v4-1-flash,standard,USD,0.18,0.72,0.0036,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-08,nebius,deepseek-v4-1-flash,standard,USD,0.3,1.2,0.01,1M tokens,snapshot,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；2026-11-08 改过价，之前的价格未知
+2026-11-08,nebius,deepseek-v4-pro,standard,USD,1.75,3.5,0.14,1M tokens,snapshot,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；2026-11-08 改过价，之前的价格未知
+2026-11-08,gmi,gemini-3-6-flash,standard,USD,1.5,7.5,0.15,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-08,coreweave,glm-5-3,standard,USD,0.75,3,0.19,1M tokens,snapshot,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；2026-11-08 改过价，之前的价格未知
+2026-11-08,gmi,glm-5-3,standard,USD,0.7,2.2,0.13,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-08,nebius,glm-5-3,standard,USD,1.4,4.4,0.26,1M tokens,snapshot,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；2026-11-08 改过价，之前的价格未知
+2026-11-08,gmi,glm-5-3-flash,standard,USD,0.075,0.25,0.015,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-08,nebius,glm-5-3-flash,standard,USD,0.15,0.5,0.03,1M tokens,snapshot,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；2026-11-08 改过价，之前的价格未知
+2026-11-08,gmi,gpt-6-luna,standard,USD,0.1,0.5,0.01,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-08,baseten,kimi-k3-1-pro,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-08,fireworks,kimi-k3-1-pro,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-08,gmi,kimi-k3-1-pro,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-08,nebius,kimi-k3-1-pro,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-08,together,kimi-k3-1-pro,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-08,gmi,minimax-m3-1-flash,standard,USD,0.1125,0.45,0.01125,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-08,nebius,minimax-m3-1-flash,standard,USD,0.15,0.6,0.015,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-08,gmi,qwen3-8-max,standard,USD,2,6,0.25,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-09,databricks,claude-sonnet-5,standard,USD,1.99997,9.99999,0.19999,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-09,databricks,deepseek-v4-1-flash,standard,USD,0.30002,1.20001,0.03003,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-09,databricks,gemini-3-6-flash,standard,USD,0.74998,3.74997,0.07497,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-09,databricks,glm-5-3,standard,USD,1.4,4.39999,0.25998,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-09,databricks,glm-5-3-flash,standard,USD,0.15001,0.50001,0.03003,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-09,databricks,grok-4-7,standard,USD,2.49998,7.50001,0.62503,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-09,databricks,kimi-k3-1-pro,standard,USD,1.99997,9.99999,0.19999,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-10,deepinfra,kimi-k3-1-pro,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-11,minimax-intl,minimax-m3-1-flash,standard,USD,0.15,0.6,0.015,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-12,replicate,claude-sonnet-5,standard,USD,2,10,,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-12,azure,mistral-large-4,standard,USD,0.7,2.1,,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-13,deepinfra,claude-sonnet-5,standard,USD,3,15,,1M tokens,snapshot,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；2026-11-13 改过价，之前的价格未知
+2026-11-13,coreweave,glm-5-3-flash,standard,USD,0.12,0.38,0.02,1M tokens,snapshot,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；2026-11-13 改过价，之前的价格未知
+2026-11-14,chutes,glm-5-3,standard,USD,1.225,3.85,0.245,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-14,gmi,grok-4-7,standard,USD,2,6,0.5,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,azure,claude-sonnet-5,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,bedrock,claude-sonnet-5,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,databricks,claude-sonnet-5,standard,USD,1.99997,9.99999,0.19999,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,deepinfra,claude-sonnet-5,standard,USD,3,15,,1M tokens,snapshot,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；2026-11-13 改过价，之前的价格未知
+2026-11-18,replicate,claude-sonnet-5,standard,USD,2,10,,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,vertex,claude-sonnet-5,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,azure,deepseek-v4-1-flash,standard,USD,0.3,1.2,0.006,1M tokens,snapshot,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；2026-09-29 改过价，之前的价格未知
+2026-11-18,baseten,deepseek-v4-1-flash,standard,USD,0.3,1.2,0.007,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,coreweave,deepseek-v4-1-flash,standard,USD,0.2,0.65,0.03,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,databricks,deepseek-v4-1-flash,standard,USD,0.30002,1.20001,0.03003,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,deepinfra,deepseek-v4-1-flash,standard,USD,0.14,0.42,0.0042,1M tokens,snapshot,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；2026-10-19 改过价，之前的价格未知
+2026-11-18,fireworks,deepseek-v4-1-flash,standard,USD,0.3,1.2,0.006,1M tokens,snapshot,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；2026-10-03 改过价，之前的价格未知
+2026-11-18,gmi,deepseek-v4-1-flash,standard,USD,0.18,0.72,0.0036,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,nebius,deepseek-v4-1-flash,standard,USD,0.3,1.2,0.01,1M tokens,snapshot,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；2026-11-08 改过价，之前的价格未知
+2026-11-18,novita,deepseek-v4-1-flash,standard,USD,0.3,1.2,0.006,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,together,deepseek-v4-1-flash,standard,USD,0.3,1.2,0.006,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,vertex,deepseek-v4-1-flash,standard,USD,0.3,1.2,0.03,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,azure,deepseek-v4-pro,standard,USD,1.74,3.48,0.145,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,deepinfra,deepseek-v4-pro,standard,USD,1.3,2.6,0.1,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,nebius,deepseek-v4-pro,standard,USD,1.75,3.5,0.14,1M tokens,snapshot,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；2026-11-08 改过价，之前的价格未知
+2026-11-18,novita,deepseek-v4-pro,standard,USD,1.6,3.2,0.135,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,siliconflow,deepseek-v4-pro,standard,USD,1.50162,3.135,0.135,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,databricks,gemini-3-6-flash,standard,USD,0.74998,3.74997,0.07497,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,gmi,gemini-3-6-flash,standard,USD,1.5,7.5,0.15,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,vertex,gemini-3-6-flash,standard,USD,0.75,3.75,0.075,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,baseten,glm-5-3,standard,USD,1.4,4.4,0.14,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,bedrock,glm-5-3,standard,USD,1.68,5.28,0.312,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,chutes,glm-5-3,standard,USD,1.225,3.85,0.245,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,cloudflare,glm-5-3,standard,USD,1.4,4.4,0.26,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,coreweave,glm-5-3,standard,USD,0.75,3,0.19,1M tokens,snapshot,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；2026-11-08 改过价，之前的价格未知
+2026-11-18,databricks,glm-5-3,standard,USD,1.4,4.39999,0.25998,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,deepinfra,glm-5-3,standard,USD,0.9,4,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,fireworks,glm-5-3,standard,USD,1.4,4.4,0.26,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,friendli,glm-5-3,standard,USD,1.26,3.96,0.234,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,gmi,glm-5-3,standard,USD,0.7,2.2,0.13,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,nebius,glm-5-3,standard,USD,1.4,4.4,0.26,1M tokens,snapshot,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；2026-11-08 改过价，之前的价格未知
+2026-11-18,novita,glm-5-3,standard,USD,1.4,4.4,0.26,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,siliconflow,glm-5-3,standard,USD,1.4,4.4,0.26,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,together,glm-5-3,standard,USD,1.4,4.4,0.26,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,zhipu-intl,glm-5-3,standard,USD,1.4,4.4,0.26,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,baseten,glm-5-3-flash,standard,USD,0.15,0.5,0.03,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,coreweave,glm-5-3-flash,standard,USD,0.12,0.38,0.02,1M tokens,snapshot,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；2026-11-13 改过价，之前的价格未知
+2026-11-18,databricks,glm-5-3-flash,standard,USD,0.15001,0.50001,0.03003,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,deepinfra,glm-5-3-flash,standard,USD,0.15,0.5,0.03,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,fireworks,glm-5-3-flash,standard,USD,0.15,0.5,0.03,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,friendli,glm-5-3-flash,standard,USD,0.15,0.5,0.03,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,gmi,glm-5-3-flash,standard,USD,0.075,0.25,0.015,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,nebius,glm-5-3-flash,standard,USD,0.15,0.5,0.03,1M tokens,snapshot,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；2026-11-08 改过价，之前的价格未知
+2026-11-18,novita,glm-5-3-flash,standard,USD,0.15,0.5,0.03,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,siliconflow,glm-5-3-flash,standard,USD,0.15,0.5,0.03,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,together,glm-5-3-flash,standard,USD,0.15,0.5,0.03,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,zhipu-intl,glm-5-3-flash,standard,USD,0.15,0.5,0.03,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,azure,gpt-6-luna,standard,USD,0.1,0.5,0.01,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,bedrock,gpt-6-luna,standard,USD,0.1,0.5,0.01,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,gmi,gpt-6-luna,standard,USD,0.1,0.5,0.01,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,azure,grok-4-7,standard,USD,2,6,0.5,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,bedrock,grok-4-7,standard,USD,2,6,0.5,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,databricks,grok-4-7,standard,USD,2.49998,7.50001,0.62503,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,gmi,grok-4-7,standard,USD,2,6,0.5,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,vertex,grok-4-7,standard,USD,2,6,0.5,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,novita,hy4-flash,standard,USD,0.07,0.281,0.003,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,baseten,kimi-k3-1-pro,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,databricks,kimi-k3-1-pro,standard,USD,1.99997,9.99999,0.19999,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,deepinfra,kimi-k3-1-pro,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,fireworks,kimi-k3-1-pro,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,gmi,kimi-k3-1-pro,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,moonshot-intl,kimi-k3-1-pro,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,nebius,kimi-k3-1-pro,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,novita,kimi-k3-1-pro,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,together,kimi-k3-1-pro,standard,USD,2,10,0.2,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,fireworks,minimax-m3-1-flash,standard,USD,0.15,0.6,0.015,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,gmi,minimax-m3-1-flash,standard,USD,0.1125,0.45,0.01125,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,minimax-intl,minimax-m3-1-flash,standard,USD,0.15,0.6,0.015,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,nebius,minimax-m3-1-flash,standard,USD,0.15,0.6,0.015,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,novita,minimax-m3-1-flash,standard,USD,0.15,0.6,0.015,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,together,minimax-m3-1-flash,standard,USD,0.15,0.6,0.015,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,azure,mistral-large-4,standard,USD,0.7,2.1,,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,aliyun-intl,qwen3-8-max,standard,USD,2,6,0.25,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测；Singapore (International) list price; other regions differ.
+2026-11-18,deepinfra,qwen3-8-max,standard,USD,1.65,4.951,0.206,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,fireworks,qwen3-8-max,standard,USD,2,6,0.25,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,gmi,qwen3-8-max,standard,USD,2,6,0.25,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-18,novita,qwen3-8-max,standard,USD,2,6,0.25,1M tokens,snapshot_flat,liutasil_ai_api_prices_2026-11-16.csv,快照 2026-11-18 实测
+2026-11-19,anthropic,claude-sonnet-5,standard,USD,3.00,15.00,0.30,1M tokens,official,price_history.csv,官方现价
+2026-11-19,deepseek,deepseek-v4-1-flash,offpeak,USD,0.15,0.60,0.006,1M tokens,official,price_history.csv,低谷价口径，高峰翻倍；周末夜间半价
+2026-11-19,deepseek,deepseek-v4-pro,offpeak,USD,0.66,1.98,,1M tokens,official,price_history.csv,低谷价口径；缓存价独立计费
+2026-11-19,volcengine,doubao-seed-2-0-mini,standard,CNY,0.40,4.00,,1M tokens,official,price_history.csv,官方现价
+2026-11-19,baidu,ernie-5-5-flash-preview,standard,CNY,0.36,1.44,0.036,1M tokens,official,price_history.csv,空闲时段+限时 5 折，活动至 2026-11-30；高峰价 0.72/2.88
+2026-11-19,google,gemini-3-6-flash,standard,USD,0.75,3.75,0.075,1M tokens,official,price_history.csv,官方现价
+2026-11-19,zhipu,glm-5-3,standard,CNY,8.00,28.00,2.00,1M tokens,official,price_history.csv,11-18 百度千帆托管 6.9→8 / 24→28，官方价未变
+2026-11-19,zhipu,glm-5-3-flash,standard,CNY,0.80,2.80,0.23,1M tokens,official,price_history.csv,官方现价（含 10-29 限时 5 折 0.4/1.4 活动）
+2026-11-19,openai,gpt-6-luna,standard,USD,0.10,0.50,0.01,1M tokens,official,price_history.csv,官方现价
+2026-11-19,xai,grok-4-7,standard,USD,2.00,6.00,,1M tokens,official,price_history.csv,官方现价
+2026-11-19,tencent,hy4-flash,standard,CNY,0.50,2.00,0.02,1M tokens,official,price_history.csv,官方现价
+2026-11-19,moonshot,kimi-k3-1-pro,standard,CNY,13.00,68.00,1.30,1M tokens,official,price_history.csv,官方现价
+2026-11-19,minimax,minimax-m3-1-flash,standard,CNY,1.00,4.00,0.10,1M tokens,official,price_history.csv,官方现价
+2026-11-19,mistral,mistral-large-4,standard,USD,0.70,2.10,0.07,1M tokens,official,price_history.csv,2026-11-04 官方页复核未变（此前由促销价 0.68/2.09 更正）
+2026-11-19,aliyun,qwen3-8-max,standard,CNY,12.00,36.00,1.50,1M tokens,official,price_history.csv,10-29 TokenRhythm 渠道限时 5 折 6/18 元，官方价未变

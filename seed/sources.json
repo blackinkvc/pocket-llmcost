@@ -1,0 +1,146 @@
+{
+  "fx_usd_cny": 7.2,
+  "fx_note": "仅用于图表可比换算，非结算汇率",
+  "snapshot_date": "2026-11-19",
+  "sources": [
+    {
+      "id": "litellm",
+      "name": "LiteLLM model_prices_and_context_window.json",
+      "kind": "open_data",
+      "url": "https://github.com/BerriAI/litellm/blob/main/model_prices_and_context_window.json",
+      "fetch_url": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
+      "update": "每天多次",
+      "weight": 0.95,
+      "covers": ["api"],
+      "note": "事实标准；多数下游项目的数据源；5MB 大文件，默认跳过，--include-heavy 才拉"
+    },
+    {
+      "id": "aicostbudget",
+      "name": "AICostBudget AI API Pricing Dataset",
+      "kind": "open_data",
+      "url": "https://github.com/aicostbudget/ai-api-pricing-data",
+      "fetch_url": "https://raw.githubusercontent.com/aicostbudget/ai-api-pricing-data/main/data/prices.json",
+      "update": "每日 / 每周新鲜度检查",
+      "weight": 0.95,
+      "covers": ["api"],
+      "note": "每条带 official_source_url + last_verified_at；199 模型；本工程已存 2026-11-18 真实快照"
+    },
+    {
+      "id": "liutasil",
+      "name": "Liutasil501/ai-api-prices",
+      "kind": "open_data",
+      "url": "https://github.com/Liutasil501/ai-api-prices",
+      "fetch_url": "https://raw.githubusercontent.com/Liutasil501/ai-api-prices/main/ai-api-prices.csv",
+      "update": "每日",
+      "weight": 0.9,
+      "covers": ["api"],
+      "note": "3018 条报价 / 59 供应商；含 confidence、verifier、source_dataset、last_confirmed；本工程已存真实快照"
+    },
+    {
+      "id": "llmtracker",
+      "name": "MrUnreal/LLMTracker changelog",
+      "kind": "open_data",
+      "url": "https://github.com/MrUnreal/LLMTracker",
+      "fetch_url": "https://raw.githubusercontent.com/MrUnreal/LLMTracker/main/data/changelog/latest.json",
+      "update": "每 6 小时",
+      "weight": 0.85,
+      "covers": ["api", "diff"],
+      "note": "OpenRouter + LiteLLM 双源；按日历史快照 + 价格变更日志"
+    },
+    {
+      "id": "pricemon",
+      "name": "pricemon.net 价格日报 / REST API",
+      "kind": "community_tracker",
+      "url": "https://pricemon.net/",
+      "fetch_url": "https://pricemon.net/api/prices?vendor=DeepSeek",
+      "update": "每日核 30 个官方定价页",
+      "weight": 0.85,
+      "covers": ["api", "diff", "国内"],
+      "note": "独立开发者做 AI 网关被静默调价后自建；tiers/batchOff/retired 字段；RSS 调价推送"
+    },
+    {
+      "id": "openrouter",
+      "name": "OpenRouter /api/v1/models",
+      "kind": "official_aggregate",
+      "url": "https://openrouter.ai/api/v1/models",
+      "fetch_url": "https://openrouter.ai/api/v1/models",
+      "update": "实时",
+      "weight": 0.9,
+      "covers": ["api", "availability"],
+      "note": "同一模型多供应商报价；or-pricing 按 uptime 加权算 expected price"
+    },
+    {
+      "id": "llmprice_plans",
+      "name": "llmprice.gitlab.io 订阅视图",
+      "kind": "community_tracker",
+      "url": "https://llmprice.gitlab.io/",
+      "fetch_url": "",
+      "update": "定期",
+      "weight": 0.8,
+      "covers": ["api", "plans"],
+      "note": "给出 per-token 表 + 固定费率套餐 + 套餐胜过 API 的用量临界点"
+    },
+    {
+      "id": "mozhenzhen",
+      "name": "模真真 B站 BV1Y7xw6fEgH 套餐实测",
+      "kind": "community_measurement",
+      "url": "https://www.bilibili.com/video/BV1Y7xw6fEgH",
+      "fetch_url": "",
+      "update": "人工实测",
+      "weight": 0.75,
+      "covers": ["plans"],
+      "note": "9 家套餐折算每亿 token；区分固定额度制与三档系数制；含 5 小时限额实测"
+    },
+    {
+      "id": "wechat_daily",
+      "name": "公众号 LLM API 价格日报",
+      "kind": "community_tracker",
+      "url": "https://pricemon.net/en/api-docs",
+      "fetch_url": "",
+      "update": "每日",
+      "weight": 0.8,
+      "covers": ["api", "diff", "国内"],
+      "note": "云网融合半月谈 / 爸爸造东西；每天翻国内 20 家官方定价页，记录调价/上下架/活动截止"
+    },
+    {
+      "id": "llmstatus",
+      "name": "llmstatus.io 独立探测",
+      "kind": "open_monitor",
+      "url": "https://llmstatus.io/methodology",
+      "fetch_url": "",
+      "update": "30-60 秒",
+      "weight": 0.9,
+      "covers": ["availability"],
+      "note": "7 地域真实推理探测；429 计入错误率；用于给价格数据加可用性权重"
+    },
+    {
+      "id": "local_benchmarks",
+      "name": "B站/知乎/什么值得买 本地实测汇总",
+      "kind": "community_measurement",
+      "url": "https://post.smzdm.com/p/a2679p7n/",
+      "fetch_url": "",
+      "update": "人工实测",
+      "weight": 0.7,
+      "covers": ["local"],
+      "note": "tok/s 与整机功耗实测样本；非受控对比，只作量级参考"
+    },
+    {
+      "id": "arguslm",
+      "name": "arguslm 本地/云端统一 TTFT-TPS 监控",
+      "kind": "open_tool",
+      "url": "https://github.com/bluet/arguslm",
+      "fetch_url": "",
+      "update": "自托管定时",
+      "weight": 0.8,
+      "covers": ["local", "availability"],
+      "note": "可把 Ollama/LM Studio 的实测 tok/s 回灌成本模型"
+    }
+  ],
+  "accuracy_policy": {
+    "stale_days": 14,
+    "conflict_tolerance": 0.15,
+    "min_sources_for_confirmed": 2,
+    "official_weight": 1.0,
+    "note": "口径不一致(促销/峰谷/缓存/第三方托管)的记录不参与数值比对，标 incomparable；来源不足标 single_source；超时标 stale；缺链接或核验日期标 unverified"
+  }
+}

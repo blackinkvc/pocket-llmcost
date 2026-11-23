@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>价目 · Token 价格追踪 · AI.TRACK</title>
+<meta name="description" content="大模型 API 按量价、订阅套餐、本地部署三个维度的成本台账。API / 订阅 / 本地 / 平台">
+<script>(function(){
+  var t='auto';
+  try{ t = localStorage.getItem('cuntu_theme')||localStorage.getItem('lc_theme') || 'auto'; }catch(e){}
+  var dark = t === 'dark' || (t !== 'light' && window.matchMedia('(prefers-color-scheme:dark)').matches);
+  document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+})();</script>
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../kit/shell.css">
+<link rel="stylesheet" href="assets/lc.css">
+<link rel="stylesheet" href="assets/lc-site.css">
+</head>
+<body>
+
+<a class="skip" href="#pg">跳到卡片</a>
+
+<header class="topbar"><div class="topbar-in"><a class="brand" href="../index.html"><b>AI.TRACK</b><span class="sep">/</span><span class="sub">Token 价格追踪</span></a><nav class="mainnav"><a href="../index.html">首页</a><a href="../models.html">基模</a><a href="../agents.html">Agent</a><a href="../companies.html">公司</a><a href="../hardware.html">硬件</a><a href="../apps.html">应用</a><a href="../principles.html">原理</a><a href="../history.html">历史</a><a href="../local.html">本地部署</a><a href="../cases.html">实例</a><a class="is-active" href="index.html">价格</a></nav><div class="topbar-right"><span class="meta">快照站</span></div></div></header>
+
+<div class="top"><div class="in">
+  <div class="sum" id="sub" aria-live="polite">读取中…</div>
+  <div class="grow"></div>
+  <button class="icobtn" id="btnReport" title="看核验报告" aria-label="看核验报告">
+    <svg viewBox="0 0 24 24"><path d="M6 3.5h9l4 4V20a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1z"/><path d="M14.5 3.5V8H19"/><path d="M8.5 13h7M8.5 16.5h5"/></svg>
+  </button>
+  <button class="icobtn" id="btnTheme" title="切换深浅色" aria-label="切换深浅色">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/></svg>
+  </button>
+  <button class="icobtn" id="btnRefresh" title="重新取数" aria-label="重新取数">
+    <svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5V10h-5.5"/></svg>
+  </button>
+  <nav class="tabs" aria-label="Token 价格追踪"><a href="index.html">总览</a><a href="ranking.html">榜单</a><a href="prices.html" aria-current="page">价目</a><a href="trend.html">走势</a><a href="method.html">口径</a><a href="download.html">下载</a></nav>
+</div></div>
+
+<main class="pg" id="pg">
+
+<section style="--w:4" class="card" data-card="apitable" data-title="API 价目" data-w="4" data-h="10">
+    <div class="card-h">
+      <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16M4 12h16M4 19h16"/><circle cx="8" cy="5" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="10" cy="19" r="1.6"/></svg></span>
+      API 价目明细 <span class="r" id="m-apitable"></span>
+    </div>
+    <div class="card-b" id="b-apitable"><div class="skel"></div></div>
+  </section>
+
+<section style="--w:4" class="card" data-card="plans" data-title="订阅套餐" data-w="4" data-h="7">
+    <div class="card-h">
+      <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg></span>
+      订阅套餐与回本点 <span class="r" id="m-plans"></span>
+    </div>
+    <div class="card-b" id="b-plans"><div class="skel"></div></div>
+  </section>
+
+<section style="--w:4" class="card" data-card="local" data-title="本地部署" data-w="4" data-h="9">
+    <div class="card-h">
+      <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="7" rx="1.6"/><rect x="3" y="13" width="18" height="7" rx="1.6"/><path d="M7 7.5h.01M7 16.5h.01"/></svg></span>
+      本地部署成本 <span class="r" id="m-local"></span>
+    </div>
+    <div class="card-b" id="b-local"><div class="skel short"></div></div>
+  </section>
+
+<section style="--w:4" class="card" data-card="tasks" data-title="任务换算" data-w="4" data-h="7">
+    <div class="card-h">
+      <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M4 12h16M4 17h7"/><path d="M17 5v4"/></svg></span>
+      1 块钱能干什么 <span class="r" id="m-tasks"></span>
+    </div>
+    <div class="card-b" id="b-tasks"><div class="skel"></div></div>
+  </section>
+
+<section style="--w:2" class="card" data-card="panotable" data-title="模型 × 平台" data-w="2" data-h="11">
+    <div class="card-h">
+      <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="8" height="8" rx="1.5"/><rect x="13" y="4" width="8" height="8" rx="1.5"/><rect x="3" y="14" width="8" height="6" rx="1.5"/><rect x="13" y="14" width="8" height="6" rx="1.5"/></svg></span>
+      模型 × 平台报价 <span class="r" id="m-panotable"></span>
+    </div>
+    <div class="card-b" id="b-panotable"><div class="skel"></div></div>
+  </section>
+
+<section style="--w:2" class="card" data-card="platrank" data-title="平台排行" data-w="2" data-h="11">
+    <div class="card-h">
+      <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 20V8M16 20V4"/><path d="M4 20h16"/></svg></span>
+      平台排行 <span class="r" id="m-platrank"></span>
+    </div>
+    <div class="card-b" id="b-platrank"><div class="skel"></div></div>
+  </section>
+
+</main>
+
+<footer class="lcfoot">
+  <a href="../index.html">AI.TRACK</a> · <a href="index.html">Token 价格追踪</a>
+  · <a href="method.html">口径</a> · <a href="download.html">下载本地版</a>
+  <span>数据来自多源交叉校验，快照不定期刷新；过期项以页面标注为准。</span>
+</footer>
+
+</main>
+
+<div class="modal" id="modal">
+  <div class="box">
+    <div class="bh"><b id="mTitle">报告</b><div class="grow"></div>
+      <button class="icobtn" id="mClose" aria-label="关闭报告">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="md" id="mBody">读取中…</div>
+  </div>
+</div>
+
+<script src="assets/lc-engine.js"></script>
+</body>
+</html>

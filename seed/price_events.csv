@@ -1,0 +1,17 @@
+date,model,type,detail,source_url,source_id
+2026-09-01,claude-sonnet-5,调价,Anthropic 将 Sonnet 5 由 2/10 美元调整为 3/15 美元；多家开源价格库至今仍保留旧值,https://platform.claude.com/docs/en/about-claude/pricing,official
+2026-10-29,glm-5-3-flash,限时活动,智谱 GLM-5.3-Flash 限时 5 折 0.4/1.4 元；常设价 0.8/2.8,https://pricemon.net/en/api-docs,wechat_daily
+2026-10-29,glm-5-3,价格同步,公众号日报记录 GLM-5.3 8/28 元 缓存 2 元 多平台同价,https://pricemon.net/en/api-docs,wechat_daily
+2026-10-29,kimi-k3-1-pro,价格同步,公众号日报记录 Kimi-K3.1-Pro 13/68 元 缓存 1.3 元,https://pricemon.net/en/api-docs,wechat_daily
+2026-10-29,minimax-m3-1-flash,价格同步,公众号日报记录 MiniMax-M3.1-Flash 1/4 元 缓存 0.10 元,https://pricemon.net/en/api-docs,wechat_daily
+2026-10-29,qwen3-8-max,渠道促销,TokenRhythm 渠道 Qwen3.8-Max 限时 5 折 6/18 元；官方 12/36,https://pricemon.net/en/api-docs,wechat_daily
+2026-11-08,volcengine-agent-plan,活动到期,火山 Agent Plan Small 首两月 9.9 元活动截止,https://www.bilibili.com/video/BV1Y7xw6fEgH,mozhenzhen
+2026-11-16,liutasil-snapshot,数据快照,Liutasil501 ai-api-prices 3018 条报价快照落盘,https://github.com/Liutasil501/ai-api-prices,liutasil
+2026-11-18,aicostbudget-snapshot,数据快照,AICostBudget 199 模型完成官方来源核验,https://github.com/aicostbudget/ai-api-pricing-data,aicostbudget
+2026-11-18,glm-5-3-flash,调价,pricemon 日报：GLM-5.3-Flash 输出 8→2.8 缓存 0.56→0.23（每千 tokens 口径换算）,https://pricemon.net/,pricemon
+2026-11-18,glm-5-3,渠道调价,百度千帆托管 GLM-5.3 输入 6.9→8 输出 24→28,https://pricemon.net/,pricemon
+2026-11-19,litellm-snapshot,数据快照,LiteLLM price map 拉取并按主表精选 162 条,https://github.com/BerriAI/litellm,litellm
+2026-11-19,llmtracker-snapshot,数据快照,LLMTracker changelog 记录 47 条新增/调价/下线事件,https://github.com/MrUnreal/LLMTracker,llmtracker
+2026-11-30,ernie-5-5-flash-preview,活动到期,百度 ERNIE-5.5-Flash-Preview 空闲时段+限时 5 折结束,https://cloud.baidu.com/product/qianfan_home/model_3.html,official
+2026-11-30,hy4-flash,限免到期,WorkBuddy 内置 Hy4 flash 0.00x 限时免费结束,https://www.codebuddy.cn/docs/workbuddy/Credits,official
+2026-12-30,volcengine-coding-lite,活动到期,火山 Coding Plan Lite 9.9 元限时价到期 原价 40 元,https://www.bilibili.com/video/BV1Y7xw6fEgH,mozhenzhen

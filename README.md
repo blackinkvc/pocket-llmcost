@@ -1,0 +1,169 @@
+# AI.TRACK · 监控台 + Token 价格追踪
+
+> **在线站点**：<https://blackinkvc.github.io/pocket-llmcost/>
+> **实例 01 · 生图实验**：<https://blackinkvc.github.io/pocket-llmcost/lab/>
+> **Token 价格追踪**：<https://blackinkvc.github.io/pocket-llmcost/llmcost/>
+> **下载本地版**：<https://blackinkvc.github.io/pocket-llmcost/llmcost/download.html>
+
+一个仓库装两样东西：**一套只读的静态台账站**（GitHub Pages 直接发），
+**一个能算账的本地小应用**（Python 标准库，免安装依赖）。
+静态站里「价格」那五页就是本地应用的数据快照；本机跑着服务时，那几页会自动切到实时数据。
+
+## 两套东西的关系
+
+| | 静态站（九板块 + 实例 01） | 本地应用（Token 价格追踪） |
+| --- | --- | --- |
+| 怎么跑 | GitHub Pages，纯 HTML/CSS/JS | `python3 llmcost.py --serve`，或下载的可执行包 |
+| 有什么 | 基模 / Agent / 公司 / 硬件 / 应用 / 原理 / 历史 / 本地部署 / 实例 | 18 张卡的算价看板，五页呈现 |
+| 数据 | 人工维护的快照 | 读 CSV 现场算；每天由 Action 落一份快照给线上用 |
+| 依赖 | 无 CDN、无框架、无字体 | 纯标准库，Python ≥ 3.9，断网可用 |
+
+## 门户九板块（只读台账）
+
+| 页面 | 内容 |
+| --- | --- |
+| `index.html` | 门户：九板块入口、近期信号、读法、实例与工具入口 |
+| `models.html` | 基模：闭源旗舰 / 开放权重 / 推理模型台账，三条技术主线 |
+| `agents.html` | Agent：能力栈、MCP / A2A 协议、8 个产品、评测与风险 |
+| `companies.html` | 公司：产业链五层、20 家台账、合作与资本、观察指标 |
+| `hardware.html` | 硬件：prefill / decode 两类瓶颈、12 个型号、显存估算 |
+| `apps.html` | 应用：六类产品、19 个条目、形态变化与选型 |
+| `principles.html` | 原理：推理账、注意力、训练、推理模型、MoE、扩散、量化、评估 |
+| `history.html` | 历史：1943–2025 五个阶段的关键节点 |
+| `local.html` | 本地部署：推理栈、显存档位、硬件路线、常见坑、本机实践 |
+| `cases.html` | 实例索引：01 已上线，02–06 占位与字段规范 |
+
+## 实例 01（`lab/`）
+
+同一台机器、同一批参考图、串行出图。142 行生成台账 × 26 列、128 份候选边车、
+10 张 A/B 对照、8K 海报实验与 H3 实测。判定口径只看服装版型、配色材质、配饰、
+发型轮廓、体型、义体位置，不看脸。
+
+| 页面 | 内容 |
+| --- | --- |
+| `lab/index.html` | 实验档案首页：方案总览、总量指标、口径摘要 |
+| `lab/scheme-*.html` | 六套管线：SDXL 基线、Z-Image Turbo / Base、双采、latent 放大、Krea 2、MOSS |
+| `lab/compare.html` | 横向对比：同 prompt / 同 seed 并排 |
+| `lab/gallery.html` | 案例库：按方案筛选的图墙 |
+| `lab/bench-h3.html` | H3 实测看板 |
+
+根目录下旧的 `scheme-*.html`、`compare.html`、`gallery.html`、`bench-h3.html`
+保留为跳转页，外链不会失效。
+
+## Token 价格追踪（`llmcost/`）
+
+18 张卡拆成五页，数据来自 `llmcost/data/data.json`（由 Action 每天重算）：
+
+| 页面 | 内容 |
+| --- | --- |
+| `llmcost/index.html` | 总览：本轮结论、价格快照、数据规模、全盘水位 |
+| `llmcost/ranking.html` | 榜单：模型天梯榜、价格 × 实力、API 输出价排名 |
+| `llmcost/prices.html` | 价目：API 价目、平台矩阵与排行、订阅套餐、本地部署、任务换算 |
+| `llmcost/trend.html` | 走势：价格曲线、月度矩阵、调价日志、调价事件 |
+| `llmcost/method.html` | 口径：多源交叉校验、来源清单 |
+| `llmcost/download.html` | 下载：按系统给包、校验和、装完打不开怎么办 |
+
+**数据源自动切换**：页面先探一下 `http://127.0.0.1:8776/api/ping`，
+通了就用本机实时数据并在顶部标 `LIVE`，不通就读仓库里的快照（标注生成时间）。
+本地服务只放行 GitHub Pages 与本机来源的跨域读取，别的网站读不到。
+
+## 装本地版
+
+### 下可执行包（不用装 Python）
+
+到 [Releases](https://github.com/blackinkvc/pocket-llmcost/releases/latest) 拿对应平台的包：
+
+| 平台 | 文件 |
+| --- | --- |
+| macOS · Apple 芯片 | `llmcost-macos-arm64.zip` |
+| macOS · Intel | `llmcost-macos-x64.zip` |
+| Windows · 64 位 | `llmcost-windows-x64.zip` |
+| Linux · x86_64 | `llmcost-linux-x64.tar.gz` |
+
+解开直接运行 `llmcost`（Windows 是 `llmcost.exe`），浏览器自动打开 <http://127.0.0.1:8776/>。
+
+未签名：macOS 首次打开要右键 → 打开，或 `xattr -dr com.apple.quarantine <路径>`；
+Windows 弹 SmartScreen 选「更多信息 → 仍要运行」。
+
+### 源码 + 口袋中台插件
+
+```bash
+git clone https://github.com/blackinkvc/pocket-llmcost.git
+cd pocket-llmcost
+./install.sh
+```
+
+`install.sh` 做三件事，可重复执行：把仓库放到 `<中台数据根>/_插件/llmcost`、
+在 `_工作台/plugins.json` 里登记一条 `llmcost`、拉起来等 `/api/ping` 通了再报成功。
+
+常用参数：`--update` 更新、`--restart` 只重启、`--code DIR` / `--data DIR` 换位置、`--no-launch` 只装不启动。
+
+### 不用中台也行
+
+```bash
+python3 llmcost.py --serve            # 默认 8776
+python3 llmcost.py --serve --port 9000
+python3 llmcost.py --snapshot         # 落一份看板 + 报告到 out/
+python3 llmcost.py --json | head      # 打包好的数据打到 stdout
+python3 llmcost.py --version
+```
+
+## 数据怎么刷新
+
+- **线上快照**：`.github/workflows/snapshot.yml` 每天 02:17 UTC 跑一次
+  `tools/make_snapshot.py`，数据有变化才提交；也可以在 Actions 页面手动触发。
+  GitHub 的定时任务在仓库 60 天无活动后会自动停，点一次就恢复。
+- **本地数据**：`llmcost_leaderboard.py` 拉 LMArena + 幻觉率榜，
+  `llmcost_platforms.py` 重建平台价库，`llmcost.py --snapshot` 重算。
+- **改页面**：`llmcost/` 下五页由 `tools/build_pages.py` 从 `llmcost_ui.html`
+  按卡拆分生成；只改样式调 `llmcost/assets/lc-site.css`。
+
+## 目录
+
+```
+index.html … cases.html        门户九板块（静态，无构建）
+lab/                           实例 01 生图实验
+assets/css, assets/img/        站点样式与图（WebP，单张 ≤ 300 KB）
+
+llmcost/                       价格追踪子站（五页 + 下载页）
+  assets/lc.css                18 张卡的内容样式（从 llmcost_ui.html 抽出）
+  assets/lc-engine.js          渲染引擎（含数据源切换）
+  assets/lc-site.css           子站适配层（顶栏、二级 tab、下载页）
+  data/data.json               线上读的快照（Action 每天重算）
+
+llmcost.py                     HTTP 服务（:8776）+ 数据打包
+llmcost_core.py                算账核心：校验 / 出表 / 画 SVG / 写报告
+llmcost_ui.html                本地版的单页界面（五页由它拆分而来）
+llmcost_leaderboard.py         抓 LMArena + 幻觉率榜
+llmcost_platforms.py           平台价库
+pgkit.py / lease.py            中台公共壳 / 按需服务租约
+kit/                           中台共用样式与脚本
+seed/                          种子价目（新装就有东西看）
+tools/make_snapshot.py         生成线上快照
+tools/build_pages.py           把单页拆成五页
+build/llmcost.spec             PyInstaller 打包配置
+install.sh / run.command       安装 / 双击启动
+plugin.json                    中台清单（id / 端口 / 入口 / 分组 / 版本）
+```
+
+## 数据口径
+
+- **快照而不是实时**：门户与实例页是人工维护的知识快照（基线 2025-11）；
+  价格五页由 Action 每日重算，页面标生成时间，过期会标红。
+- **三态写法**：真值直接写；本该有值但未采集写 `—` / `null`；结构上不存在写 `n/a`。
+- **不抄跑分**：没有出处的 benchmark 分数不收录。
+- **价格口径**：默认按输出价 / 百万 token 排；美元价按 `sources.json` 的
+  `fx_usd_cny` 换算，只用于图表可比，不是结算汇率；标「单源待补」的当线索看。
+- **代码和数据分家**：可执行包只带代码与种子价目，用户数据留在
+  `$LLMCOST_DIR` → `~/Documents/AI项目/13-算价` → `~/.pocket-llmcost`，升级不覆盖。
+
+## 隐私与收录
+
+- 页面不出现本机绝对路径与用户名（快照里 `meta.root` 已被剥掉）。
+- 不收录可能涉及成人向、露骨或明确版权角色的图；只用原创科幻角色的技术对照与静物样张。
+- 不发布台账中的个人路径字段与本地数据库。
+
+## 许可
+
+站点文案与排版：CC BY 4.0。图片为个人项目测试产物，仅用于技术展示，不授权商用或二次分发。
+代码部分为个人项目，未附许可证，要用请开 issue 说一声。
