@@ -154,6 +154,7 @@ strong,b{font-weight:600}
 .hero-copy{
   background:var(--card);border:1px solid var(--line);border-radius:9px;
   padding:clamp(18px,2.6vw,30px);
+  display:flex;flex-direction:column;justify-content:center;
 }
 .eyebrow{
   margin:0 0 10px;font-family:var(--mono);font-size:10.5px;
