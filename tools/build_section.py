@@ -438,17 +438,21 @@ def pager_html(sec, prefix=""):
 
 def subnav_html(sec, prefix="", report_page=False):
     cfg = sec.cfg
+    n_b = len(cfg.get("boards") or [])
+    b_anchor = "#board" if n_b <= 1 else "#board-1"
     if report_page:
         return """<div class="subnav">
   <div class="subnav-in">
     <span class="sn-label">%s</span>
     <a href="%s%s">← 回「%s」</a>
-    <a href="%s%s#board">天梯榜</a>
+    <a href="%s%s">天梯榜</a>
     <a href="%s%s#reports">报告</a>
   </div>
 </div>
-""" % (escape(cfg.get("en", "")), prefix + sec.page, "", escape(sec.name),
-       prefix + sec.page, "", prefix + sec.page, "")
+""" % (escape(cfg.get("en", "")),
+       prefix + sec.page, "", escape(sec.name),
+       prefix + sec.page, b_anchor,
+       prefix + sec.page, "")
     n_boards = len(cfg.get("boards") or [])
     board_anchor = "#board" if n_boards <= 1 else "#board-1"
     return """<div class="subnav">
