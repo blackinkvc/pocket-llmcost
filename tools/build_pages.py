@@ -34,6 +34,7 @@ SITE_NAV = [
     ("../history.html", "历史"),
     ("../local.html", "本地部署"),
     ("../cases.html", "实例"),
+    ("../research/index.html", "研究"),
     ("index.html", "价格"),
 ]
 
@@ -200,6 +201,7 @@ def tabs_html(slug):
 
 def page(slug, label, desc, body, theme_js, modal):
     return """<!doctype html>
+<!-- 生成物：由 tools/build_pages.py 从 llmcost_ui.html 生成，手改会被覆盖 -->
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">

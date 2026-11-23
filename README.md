@@ -108,6 +108,57 @@ python3 llmcost.py --json | head      # 打包好的数据打到 stdout
 python3 llmcost.py --version
 ```
 
+## 研究怎么进来（`research/`）
+
+一条研究有四个状态，状态**由文件推出来**，不靠手填：
+
+| 状态 | 判据 | 站点表现 |
+|---|---|---|
+| 整理中 | `items/<slug>/` 有 meta，没有 draft | 占位页：标题 + 摘要 + 原始资料清单，`noindex` |
+| 待审核 | 存在 `items/<slug>/draft.md` | 同上，看板里多一个「通过审核」按钮 |
+| 已上线 | 存在 `published/<slug>.md` | 完整文章页，可被索引，进列表页 |
+
+```bash
+# 1) 投料：把 md / pdf / 截图 / 整个文件夹丢进 research/inbox/，然后
+python3 tools/research.py sync
+
+# 2) 整理：让 AI 按 research/templates/research.md 写 items/<slug>/draft.md，
+#    顺便把 meta.yml 补上 draft_at；slug 想更好看就改
+python3 tools/research.py rename r-20261123-02 multi-agent-orchestration
+
+# 3) 审核：open research/status.html，点「通过审核」
+#    → 打开一个标题为 approve: <slug> 的 issue → Submit
+#    → .github/workflows/approve.yml 校验是仓库主本人发的，定稿、重建、提交、回评、关单
+
+# 本地不想走 issue 也可以直接定稿
+python3 tools/research.py approve multi-agent-orchestration
+```
+
+**审核按钮为什么不直接写仓库**：GitHub Pages 是纯静态，页面上的 `fetch` 没有身份，
+任何"点一下就改仓库"的实现都得把 token 塞进浏览器。这里用 issue 当审核通道——
+用你 GitHub 已有的登录态，token 不进浏览器也不进仓库，每次审核还在 issue 里留了痕。
+
+`research/*.html`、`research/index.html`、`research/status.html` 都是**生成物**，
+手改会在下次 `build` 时被覆盖：改内容改 `items/<slug>/draft.md`，改样式改
+`research/assets/research.css`，改文案改 `tools/research.py` 里的模板串。
+
+## 发布一条命令
+
+```bash
+./tools/preview.sh                 # 本地起 8099 预览，自动打开浏览器
+./tools/publish.sh "改了什么"       # 重建子页 → 断链自检 → 提交 → 推 GitHub
+./tools/publish.sh --dry           # 只看会传哪些文件，不动远端
+./tools/publish.sh "刷新快照" --refresh   # 顺带重算 llmcost 的 data.json
+```
+
+推送走 GitHub REST API（本机到 github.com 的 git 传输被代理挡死），**增量**：
+内容没变的文件不重传，日常改几页只花几个 API 调用。凭证从 macOS 钥匙串读，
+只存一次：
+
+```bash
+security add-generic-password -s pocket-llmcost-gh-token -a "$USER" -w ghp_你的token -U
+```
+
 ## 数据怎么刷新
 
 - **线上快照**：`.github/workflows/snapshot.yml` 每天 02:17 UTC 跑一次
@@ -123,6 +174,13 @@ python3 llmcost.py --version
 ```
 index.html … cases.html        门户九板块（静态，无构建）
 lab/                           实例 01 生图实验
+research/                      研究板块
+  inbox/                       投料区（丢进来的文件会被移走）
+  items/<slug>/                meta.yml + raw/ + draft.md
+  published/                   定稿（有它才算上线）
+  templates/research.md        标准模板
+  index.html / status.html    生成物：研究总览 / 进度看板
+tools/research.py              研究流水线：sync / build / approve / rename / list
 assets/css, assets/img/        站点样式与图（WebP，单张 ≤ 300 KB）
 
 llmcost/                       价格追踪子站（五页 + 下载页）

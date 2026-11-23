@@ -1,0 +1,71 @@
+name: 审核通过并上线
+
+# 网页上的「通过审核」按钮 = 打开一个标题为 approve: <slug> 的 issue。
+# 本工作流只认仓库主本人开的、标题合法的 issue：校验 → 定稿 → 重建 → 提交 → 回评 → 关单。
+# 不需要任何人把 token 放进浏览器或仓库。
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  approve:
+    if: github.event.issue.user.login == github.repository_owner && startsWith(github.event.issue.title, 'approve:')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 解析 slug
+        id: slug
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import os, re
+          title = os.environ["ISSUE_TITLE"]
+          slug = title.split(":", 1)[1].strip()
+          slug = re.sub(r"[^a-z0-9-]", "", slug.lower())
+          print("slug=" + slug)
+          PY
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+
+      - name: 校验条目存在
+        run: |
+          slug="${{ steps.slug.outputs.slug }}"
+          echo "slug=${slug}"
+          [ -n "${slug}" ] || { echo "::error::issue 标题里没有合法 slug"; exit 1; }
+          [ -d "research/items/${slug}" ] || { echo "::error::research/items/${slug} 不存在"; exit 1; }
+          [ -f "research/items/${slug}/draft.md" ] || { echo "::error::没有 draft.md，还不具备上线条件"; exit 1; }
+
+      - name: 定稿并重建页面
+        run: |
+          git config user.name "research-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          python3 tools/research.py approve "${{ steps.slug.outputs.slug }}"
+          python3 tools/check_links.py
+          git add -A research
+          git commit -m "research: 上线 ${{ steps.slug.outputs.slug }}（issue #${{ github.event.issue.number }}）"
+          git push
+
+      - name: 回评并关单
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLUG: ${{ steps.slug.outputs.slug }}
+          NUM: ${{ github.event.issue.number }}
+        run: |
+          gh issue comment "${NUM}" --body "已上线：https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/research/${SLUG}.html
+          状态已从「待审核」变为「已上线」，看板同步更新。"
+          gh issue close "${NUM}"
+
+      - name: 失败时留下原因
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUM: ${{ github.event.issue.number }}
+        run: gh issue comment "${NUM}" --body "定稿失败：看 [这次运行](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) 的日志。常见原因：draft.md 不存在，或 slug 与目录名不一致。"

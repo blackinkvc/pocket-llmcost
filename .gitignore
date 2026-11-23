@@ -17,3 +17,6 @@ __pycache__/
 *.bak-*
 
 # Jekyll：站点是纯静态 HTML，别让它过滤下划线开头的目录
+
+# macOS 外置盘（exFAT）生成的伴生文件
+._*
