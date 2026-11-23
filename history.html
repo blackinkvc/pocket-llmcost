@@ -7,10 +7,11 @@
 <meta name="robots" content="noindex">
 <link rel="canonical" href="principles.html">
 <link rel="stylesheet" href="assets/css/site.css">
-<meta http-equiv="refresh" content="0;url=principles.html">
+<meta http-equiv="refresh" content="0;url=principles.html#e1">
 <script>
-  /* 带着锚点跳，旧链接 history.html#e3 也能落到对应段落 */
-  location.replace('principles.html' + (location.hash || ''));
+  /* 带着锚点跳，旧链接 history.html#e3 也能落到对应段落；
+     不带锚点时默认落到时间线第一篇，别把人丢在页面顶部 */
+  location.replace('principles.html' + (location.hash || '#e1'));
 </script>
 </head>
 <body>
