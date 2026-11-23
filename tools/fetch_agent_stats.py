@@ -21,11 +21,13 @@ GitHub Actions 里用自带的 ${{ secrets.GITHUB_TOKEN }} 即可。
 """
 
 import argparse
+import concurrent.futures
 import datetime as dt
 import json
 import os
 import pathlib
 import sys
+import time
 import urllib.error
 import urllib.request
 
@@ -33,6 +35,12 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 SEC = ROOT / "content" / "agent"
 BOARD_DIR = SEC / "榜"
 DATA_DIR = SEC / "data"
+
+sys.path.insert(0, str(ROOT / "tools"))
+import regions  # noqa: E402  区域判定
+
+# 历史快照保留天数：页面上的时间跨度滑块最长 90 天
+HISTORY_DAYS = 90
 
 UA = "Mozilla/5.0 (compatible; ai-track-stats/1.0)"
 
@@ -45,8 +53,12 @@ CLI = [
     ("@github/copilot", "Copilot CLI", "GitHub"),
     ("@google/gemini-cli", "Gemini CLI", "Google"),
     ("@qwen-code/qwen-code", "Qwen Code", "阿里"),
+    ("@tencent-ai/codebuddy-code", "CodeBuddy Code", "腾讯"),
     ("@continuedev/cli", "Continue CLI", "Continue"),
     ("@musistudio/claude-code-router", "Claude Code Router", "社区"),
+    ("@sourcegraph/amp", "Amp CLI", "Sourcegraph"),
+    ("@charmland/crush", "Crush", "Charm"),
+    ("@iflow-ai/iflow-cli", "iFlow CLI", "心流"),
 ]
 
 # IDE 插件：扩展 ID → (展示名, 厂商)
@@ -56,8 +68,12 @@ VSIX = [
     ("saoudrizwan.claude-dev", "Cline", "Cline"),
     ("Continue.continue", "Continue", "Continue"),
     ("Codeium.codeium", "Windsurf Plugin", "Windsurf"),
+    ("Alibaba-Cloud.tongyi-lingma", "通义灵码 / Qoder", "阿里云"),
     ("RooVeterinaryInc.roo-cline", "Roo Code", "Roo"),
+    ("aminer.codegeex", "CodeGeeX", "智谱"),
     ("sourcegraph.cody-ai", "Cody", "Sourcegraph"),
+    ("Augment.vscode-augment", "Augment", "Augment"),
+    ("BaiduComate.comate", "文心快码 Comate", "百度"),
 ]
 
 SMITHERY_TOP = 15
@@ -97,18 +113,64 @@ def post(url, payload, headers=None, timeout=25):
 
 
 # ── 各数据源 ───────────────────────────────────────────────
-def fetch_npm():
-    rows = []
-    for pkg, name, vendor in CLI:
-        url = "https://api.npmjs.org/downloads/point/last-week/%s" % pkg
-        d = get(url)
-        n = d.get("downloads")
-        if n is None:
-            raise ValueError("npm 返回没有 downloads：%s" % pkg)
-        rows.append({"名称": name, "包名": pkg, "厂商": vendor, "周下载": n,
-                     "期间": "%s ~ %s" % (d.get("start", ""), d.get("end", ""))})
+def fetch_npm(days=HISTORY_DAYS):
+    """拉最近 N 天的每日下载量。
+
+    npm 的 range 接口本身就是时间序列，所以这一榜不需要靠每日快照攒历史，
+    直接给页面 90 天真实曲线，滑块选多长窗口都是真数据。
+    """
+    # npm 的「今天」经常还没结算完，当天值偏低甚至为 0，所以窗口截止到昨天
+    end = dt.date.today() - dt.timedelta(days=1)
+    start = end - dt.timedelta(days=days - 1)
+    rows, series, miss = [], {}, []
+
+    def one(item):
+        pkg, name, vendor = item
+        url = "https://api.npmjs.org/downloads/range/%s:%s/%s" % (start, end, pkg)
+        last = None
+        for attempt in range(3):
+            try:
+                return item, get(url, timeout=30), None
+            except Exception as e:  # noqa: BLE001
+                last = e
+                time.sleep(1.5 * (attempt + 1))
+        return item, None, last
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
+        for (pkg, name, vendor), d, err in pool.map(one, CLI):
+            if err is not None or not isinstance(d, dict) or not d.get("downloads"):
+                miss.append("%s(%s)" % (pkg, err or "空"))
+                continue
+            daily = {x["day"]: int(x.get("downloads") or 0) for x in d["downloads"]}
+            series[pkg] = daily
+            last7 = sorted(daily)[-7:]
+            rows.append({"名称": name, "包名": pkg, "厂商": vendor,
+                         "周下载": sum(daily[k] for k in last7),
+                         "期间": "%s ~ %s" % (last7[0], last7[-1]) if last7 else ""})
+
+    if miss:
+        print("  · npm 缺 %d 个：%s" % (len(miss), ", ".join(miss)))
+        old = load_old("使用量-cli.csv", "包名")
+        old_series = load_npm_series()
+        got = {r["包名"] for r in rows}
+        for pkg, name, vendor in CLI:
+            if pkg in got or pkg not in old:
+                continue
+            try:
+                val = int(float(old[pkg].get("周下载") or 0))
+            except (TypeError, ValueError):
+                val = 0
+            rows.append({"名称": name, "包名": pkg, "厂商": vendor,
+                         "周下载": val, "期间": old[pkg].get("期间", "")})
+            if pkg in old_series:
+                series[pkg] = old_series[pkg]
+                print("      ↺ 沿用旧值与旧曲线：%s" % name)
+            else:
+                print("      ↺ 沿用旧值：%s" % name)
+    if len(rows) < 5:
+        raise ValueError("只拿到 %d 个包，放弃本次写入" % len(rows))
     rows.sort(key=lambda x: -x["周下载"])
-    return rows
+    return rows, series
 
 
 def fetch_vsix():
@@ -147,11 +209,18 @@ def fetch_vsix():
 def fetch_smithery():
     seen, servers = set(), []
     for p in range(1, SMITHERY_PAGES + 1):
-        try:
-            d = get("https://api.smithery.ai/servers?page=%d&pageSize=%d" % (p, SMITHERY_PAGE_SIZE),
-                    timeout=35)
-        except Exception as e:  # noqa: BLE001
-            print("  · 第 %d 页跳过：%s" % (p, e))
+        d = None
+        for attempt in range(3):
+            try:
+                d = get("https://api.smithery.ai/servers?page=%d&pageSize=%d" % (p, SMITHERY_PAGE_SIZE),
+                        timeout=45)
+                break
+            except Exception as e:  # noqa: BLE001
+                if attempt == 2:
+                    print("  · 第 %d 页跳过：%s" % (p, e))
+                else:
+                    time.sleep(2 * (attempt + 1))
+        if not d:
             continue
         for s in d.get("servers", []):
             qn = s.get("qualifiedName")
@@ -166,9 +235,10 @@ def fetch_smithery():
                             "说明": desc,
                             "调用量": int(s.get("useCount") or 0),
                             "官方": "是" if s.get("bySmithery") else ""})
-    total = 0
-    d1 = get("https://api.smithery.ai/servers?page=1&pageSize=1")
-    total = (d1.get("pagination") or {}).get("totalCount", 0)
+    total = get("https://api.smithery.ai/servers?page=1&pageSize=1", timeout=45)
+    total = (total.get("pagination") or {}).get("totalCount", 0)
+    if not servers:
+        raise ValueError("一页都没拿到")
     servers.sort(key=lambda x: -x["调用量"])
     return servers[:SMITHERY_TOP], total, len(servers)
 
@@ -222,16 +292,52 @@ def fetch_counts(smithery_total):
 # ── 写盘 ───────────────────────────────────────────────────
 def write_csv(path, rows, cols, when):
     import csv
-    path.parent.mkdir(parents=True, exist_ok=True)
+    if not path.parent.exists():
+        path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8-sig", newline="") as f:
         w = csv.DictWriter(f, fieldnames=cols)
         w.writeheader()
         for i, r in enumerate(rows, 1):
             r = dict(r)
             r["排名"] = i
+            # 区域：CSV 里显式写了就用，否则按厂商 / 平台 / 标识推断，推不出留空
+            if "区域" in cols and not r.get("区域"):
+                r["区域"] = regions.guess(r.get("厂商"), r.get("平台"),
+                                          r.get("标识"), r.get("名称"))
             r.setdefault("时间", when)
             w.writerow({k: r.get(k, "") for k in cols})
     print("  ✓ %s（%d 行）" % (path.relative_to(ROOT), len(rows)))
+
+
+def load_history():
+    p = DATA_DIR / "history.json"
+    if not p.exists():
+        return {}
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+
+
+def load_npm_series():
+    """上一次抓到的 npm 每日序列，个别包请求失败时用它兜底。"""
+    p = DATA_DIR / "npm-series.json"
+    if not p.exists():
+        return {}
+    try:
+        return json.loads(p.read_text(encoding="utf-8")).get("series", {})
+    except json.JSONDecodeError:
+        return {}
+
+
+def snapshot(history, board_file, rows, key_field, val_field, day):
+    """把今天的值压进历史：{榜文件: {日期: {名称: 值}}}，只留最近 90 天。"""
+    board = history.setdefault(board_file, {})
+    board[day] = {r[key_field]: int(r[val_field]) for r in rows
+                  if r.get(key_field) and str(r.get(val_field, "")).isdigit()}
+    cutoff = (dt.date.fromisoformat(day) - dt.timedelta(days=HISTORY_DAYS - 1)).isoformat()
+    for d in [d for d in board if d < cutoff]:
+        del board[d]
 
 
 def main():
@@ -248,16 +354,22 @@ def main():
             boards = json.loads(stats_path.read_text(encoding="utf-8")).get("boards", {})
         except json.JSONDecodeError:
             boards = {}
+    history = load_history()
 
     print("→ 抓 Agent 榜单")
 
-    # 1) CLI 工具周下载
+    # 1) CLI 工具下载量（npm range：90 天真实每日序列）
     try:
-        rows = fetch_npm()
-        boards["使用量-cli.csv"] = {"source": "npm registry（last-week）", "updated_at": when}
+        rows, series = fetch_npm()
+        boards["使用量-cli.csv"] = {"source": "npm registry（range，最近 90 天）", "updated_at": when}
         if not args.check:
             write_csv(BOARD_DIR / "使用量-cli.csv", rows,
-                      ["排名", "名称", "包名", "厂商", "周下载", "期间"], when)
+                      ["排名", "名称", "包名", "厂商", "区域", "周下载", "期间"], when)
+            (DATA_DIR / "npm-series.json").write_text(
+                json.dumps({"generated_at": when, "days": HISTORY_DAYS, "series": series},
+                           ensure_ascii=False) + "\n", encoding="utf-8")
+            print("  ✓ content/agent/data/npm-series.json（%d 个包 × 最长 %d 天）"
+                  % (len(series), HISTORY_DAYS))
         for r in rows[:3]:
             print("      %-22s %12s" % (r["名称"], format(r["周下载"], ",")))
     except Exception as e:  # noqa: BLE001
@@ -270,7 +382,8 @@ def main():
         boards["使用量-ide.csv"] = {"source": "VS Code Marketplace", "updated_at": when}
         if not args.check:
             write_csv(BOARD_DIR / "使用量-ide.csv", rows,
-                      ["排名", "名称", "扩展ID", "厂商", "安装量", "时间"], when)
+                      ["排名", "名称", "扩展ID", "厂商", "区域", "安装量", "时间"], when)
+            snapshot(history, "使用量-ide.csv", rows, "名称", "安装量", day)
         for r in rows[:3]:
             print("      %-22s %12s" % (r["名称"], format(r["安装量"], ",")))
     except Exception as e:  # noqa: BLE001
@@ -285,7 +398,8 @@ def main():
                                    "sample": "%d / %d" % (sample, smithery_total)}
         if not args.check:
             write_csv(BOARD_DIR / "mcp服务器.csv", rows,
-                      ["排名", "名称", "标识", "调用量", "官方", "说明", "时间"], when)
+                      ["排名", "名称", "标识", "区域", "调用量", "官方", "说明", "时间"], when)
+            snapshot(history, "mcp服务器.csv", rows, "名称", "调用量", day)
         for r in rows[:3]:
             print("      %-22s %12s" % (r["名称"], format(r["调用量"], ",")))
             print("      （样本 %d 条 / 平台共 %d）" % (sample, smithery_total))
@@ -300,7 +414,8 @@ def main():
             boards["生态规模.csv"] = {"source": "各平台公开接口", "updated_at": when}
             if not args.check:
                 write_csv(BOARD_DIR / "生态规模.csv", rows,
-                          ["排名", "平台", "类型", "数量", "来源", "时间"], when)
+                          ["排名", "平台", "区域", "类型", "数量", "来源", "时间"], when)
+                snapshot(history, "生态规模.csv", rows, "平台", "数量", day)
             for r in rows[:3]:
                 print("      %-22s %12s" % (r["平台"], format(r["数量"], ",")))
     except Exception as e:  # noqa: BLE001
@@ -308,18 +423,27 @@ def main():
         print("  ✗ 生态规模失败：%s" % e)
 
     print("完成：%d 个榜，%d 处失败" % (len(boards), len(failures)))
-    if failures:
-        for f in failures:
-            print("  ·", f)
-        return 1
+    for f in failures:
+        print("  ·", f)
 
+    # 单个源失败不阻塞其它榜：CSV 里失败的那一榜还是上一次的值，
+    # stats.json 里会记一笔 failures，页面照常生成。
     if not args.check:
-        DATA_DIR.mkdir(parents=True, exist_ok=True)
+        if not DATA_DIR.exists():
+            DATA_DIR.mkdir(parents=True, exist_ok=True)
         payload = {"generated_at": when, "date": day, "boards": boards, "failures": failures}
         (DATA_DIR / "stats.json").write_text(
             json.dumps(payload, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
         print("  ✓ content/agent/data/stats.json")
-    return 0
+        # 历史快照：给时间跨度滑块用。每天一条，最多留 90 天。
+        (DATA_DIR / "history.json").write_text(
+            json.dumps(history, ensure_ascii=False, separators=(",", ":")) + "\n",
+            encoding="utf-8")
+        span = sorted({d for b in history.values() for d in b})
+        print("  ✓ content/agent/data/history.json（%d 天：%s → %s）"
+              % (len(span), span[0] if span else "-", span[-1] if span else "-"))
+    # 少于两个榜成功才算失败，返回非零让 CI 标红
+    return 0 if len(boards) >= 2 else 1
 
 
 if __name__ == "__main__":

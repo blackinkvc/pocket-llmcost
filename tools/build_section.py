@@ -28,6 +28,7 @@ CONTENT = ROOT / "content"
 
 sys.path.insert(0, str(HERE))
 import research as R  # noqa: E402  复用 md 渲染与导航定义
+import regions  # noqa: E402  区域推断（国内 / 国外）
 
 
 # ───────────────────────── 基础解析 ─────────────────────────
@@ -138,6 +139,26 @@ class Section:
         except json.JSONDecodeError:
             return {}
 
+    # 每日快照：{榜文件名: {日期: {名称: 值}}}
+    def history(self):
+        p = self.dir / "data" / "history.json"
+        if not p.exists():
+            return {}
+        try:
+            return json.loads(read(p))
+        except json.JSONDecodeError:
+            return {}
+
+    # npm 的每日下载量：{包名: {日期: 值}}（npm 接口直接给时间序列）
+    def npm_series(self):
+        p = self.dir / "data" / "npm-series.json"
+        if not p.exists():
+            return {}
+        try:
+            return json.loads(read(p)).get("series", {})
+        except json.JSONDecodeError:
+            return {}
+
     # 板块三
     def reports(self):
         if not self.reports_dir.exists():
@@ -220,11 +241,12 @@ def doc_head(title, desc, active, prefix=""):
 <meta name="description" content="%s">
 <link rel="stylesheet" href="%sassets/css/site.css">
 <link rel="stylesheet" href="%sassets/css/section.css">
+<script src="%sassets/js/board.js" defer></script>
 </head>
 <body>
 
 %s
-""" % (escape(title), escape(desc), p, p, topbar_html(active, p))
+""" % (escape(title), escape(desc), p, p, p, topbar_html(active, p))
 
 
 # ───────────────────────── 三个板块 ─────────────────────────
@@ -318,11 +340,47 @@ def human_num(v):
     return format(int(n), ",")
 
 
-def block_board(sec, entry, rows, stat, idx, total):
+def board_mode(entry, rows):
+    """这一榜支持哪些交互。
+
+    flow   — 数值是流水（周下载、调用次数），窗口内取日均
+    stock  — 数值是累计（安装量、仓库数），窗口内取日均新增
+    date   — 没有数值，只有 YYYY-MM，按时间截断
+    region — 只有归属可筛选，其余不动
+    """
+    if entry.get("mode"):
+        return entry["mode"]
+    k_val = (entry.get("fields") or {}).get("value")
+    if not k_val:
+        return "date" if any((r.get("时间") or "").count("-") == 1 for r in rows) else "region"
+    return "stock"
+
+
+def board_series(sec, entry, rows, mode):
+    """把序列整理成 {卡片键: {日期: 值}}，键要和卡片上写的一致。"""
+    f = entry.get("fields") or {}
+    k_name = f.get("name", "名称")
+    out = {}
+    if mode == "npm":
+        raw = sec.npm_series()
+        for r in rows:
+            pkg, name = (r.get("包名") or "").strip(), (r.get(k_name) or "").strip()
+            if pkg in raw and name:
+                out[name] = raw[pkg]
+        return out
+    hist = sec.history().get(pathlib.Path(entry.get("file", "")).name, {})
+    for day, kv in hist.items():
+        for k, v in kv.items():
+            out.setdefault(k, {})[day] = v
+    return out
+
+
+def block_board(sec, entry, rows, stat, idx, total, series=None):
     bcfg = entry
     title = bcfg.get("title", "天梯榜")
     note = bcfg.get("note", "")
     unit = bcfg.get("unit", "")
+    unit_static = bcfg.get("unit_static", unit)
     f = bcfg.get("fields", {})
     k_rank = f.get("rank", "排名")
     k_name = f.get("name", "名称")
@@ -333,7 +391,10 @@ def block_board(sec, entry, rows, stat, idx, total):
     if isinstance(k_meta, str):
         k_meta = [k_meta]
 
-    cards = []
+    mode = board_mode(bcfg, rows)
+    bid = "b%d" % (idx + 1)
+
+    cards, n_cn, n_intl, n_none = [], 0, 0, 0
     for r in rows:
         rank = (r.get(k_rank) or "").strip()
         name = (r.get(k_name) or "").strip()
@@ -342,25 +403,43 @@ def block_board(sec, entry, rows, stat, idx, total):
         note_txt = (r.get(k_note) or "").strip()
         when = (r.get(k_when) or "").strip()
         val = (r.get(k_val) or "").strip() if k_val else ""
+
+        reg = regions.normalize(r.get("区域"))
+        if not reg:
+            reg = regions.guess(r.get("厂商"), r.get("平台"), r.get("机构"),
+                                r.get("公司"), r.get("标识"), name)
+        if reg == "国内":
+            n_cn += 1
+        elif reg == "国外":
+            n_intl += 1
+        else:
+            n_none += 1
+
         if val:
             right = '<span class="bd-val">%s%s</span>' % (
-                human_num(val), '<small>%s</small>' % escape(unit) if unit else "")
+                human_num(val), '<small>%s</small>' % escape(unit_static) if unit_static else "")
         elif when:
             right = '<span class="bd-when">%s</span>' % escape(when)
         else:
             right = ""
-        cards.append("""<article class="bd-card">
+
+        date_attr = ""
+        if mode == "date" and re.match(r"^\d{4}-\d{2}", when):
+            date_attr = ' data-date="%s"' % escape(when[:7])
+        cards.append("""<article class="bd-card" data-k="%s" data-region="%s" data-base="%s"%s>
         <span class="bd-rank">%s</span>
         <div class="bd-main">
           <div class="bd-top"><h3>%s</h3>%s</div>
-          <p class="bd-meta">%s</p>
+          <p class="bd-meta">%s%s</p>
           <p class="bd-note">%s</p>
         </div>
       </article>""" % (
+            escape(name), reg, escape(val), date_attr,
             escape(rank) or "·",
             escape(name),
             right,
             " · ".join(escape(m) for m in metas),
+            '<span class="bd-delta"></span>' if (k_val and mode in ("flow", "stock", "npm")) else "",
             R.inline(note_txt),
         ))
     empty = ('<p class="blk-empty">这一榜还没填。往 <code>content/%s/%s</code> 里加一行，就跑一次。</p>'
@@ -377,21 +456,87 @@ def block_board(sec, entry, rows, stat, idx, total):
         if bits:
             stamp = '<span class="blk-stamp">%s</span>' % escape(" · ".join(bits))
 
+    # 控件：区域三档 + 时间跨度滑块（没有时间序列时只留区域）
+    has_series = bool(series) and mode in ("flow", "stock", "npm")
+    if mode == "npm":
+        mode = "flow"
+    ctrl = ""
+    spec = None
+    if len(rows) > 1:
+        seg = ""
+        for key, label, num in (("all", "全部", len(rows)), ("cn", "国内", n_cn),
+                                ("intl", "国外", n_intl)):
+            seg += ('<button type="button" data-region="%s"%s>%s<i>%d</i></button>'
+                    % (key, ' class="on"' if key == "all" else "", label, num))
+        span_html = ""
+        if has_series:
+            span_html = """
+      <div class="span">
+        <span class="span-label">时间跨度</span>
+        <output class="span-out">近 %(def)d 天</output>
+        <input type="range" min="1" max="%(max)d" step="1" value="%(def)d"
+               aria-label="时间跨度（天）">
+        <div class="span-ticks">%(ticks)s</div>
+      </div>""" % {
+                "max": 90, "def": 7,
+                "ticks": "".join('<button type="button" data-span="%d">%d 天</button>' % (d, d)
+                                 for d in (7, 30, 90)),
+            }
+        elif mode == "date":
+            span_html = """
+      <div class="span">
+        <span class="span-label">时间跨度</span>
+        <output class="span-out">近 24 个月</output>
+        <input type="range" min="1" max="24" step="1" value="24"
+               aria-label="时间跨度（月）">
+        <div class="span-ticks">%(ticks)s</div>
+      </div>""" % {
+                "ticks": "".join('<button type="button" data-span="%d">%d 个月</button>' % (d, d)
+                                 for d in (3, 12, 24)),
+            }
+        default_note = ("拖动滑块改变统计窗口，榜单按新值重排。"
+                        if has_series else
+                        "按发布时间截断，滑块取近 N 个月。" if mode == "date" else
+                        "按所属机构筛选，未标注归属的条目不计入国内 / 国外。")
+        ctrl = """    <div class="bd-ctrl" data-ctrl="%s">
+      <div class="seg" role="group" aria-label="按归属筛选">%s</div>%s
+      <p class="bd-ctrl-note">%s</p>
+    </div>
+""" % (bid, seg, span_html, default_note)
+
+        anchor = ""
+        if mode == "date":
+            dates = sorted({(r.get(k_when) or "")[:7] for r in rows
+                            if re.match(r"^\d{4}-\d{2}", r.get(k_when) or "")})
+            anchor = dates[-1] if dates else ""
+        spec = {
+            "mode": mode, "unit": unit, "slider": {"default": 7 if has_series else 24},
+            "series": series if has_series else {},
+        }
+        if anchor:
+            spec["anchor"] = anchor
+
     num = "02" if total == 1 else "02.%d" % (idx + 1)
+    spec_html = ""
+    if spec:
+        spec_html = ('    <script type="application/json" data-spec="%s">%s</script>\n'
+                     % (bid, json.dumps(spec, ensure_ascii=False, separators=(",", ":"))))
     return """  <section class="blk" id="board%s">
     <div class="blk-head">
       <span class="blk-num">%s</span>
       <h2>%s</h2>
       <span class="blk-note">%s</span>
     </div>
-    <div class="board">
+%s    <div class="board" data-board="%s">
       %s
     </div>
+    <p class="bd-empty-tip" hidden>这一档还没有数据。换成「全部」看完整榜单。</p>
     %s
     %s
-  </section>
+%s  </section>
 """ % ("" if total == 1 else "-%d" % (idx + 1), num, escape(title), R.inline(note),
-       "\n      ".join(cards), stamp, "" if cards else empty)
+       ctrl, bid,
+       "\n      ".join(cards), stamp, "" if cards else empty, spec_html)
 
 
 def block_reports(sec, reports):
@@ -482,7 +627,9 @@ def build_section(sec, out_dir, prefix=""):
     for i, entry in enumerate(sec.boards):
         _, rows = sec.board(entry)
         stat = stats.get(pathlib.Path(entry.get("file", "")).name, {})
-        blocks.append(block_board(sec, entry, rows, stat, i, len(sec.boards)))
+        mode = entry.get("mode") or board_mode(entry, rows)
+        series = board_series(sec, entry, rows, mode)
+        blocks.append(block_board(sec, entry, rows, stat, i, len(sec.boards), series))
         counts.append(len(rows))
 
     body = "".join([

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>三条主线，一个转折 · 基模</title>
+<meta name="description" content="按时间看是一串发布，按机制看只有三条线在同时推进，外加 2025 年的一次转折。记住这四条，比记住模型名有用。">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/section.css">
+<script src="../assets/js/board.js" defer></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a class="is-active" href="../models.html">基模</a>
+      <a href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a href="../hardware.html">硬件</a>
+      <a href="../templates.html">模板</a>
+      <a href="../apps.html">应用</a>
+      <a href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-23</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">Models</span>
+    <a href="../models.html">← 回「基模」</a>
+    <a href="../models.html#board">天梯榜</a>
+    <a href="../models.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../models.html">基模</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2026-11-20 · 机制 · 时间线</p>
+    <h1 class="post-title">三条主线，一个转折</h1>
+    <p class="post-lede">按时间看是一串发布，按机制看只有三条线在同时推进，外加 2025 年的一次转折。记住这四条，比记住模型名有用。</p>
+    <div class="post-body">
+<h2>稠密 → MoE（2023 →）</h2>
+<p>总参数继续涨，但每个 token 只激活一部分专家。好处是同成本下容量更大； 代价是显存占用要按总参数算，路由和负载均衡也变复杂。</p>
+<p>判断一个 MoE 模型值不值得试，看三件事：激活参数多少、专家粒度多细、有没有负载均衡损失。</p>
+<h2>预训练 → 后训练（2024 →）</h2>
+<p>预训练决定知识上限，SFT 与偏好优化决定「好不好用」。2025 年的增量更多来自 <strong>可验证奖励的强化学习</strong>，而不是更大的预训练语料——数学、代码这类有标准答案的任务先被吃透。</p>
+<h2>文本 → 原生多模态（2024 →）</h2>
+<p>从「拼一个视觉编码器」转向音频、图像、视频在同一套表示里训练。 语音端到端是分水岭：延迟和语气都变了，不再需要「ASR → LLM → TTS」三段拼接。</p>
+<h2>转折：推理即产品（2024-09 →）</h2>
+<p>o1 之后，推理不再是隐藏步骤，而是可以按 token 售卖的商品——思考链越长，账单越高。 GPT-5 又把这条路收回默认路由，说明「单独一个推理模型」只是过渡形态， 默认配置里带不带思考，才是长期形态。</p>
+<h2>怎么判断一条发布是不是真进展</h2>
+<p>看它是否改变了默认配置：默认上下文长度、默认是否思考、默认是否带工具。 只改排行榜分数的发布，多半是同一代能力的重新包装。</p>
+    </div>
+  </article>
+  <nav class="pager"><a href="../models.html"><span class="pg-l">← BACK</span><span class="pg-t">基模 · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2025-11 公开资料<br>2026 年新增进展：待补充<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">应用</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,8 +1,12 @@
-﻿排名,名称,扩展ID,厂商,安装量,时间
-1,GitHub Copilot,GitHub.copilot,GitHub,74947243,2026-11-23T22:26:28+08:00
-2,Claude Code for VS Code,anthropic.claude-code,Anthropic,30820841,2026-11-23T22:26:28+08:00
-3,Cline,saoudrizwan.claude-dev,Cline,6017720,2026-11-23T22:26:28+08:00
-4,Continue,Continue.continue,Continue,4602528,2026-11-23T22:26:28+08:00
-5,Windsurf Plugin,Codeium.codeium,Windsurf,3977529,2026-11-23T22:26:28+08:00
-6,Roo Code,RooVeterinaryInc.roo-cline,Roo,2120774,2026-11-23T22:26:28+08:00
-7,Cody,sourcegraph.cody-ai,Sourcegraph,907673,2026-11-23T22:26:28+08:00
+﻿排名,名称,扩展ID,厂商,区域,安装量,时间
+1,GitHub Copilot,GitHub.copilot,GitHub,国外,74945402,2026-11-23T22:50:53+08:00
+2,Claude Code for VS Code,anthropic.claude-code,Anthropic,国外,30820148,2026-11-23T22:50:53+08:00
+3,Cline,saoudrizwan.claude-dev,Cline,国外,6012964,2026-11-23T22:50:53+08:00
+4,Continue,Continue.continue,Continue,国外,4603717,2026-11-23T22:50:53+08:00
+5,Windsurf Plugin,Codeium.codeium,Windsurf,国外,3977529,2026-11-23T22:50:53+08:00
+6,通义灵码 / Qoder,Alibaba-Cloud.tongyi-lingma,阿里云,国内,2774681,2026-11-23T22:50:53+08:00
+7,Roo Code,RooVeterinaryInc.roo-cline,Roo,国外,2120774,2026-11-23T22:50:53+08:00
+8,CodeGeeX,aminer.codegeex,智谱,国内,1398173,2026-11-23T22:50:53+08:00
+9,Cody,sourcegraph.cody-ai,Sourcegraph,国外,907779,2026-11-23T22:50:53+08:00
+10,Augment,Augment.vscode-augment,Augment,国外,785795,2026-11-23T22:50:53+08:00
+11,文心快码 Comate,BaiduComate.comate,百度,国内,404449,2026-11-23T22:50:53+08:00
