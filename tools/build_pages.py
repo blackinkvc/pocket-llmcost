@@ -23,19 +23,21 @@ PAGES = [
     ("method", "口径", "多源校验与出处", ["verify"]),
 ]
 
+PRICE_LABEL = "AI 天梯榜 &amp; 价格追踪"
+
 SITE_NAV = [
     ("../index.html", "首页"),
     ("../models.html", "基模"),
     ("../agents.html", "Agent"),
     ("../companies.html", "公司"),
     ("../hardware.html", "硬件"),
+    ("../templates.html", "模板"),
     ("../apps.html", "应用"),
-    ("../principles.html", "原理"),
-    ("../history.html", "历史"),
+    ("../principles.html", "原理 · 历史"),
     ("../local.html", "本地部署"),
     ("../cases.html", "实例"),
     ("../research/index.html", "研究"),
-    ("index.html", "价格"),
+    ("index.html", PRICE_LABEL),
 ]
 
 
@@ -184,7 +186,7 @@ def nav_html(active):
         for href, label in SITE_NAV)
     return ('<header class="topbar"><div class="topbar-in">'
             '<a class="brand" href="../index.html"><b>AI.TRACK</b>'
-            '<span class="sep">/</span><span class="sub">Token 价格追踪</span></a>'
+            '<span class="sep">/</span><span class="sub">AI 天梯榜 &amp; 价格追踪</span></a>'
             '<nav class="mainnav">%s</nav>'
             '<div class="topbar-right"><span class="meta">快照站</span></div>'
             '</div></header>' % items)
@@ -196,7 +198,7 @@ def tabs_html(slug):
     for s, label, _d, _i in all_pages:
         cur = ' aria-current="page"' if s == slug else ""
         out.append('<a href="%s.html"%s>%s</a>' % (s, cur, label))
-    return '<nav class="tabs" aria-label="Token 价格追踪">%s</nav>' % "".join(out)
+    return '<nav class="tabs" aria-label="AI 天梯榜 &amp; 价格追踪">%s</nav>' % "".join(out)
 
 
 def page(slug, label, desc, body, theme_js, modal):
@@ -207,7 +209,7 @@ def page(slug, label, desc, body, theme_js, modal):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<title>{label} · Token 价格追踪 · AI.TRACK</title>
+<title>{label} · AI 天梯榜 &amp; 价格追踪 · AI.TRACK</title>
 <meta name="description" content="大模型 API 按量价、订阅套餐、本地部署三个维度的成本台账。{desc}">
 <script>{theme_js}</script>
 <link rel="stylesheet" href="../assets/css/site.css">
@@ -243,7 +245,7 @@ def page(slug, label, desc, body, theme_js, modal):
 </main>
 
 <footer class="lcfoot">
-  <a href="../index.html">AI.TRACK</a> · <a href="index.html">Token 价格追踪</a>
+  <a href="../index.html">AI.TRACK</a> · <a href="index.html">AI 天梯榜 &amp; 价格追踪</a>
   · <a href="method.html">口径</a> · <a href="download.html">下载小工具</a>
   <span>数据来自多源交叉校验，快照不定期刷新；过期项以页面标注为准。</span>
 </footer>
@@ -254,7 +256,7 @@ def page(slug, label, desc, body, theme_js, modal):
 </body>
 </html>
 """.replace("{label}", label).replace("{desc}", desc).replace("{theme_js}", theme_js) \
-   .replace("{nav}", nav_html("价格")).replace("{tabs}", tabs_html(slug)) \
+   .replace("{nav}", nav_html(PRICE_LABEL)).replace("{tabs}", tabs_html(slug)) \
    .replace("{body}", body).replace("{modal}", modal)
 
 

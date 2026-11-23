@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI.TRACK · AI 发展监控台</title>
-<meta name="description" content="把 AI 的进展拆成九块可核对的台账：基模、Agent、公司、硬件、应用、原理、历史、本地部署与实测实例。人工维护的快照，不自动抓取。">
+<meta name="description" content="把 AI 的进展拆成九块可核对的台账：基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署、实测实例。人工维护的快照，不自动抓取。">
 <link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
@@ -20,17 +20,17 @@
       <a href="agents.html">Agent</a>
       <a href="companies.html">公司</a>
       <a href="hardware.html">硬件</a>
+      <a href="templates.html">模板</a>
       <a href="apps.html">应用</a>
-      <a href="principles.html">原理</a>
-      <a href="history.html">历史</a>
+      <a href="principles.html">原理 · 历史</a>
       <a href="local.html">本地部署</a>
       <a href="cases.html">实例</a>
       <a href="research/index.html">研究</a>
-      <a href="llmcost/index.html">价格</a>
+      <a href="llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
     </nav>
     <div class="topbar-right">
       <span class="meta">2026-11-23</span>
-      <a class="btn is-primary" href="history.html">时间线</a>
+      <a class="btn is-primary" href="principles.html#e1">时间线</a>
     </div>
   </div>
 </header>
@@ -44,7 +44,7 @@
     <a href="#instance">实例</a>
     <span class="sn-sep"></span>
     <a href="lab/index.html">01 生图实验</a>
-    <a href="history.html">发展时间线</a>
+    <a href="principles.html#e1">发展时间线</a>
   </div>
 </div>
 
@@ -64,7 +64,7 @@
         <p class="eyebrow">AI watch / 2026-11</p>
         <h1>把 AI 的进展，拆成<br>可以核对的<em>九块台账</em>。</h1>
         <p class="lede">
-          基模、Agent、公司、硬件、应用、原理、历史、本地部署、实测实例——
+          基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署、实测实例——
           每一块只记录能落到出处的东西。不确定的写「待补充」，没采到的留空，
           不把推测当成事实。
         </p>
@@ -142,27 +142,27 @@
       </article>
 
       <article class="sector">
+        <a class="sector-link" href="templates.html" aria-label="模板"></a>
+        <span class="sector-k"><span>05 / Templates</span><span>模板</span></span>
+        <h3>模板 <span>Copy &amp; adapt</span></h3>
+        <p>选型矩阵、成本估算单、Agent 工具定义、评测设计卡、部署核对单——填空即用的骨架。</p>
+        <div class="sector-foot"><span>6 套骨架 · 可直接复制</span><span class="go">进入 →</span></div>
+      </article>
+
+      <article class="sector">
         <a class="sector-link" href="apps.html" aria-label="应用"></a>
-        <span class="sector-k"><span>05 / Apps</span><span>应用</span></span>
+        <span class="sector-k"><span>06 / Apps</span><span>应用</span></span>
         <h3>应用 <span>Products</span></h3>
         <p>助手、编码、图像视频、音频、搜索研究、办公六类，记录形态而不是热度。</p>
         <div class="sector-foot"><span>6 类 · 19 产品</span><span class="go">进入 →</span></div>
       </article>
 
       <article class="sector">
-        <a class="sector-link" href="principles.html" aria-label="原理"></a>
-        <span class="sector-k"><span>06 / Principles</span><span>原理</span></span>
-        <h3>原理 <span>How it works</span></h3>
-        <p>一次生成到底在算什么：prefill/decode、注意力、MoE、扩散、量化与蒸馏。</p>
-        <div class="sector-foot"><span>8 章 · 公式可查</span><span class="go">进入 →</span></div>
-      </article>
-
-      <article class="sector">
-        <a class="sector-link" href="history.html" aria-label="历史"></a>
-        <span class="sector-k"><span>07 / History</span><span>历史</span></span>
-        <h3>历史 <span>Timeline</span></h3>
-        <p>1943 到今天，按符号主义、深度学习、大模型、推理与 Agent 分段。</p>
-        <div class="sector-foot"><span>5 个阶段 · 关键节点</span><span class="go">进入 →</span></div>
+        <a class="sector-link" href="principles.html" aria-label="原理 · 历史"></a>
+        <span class="sector-k"><span>07 / Principles</span><span>原理 · 历史</span></span>
+        <h3>原理 · 历史 <span>How &amp; when</span></h3>
+        <p>一次生成到底在算什么：prefill/decode、注意力、MoE、扩散与量化；后半页是 1943 至今五个阶段的时间线。</p>
+        <div class="sector-foot"><span>13 章 · 含 5 段历史</span><span class="go">进入 →</span></div>
       </article>
 
       <article class="sector">
@@ -345,7 +345,7 @@
     <div>
       <h5>定位</h5>
       <p>
-        AI 发展监控台：把基模、Agent、公司、硬件、应用、原理、历史、本地部署拆成可核对的台账。
+        AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。
         人工维护，不自动抓取，不追热点排行。
       </p>
       <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
@@ -368,8 +368,8 @@
         <a href="companies.html">公司</a>
         <a href="hardware.html">硬件</a>
         <a href="apps.html">应用</a>
-        <a href="principles.html">原理</a>
-        <a href="history.html">历史</a>
+        <a href="templates.html">模板</a>
+        <a href="principles.html">原理 · 历史</a>
         <a href="local.html">本地部署</a>
         <a href="cases.html">实例索引</a>
         <a href="lab/index.html">实例 01 · 生图</a>

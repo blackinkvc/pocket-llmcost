@@ -700,6 +700,12 @@ table.data .dim{color:var(--t3);font-size:10.5px}
   .lb-fig img{max-height:52vh}
   .lb-side{max-height:none}
 }
+/* 导航项变多（模板 + 天梯榜）后，平板这一档会顶到品牌区，先让它可横滑 */
+@media (max-width:1060px){
+  .mainnav{overflow-x:auto;scrollbar-width:none}
+  .mainnav::-webkit-scrollbar{display:none}
+  .mainnav a{white-space:nowrap}
+}
 @media (max-width:760px){
   .topbar-in{height:48px;gap:10px}
   .mainnav{overflow-x:auto;scrollbar-width:none;padding-bottom:1px}

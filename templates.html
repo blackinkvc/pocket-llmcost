@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>模板 · AI.TRACK</title>
+<meta name="description" content="可复制的 AI 工作模板：模型选型矩阵、成本估算单、Agent 工具定义、评测设计卡、本地部署核对单、研究投稿模板。">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="index.html">首页</a>
+      <a href="models.html">基模</a>
+      <a href="agents.html">Agent</a>
+      <a href="companies.html">公司</a>
+      <a href="hardware.html">硬件</a>
+      <a class="is-active" href="templates.html">模板</a>
+      <a href="apps.html">应用</a>
+      <a href="principles.html">原理 · 历史</a>
+      <a href="local.html">本地部署</a>
+      <a href="cases.html">实例</a>
+      <a href="research/index.html">研究</a>
+      <a href="llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-23</span>
+      <a class="btn is-primary" href="apps.html">看应用</a>
+    </div>
+  </div>
+</header>
+
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">Templates</span>
+    <a href="#howto">怎么用</a>
+    <a href="#select">选型矩阵</a>
+    <a href="#cost">成本估算</a>
+    <a href="#tool">工具定义</a>
+    <a href="#eval">评测设计</a>
+    <a href="#deploy">部署核对</a>
+    <a href="#research">研究投稿</a>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <p class="crumb"><a href="index.html">首页</a><span class="sep">/</span><span>05</span><span class="sep">/</span><span>模板</span></p>
+
+  <section class="page-head">
+    <div class="ph-grid">
+      <div>
+        <div class="card-top" style="margin-bottom:14px;justify-content:flex-start;gap:10px">
+          <span class="chip">6 套</span>
+          <span class="chip green">可直接复制</span>
+          <span class="chip orange">填空即用</span>
+        </div>
+        <h1 class="ph-title">模板</h1>
+        <p class="ph-sub">TEMPLATES · COPY &amp; ADAPT</p>
+        <p class="ph-lede">
+          前面几页是台账，记录<b>现在是什么样</b>；这一页是骨架，解决<b>接下来怎么做</b>。
+          每套模板只干一件事：把该问的问题固定下来，把答案留空给你填。
+          结构不要改，改了就没法横向比。
+        </p>
+      </div>
+      <aside class="spec-card">
+        <div class="spec-head"><span>FORMAT</span><span>PLAIN</span></div>
+        <dl class="spec-body" style="margin:0">
+          <div class="spec-row"><dt>形态</dt><dd>表格 / 文本 / JSON</dd></div>
+          <div class="spec-row"><dt>依赖</dt><dd>无</dd></div>
+          <div class="spec-row"><dt>用法</dt><dd>整块复制</dd></div>
+          <div class="spec-row"><dt>填不满时</dt><dd class="null">写「待补充」</dd></div>
+          <div class="spec-row"><dt>维护</dt><dd>人工</dd></div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <section class="doc">
+
+    <article class="chapter" id="howto">
+      <div class="ch-head"><span class="ch-num">01</span><h2>四条使用规则</h2></div>
+      <div class="mini-grid">
+        <div class="mini on"><h4>只填空，不改骨架</h4><p>表头是给横向对比用的。删一列、加一行，两份结果就对不上了，等于白填。</p></div>
+        <div class="mini on"><h4>不知道就留空</h4><p>沿用全站三态：真值 / 空 / n/a。空表示「没查到」，n/a 表示「这项不适用」，两者不能混。</p></div>
+        <div class="mini on"><h4>每份都要有出处</h4><p>没有出处栏的模板只能当草稿。数字可以旧，但必须能说清是从哪来的。</p></div>
+        <div class="mini on"><h4>至少填两份</h4><p>单份填完只是笔记；两三个场景并排，差异才会自己跳出来，模板的价值在这里。</p></div>
+      </div>
+      <p>
+        这几套模板是<b>顺序递进</b>的：先选型（定下用哪个模型），再算成本（值不值得用），
+        然后写工具定义（怎么接进 Agent），接着设计评测（怎么证明它行），
+        部署时对一遍核对单，最后把结论按投稿模板沉淀下来。
+      </p>
+    </article>
+
+    <article class="chapter" id="select">
+      <div class="ch-head"><span class="ch-num">02</span><h2>模型选型矩阵</h2></div>
+      <p>
+        六个维度，缺一不可。能力看榜单但要注明是哪个榜，价格看实际用量结构而不是官方标价，
+        上下文看<b>有效长度</b>（能稳定用到的）而不是标称值。
+      </p>
+
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>维度</th><th>填什么</th><th>常见的坑</th></tr></thead>
+          <tbody>
+            <tr><td><b>能力</b></td><td>榜单名 + 分数 + 样本量</td><td>拿单一榜单当结论；不看样本量和置信区间。</td></tr>
+            <tr><td><b>价格</b></td><td>输入 / 输出 / 缓存命中 三档单价</td><td>只看输出价；忽略缓存和批量折扣。</td></tr>
+            <tr><td><b>上下文</b></td><td>有效长度 + 超长时的退化表现</td><td>把标称 200K 当能稳定吃 200K。</td></tr>
+            <tr><td><b>延迟</b></td><td>首 token 时间 + 输出速度（tok/s）</td><td>只测平均值，不看 P95 长尾。</td></tr>
+            <tr><td><b>部署</b></td><td>API / 自托管 / 端侧，三选一</td><td>没算自托管的运维人力。</td></tr>
+            <tr><td><b>锁定</b></td><td>协议兼容性 + 换模型改动量</td><td>把厂商特有参数写进业务代码。</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="recipe">
+        <div class="recipe-head"><span>BLANK</span><span>复制这张表头</span></div>
+<pre>| 模型 | 输入价 | 输出价 | 缓存价 | 有效上下文 | 首 token | 输出速度 | 部署 | 许可证 | 结论 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |</pre>
+      </div>
+      <p>
+        「结论」栏只写三种：<b>采用</b> / <b>备选</b> / <b>淘汰</b>。
+        淘汰的要写一句为什么，否则三个月后会有人重新提一遍同一个模型。
+      </p>
+    </article>
+
+    <article class="chapter" id="cost">
+      <div class="ch-head"><span class="ch-num">03</span><h2>成本估算单</h2></div>
+      <p>先把量算清楚，再乘单价。顺序反了，估算会差一个数量级。</p>
+
+      <div class="recipe">
+        <div class="recipe-head"><span>FORMULA</span><span>月度口径</span></div>
+<pre>月成本 ≈ 日请求数 × 30
+        × ( 平均输入 token × 输入价
+          + 平均输出 token × 输出价 ) / 1e6
+
+有缓存命中时：
+  输入侧成本 × (1 − 命中率) + 输入侧成本 × 命中率 × 缓存折扣
+
+要留的三个余量：
+  重试与失败重放   ×1.05 ~ ×1.15
+  评测 / 灰度流量   ＋10% ~ 20%
+  多轮对话的上下文增长（第 10 轮不是第 1 轮的量）</pre>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>要填</th><th>怎么取</th><th>注意</th></tr></thead>
+          <tbody>
+            <tr><td>日请求数</td><td>线上真实日志</td><td>别用「预计用户数 × 人均次数」拍出来。</td></tr>
+            <tr><td>平均输入 / 输出</td><td>按场景分开统计</td><td>混在一起算会把长文场景的低频高耗摊平。</td></tr>
+            <tr><td>峰值倍数</td><td>P95 日请求 / 日均</td><td>限流按峰值设计，预算按均值算，两本账。</td></tr>
+            <tr><td>缓存命中率</td><td>实测，不要估</td><td>系统提示稳定才有高命中，改一个字就掉。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted" style="margin-top:12px">
+        精确到分的算价可以直接用 <a href="llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a> 里的口径，
+        那里每条价格都挂了来源。
+      </p>
+    </article>
+
+    <article class="chapter" id="tool">
+      <div class="ch-head"><span class="ch-num">04</span><h2>Agent 工具定义</h2></div>
+      <p>
+        工具定义最容易写错的地方是 <code>description</code>：它不描述工具「是什么」，
+        而要告诉模型「<b>什么时候该用、什么时候别用</b>」。参数用枚举收敛，别留自由文本。
+      </p>
+
+      <div class="recipe">
+        <div class="recipe-head"><span>JSON</span><span>单工具骨架</span></div>
+<pre>{
+  "name": "search_orders",
+  "description": "按订单号查询订单状态。仅当用户提供了订单号、且问的是物流或退款进度时使用；用户只说商品名时先调 search_products。",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "order_id": { "type": "string", "description": "订单号，形如 SO-2026-000123" },
+      "fields": {
+        "type": "array",
+        "items": { "enum": ["status", "logistics", "refund"] }
+      }
+    },
+    "required": ["order_id"]
+  }
+}</pre>
+      </div>
+
+      <div class="mini-grid">
+        <div class="mini on"><h4>写清边界</h4><p>「什么时候不用」比「什么时候用」更能减少误调用。</p></div>
+        <div class="mini on"><h4>参数要收敛</h4><p>能枚举就别放开自由文本；能必填就别给默认值。</p></div>
+        <div class="mini on"><h4>错误要结构化</h4><p>返回「错在哪、能不能重试」，而不是一句 500。</p></div>
+        <div class="mini on"><h4>一个工具一件事</h4><p>「查询并修改并发送」这种复合工具，模型永远用不对。</p></div>
+      </div>
+    </article>
+
+    <article class="chapter" id="eval">
+      <div class="ch-head"><span class="ch-num">05</span><h2>评测设计卡</h2></div>
+      <p>
+        评测最容易糊弄自己的地方是「我觉得比上一版好」。先定判卷人，再定样本，最后才看结果。
+      </p>
+
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>要素</th><th>可选</th><th>建议</th></tr></thead>
+          <tbody>
+            <tr><td><b>判卷人</b></td><td>人 / 强模型 / 可执行测试</td><td>有测试就用测试，这是唯一不会疲劳的判卷人。</td></tr>
+            <tr><td><b>样本量</b></td><td>≥ 30 条起步</td><td>少于 30 条的差异基本是噪声，别下结论。</td></tr>
+            <tr><td><b>样本来源</b></td><td>真实日志 / 构造用例</td><td>两者都要：真实日志看分布，构造用例盯边界。</td></tr>
+            <tr><td><b>通过标准</b></td><td>全对 / 关键项对</td><td>写清楚哪些错可以接受，否则结果不可用。</td></tr>
+            <tr><td><b>顺序偏差</b></td><td>AB / BA 交替</td><td>强模型判卷偏好先出现的答案，务必换序跑一遍。</td></tr>
+            <tr><td><b>留档</b></td><td>原始输出 + 时间 + 版本</td><td>只存分数等于没做，一个月后无法复现。</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="recipe">
+        <div class="recipe-head"><span>BLANK</span><span>单次评测记录</span></div>
+<pre>目标：        （这次想证明什么，一句话）
+判卷人：      人 / 模型（版本）/ 测试脚本
+样本：        N =     来源 =
+通过标准：    
+A 版：        模型 + 参数 + 提示词版本
+B 版：        
+结果：        A 通过率 =      B 通过率 =     差值 = 
+反例：        至少列 3 条 B 版失败的原始输出
+结论：        采用 / 回滚 / 再测一轮</pre>
+      </div>
+    </article>
+
+    <article class="chapter" id="deploy">
+      <div class="ch-head"><span class="ch-num">06</span><h2>本地部署核对单</h2></div>
+      <p>六条，逐条打勾。任何一条没过就先别上生产。</p>
+
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>#</th><th>核对项</th><th>判据</th></tr></thead>
+          <tbody>
+            <tr><td class="num">1</td><td>显存够不够</td><td>权重 + KV cache + 框架开销，再乘 1.2 余量；按上下文拉满算一次。</td></tr>
+            <tr><td class="num">2</td><td>量化与引擎匹配</td><td>GGUF 配 llama.cpp、AWQ/GPTQ 配 vLLM，混着用会静默降速。</td></tr>
+            <tr><td class="num">3</td><td>长上下文不炸</td><td>把上下文填到上限跑一轮，看 KV cache 是否把显存吃穿。</td></tr>
+            <tr><td class="num">4</td><td>首 token 可接受</td><td>冷启动和热启动分别测，别只报热的。</td></tr>
+            <tr><td class="num">5</td><td>许可证允许</td><td>商用条款、用户数上限、是否要求署名，逐条看过原文。</td></tr>
+            <tr><td class="num">6</td><td>异常能自恢复</td><td>断电 / OOM / 重启后能否自动拉起，日志在哪。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted" style="margin-top:12px">
+        显存怎么估、各档位能跑多大的模型，见 <a href="local.html">本地部署</a>；
+        卡本身的带宽与算力，见 <a href="hardware.html">硬件</a>。
+      </p>
+    </article>
+
+    <article class="chapter" id="research">
+      <div class="ch-head"><span class="ch-num">07</span><h2>研究投稿模板</h2></div>
+      <p>
+        这页的模板是站内真正在用的：研究先进投料区，AI 整理成标准格式，人工审核后上线。
+        格式固定成下面这样，是为了让「整理」这一步能自动化。
+      </p>
+
+      <div class="recipe">
+        <div class="recipe-head"><span>META</span><span>每篇一份 meta.yml</span></div>
+<pre>title:       一句话说清这篇在讲什么（不超过 20 字）
+summary:     两句话，第一句给结论，第二句给依据
+tags:        [基模, 成本] 之类的板块标签
+origin:      原始出处（链接或文件名）
+channel:     公众号 / 推文 / 内部笔记 / 实测
+created_at:  2026-11-23
+sources:     引用的原始材料，逐条列</pre>
+      </div>
+
+      <div class="recipe">
+        <div class="recipe-head"><span>BODY</span><span>正文四段</span></div>
+<pre>一、结论先行    三五句，能直接抄进周报
+二、证据        数字、原文截图、实测记录，逐条挂出处
+三、反例与边界  什么情况下这个结论不成立
+四、与我有关    对当前项目意味着什么，要不要动</pre>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>状态</th><th>判据</th><th>谁能看到</th></tr></thead>
+          <tbody>
+            <tr><td>整理中</td><td>原件已进投料区，格式还没套</td><td>只有本地</td></tr>
+            <tr><td>待审核</td><td>草稿已按模板生成</td><td>作者 + AI</td></tr>
+            <tr><td>已上线</td><td>人工点过通过，进了正式页</td><td>所有人</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted" style="margin-top:12px">
+        进度看板在 <a href="research/status.html">研究看板</a>，已上线的条目在
+        <a href="research/index.html">研究</a>。
+      </p>
+    </article>
+
+  </section>
+
+  <nav class="pager">
+    <a href="hardware.html"><span class="pg-l">← PREV</span><span class="pg-t">04 硬件</span></a>
+    <a class="next" href="apps.html"><span class="pg-l">NEXT →</span><span class="pg-t">06 应用</span></a>
+  </nav>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2025-11 公开资料<br>2026 年新增进展：待补充<br>时间统一 YYYY-MM<br>用户与收入数据：未收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="models.html">基模</a><a href="agents.html">Agent</a>
+        <a href="companies.html">公司</a><a href="hardware.html">硬件</a>
+        <a href="templates.html">模板</a><a href="apps.html">应用</a>
+        <a href="principles.html">原理 · 历史</a><a href="local.html">本地部署</a>
+        <a href="cases.html">实例索引</a><a href="lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

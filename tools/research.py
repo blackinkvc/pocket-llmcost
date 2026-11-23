@@ -35,16 +35,18 @@ DROPZONE = pathlib.Path(os.environ.get("RESEARCH_DROPZONE") or "/Volumes/AI仓�
 
 # (文件夹名, channel, 站点页, 显示名)；文件夹比较时忽略大小写（exFAT 大小写不敏感）
 SECTIONS = [
-    ("基模",     "models",     "models.html",     "基模"),
-    ("agent",    "agents",     "agents.html",     "Agent"),
-    ("公司",     "companies",  "companies.html",  "公司"),
-    ("硬件",     "hardware",   "hardware.html",   "硬件"),
-    ("应用",     "apps",       "apps.html",       "应用"),
-    ("原理",     "principles", "principles.html", "原理"),
-    ("历史",     "history",    "history.html",    "历史"),
-    ("本地部署", "local",      "local.html",      "本地部署"),
-    ("实例",     "cases",      "cases.html",      "实例"),
-    ("_其他",    "misc",       "",                "其他"),
+    ("基模",     "models",     "models.html",         "基模"),
+    ("agent",    "agents",     "agents.html",         "Agent"),
+    ("公司",     "companies",  "companies.html",      "公司"),
+    ("硬件",     "hardware",   "hardware.html",       "硬件"),
+    ("模板",     "templates",  "templates.html",      "模板"),
+    ("应用",     "apps",       "apps.html",           "应用"),
+    # 原理与历史已合并成一页，两个文件夹都能收，指向同一页
+    ("原理",     "principles", "principles.html",     "原理 · 历史"),
+    ("历史",     "history",    "principles.html#e1",  "原理 · 历史"),
+    ("本地部署", "local",      "local.html",          "本地部署"),
+    ("实例",     "cases",      "cases.html",          "实例"),
+    ("_其他",    "misc",       "",                    "其他"),
 ]
 SECTION_ALIAS = {"基础模型": "models", "智能体": "agents", "agents": "agents",
                  "models": "models", "apps": "apps", "cases": "cases"}
@@ -57,9 +59,10 @@ GH_BASE = "https://github.com/" + OWNER_REPO
 
 NAV = [
     ("index.html", "首页"), ("models.html", "基模"), ("agents.html", "Agent"),
-    ("companies.html", "公司"), ("hardware.html", "硬件"), ("apps.html", "应用"),
-    ("principles.html", "原理"), ("history.html", "历史"), ("local.html", "本地部署"),
-    ("cases.html", "实例"), ("research/index.html", "研究"), ("llmcost/index.html", "价格"),
+    ("companies.html", "公司"), ("hardware.html", "硬件"), ("templates.html", "模板"),
+    ("apps.html", "应用"), ("principles.html", "原理 · 历史"), ("local.html", "本地部署"),
+    ("cases.html", "实例"), ("research/index.html", "研究"),
+    ("llmcost/index.html", "AI 天梯榜 &amp; 价格追踪"),
 ]
 
 ST_RANK = {"published": 0, "review": 1, "stub": 2}
