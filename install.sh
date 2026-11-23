@@ -20,7 +20,7 @@ REPO="https://github.com/Pamphile0117/pocket-llmcost.git"
 HERE="$(cd "$(dirname "$0")" && pwd)"
 
 ROOT="${HOME}/Documents/AI项目"
-CODE="${ROOT}/_插件/llmcost"
+CODE=""
 DATA=""
 MODE="install"
 LAUNCH=1
@@ -40,8 +40,10 @@ while [ $# -gt 0 ]; do
 done
 
 ROOT="${ROOT/#\~/$HOME}"
-CODE="${CODE/#\~/$HOME}"
+[ -n "${CODE}" ] && CODE="${CODE/#\~/$HOME}"
 [ -n "${DATA}" ] && DATA="${DATA/#\~/$HOME}"
+# 默认值放在解析参数之后算：--root 改了根目录，代码和数据要跟着走
+[ -z "${CODE}" ] && CODE="${ROOT}/_插件/llmcost"
 [ -z "${DATA}" ] && DATA="${ROOT}/13-算价"
 
 PY="$(command -v python3)" || { echo "需要 python3"; exit 1; }
