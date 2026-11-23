@@ -1,0 +1,67 @@
+/* ---------- 筛选条（公共壳） ----------
+   五个插件页都要「搜索 + 一排 chip + 计数 + 清空」，抄五遍迟早各走各的，
+   所以壳和交互只留这一份。页面自己管外面那层的位置和留白
+   （设备页 .spf{padding:0 18px 11px}、关注页 .bar{position:sticky}），
+   这里只管里面那一排。
+
+   配色全走页面自己的变量，取不到就退化到另一套命名，再取不到给个中性值 ——
+   设备页用 --ink/--rule/--accent，关注页用 --tx/--line2/--gold。 */
+
+.flt{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.flt[hidden]{display:none}
+
+/* 搜索框：窄了先让位（flex 0 1 172px），下面的媒体查询里再给整行 */
+.flt-q{position:relative;display:flex;align-items:center;flex:0 1 172px;min-width:116px}
+.flt-q > svg{position:absolute;left:9px;width:11px;height:11px;fill:none;stroke:currentColor;
+  stroke-width:1.6;stroke-linecap:round;color:var(--ink3,var(--tx3,#888));pointer-events:none}
+.flt-q input{width:100%;height:25px;padding:0 22px 0 25px;border-radius:999px;
+  border:var(--hair,1px solid var(--rule,var(--line2,#ddd)));background:transparent;
+  font-size:11.5px;color:var(--ink,var(--tx));font-family:inherit;min-width:0}
+.flt-q input::placeholder{color:var(--ink3,var(--tx3,#888));opacity:.85}
+.flt-q input:focus{outline:none;
+  border-color:color-mix(in srgb,var(--accent,var(--gold,#888)) 45%,var(--rule,var(--line2,#ddd)))}
+.flt-q input::-webkit-search-cancel-button{-webkit-appearance:none;display:none}
+.flt-q .clr{position:absolute;right:3px;width:17px;height:17px;border-radius:50%;display:none;
+  place-items:center;color:var(--ink3,var(--tx3,#888));font-size:13px;line-height:1;
+  background:none;border:0;cursor:pointer;padding:0}
+.flt-q .clr:hover{color:var(--accent,var(--gold));background:var(--card2,#f2f2f2)}
+.flt-q.has .clr{display:grid}
+
+.flt-ch{display:flex;align-items:center;gap:5px;flex-wrap:wrap;min-width:0}
+.flt-ch[hidden]{display:none}
+
+.flt .chip{display:inline-flex;align-items:center;gap:5px;height:25px;padding:0 9px;
+  border-radius:999px;border:var(--hair,1px solid var(--rule,var(--line2,#ddd)));
+  background:transparent;color:var(--ink2,var(--tx2,#555));font-size:11px;font-family:inherit;
+  cursor:pointer;flex:0 0 auto;transition:color .12s,border-color .12s,background .12s}
+.flt .chip:hover{color:var(--accent,var(--gold));
+  border-color:color-mix(in srgb,var(--accent,var(--gold,#888)) 40%,var(--rule,var(--line2,#ddd)))}
+/* 选中 = 反白。软色底在深色主题下几乎看不出选中，反白两套主题都稳。 */
+.flt .chip.on,.flt .chip[data-on="1"]{background:var(--tx,var(--ink,#222));
+  border-color:var(--tx,var(--ink,#222));color:var(--bg,#fff);font-weight:600}
+.flt .chip .n,.flt .chip b{font-size:10px;font-weight:600;opacity:.7;margin-left:1px}
+.flt .chip.on .n,.flt .chip[data-on="1"] b{opacity:.85}
+
+.flt-sep{width:1px;height:13px;background:var(--rule,var(--line2,#ddd));margin:0 3px;flex:0 0 auto}
+.flt-n{margin-left:auto;font-size:10.5px;color:var(--ink3,var(--tx3,#888));
+  white-space:nowrap;flex:0 0 auto}
+.flt-n b{color:var(--ink2,var(--tx2,#555));font-weight:650}
+.flt-x{height:25px;padding:0 9px;border-radius:999px;
+  border:1px dashed var(--rule,var(--line2,#ddd));background:none;font-family:inherit;
+  font-size:11px;color:var(--ink3,var(--tx3,#888));flex:0 0 auto;cursor:pointer}
+.flt-x:hover{color:var(--accent,var(--gold));
+  border-color:color-mix(in srgb,var(--accent,var(--gold,#888)) 42%,var(--rule,var(--line2,#ddd)))}
+.flt-x[hidden]{display:none}
+
+/* 窄卡片：搜索框独占一行（点起来也大），计数跟着 chip 走，别各自换行 */
+@media(max-width:520px){
+  .flt-q{flex:1 1 100%}
+  .flt-n{margin-left:0}
+  /* chip 排原本在手机上折成 3–4 行（关注页那排平台 chip 就是），一条内容还没看见
+     就先占掉半屏。改成「搜索一行 + chip 一条横滑」，高度从 ~110 收到 ~70，
+     右边缘渐隐提示还能划。 */
+  .flt-ch{flex-wrap:nowrap;overflow-x:auto;width:100%;scrollbar-width:none;
+    -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 20px),transparent);
+    mask-image:linear-gradient(90deg,#000 calc(100% - 20px),transparent)}
+  .flt-ch::-webkit-scrollbar{display:none}
+}

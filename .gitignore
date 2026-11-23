@@ -1,0 +1,12 @@
+# 运行时产物 —— 数据应该在数据目录里（LLMCOST_DIR），这里只是防手滑
+data/
+out/
+.llmcost-dir
+
+# Python / macOS
+__pycache__/
+*.pyc
+.DS_Store
+
+# 就地备份
+*.bak-*

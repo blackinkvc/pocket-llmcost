@@ -1,0 +1,24 @@
+{
+  "id": "llmcost",
+  "name": "Token 价格追踪",
+  "version": "1.0.0",
+  "summary": "大模型 API / 订阅套餐 / 本地部署 三维度成本追踪，带多源交叉校验与 LMArena 天梯榜",
+  "group": "other",
+  "glyph": "llmcost",
+  "note": "模型 API / 套餐 / 本地部署成本",
+  "port": 8776,
+  "url": "http://127.0.0.1:8776/",
+  "entry": "llmcost.py",
+  "args": ["--serve", "--no-open"],
+  "ping": "/api/ping",
+  "cards_api": "/api/cards",
+  "cmd": "13-算价/_算价.command",
+  "data_env": "LLMCOST_DIR",
+  "data_default": "~/Documents/AI项目/13-算价",
+  "requires": {
+    "python": ">=3.9",
+    "third_party": []
+  },
+  "repo": "https://github.com/Pamphile0117/pocket-llmcost",
+  "update": "git pull"
+}

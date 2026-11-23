@@ -1,0 +1,16 @@
+provider,model,display,currency,input,output,cache_hit,batch_off,unit,price_kind,provider_scope,peak_offpeak,promo_until,source_url,verified_at,source_type,price_version,note
+OpenAI,gpt-6-luna,GPT-6 Luna,USD,0.10,0.50,0.01,0.50,1M tokens,standard,first_party,no,,https://openai.com/api/pricing/,2026-11-19,official,v20261119,速度模式另计
+Anthropic,claude-sonnet-5,Claude Sonnet 5,USD,3.00,15.00,0.30,0.50,1M tokens,standard,first_party,no,,https://platform.claude.com/docs/en/about-claude/pricing,2026-11-19,official,v20261119,2026-09-01 起由 2/10 调为 3/15；缓存写入 6.25
+Google,gemini-3-6-flash,Gemini 3.6 Flash,USD,0.75,3.75,0.075,0.50,1M tokens,standard,first_party,no,,https://ai.google.dev/gemini-api/docs/pricing,2026-11-19,official,v20261119,思考 token 另计
+xAI,grok-4-7,Grok 4.7,USD,2.00,6.00,,,1M tokens,standard,first_party,no,,https://www.x.ai/news/grok-47,2026-11-19,official,v20261119,高速版同 token 价格翻倍
+Mistral,mistral-large-4,Mistral Large 4,USD,0.70,2.10,0.07,,1M tokens,standard,first_party,no,,https://mistral.ai/pricing,2026-11-19,official,v20261119,由促销价 0.68/2.09 更正为现价
+DeepSeek,deepseek-v4-1-flash,DeepSeek V4.1 Flash,USD,0.15,0.60,0.006,,1M tokens,offpeak,first_party,yes,,https://api-docs.deepseek.com/quick_start/pricing/,2026-11-19,official,v20261119,低谷价；高峰翻倍；周末夜间半价
+DeepSeek,deepseek-v4-pro,DeepSeek V4-Pro,USD,0.66,1.98,,,1M tokens,offpeak,first_party,yes,,https://api-docs.deepseek.com/quick_start/pricing/,2026-11-19,official,v20261119,低谷价；缓存价独立计费
+Alibaba,qwen3-8-max,Qwen3.8-Max,CNY,12.00,36.00,1.50,0.50,1M tokens,standard,first_party,no,,https://bailian.console.aliyun.com/#/model-market/detail/qwen3.8-max,2026-11-19,official,v20261119,Batch Chat 限时五折
+Volcengine,doubao-seed-2-0-mini,豆包 Seed-2.0-mini,CNY,0.40,4.00,,0.50,1M tokens,standard,first_party,no,,https://ark.volcengine.com/region:cn-beijing/docs/ark/model-pricing,2026-11-19,official,v20261119,≤32K 起价；长上下文阶梯
+Moonshot,kimi-k3-1-pro,Kimi K3.1 Pro,CNY,13.00,68.00,1.30,,1M tokens,standard,first_party,no,,https://platform.moonshot.cn/docs/pricing/chat-k3,2026-11-19,official,v20261119,API 纯按量无订阅制
+Zhipu,glm-5-3-flash,GLM-5.3-Flash,CNY,0.80,2.80,0.23,,1M tokens,standard,first_party,no,,https://open.bigmodel.cn/pricing,2026-11-19,official,v20261119,缓存存储限时免费
+Zhipu,glm-5-3,GLM-5.3,CNY,8.00,28.00,2.00,,1M tokens,standard,first_party,no,,https://open.bigmodel.cn/pricing,2026-11-19,official,v20261119,不公开 Batch 价
+Tencent,hy4-flash,混元 Hy4 Flash,CNY,0.50,2.00,0.02,,1M tokens,standard,first_party,no,,https://www.tencent.com/tencent-launches-hy4-flash-to-power-high-speed-cost-efficient-ai-deployment-for-everyday-workflows,2026-11-19,official,v20261119,发布口径；控制台按地域为准
+Baidu,ernie-5-5-flash-preview,ERNIE-5.5-Flash-Preview,CNY,0.36,1.44,0.036,,1M tokens,offpeak+promo,first_party,yes,2026-11-30,https://cloud.baidu.com/product/qianfan_home/model_3.html,2026-11-19,official,v20261119,空闲时段+限时 5 折；高峰 0.72/2.88
+MiniMax,minimax-m3-1-flash,MiniMax M3.1 Flash,CNY,1.00,4.00,0.10,,1M tokens,standard,first_party,no,,https://platform.minimax.cn/docs/pricing/overview,2026-11-19,official,v20261119,按量价快照
