@@ -3,7 +3,7 @@
 > **在线站点**：<https://blackinkvc.github.io/pocket-llmcost/>
 > **实例 01 · 生图实验**：<https://blackinkvc.github.io/pocket-llmcost/lab/>
 > **Token 价格追踪**：<https://blackinkvc.github.io/pocket-llmcost/llmcost/>
-> **下载本地版**：<https://blackinkvc.github.io/pocket-llmcost/llmcost/download.html>
+> **小工具下载**：<https://blackinkvc.github.io/pocket-llmcost/llmcost/download.html>
 
 一个仓库装两样东西：**一套只读的静态台账站**（GitHub Pages 直接发），
 **一个能算账的本地小应用**（Python 标准库，免安装依赖）。
@@ -61,13 +61,16 @@
 | `llmcost/prices.html` | 价目：API 价目、平台矩阵与排行、订阅套餐、本地部署、任务换算 |
 | `llmcost/trend.html` | 走势：价格曲线、月度矩阵、调价日志、调价事件 |
 | `llmcost/method.html` | 口径：多源交叉校验、来源清单 |
-| `llmcost/download.html` | 下载：按系统给包、校验和、装完打不开怎么办 |
+| `llmcost/download.html` | 下载：站内小工具清单、按系统给包、校验和、装完打不开怎么办 |
 
 **数据源自动切换**：页面先探一下 `http://127.0.0.1:8776/api/ping`，
 通了就用本机实时数据并在顶部标 `LIVE`，不通就读仓库里的快照（标注生成时间）。
 本地服务只放行 GitHub Pages 与本机来源的跨域读取，别的网站读不到。
 
-## 装本地版
+## 装小工具
+
+> 网站本身不打包、不提供下载——九板块、研究、实例都是网页。
+> 能装到本机的只有一件小工具：**价格追踪看板**（`llmcost`），它是从墨山中台拆出来的独立插件。
 
 ### 下可执行包（不用装 Python）
 
@@ -195,7 +198,7 @@ llmcost/                       价格追踪子站（五页 + 下载页）
 
 llmcost.py                     HTTP 服务（:8776）+ 数据打包
 llmcost_core.py                算账核心：校验 / 出表 / 画 SVG / 写报告
-llmcost_ui.html                本地版的单页界面（五页由它拆分而来）
+llmcost_ui.html                小工具的单页界面（五页由它拆分而来）
 llmcost_leaderboard.py         抓 LMArena + 幻觉率榜
 llmcost_platforms.py           平台价库
 pgkit.py / lease.py            中台公共壳 / 按需服务租约

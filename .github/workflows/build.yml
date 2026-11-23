@@ -111,6 +111,10 @@ for f in glob.glob('$ASSET.zip'):
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
       - uses: actions/download-artifact@v4
         with:
           path: assets
@@ -119,14 +123,50 @@ for f in glob.glob('$ASSET.zip'):
       - name: 列一下要发的东西
         run: ls -lhR assets
 
+      # 把发版信息落到仓库里：墙内访问不了 api.github.com，下载页读这个文件才显示得出
+      # 正确的版本号。内容只有四行，谁都能核对。
+      - name: 记录发版信息
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          python3 - <<'PY'
+          import glob, json, os, pathlib, re, subprocess, datetime
+          tag = os.environ["TAG"]
+          shas = sorted(glob.glob("assets/*.sha256"))
+          sha = asset = ""
+          if shas:
+              asset = os.path.basename(shas[0])[:-len(".sha256")]
+              m = re.search(r"[a-f0-9]{64}", pathlib.Path(shas[0]).read_text())
+              if m:
+                  sha = m.group(0)
+          out = {
+              "tag": tag,
+              "published_at": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d"),
+              "sha256": sha,
+              "sha256_asset": asset,
+          }
+          p = pathlib.Path("llmcost/data/release.json")
+          p.parent.mkdir(parents=True, exist_ok=True)
+          p.write_text(json.dumps(out, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+          print("写入", p, out)
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add llmcost/data/release.json
+          git diff --cached --quiet || git commit -m "data: 记录发版 ${TAG}"
+          git push
+
       - uses: softprops/action-gh-release@v2
         with:
           files: assets/*
           generate_release_notes: true
           body: |
-            ## Token 价格追踪 ${{ github.ref_name }}
+            ## 价格追踪看板 ${{ github.ref_name }}
 
-            线上站点：<https://blackinkvc.github.io/pocket-llmcost/llmcost/download.html>
+            这是**站内的一件小工具**，不是整个网站的本地版。网站（行业研究九板块、实例）就是网页，
+            不需要下载：<https://blackinkvc.github.io/pocket-llmcost/>
+
+            下载与说明页：<https://blackinkvc.github.io/pocket-llmcost/llmcost/download.html>
 
             | 平台 | 文件 |
             | --- | --- |

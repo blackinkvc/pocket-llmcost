@@ -94,7 +94,7 @@ def main():
             page(slug, label, desc, body, theme_js, modal), encoding="utf-8")
 
     (OUT / "download.html").write_text(
-        page("download", "下载", "把这个看板装到本机", download_body(cards), theme_js, modal),
+        page("download", "下载", "站内小工具，可单独装到本机", download_body(cards), theme_js, modal),
         encoding="utf-8")
 
     print("生成 %d 页 + 样式 %d KB + 引擎 %d KB" % (
@@ -163,7 +163,7 @@ function srcTag(){
         "  fetch('/api/report?name=REPORT.md', {cache:'no-store'})",
         "  if (MODE !== 'live'){\n"
         "    $('mBody').innerHTML = '<p>核验报告由本地服务生成，快照站上没有这份文件。</p>'\n"
-        "      + '<p class=\"foot\">装本地版后点这个按钮，或命令行跑 <code>python3 llmcost.py --snapshot</code>。</p>';\n"
+        "      + '<p class=\"foot\">装到本机后点这个按钮，或命令行跑 <code>python3 llmcost.py --snapshot</code>。</p>';\n"
         "    return;\n"
         "  }\n"
         "  fetch('/api/report?name=REPORT.md', {cache:'no-store'})", 1)
@@ -244,7 +244,7 @@ def page(slug, label, desc, body, theme_js, modal):
 
 <footer class="lcfoot">
   <a href="../index.html">AI.TRACK</a> · <a href="index.html">Token 价格追踪</a>
-  · <a href="method.html">口径</a> · <a href="download.html">下载本地版</a>
+  · <a href="method.html">口径</a> · <a href="download.html">下载小工具</a>
   <span>数据来自多源交叉校验，快照不定期刷新；过期项以页面标注为准。</span>
 </footer>
 
@@ -266,9 +266,13 @@ DOWNLOAD_HTML = """
 <div class="dl-wrap">
 
   <section class="dl-hero">
-    <h1>把这块看板装到本机</h1>
-    <p>线上这五页是<b>快照</b>：价格、榜单、走势都是生成那一刻的样子，只读。装本地版才有完整能力——
-      点「重新核验」现场算一遍、写自己的价目表、接进口袋中台当插件、断网也能用。</p>
+    <p class="dl-note">站内小工具 · 不是整站下载</p>
+    <h1>这里只装一件：价格追踪看板</h1>
+    <p><b>网站本身不打包、也不提供下载</b>——九个板块、行业研究、实例这些都是网页，有网就能看。
+      能从站上装到本机的，只有这一件小工具：<b>价格追踪看板</b>。
+      它原本是「墨山中台」里的一个插件，单独拿出来也能跑。</p>
+    <p>线上这五页是<b>快照</b>：价格、榜单、走势都是生成那一刻的样子，只读。装到本机才有完整能力——
+      点「重新核验」现场算一遍、写自己的价目表、装回中台当插件、断网也能用。</p>
     <div class="dl-quick">
       <a class="dl-btn" id="dlMain" href="https://github.com/blackinkvc/pocket-llmcost/releases/latest" rel="noopener">
         <b>下载</b><span id="dlMainHint">自动识别系统…</span>
@@ -279,6 +283,19 @@ DOWNLOAD_HTML = """
   </section>
 
   <section class="dl-grid">
+
+    <article class="dl-card">
+      <h2>站上有哪些小工具</h2>
+      <table class="dl-table">
+        <thead><tr><th>小工具</th><th>干什么</th><th>状态</th></tr></thead>
+        <tbody>
+          <tr><td><code>llmcost</code><br>价格追踪看板</td><td>模型 API 按量价 / 订阅套餐 / 本地部署，三维度算成本，带多源交叉校验和 LMArena 榜单</td><td>可下载</td></tr>
+          <tr><td colspan="2">更多小工具陆续从墨山中台里拆出来</td><td>计划中</td></tr>
+        </tbody>
+      </table>
+      <p class="dl-foot">只有<b>小工具</b>能装到本机。网站（行业研究、实例、台账）本身不打包，
+        它就是网页，看完关掉即可。</p>
+    </article>
 
     <article class="dl-card">
       <h2>选一个包</h2>
@@ -338,9 +355,9 @@ DOWNLOAD_HTML = """
     </article>
 
     <article class="dl-card">
-      <h2>本地版和线上版的差别</h2>
+      <h2>装到本机 / 就在线上看</h2>
       <table class="dl-table">
-        <thead><tr><th>能力</th><th>线上</th><th>本地</th></tr></thead>
+        <thead><tr><th>能力</th><th>线上（网页）</th><th>本机（小工具）</th></tr></thead>
         <tbody>
           <tr><td>看价目 / 榜单 / 走势</td><td>有（快照）</td><td>有</td></tr>
           <tr><td>重新核验、现场算账</td><td>—</td><td>有</td></tr>
@@ -386,16 +403,49 @@ DOWNLOAD_HTML = """
     set('llmcost-linux-x64.tar.gz', 'Linux · x86_64');
   }
 
+  /* 快照时间：只说明这五页的数据是什么时候生成的，跟「发版」无关 */
   fetch('data/data.json', {cache:'no-store'})
     .then(function(r){ return r.json(); })
     .then(function(p){
       var s = p._snapshot || {};
-      document.getElementById('dlVer').textContent = s.version || '—';
-      document.getElementById('dlDate').textContent = s.released_at || '—';
       document.getElementById('dlSnap').textContent = s.generated_at || '—';
-      if (s.sha256) document.getElementById('dlSha').textContent = s.sha256;
     })
     .catch(function(){});
+
+  /* 版本与发布日期只认真实的 Release，别拿快照日期冒充。
+     两条路：先读仓库里的 data/release.json（发版时由 CI 写入，墙内也能看），
+     没有再问 GitHub API，都不通就说「尚未发布」。 */
+  var verEl = document.getElementById('dlVer');
+  var dateEl = document.getElementById('dlDate');
+  var shaEl = document.getElementById('dlSha');
+
+  function showPending(){
+    verEl.textContent = '尚未发布';
+    dateEl.textContent = '尚未发布';
+    shaEl.textContent = '—';
+    hintEl.textContent = '尚未发布，先看源码';
+    a.href = 'https://github.com/blackinkvc/pocket-llmcost';
+    a.classList.add('is-pending');
+  }
+
+  function showRelease(tag, date, sha){
+    if (!tag) { showPending(); return; }
+    verEl.textContent = tag;
+    dateEl.textContent = date || '—';
+    if (sha) shaEl.textContent = sha.slice(0, 12) + '…（完整值见 Release）';
+  }
+
+  fetch('data/release.json', {cache:'no-store'})
+    .then(function(r){ if (!r.ok) throw new Error('none'); return r.json(); })
+    .then(function(d){ showRelease(d.tag, d.published_at, d.sha256); })
+    .catch(function(){
+      return fetch('https://api.github.com/repos/blackinkvc/pocket-llmcost/releases/latest', {cache:'no-store'})
+        .then(function(r){ if (!r.ok) throw new Error('none'); return r.json(); })
+        .then(function(rel){
+          showRelease(rel.tag_name, (rel.published_at || '').slice(0, 10), '');
+        })
+        .catch(showPending);
+    });
 })();
 </script>
 """

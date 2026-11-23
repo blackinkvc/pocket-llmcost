@@ -41,10 +41,10 @@ def main():
     p["_snapshot"] = {
         "generated_at": now.strftime("%Y-%m-%d %H:%M"),
         "generated_ts": int(now.timestamp()),
-        "version": version(),
-        "released_at": now.strftime("%Y-%m-%d"),
-        "sha256": "",
-        "note": "线上为只读快照，装本地版可现场重新核验",
+        # 只是快照自己的元信息；发版信息一律以 GitHub Release 为准，不在这里编
+        "tool_version": version(),
+        "snapshot_date": now.strftime("%Y-%m-%d"),
+        "note": "线上为只读快照，装到本机可现场重新核验",
     }
 
     if not OUT.parent.is_dir():

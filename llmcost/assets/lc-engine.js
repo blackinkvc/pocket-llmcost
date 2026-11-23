@@ -1005,7 +1005,7 @@ $('btnReport').onclick = function(){
   $('mBody').innerHTML = '<p>读取中…</p>';
   if (MODE !== 'live'){
     $('mBody').innerHTML = '<p>核验报告由本地服务生成，快照站上没有这份文件。</p>'
-      + '<p class="foot">装本地版后点这个按钮，或命令行跑 <code>python3 llmcost.py --snapshot</code>。</p>';
+      + '<p class="foot">装到本机后点这个按钮，或命令行跑 <code>python3 llmcost.py --snapshot</code>。</p>';
     return;
   }
   fetch('/api/report?name=REPORT.md', {cache:'no-store'})

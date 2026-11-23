@@ -84,6 +84,9 @@ main.pg > [data-card] > .card-h{flex:0 0 auto}
 .dl-btn:hover{filter:brightness(1.07);color:#fff;border-bottom-color:var(--accent)}
 .dl-btn.is-ghost{background:transparent;color:var(--ink);border-color:var(--rule)}
 .dl-btn.is-ghost:hover{background:var(--card2);color:var(--ink)}
+/* 还没发版：按钮退成次要样式，别让人以为点下去有包 */
+.dl-btn.is-pending{background:transparent;color:var(--ink-2);border-color:var(--rule)}
+.dl-btn.is-pending:hover{background:var(--card2);color:var(--ink)}
 .dl-note{font-size:12px;color:var(--ink3);margin:0}
 
 .dl-grid{
