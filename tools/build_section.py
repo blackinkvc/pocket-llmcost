@@ -310,8 +310,11 @@ def human_num(v):
         return escape(s)
     if abs(n) >= 1e8:
         return ("%.2f" % (n / 1e8)).rstrip("0").rstrip(".") + " 亿"
-    if abs(n) >= 1e4:
+    if abs(n) >= 1e5:
         return ("%.1f" % (n / 1e4)).rstrip("0").rstrip(".") + " 万"
+    if abs(n) >= 1e4:
+        # 一万多的数字只留一位小数会把 19558 压成「2 万」，误差太大
+        return ("%.2f" % (n / 1e4)).rstrip("0").rstrip(".") + " 万"
     return format(int(n), ",")
 
 
