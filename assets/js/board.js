@@ -212,6 +212,7 @@
     var stale = 0;
     if (calc) {
       this.cards.forEach(function (c) {
+        if (c.hidden) return;      // 说明行里的计数只算当前这一档看得见的
         var k = c.getAttribute('data-k');
         var val = c.querySelector('.bd-val');
         if (!val) return;
