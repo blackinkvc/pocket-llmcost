@@ -31,13 +31,13 @@ CN = [
     "海光", "Hygon", "中科曙光", "浪潮", "Inspur", "新华三", "H3C", "联想", "Lenovo",
     "摩尔", "太极", "麒麟", "统信", "UOS", "openKylin", "深度科技", "Deepin",
     "智元", "宇树", "Unitree", "云深处", "傅利叶", "优必选", "UBTECH",
-    "小红书", "Xiaohongshu", "REDnote", "知乎", "Zhihu", "B站", "哔哩哔哩", "Bilibili",
+    "快手", "Kuaishou", "小红书", "Xiaohongshu", "REDnote", "知乎", "Zhihu", "B站", "哔哩哔哩", "Bilibili",
     "中国", "China", "国产",
 ]
 
 # 国外：机构名、产品名、平台名
 FOREIGN = [
-    "OpenAI", "Anthropic", "Claude", "Google", "DeepMind", "Gemini", "Meta", "Llama",
+    "OpenAI", "Anthropic", "Claude", "微软", "Microsoft 365", "AMD", "Anysphere", "Suno", "Google", "DeepMind", "Gemini", "Meta", "Llama",
     "Microsoft", "GitHub", "Copilot", "Azure", "Mistral", "xAI", "Grok", "Cohere",
     "Amazon", "AWS", "awslabs", "Bedrock", "NVIDIA", "Apple", "SST", "OpenCode", "Cursor",
     "Windsurf", "Codeium", "Sourcegraph", "Cody", "Roo", "Cline", "Continue", "Augment",

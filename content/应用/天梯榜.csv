@@ -1,1 +1,24 @@
-排名,产品,厂商,类别,形态,时间
+﻿排名,产品,厂商,类别,形态,时间
+1,GitHub Copilot,GitHub / 微软,编码,IDE 内补全，编码 AI 规模化的起点,2021-06
+2,Midjourney,Midjourney,图像,闭源、靠审美取向取胜，从 Discord 起量,2022-07
+3,Stable Diffusion,Stability AI,图像,开放权重，催生本地生图生态,2022-08
+4,ChatGPT,OpenAI,通用助手,把对话变成 AI 的默认入口,2022-11
+5,ElevenLabs,ElevenLabs,音频,语音合成与音色克隆，按字符计价,2022-11
+6,Perplexity,Perplexity,搜索,带引用的答案引擎，先给结论再给来源,2022-12
+7,Claude,Anthropic,通用助手,长文本与写作起家，后续重心转向编码,2023-03
+8,Microsoft 365 Copilot,微软,办公,嵌进 Word / Excel / Teams，靠既有分发拿用户,2023-03
+9,Cursor,Anysphere,编码,编辑器内的多文件编辑 Agent,2023-03
+10,Suno,Suno,音频,整首歌生成，提示词写风格,2023-04
+11,NotebookLM,Google,研究,基于自有资料库的问答与音频概览,2023-07
+12,豆包,字节跳动,通用助手,国内消费级入口，多模态产品线,2023-08
+13,Kimi,月之暗面,通用助手,以长上下文起家,2023-10
+14,Gemini,Google,通用助手,与搜索、Workspace 绑定分发,2023-12
+15,可灵,快手,视频,国内视频生成的代表产品之一,2024-06
+16,Sora,OpenAI,视频,文生视频从演示走向产品,2024-12
+17,Claude Code,Anthropic,编码,终端里的编码 Agent，可读写整个仓库,2025-02
+18,Codex,OpenAI,编码,云端并行任务，交付补丁而不是对话,2025-05
+19,Veo 3,Google,视频,原生带音频的视频生成,2025-05
+20,Google Antigravity,Google,编码,把编辑器、终端、浏览器放进同一个 agent 平台 *,2025-11
+21,Nano Banana Pro,Google,图像,生成与改图分开建模，改图优先，靠 Gemini 3 打底 *,2025-11
+22,Perplexity Portable Computer,Perplexity,端侧,把 agent 环境装进本机，Linux、最低 24 GB 显存,2026-08
+23,Gemini 应用的 Workspace 入口,Google,办公,文档 / 邮件 / 表格里直接调模型，官方口径月活 7.5 亿（2026-03）*,2026-03

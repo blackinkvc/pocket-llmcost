@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>骨架 03 · 工具定义 · 模板</title>
+<meta name="description" content="工具定义最容易写错的是 description：它不描述工具「是什么」，而要告诉模型「什么时候该用、什么时候别用」。参数用枚举收敛，别留自由文本。">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/section.css">
+<script src="../assets/js/board.js" defer></script>
+<script src="../assets/js/ranks.js" defer></script>
+<script src="../assets/js/reports.js" defer></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a href="../models.html">基模</a>
+      <a href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a href="../hardware.html">硬件</a>
+      <a class="is-active" href="../templates.html">模板</a>
+      <a href="../apps.html">应用</a>
+      <a href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-24</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">Templates</span>
+    <a href="../templates.html">← 回「模板」</a>
+    <a href="../templates.html#intro">简介</a>
+    <a href="../templates.html#board">骨架</a>
+    <a href="../templates.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../templates.html">模板</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2026-11-23 · 模板 · Agent</p>
+    <h1 class="post-title">骨架 03 · 工具定义</h1>
+    <p class="post-lede">工具定义最容易写错的是 description：它不描述工具「是什么」，而要告诉模型「什么时候该用、什么时候别用」。参数用枚举收敛，别留自由文本。</p>
+    <div class="post-body">
+<h2>单工具骨架</h2>
+<pre><code>{
+  &quot;name&quot;: &quot;search_orders&quot;,
+  &quot;description&quot;: &quot;按订单号查询订单状态。仅当用户提供了订单号、且问的是物流或退款进度时使用；用户只说商品名时先调 search_products。&quot;,
+  &quot;input_schema&quot;: {
+    &quot;type&quot;: &quot;object&quot;,
+    &quot;properties&quot;: {
+      &quot;order_id&quot;: { &quot;type&quot;: &quot;string&quot;, &quot;description&quot;: &quot;订单号，形如 SO-2026-000123&quot; },
+      &quot;fields&quot;: {
+        &quot;type&quot;: &quot;array&quot;,
+        &quot;items&quot;: { &quot;enum&quot;: [&quot;status&quot;, &quot;logistics&quot;, &quot;refund&quot;] }
+      }
+    },
+    &quot;required&quot;: [&quot;order_id&quot;]
+  }
+}</code></pre>
+<h2>五条写法规矩</h2>
+<ul><li><strong>边界写进 description。</strong> 「什么时候别用」比「什么时候用」更能减少误调用；模型不缺正面例子，缺的是排他条件。</li><li><strong>参数要收敛。</strong> 枚举优于自由文本，格式样例优于描述；<code>"2026-11-23"</code> 写进 description 比写「日期字符串」有用。</li><li><strong>必填项越少越好。</strong> 必填项每多一个，模型编造参数的概率就上一档。</li><li><strong>一个工具只做一件事。</strong> <code>do_everything</code> 这类工具会让模型在参数里做决策，而参数是最难自纠的地方。</li><li><strong>返回也要设计。</strong> 返回 200 行 JSON 等于把上下文预算烧掉；只回模型判断所需字段，细节让它再查一次。</li></ul>
+<h2>复制这张检查表</h2>
+<pre><code>| 工具 | 单一职责 | description 写了排除条件 | 参数枚举 | 必填 ≤ 3 | 返回字段 ≤ 5 | 失败时的提示 |
+| --- | --- | --- | --- | --- | --- | --- |</code></pre>
+<h2>最容易踩的坑</h2>
+<p><strong>把工具名写成内部函数名。</strong> <code>q_ord_v2</code> 对模型是零信息；名字本身就是提示词的一部分，<code>search_orders</code> 比任何注释都有效。</p>
+    </div>
+  </article>
+  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list"><a href="04-%E8%AF%84%E6%B5%8B%E8%AE%BE%E8%AE%A1%E5%8D%A1.html"><b>骨架 04 · 评测设计卡</b><time>2026-11-23</time></a><a href="01-%E6%A8%A1%E5%9E%8B%E9%80%89%E5%9E%8B%E7%9F%A9%E9%98%B5.html"><b>骨架 01 · 模型选型矩阵</b><time>2026-11-23</time></a><a href="02-%E6%88%90%E6%9C%AC%E4%BC%B0%E7%AE%97%E5%8D%95.html"><b>骨架 02 · 成本估算单</b><time>2026-11-23</time></a></div>
+  </nav>
+  <nav class="pager"><a href="../templates.html"><span class="pg-l">← BACK</span><span class="pg-t">模板 · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2026-11 公开资料<br>2026 条目：只收能核到月份的<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">应用</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

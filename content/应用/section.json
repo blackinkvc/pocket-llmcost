@@ -1,44 +1,31 @@
 {
-  "slug": "apps",
-  "name": "应用",
-  "en": "Products",
-  "page": "apps.html",
-  "num": "06",
-  "sub": "PRODUCTS · SNAPSHOT 2025-11",
-  "chips": [
-    "助手",
-    "编码",
-    "图像视频",
-    "音频",
-    "搜索",
-    "办公"
-  ],
-  "desc": "应用：六类产品的天梯榜，以及形态变化与选型报告。",
-  "board": {
-    "title": "产品榜",
-    "note": "按发布时间排，记录形态变化而不是热度。",
-    "file": "天梯榜.csv",
-    "fields": {
-      "rank": "排名",
-      "name": "产品",
-      "meta": [
-        "厂商",
-        "类别"
-      ],
-      "note": "形态 / 关键点",
-      "when": "时间"
-    }
-  },
-  "reports": {
-    "title": "报告",
-    "dir": "报告"
-  },
-  "prev": [
-    "templates.html",
-    "05 模板"
-  ],
-  "next": [
-    "principles.html",
-    "07 原理 · 历史"
-  ]
+ "slug": "apps",
+ "name": "应用",
+ "en": "Products",
+ "page": "apps.html",
+ "num": "06",
+ "sub": "PRODUCTS · FORM OVER HEAT",
+ "chips": ["助手", "编码", "图像视频", "音频", "搜索", "办公"],
+ "desc": "应用：六类 AI 产品按首次可用时间排成台账，记录形态变化而不是热度；两篇报告讲形态为什么决定天花板。",
+ "boards": [
+  {
+   "title": "产品台账",
+   "note": "时间只写首次公开可用的月份，不写融资、不写改版。滑块按月份截断：拖到某个月，只剩那时之前已经存在的产品——用来看「当时能选什么」。带 * 的条目细节待核。",
+   "file": "天梯榜.csv",
+   "short": "台账",
+   "fields": {
+    "rank": "排名",
+    "name": "产品",
+    "meta": ["厂商", "类别"],
+    "note": "形态 / 关键点",
+    "when": "时间"
+   }
+  }
+ ],
+ "reports": {
+  "title": "报告",
+  "dir": "报告"
+ },
+ "prev": ["templates.html", "05 模板"],
+ "next": ["principles.html", "07 原理 · 历史"]
 }

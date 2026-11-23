@@ -257,7 +257,7 @@ def footer_html(prefix=""):
     </div>
     <div>
       <h5>数据口径</h5>
-      <p class="fine">知识基线：2025-11 公开资料<br>2026 年新增进展：待补充<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">知识基线：2026-11 公开资料<br>2026 条目：只收能核到月份的<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
       <p class="fine">页面不含本机路径、账号与未公开数据。</p>
     </div>
     <div>
@@ -403,7 +403,10 @@ def human_num(v):
     if abs(n) >= 1e4:
         # 一万多的数字只留一位小数会把 19558 压成「2 万」，误差太大
         return ("%.2f" % (n / 1e4)).rstrip("0").rstrip(".") + " 万"
-    return format(int(n), ",") + " "   # 和 JS 侧一致：数字与单位之间留一个空格
+    if n == int(n):
+        return format(int(n), ",") + " "   # 和 JS 侧一致：数字与单位之间留一个空格
+    # 小数不能被 int() 抹掉：81.2 万张 → 「81 万张」是改数据，不是格式化
+    return ("%.2f" % n).rstrip("0").rstrip(".") + " "
 
 
 def board_mode(entry, rows):

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>两类瓶颈：prefill 吃算力，decode 吃带宽 · 硬件</title>
+<meta name="description" content="生成一段回答要过两个阶段，前一段是并行算力题，后一段是串行搬运题。混在一起算，得到的并发数一定是错的；这一代硬件干脆把两段拆成两种芯片。">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/section.css">
+<script src="../assets/js/board.js" defer></script>
+<script src="../assets/js/ranks.js" defer></script>
+<script src="../assets/js/reports.js" defer></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a href="../models.html">基模</a>
+      <a href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a class="is-active" href="../hardware.html">硬件</a>
+      <a href="../templates.html">模板</a>
+      <a href="../apps.html">应用</a>
+      <a href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-24</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">Hardware</span>
+    <a href="../hardware.html">← 回「硬件」</a>
+    <a href="../hardware.html#intro">简介</a>
+    <a href="../hardware.html#board-1">数据中心</a>
+    <a href="../hardware.html#board-2">本地</a>
+    <a href="../hardware.html#board-3">出货</a>
+    <a href="../hardware.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../hardware.html">硬件</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2026-11-23 · 推理 · 显存 · 带宽</p>
+    <h1 class="post-title">两类瓶颈：prefill 吃算力，decode 吃带宽</h1>
+    <p class="post-lede">生成一段回答要过两个阶段，前一段是并行算力题，后一段是串行搬运题。混在一起算，得到的并发数一定是错的；这一代硬件干脆把两段拆成两种芯片。</p>
+    <div class="post-body">
+<p>自回归生成分两段，性质完全不同。</p>
+<p><strong>Prefill</strong> 把整段输入一次性送进模型，所有 token 并行算，吃的是算力。 <strong>Decode</strong> 每次只生成一个 token，却要把这次用到的全部权重从显存里读一遍，吃的是带宽。</p>
+<pre><code>prefill FLOPs ≈ 2 × N_params × N_tokens
+decode 每 token 搬运量 ≈ N_params × bytes_per_param
+理论 tok/s ≈ 带宽 ÷ (N_params × bytes_per_param)
+KV Cache ≈ 2 × layers × kv_heads × head_dim × seq × batch × bytes
+  （2 = K 和 V；GQA 让 kv_heads 远小于注意力头数）</code></pre>
+<h2>用一张卡算一遍</h2>
+<p>以 7B 稠密模型、FP16 权重（约 14 GB）为例：</p>
+<ul><li>decode 的理论上限是 <code>带宽 ÷ 14 GB</code>。1792 GB/s 的 RTX 5090 约 128 tok/s，273 GB/s 的 DGX Spark 约 19 tok/s。</li><li>prefill 的理论成本是 <code>2 × 7e9 × 输入 token 数</code>。4K 输入的 prompt 约 5.7e13 FLOPs，算力越高，首字越快。</li></ul>
+<p>llama.cpp 公开榜单（同一测试模型 Llama 2 7B、4 bit）在 2026-11 的快照能印证这个方向：RTX 5090 读 prompt 14,970 tok/s、写 300 tok/s；DGX Spark 是 3,661 与 57；Ryzen AI Max+ 395 是 1,004 与 50。<strong>读的速度差四倍，写的速度差五倍，而这三台的算力差距并没有这么夸张</strong>——差别主要来自带宽。</p>
+<p>这组数字只能看量级：它们来自不同用户、不同框架版本，且是 4 bit 小模型。方向可靠，具体数值不可引用。</p>
+<h2>分芯片：Rubin CPX 在解决什么</h2>
+<p>一个 HBM4 的 GPU 用来做 prefill 是浪费的：prefill 不需要那么大带宽，需要的是并行度与算力。 Rubin CPX 就是按这个判断做出来的——128 GB GDDR7 替代 HBM4，单卡 30 PFLOPS NVFP4，注意力吞吐约为 GB300 单卡的三倍，专做 prefill。</p>
+<p>代价写在机柜功率上：标准 Rubin NVL72 约 120–130 kW，NVL144 CPX 机柜约 370 kW。 <strong>拆开的收益是成本与吞吐，代价是功率与复杂度</strong>——同一套推理服务，现在要按两个阶段分别做容量规划。</p>
+<h2>三个采购问题，对应三个数</h2>
+<div class="md-table"><table><thead><tr><th>问题</th><th>看的数</th><th>判断错会怎样</th></tr></thead><tbody><tr><td>模型放得下吗</td><td>显存 / 内存容量</td><td>直接 OOM，连跑都跑不起来</td></tr><tr><td>生成快不快</td><td>显存带宽</td><td>能跑但一秒几个字，长输出场景不可用</td></tr><tr><td>首字快不快</td><td>算力与并行度</td><td>长文档问答卡在等待，体验崩在第一步</td></tr></tbody></table></div>
+<p>三者不能互相替代。买卡时最常见的错误，是拿算力（通常是营销页最大的那个数）去回答「生成快不快」——那是带宽的活。</p>
+<h2>MoE 让这件事更容易算错</h2>
+<p>MoE 模型按<strong>总参数</strong>占显存、按<strong>激活参数</strong>读权重。于是同一台机器上，容量要按总参数准备，decode 速度却按激活部分算—— 这解释了为什么 gpt-oss-120b 这类 MoE 能在带宽不高的统一内存机器上跑出可用速度，而参数量相当的稠密模型不行。</p>
+<p><strong>看到 MoE 就分两个数问：总参数多少（容量）、激活多少（速度）。</strong> 只报一个参数的模型卡，在本地部署场景里信息量是不够的。</p>
+    </div>
+  </article>
+  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list"><a href="02-%E6%98%BE%E5%AD%98%E8%B4%A6-%E4%BB%8E%E6%9D%83%E9%87%8D%E5%88%B0KV.html"><b>显存账：从权重到 KV 的粗算</b><time>2026-11-23</time></a></div>
+  </nav>
+  <nav class="pager"><a href="../hardware.html"><span class="pg-l">← BACK</span><span class="pg-t">硬件 · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2026-11 公开资料<br>2026 条目：只收能核到月份的<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">应用</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

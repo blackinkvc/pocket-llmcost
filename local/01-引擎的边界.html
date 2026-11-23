@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>引擎的边界：什么时候该换一套 · 本地部署</title>
+<meta name="description" content="七套引擎不是七个等级，是七种取舍。选错的典型症状是「能跑但很慢」或「很快但装不下」，换引擎能解决前一种，解决不了后一种。">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/section.css">
+<script src="../assets/js/board.js" defer></script>
+<script src="../assets/js/ranks.js" defer></script>
+<script src="../assets/js/reports.js" defer></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a href="../models.html">基模</a>
+      <a href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a href="../hardware.html">硬件</a>
+      <a href="../templates.html">模板</a>
+      <a href="../apps.html">应用</a>
+      <a href="../principles.html">原理 · 历史</a>
+      <a class="is-active" href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-24</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">Local</span>
+    <a href="../local.html">← 回「本地部署」</a>
+    <a href="../local.html#intro">简介</a>
+    <a href="../local.html#board-1">引擎</a>
+    <a href="../local.html#board-2">显存</a>
+    <a href="../local.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../local.html">本地部署</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2026-11-23 · 引擎 · 部署 · 量化</p>
+    <h1 class="post-title">引擎的边界：什么时候该换一套</h1>
+    <p class="post-lede">七套引擎不是七个等级，是七种取舍。选错的典型症状是「能跑但很慢」或「很快但装不下」，换引擎能解决前一种，解决不了后一种。</p>
+    <div class="post-body">
+<h2>先分清三件事</h2>
+<p>本地跑模型，卡点只有三个：<strong>显存够不够、带宽喂不喂得饱、要不要多并发。</strong></p>
+<ul><li>显存不够 → 换更小的量化，或换更大的机器。换引擎没用。</li><li>带宽不够 → 单用户场景换引擎最多改善 10%–20%，瓶颈在硬件。</li><li>要多并发 → 这时换引擎才有数量级的差别：llama.cpp 的串行优势变成劣势，vLLM 的 PagedAttention 才是答案。</li></ul>
+<p><strong>「能跑但很慢」通常是第 2 类，「很快但装不下」是第 1 类。</strong> 分清之后再动手，能省掉大半夜的折腾。</p>
+<h2>七套引擎各自解决什么</h2>
+<div class="md-table"><table><thead><tr><th>引擎</th><th>真正的长处</th><th>什么时候别用</th></tr></thead><tbody><tr><td>llama.cpp / GGUF</td><td>单机跑得动，CPU 与统一内存都能用，量化格式最全</td><td>需要多并发服务</td></tr><tr><td>Ollama</td><td>五分钟试一个新模型，带本地 API</td><td>要压榨吞吐，或要调底层参数</td></tr><tr><td>LM Studio</td><td>图形界面挑模型、并排对比输出</td><td>要批处理、要自动化</td></tr><tr><td>MLX</td><td>Apple 芯片上最顺的一条路</td><td>非 macOS</td></tr><tr><td>vLLM</td><td>多并发吞吐，PagedAttention 省显存</td><td>单用户、小显存机器</td></tr><tr><td>SGLang</td><td>结构化输出与约束解码</td><td>生态小、遇到问题没人踩过</td></tr><tr><td>ComfyUI</td><td>节点式生图 / 生视频工作流</td><td>文本推理（它不是干这个的）</td></tr></tbody></table></div>
+<h2>量化格式必须和引擎配套</h2>
+<p>这是最常见的「跑不起来」原因，而不是模型坏了：</p>
+<ul><li><strong>GGUF</strong> 给 llama.cpp 系（Ollama、LM Studio 底层也是它）。</li><li><strong>AWQ / GPTQ / FP8</strong> 给 GPU 服务端（vLLM、SGLang）。</li><li><strong>MLX 量化</strong> 是 Apple 自己的一套，和上面都不通用。</li></ul>
+<p>同一个模型在 Hugging Face 上常有五六种格式，下错一个，报错信息往往只说「不支持的数据类型」。</p>
+<h2>三个便宜的先手</h2>
+<ol><li><strong>先跑官方示例。</strong> 官方 demo 跑不通，问题在环境（驱动、CUDA / ROCm 版本、Python 依赖），不在参数。</li><li><strong>固定上下文再调速度。</strong> 上下文从 8K 开到 32K，速度掉一半是正常的，不是引擎坏了。</li><li><strong>留 15%–25% 显存余量。</strong> 卡在 98% 占用上跑，长上下文一到就 OOM；而 OOM 往往发生在演示的时候。</li></ol>
+<h2>一句话判据</h2>
+<p><strong>单用户追求「能跑 + 好维护」→ llama.cpp / Ollama；多用户追求「吞吐 + 成本」→ vLLM / SGLang；生图生视频 → ComfyUI。</strong> 三件事都要，就装三套，别指望一套通吃。</p>
+    </div>
+  </article>
+  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list"><a href="02-%E7%BB%9F%E4%B8%80%E5%86%85%E5%AD%98%E7%9A%84%E5%AE%9E%E6%B5%8B%E5%8F%A3%E5%BE%84.html"><b>一台统一内存机器的实测口径</b><time>2026-11-23</time></a></div>
+  </nav>
+  <nav class="pager"><a href="../local.html"><span class="pg-l">← BACK</span><span class="pg-t">本地部署 · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2026-11 公开资料<br>2026 条目：只收能核到月份的<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">应用</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,42 +1,33 @@
 {
-  "slug": "templates",
-  "name": "模板",
-  "en": "Templates",
-  "page": "templates.html",
-  "num": "05",
-  "sub": "COPY & ADAPT · SNAPSHOT 2025-11",
-  "chips": [
-    "选型",
-    "成本",
-    "评测",
-    "部署"
-  ],
-  "desc": "模板：可以直接复制填空的骨架，按用途排成卡片。",
-  "board": {
-    "title": "模板卡",
-    "note": "一张卡一套骨架，点进报告看字段说明和填法。",
-    "file": "天梯榜.csv",
-    "fields": {
-      "rank": "排名",
-      "name": "模板",
-      "meta": [
-        "用途",
-        "适用"
-      ],
-      "note": "说明",
-      "when": "更新"
-    }
-  },
-  "reports": {
-    "title": "报告",
-    "dir": "报告"
-  },
-  "prev": [
-    "hardware.html",
-    "04 硬件"
-  ],
-  "next": [
-    "apps.html",
-    "06 应用"
-  ]
+ "slug": "templates",
+ "name": "模板",
+ "en": "Templates",
+ "page": "templates.html",
+ "num": "05",
+ "sub": "COPY & ADAPT",
+ "chips": ["选型", "成本", "评测", "部署"],
+ "desc": "模板：六套可以直接复制填空的骨架，从选型到结论沉淀，一套一张表或一段固定格式。",
+ "boards": [
+  {
+   "title": "六套骨架",
+   "note": "顺序是递进的：先定用哪个模型，再算值不值得用，然后写工具定义，接着设计评测，部署时对核对单，最后把结论按固定格式沉淀。点标题进骨架全文，整块复制走。",
+   "file": "天梯榜.csv",
+   "short": "骨架",
+   "mode": "static",
+   "fields": {
+    "rank": "排名",
+    "name": "模板",
+    "meta": ["用途", "适用"],
+    "note": "说明",
+    "when": "更新",
+    "link": "链接"
+   }
+  }
+ ],
+ "reports": {
+  "title": "报告",
+  "dir": "报告"
+ },
+ "prev": ["hardware.html", "04 硬件"],
+ "next": ["apps.html", "06 应用"]
 }

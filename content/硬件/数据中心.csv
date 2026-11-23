@@ -1,0 +1,19 @@
+﻿排名,型号,厂商,显存,带宽,功耗,备注
+1,Vera Rubin NVL72 机柜,NVIDIA,20.7 TB HBM4（72 卡池化）,单卡 22 TB/s · 机柜 260 TB/s,机柜约 120–130 kW,2026-06 全量生产、秋季起交付八家云；容量与 GB300 持平，翻代的是带宽与算力。
+2,GB300 NVL72 机柜,NVIDIA,20.7 TB HBM3e（72 卡池化）,机柜 130 TB/s NVLink 5,机柜级,上一代在产机型；MLPerf v6.0 四机柜并联跑 DeepSeek-R1 约 250 万 tok/s *。
+3,MI455X,AMD,432 GB HBM4,19.6 TB/s,未公开,CDNA 5 面向大规模训练；同代另有 MI430X（HPC）与 MI440X（企业整机）。
+4,MI350X,AMD,288 GB HBM3e,8 TB/s,约 1.0 kW,上一代大显存路线，单卡 288 GB 曾是最能塞的一张。
+5,Rubin GPU 单卡,NVIDIA,288 GB HBM4,22 TB/s,随机柜,3360 亿晶体管；单卡 50 PFLOPS NVFP4、NVLink 6 单卡 3.6 TB/s *。
+6,思元 690,寒武纪,196 GB HBM3,未公开,未公开,2026 年初量产，双芯片封装，半精度 700 TFLOPS 级 *。
+7,B200,NVIDIA,192 GB HBM3e,8 TB/s,约 1.0 kW,Blackwell 单卡，存量 Blackwell 集群的主力。
+8,MI300X,AMD,192 GB HBM3,5.3 TB/s,750 W,上一代大显存推理卡，单卡放得下 70B 全精度。
+9,TPU Ironwood,Google,192 GB HBM,7.37 TB/s,液冷,第七代 TPU，自用为主，不对外单卖。
+10,昇腾 950DT,华为,144 GB HiZQ 2.0,4 TB/s,未公开,2026 年四季度；主攻训练与 decode，与 950PR 分工。
+11,沐曦 C600,沐曦,144 GB HBM3e,3 TB/s,350 W,CUDA 兼容迁移路线，图形与推理两用。
+12,H200,NVIDIA,141 GB HBM3e,4.8 TB/s,700 W,与 H100 同算力，换的是显存与带宽。
+13,Rubin CPX 预填充卡,NVIDIA,128 GB GDDR7,未公开（NVL144 CPX 机柜 1.7 PB/s）,机柜约 370 kW,只做 prefill；单卡 30 PFLOPS NVFP4 *，用 GDDR7 换容量与成本。
+14,昇腾 950PR,华为,112 GB / 128 GB（口径不一）,1.6 TB/s,600 W,2026-03 量产，主攻 prefill；单卡算力约为 H20 的 2.87 倍 *。
+15,MTT S5000,摩尔线程,80 GB HBM2e,1.6 TB/s,400 W,渲染与推理一体的路线，影视与数字孪生场景多。
+16,H100 SXM,NVIDIA,80 GB HBM3,3.35 TB/s,700 W,存量训练主力，多数公开基准仍以它为分母。
+17,昇腾 910C,华为,64 GB HBM2e,1.8 TB/s / 3.2 TB/s（口径不一）,350 W,国产存量主力；互联与显存带宽两处口径互不一致。
+18,壁仞 BR104,壁仞,64 GB HBM3,1.5 TB/s,400 W,能效取向；万卡级集群案例少于昇腾。

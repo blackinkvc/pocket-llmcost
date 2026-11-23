@@ -1,0 +1,10 @@
+﻿排名,机型,厂商,显存,带宽,价格,备注
+1,Mac Studio M5 Ultra,Apple,96–512 GB 统一,1.2 TB/s,$5,499 起,2026-09-22 开售；容量天花板，带宽仍只有顶级独显的 2/3。
+2,DGX Spark（GB10）,NVIDIA,128 GB 统一 LPDDR5X,273 GB/s,$4,699,2026-02 因内存缺货提价 18%；卖的是桌面 CUDA 开发环境，不是服务机。
+3,Ryzen AI Max+ 395,AMD,最高 128 GB 统一 LPDDR5X,约 256 GB/s,128 GB 整机约 $3,449,最便宜的 128 GB 方案；本机就是这条路线，实测在本地部署页。
+4,Mac Studio M5 Max,Apple,36–128 GB 统一,460 / 614 GB/s,$2,499 起,带宽与容量的折中档，MLX 原生。
+5,RTX PRO 6000 Blackwell,NVIDIA,96 GB GDDR7 ECC,1.79 TB/s,2026 年约 $12k–14.5k,单卡生成最快；DRAM 缺货后价格接近翻倍，性价比反转。
+6,RTX PRO 5000,NVIDIA,48 / 72 GB GDDR7,1.34 TB/s,未公开,单卡 72 GB 这一档的中间选择。
+7,RTX 5090,NVIDIA,32 GB GDDR7,1.79 TB/s,$1,999 首发,单用户甜点；32 GB 装不下 70B 稠密模型。
+8,M6 Mac mini,Apple,最高 32 GB 统一,未公开,$899 起,2026-08-25 起售；基础内存仍是 16 GB。
+9,Windows DGX Station（GB300）,NVIDIA,未公开（厂称可跑 1T 参数）,未公开,未公开,2026 年四季度；桌面级超大内存机器，规格待厂方公布。

@@ -1,43 +1,57 @@
 {
-  "slug": "hardware",
-  "name": "硬件",
-  "en": "Hardware",
-  "page": "hardware.html",
-  "num": "04",
-  "sub": "SILICON & MEMORY · SNAPSHOT 2025-11",
-  "chips": [
-    "训练卡",
-    "推理卡",
-    "端侧",
-    "显存"
-  ],
-  "desc": "硬件：算力卡与整机的天梯榜，附显存估算与实测记录。",
-  "board": {
-    "title": "型号榜",
-    "note": "按显存容量与定位排，不是跑分排名；实测数字见报告。",
-    "file": "天梯榜.csv",
-    "fields": {
-      "rank": "排名",
-      "name": "型号",
-      "meta": [
-        "厂商",
-        "显存",
-        "带宽"
-      ],
-      "note": "备注",
-      "when": "时间"
-    }
+ "slug": "hardware",
+ "name": "硬件",
+ "en": "Hardware",
+ "page": "hardware.html",
+ "num": "04",
+ "sub": "SILICON · MEMORY · BANDWIDTH",
+ "chips": ["数据中心", "本地工作站", "显存", "带宽"],
+ "desc": "硬件：把加速卡与本地机型按显存、带宽、功耗排成三张表，再解释 prefill 与 decode 为什么是两种瓶颈。",
+ "boards": [
+  {
+   "title": "数据中心加速卡",
+   "note": "机柜行写的是池化总量，单卡行写的是单卡规格，两者不能相减也不能比价。显存决定「放不放得下」，带宽决定「生成多快」，算力决定「读 prompt 多快」。带 * 的是厂商标称、第三方尚未复核的数字。",
+   "file": "数据中心.csv",
+   "short": "数据中心",
+   "fields": {
+    "rank": "排名",
+    "name": "型号",
+    "meta": ["厂商", "显存", "带宽", "功耗"],
+    "note": "备注"
+   }
   },
-  "reports": {
-    "title": "报告",
-    "dir": "报告"
+  {
+   "title": "本地与工作站",
+   "note": "同价位档里容量与带宽基本互斥：128 GB 统一内存的机器，带宽只有独显的五分之一左右。这一榜按容量排，速度看带宽列，实测换算在报告里。",
+   "file": "本地与工作站.csv",
+   "short": "本地",
+   "fields": {
+    "rank": "排名",
+    "name": "机型",
+    "meta": ["厂商", "显存 / 内存", "带宽", "价格"],
+    "note": "备注"
+   }
   },
-  "prev": [
-    "companies.html",
-    "03 公司"
-  ],
-  "next": [
-    "templates.html",
-    "05 模板"
-  ]
+  {
+   "title": "出货 · 2025 全年",
+   "note": "IDC 按张统计的中国 AI 加速卡出货量，是「一年卖出去多少」，不是「现在有多少在跑」。份额只在同一次统计内可比，不能拿去和收入份额、算力份额互换。",
+   "file": "出货.csv",
+   "short": "出货",
+   "mode": "static",
+   "unit": "万张",
+   "fields": {
+    "rank": "排名",
+    "name": "厂商",
+    "meta": ["份额", "口径"],
+    "note": "备注",
+    "value": "出货"
+   }
+  }
+ ],
+ "reports": {
+  "title": "报告",
+  "dir": "报告"
+ },
+ "prev": ["companies.html", "03 公司"],
+ "next": ["templates.html", "05 模板"]
 }

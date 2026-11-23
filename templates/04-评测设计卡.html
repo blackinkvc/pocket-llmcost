@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>骨架 04 · 评测设计卡 · 模板</title>
+<meta name="description" content="先定判卷人，再看分数。没有自动判卷条件的任务，就必须写明谁来复核、复核哪些样本；否则评测只能测出「感觉还行」。">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/section.css">
+<script src="../assets/js/board.js" defer></script>
+<script src="../assets/js/ranks.js" defer></script>
+<script src="../assets/js/reports.js" defer></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a href="../models.html">基模</a>
+      <a href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a href="../hardware.html">硬件</a>
+      <a class="is-active" href="../templates.html">模板</a>
+      <a href="../apps.html">应用</a>
+      <a href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-24</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">Templates</span>
+    <a href="../templates.html">← 回「模板」</a>
+    <a href="../templates.html#intro">简介</a>
+    <a href="../templates.html#board">骨架</a>
+    <a href="../templates.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../templates.html">模板</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2026-11-23 · 模板 · 评测</p>
+    <h1 class="post-title">骨架 04 · 评测设计卡</h1>
+    <p class="post-lede">先定判卷人，再看分数。没有自动判卷条件的任务，就必须写明谁来复核、复核哪些样本；否则评测只能测出「感觉还行」。</p>
+    <div class="post-body">
+<h2>四个必填项</h2>
+<div class="md-table"><table><thead><tr><th>项</th><th>要回答的问题</th><th>不合格的样子</th></tr></thead><tbody><tr><td>判卷人</td><td>谁判定这条输出对错</td><td>「人工看一下」</td></tr><tr><td>样本量</td><td>多少条、怎么抽</td><td>20 条里 18 条对就说「准确率 90%」</td></tr><tr><td>失败样本</td><td>已知的、必须被测到的错法</td><td>只测顺利路径</td></tr><tr><td>通过线</td><td>多少分算过，写数字</td><td>「明显更好就行」</td></tr></tbody></table></div>
+<h2>三种判卷方式，按可靠度排</h2>
+<ol><li><strong>可执行验证</strong> —— 单测、编译、schema 校验、SQL 能否跑通。最可靠，编码场景能跑通就是靠这个。</li><li><strong>人工盲评</strong> —— 两个人各自打分，不一致的样本拿出来讨论。贵，但能发现自动指标掩盖的退化。</li><li><strong>模型当裁判</strong> —— 便宜、可批量，但会系统性偏向「写得长、写得像」的答案。只适合做筛选，不适合做验收。</li></ol>
+<p>自动指标会掩盖长尾退化：有评测显示 4 bit 量化在自动指标上只掉 0.3%，人工评测却掉了 16.6%。<strong>这就是为什么验收要有第 2 种方式。</strong></p>
+<h2>复制这张卡</h2>
+<pre><code>| 场景 | 判卷方式 | 样本量 | 抽样方法 | 已知失败样本 | 通过线 | 复核人 | 复核比例 |
+| --- | --- | --- | --- | --- | --- | --- | --- |</code></pre>
+<h2>两条经验</h2>
+<ul><li><strong>先测「它不会做什么」。</strong> 拒答边界、越权操作、编造引用，这三类错了会直接毁掉信任，比答得不够好严重得多。</li><li><strong>把评测集当资产。</strong> 每次线上出问题，把那条样本加进评测集；半年后它就是这个场景最值钱的东西。</li></ul>
+    </div>
+  </article>
+  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list"><a href="01-%E6%A8%A1%E5%9E%8B%E9%80%89%E5%9E%8B%E7%9F%A9%E9%98%B5.html"><b>骨架 01 · 模型选型矩阵</b><time>2026-11-23</time></a><a href="03-%E5%B7%A5%E5%85%B7%E5%AE%9A%E4%B9%89.html"><b>骨架 03 · 工具定义</b><time>2026-11-23</time></a><a href="06-%E7%BB%93%E8%AE%BA%E6%B2%89%E6%B7%80.html"><b>骨架 06 · 结论沉淀</b><time>2026-11-23</time></a></div>
+  </nav>
+  <nav class="pager"><a href="../templates.html"><span class="pg-l">← BACK</span><span class="pg-t">模板 · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2026-11 公开资料<br>2026 条目：只收能核到月份的<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">应用</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
