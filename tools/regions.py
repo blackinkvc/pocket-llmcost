@@ -31,6 +31,7 @@ CN = [
     "海光", "Hygon", "中科曙光", "浪潮", "Inspur", "新华三", "H3C", "联想", "Lenovo",
     "摩尔", "太极", "麒麟", "统信", "UOS", "openKylin", "深度科技", "Deepin",
     "智元", "宇树", "Unitree", "云深处", "傅利叶", "优必选", "UBTECH",
+    "360", "奇虎", "三六零", "昆仑", "猎豹", "中国电信", "中国移动", "中国联通",
     "快手", "Kuaishou", "小红书", "Xiaohongshu", "REDnote", "知乎", "Zhihu", "B站", "哔哩哔哩", "Bilibili",
     "中国", "China", "国产",
 ]
@@ -56,6 +57,7 @@ FOREIGN = [
     "Aider", "Tabby", "Tabnine", "Morph", "Magic", "Poolside", "Fireworks AI",
     "VS Code", "VSCode", "Visual Studio", "Marketplace", "Open VSX", "npm",
     "PyPI", "Hugging Face Hub", "Docker Hub",
+    "OpenClaw", "ClawHub", "Moltbot", "anthropics", "VoltAgent",
 ]
 
 _RE_CACHE = {}

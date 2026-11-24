@@ -7,10 +7,11 @@
 <title>原理 · 历史 · AI.TRACK</title>
 <meta name="description" content="原理与历史：17 个机制一张索引表，公式与推导拆成 14 篇报告，含 1943 至今的四段时间线。">
 <link rel="stylesheet" href="assets/css/site.css?v=958a5662">
-<link rel="stylesheet" href="assets/css/section.css?v=9a422fb1">
+<link rel="stylesheet" href="assets/css/section.css?v=76903104">
 <script src="assets/js/board.js?v=22c52225" defer></script>
 <script src="assets/js/ranks.js?v=76e44c3f" defer></script>
 <script src="assets/js/reports.js?v=971c0e35" defer></script>
+<script src="assets/js/toc.js?v=1aba3a35" defer></script>
 </head>
 <body>
 
@@ -65,15 +66,26 @@
         <p class="ph-sub">HOW IT WORKS · 1943 → 2025</p>
         <div class="ph-lede"><p>不追求教科书式完整，只回答监控时最常遇到的那几个「为什么」： 为什么长上下文贵、为什么量化能提速、为什么 MoE 显存按总参数算、 为什么扩散模型加 ControlNet 就能锁姿势。</p>
 <p>机制解释了「为什么这样算」，历史解释了「为什么现在是这样」。 两部分都拆成了独立报告，下面的机制索引可以直接点进去。</p></div>
+        <div class="verdict-box"><p class="vb-label">结论 / VERDICT</p><ol><li><b>长上下文贵在两处，都不在参数。</b><span>自注意力的计算量随序列长度平方增长，KV Cache 的显存随长度线性增长。参数规模决定「装不装得下」，序列长度决定「一次能塞多少并发」。</span></li><li><b>decode 的瓶颈是带宽，不是算力。</b><span>每生成一个 token 都要把全部权重从显存读一遍，所以理论速度 ≈ 带宽 ÷ 权重大小。量化加速的主要就是这一步：读的字节变少了。</span></li><li><b>MoE 让显存先于算力成为门槛。</b><span>总参数决定显存占用，激活参数决定单 token 计算量。看到「1T 参数」不等于需要 1T 稠密模型的算力，但确实需要 1T 的显存。</span></li></ol></div>
       </div>
-      <aside class="spec-card">
+      <aside class="ph-aside">
+      <div class="spec-card">
         <div class="spec-head"><span>SNAPSHOT</span><span>MANUAL</span></div>
         <dl class="spec-body" style="margin:0">
           <div class="spec-row"><dt>覆盖</dt><dd>LLM / 扩散</dd></div><div class="spec-row"><dt>公式</dt><dd>数量级口径</dd></div><div class="spec-row"><dt>推导</dt><dd>省略常数项</dd></div><div class="spec-row"><dt>适用</dt><dd>估算与排障</dd></div><div class="spec-row"><dt>不适用</dt><dd>精确性能建模</dd></div><div class="spec-row"><dt>历史</dt><dd>4 段 · 1943 →</dd></div>
         </dl>
+      </div>
+      <nav class="toc" aria-label="页内目录">
+        <div class="toc-head"><span>目录 / TOC</span><button class="toc-all" type="button">展开全部</button></div>
+        <ul class="toc-list">
+          <li><a href="#intro">简介与口径</a></li>
+          <li><a href="#board">机制</a></li>
+          <li><a href="#cards">概念</a></li>
+          <li class="toc-g"><div class="toc-row"><a class="toc-t" href="#reports">报告<i>14</i></a><button class="toc-caret" type="button" aria-expanded="false" aria-label="展开报告"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2 7 5l-3.5 3"/></svg></button></div><ul class="toc-sub"><li><a href="principles/01-%E4%B8%80%E6%AC%A1%E7%94%9F%E6%88%90%E5%9C%A8%E7%AE%97%E4%BB%80%E4%B9%88.html">一次生成到底在算什么</a></li><li><a href="principles/02-%E6%B3%A8%E6%84%8F%E5%8A%9B%E4%B8%8E%E9%95%BF%E4%B8%8A%E4%B8%8B%E6%96%87.html">注意力与长上下文</a></li><li><a href="principles/03-%E8%AE%AD%E7%BB%83%E5%88%86%E4%B8%89%E6%AE%B5.html">训练分三段</a></li><li><a href="principles/04-%E6%8E%A8%E7%90%86%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%80%9D%E8%80%83%E9%A2%84%E7%AE%97.html">推理模型与思考预算</a></li><li><a href="principles/05-MoE-%E6%80%BB%E5%8F%82%E6%95%B0%E4%B8%8E%E6%BF%80%E6%B4%BB%E5%8F%82%E6%95%B0.html">MoE：总参数与激活参数</a></li><li><a href="principles/06-%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B.html">扩散模型：图像是怎么出来的</a></li><li><a href="principles/07-%E9%87%8F%E5%8C%96%E4%B8%8E%E8%92%B8%E9%A6%8F.html">量化与蒸馏</a></li><li><a href="principles/08-%E8%AF%84%E4%BC%B0%E4%B8%8E%E5%B9%BB%E8%A7%89.html">评估与幻觉</a></li><li><a href="principles/09-%E6%A6%82%E5%BF%B5%E9%87%8A%E4%B9%89%E9%80%9F%E6%9F%A5.html">概念释义速查</a></li><li><a href="principles/10-%E5%8F%91%E5%B1%95%E8%BF%BD%E8%B8%AA.html">发展追踪：三个时间点</a></li><li><a href="principles/11-%E6%97%B6%E9%97%B4%E7%BA%BF-%E7%AC%A6%E5%8F%B7%E4%B8%BB%E4%B9%89%E5%88%B0%E8%BF%9E%E6%8E%A5%E4%B8%BB%E4%B9%89.html">时间线 ①：符号主义与连接主义（1943–1997）</a></li><li><a href="principles/12-%E6%97%B6%E9%97%B4%E7%BA%BF-%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%A4%8D%E5%85%B4.html">时间线 ②：深度学习复兴（2006–2016）</a></li><li><a href="principles/13-%E6%97%B6%E9%97%B4%E7%BA%BF-%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%A5%A0%E5%9F%BA.html">时间线 ③：大模型奠基（2017–2022）</a></li><li><a href="principles/14-%E6%97%B6%E9%97%B4%E7%BA%BF-%E5%A4%9A%E6%A8%A1%E6%80%81%E6%8E%A8%E7%90%86%E4%B8%8EAgent.html">时间线 ④：多模态、推理与 Agent（2023–2025）</a></li></ul></li>
+        </ul>
+      </nav>
       </aside>
     </div>
-    <div class="verdict-box"><p class="vb-label">结论 / VERDICT</p><ol><li><b>长上下文贵在两处，都不在参数。</b><span>自注意力的计算量随序列长度平方增长，KV Cache 的显存随长度线性增长。参数规模决定「装不装得下」，序列长度决定「一次能塞多少并发」。</span></li><li><b>decode 的瓶颈是带宽，不是算力。</b><span>每生成一个 token 都要把全部权重从显存读一遍，所以理论速度 ≈ 带宽 ÷ 权重大小。量化加速的主要就是这一步：读的字节变少了。</span></li><li><b>MoE 让显存先于算力成为门槛。</b><span>总参数决定显存占用，激活参数决定单 token 计算量。看到「1T 参数」不等于需要 1T 稠密模型的算力，但确实需要 1T 的显存。</span></li></ol></div>
     <div class="intro-extra"><h3>这一页的读法</h3><ul><li><strong>机制索引</strong>：一个机制一行，标出所属环节、代表工作和提出时间。点标题进对应报告，报告底部有「接着读」，同一个环节的几篇会互相串起来。</li><li><strong>环节</strong>：分生成、结构、训练、推理、压缩、图像、评估七类。分类是我的判断，不是论文里的官方划分——比如「推理模型」既是训练方法的产物，也是推理期的开销问题，我放在推理这一类。</li><li><strong>没有区域切换和时间滑块</strong>：机制没有国别，提出时间也不能靠拖动截断来比较快慢。这两档控件在这张表上都是空的，所以没做，不是漏了。</li><li><strong>公式</strong>：全部是数量级口径，省略常数项与实现细节，只用于估算和排障，不能当性能建模的依据。</li><li><strong>历史四段</strong>：符号主义到连接主义（1943–1997）、深度学习复兴（2006–2016）、大模型奠基（2017–2022）、多模态与 Agent（2023–2025）。只收提出新机制的论文和改变默认做法的产品。</li></ul></div><div class="intro-extra"><h3>已知的取舍</h3><ul><li><strong>没有收录具体评测分数。</strong> 没有统一脚手架、采样次数与成本口径的分数，放在一起比较会误导——这一条写在评估那篇报告里。</li><li><strong>2026 年留空。</strong> 要逐条核对官方发布、日期与权重形态后才写，不按趋势推测。这一段在时间线最后一篇的末尾，是空的。</li><li><strong>概念释义停在「够判断该不该用」的深度。</strong> 展开推导会让这一页变成教科书，那不是它要解决的问题。</li></ul></div>
   </section>
   <section class="blk" id="board">

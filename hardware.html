@@ -7,10 +7,11 @@
 <title>硬件 · AI.TRACK</title>
 <meta name="description" content="硬件：把加速卡与本地机型按显存、带宽、功耗排成三张表，再解释 prefill 与 decode 为什么是两种瓶颈。">
 <link rel="stylesheet" href="assets/css/site.css?v=958a5662">
-<link rel="stylesheet" href="assets/css/section.css?v=9a422fb1">
+<link rel="stylesheet" href="assets/css/section.css?v=76903104">
 <script src="assets/js/board.js?v=22c52225" defer></script>
 <script src="assets/js/ranks.js?v=76e44c3f" defer></script>
 <script src="assets/js/reports.js?v=971c0e35" defer></script>
+<script src="assets/js/toc.js?v=1aba3a35" defer></script>
 </head>
 <body>
 
@@ -65,15 +66,25 @@
         <h1 class="ph-title">硬件</h1>
         <p class="ph-sub">SILICON · MEMORY · BANDWIDTH · SNAPSHOT 2026-11</p>
         <p class="ph-lede">训练看算力，推理看带宽。同一张卡跑 7B 和 70B，瓶颈不同；同一模型跑 prefill 和 decode，瓶颈也不同。 这一页只记三个数：<strong>显存、带宽、功耗</strong>，以及它们怎么决定「能不能跑」和「跑多快」。</p>
+        <div class="verdict-box"><p class="vb-label">三条结论 / VERDICT</p><ol><li><b>这一代机柜的显存容量没变。</b><span>GB300 NVL72 与 Vera Rubin NVL72 都是 20.7 TB 池化 HBM；翻代的是单卡带宽（8 → 22 TB/s）与机柜互联（约 130 → 260 TB/s）。容量停在同一个数上，说明这一代要解决的是「把数据搬得更快」，不是「把模型放得更大」。</span></li><li><b>prefill 与 decode 开始分芯片卖。</b><span>Rubin CPX 用 128 GB GDDR7 专做 prefill，标准 Rubin 用 HBM4 做 decode——同一条推理链的两段，第一次由两种硅片分别承担。这是「两类瓶颈」第一次被写进产品线，而不只是写在文档里。</span></li><li><b>容量和带宽是两个价签。</b><span>128 GB 的 DGX Spark 带宽 273 GB/s，96 GB 的 RTX PRO 6000 是 1792 GB/s：前者容量多 1.3 倍，生成速度约五分之一。只看显存会买错机器，只看带宽会买不起模型。</span></li></ol></div>
       </div>
-      <aside class="spec-card">
+      <aside class="ph-aside">
+      <div class="spec-card">
         <div class="spec-head"><span>SNAPSHOT</span><span>MANUAL</span></div>
         <dl class="spec-body" style="margin:0">
           <div class="spec-row"><dt>数据截至</dt><dd>2026-11-23</dd></div><div class="spec-row"><dt>收录</dt><dd>18 卡 + 9 机型</dd></div><div class="spec-row"><dt>口径</dt><dd>厂商公开规格</dd></div><div class="spec-row"><dt>实测算力</dt><dd>只引公开榜单</dd></div><div class="spec-row"><dt>价格</dt><dd>只记首发价</dd></div><div class="spec-row"><dt>出货</dt><dd>IDC 2025 全年</dd></div>
         </dl>
+      </div>
+      <nav class="toc" aria-label="页内目录">
+        <div class="toc-head"><span>目录 / TOC</span><button class="toc-all" type="button">展开全部</button></div>
+        <ul class="toc-list">
+          <li><a href="#intro">简介与口径</a></li>
+          <li class="toc-g"><div class="toc-row"><a class="toc-t" href="#board-1">榜<i>3</i></a><button class="toc-caret" type="button" aria-expanded="false" aria-label="展开榜"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2 7 5l-3.5 3"/></svg></button></div><ul class="toc-sub"><li><a href="#board-1">数据中心</a></li><li><a href="#board-2">本地</a></li><li><a href="#board-3">出货</a></li></ul></li>
+          <li class="toc-g"><div class="toc-row"><a class="toc-t" href="#reports">报告<i>2</i></a><button class="toc-caret" type="button" aria-expanded="false" aria-label="展开报告"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2 7 5l-3.5 3"/></svg></button></div><ul class="toc-sub"><li><a href="hardware/01-%E4%B8%A4%E7%B1%BB%E7%93%B6%E9%A2%88.html">两类瓶颈：prefill 吃算力，decode 吃带宽</a></li><li><a href="hardware/02-%E6%98%BE%E5%AD%98%E8%B4%A6-%E4%BB%8E%E6%9D%83%E9%87%8D%E5%88%B0KV.html">显存账：从权重到 KV 的粗算</a></li></ul></li>
+        </ul>
+      </nav>
       </aside>
     </div>
-    <div class="verdict-box"><p class="vb-label">三条结论 / VERDICT</p><ol><li><b>这一代机柜的显存容量没变。</b><span>GB300 NVL72 与 Vera Rubin NVL72 都是 20.7 TB 池化 HBM；翻代的是单卡带宽（8 → 22 TB/s）与机柜互联（约 130 → 260 TB/s）。容量停在同一个数上，说明这一代要解决的是「把数据搬得更快」，不是「把模型放得更大」。</span></li><li><b>prefill 与 decode 开始分芯片卖。</b><span>Rubin CPX 用 128 GB GDDR7 专做 prefill，标准 Rubin 用 HBM4 做 decode——同一条推理链的两段，第一次由两种硅片分别承担。这是「两类瓶颈」第一次被写进产品线，而不只是写在文档里。</span></li><li><b>容量和带宽是两个价签。</b><span>128 GB 的 DGX Spark 带宽 273 GB/s，96 GB 的 RTX PRO 6000 是 1792 GB/s：前者容量多 1.3 倍，生成速度约五分之一。只看显存会买错机器，只看带宽会买不起模型。</span></li></ol></div>
     <div class="intro-extra"><h3>三张表的关系</h3><ul><li><strong>数据中心榜</strong>：单卡规格与机柜规格混排，机柜行的「显存」是池化总量，不能和单卡行相减，也不能直接比价。带 <code>*</code> 的数字是厂商标称、第三方尚未复核。</li><li><strong>本地与工作站榜</strong>：按容量排。同一档价位里，容量与带宽基本互斥——统一内存能装下 512 GB 的模型，带宽却只有独显的三分之二到五分之一。</li><li><strong>出货榜</strong>：IDC 2025 全年中国加速卡出货量，按张计。它是「一年卖出去多少」，不是「现在有多少卡在跑」，更不能和收入份额、算力份额互换。</li><li><strong>三张表不能相加。</strong> 单卡规格、整机出货、云端保有量是三套口径；把它们并成一列求和，得到的数没有含义。</li></ul></div><div class="intro-extra"><h3>已知的取舍</h3><ul><li><strong>国产卡只写公开规格，且把冲突留着。</strong> 昇腾 950PR 的显存有 112 GB 与 128 GB 两种说法，昇腾 910C 的内存带宽有 1.8 与 3.2 TB/s 两种说法，思元 690 的带宽厂商未公布。表里写「口径不一」而不是取中间值——取平均等于自己造一个数。</li><li><strong>不写实测算力。</strong> 同一张卡在不同框架、不同量化、不同 batch 下能差出一倍，没有统一环境的数字不收。唯一的实测引用是 llama.cpp 公开榜单，且注明版本与用户不同、只能看量级。</li><li><strong>价格只记首发价。</strong> 2026 年 DRAM 缺货把工作站整机价格整体推高：DGX Spark 官方提价 18%，RTX PRO 6000 从约 8,565 美元涨到 1.2 万–1.45 万美元。价格这一列现在只能当参考，不能当比价依据。</li><li><strong>不预测 Rubin Ultra 与 Feynman。</strong> 2027 年的路线图只写「已公布」，不进表——进了表就会被当成已经能买。</li></ul></div>
   </section>
   <section class="blk" id="board-1">

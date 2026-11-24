@@ -217,6 +217,19 @@ GH_STAR_NOISE = ("awesome", "for-beginners", "curriculum", "course", "tutorial",
                  "framework", "boilerplate", "template", "starter kit")
 GH_STAR_SHORT = {"mcp", "mcp-server", "mcp-servers", "servers", "server", "mcp-server-"}
 
+# 技能包：topic:agent-skills 同样被泛 AI 项目蹭（榜首是 47 万星的通用 Agent 产品），
+# 所以只留下「名字里带 skill」再滤清单与教程。这样留下的是能装进 Agent 的技能本体。
+GH_SKILL_QUERY = "topic:agent-skills skill in:name archived:false"
+GH_SKILL_TOP = 12
+GH_SKILL_SHORT = {"skill", "skills", "agent-skill", "agent-skills"}
+
+# 专家包：这里指「给编码 Agent 挂的角色包 / 子代理集合」。
+# 各大办公 Agent 内置的专家中心没有公开计数，能查到硬数字的只有这一层，
+# 页面上的说明行会把两者分开讲。
+GH_EXPERT_QUERY = "subagent in:name archived:false"
+GH_EXPERT_TOP = 12
+GH_EXPERT_SHORT = {"subagent", "subagents", "agents"}
+
 
 def load_old(filename, key):
     """读上一次的 CSV，用来在个别源失败时沿用旧值。"""
@@ -551,9 +564,17 @@ def fetch_gh_stars():
     """开源热度：GitHub star 数。和 Smithery 的调用量是两件事——
     一个是「有人收藏」，一个是「平台记录过被调用」，两张榜互不包含。
     """
+    return fetch_gh_collection(GH_STAR_QUERY, GH_STAR_TOP, GH_STAR_NOISE, GH_STAR_SHORT)
+
+
+def fetch_gh_collection(query, top, noise, short_names):
+    """按 star 排一个仓库榜，滤掉清单 / 教程 / 框架类项目。
+
+    mcp 服务器、技能包、专家包三张榜走的是同一套逻辑，只有查询串和阈值不同。
+    """
     # per_page 别开大：GitHub 的 search 接口翻 50 条经常 504，25 条稳定得多
     url = ("https://api.github.com/search/repositories?q=%s&sort=stars&order=desc&per_page=25"
-           % urllib.parse.quote(GH_STAR_QUERY, safe=":"))
+           % urllib.parse.quote(query, safe=":"))
     last = None
     d = None
     for i in range(4):
@@ -574,7 +595,7 @@ def fetch_gh_stars():
         full = (r.get("full_name") or "").strip()
         desc = (r.get("description") or "").replace("\n", " ").strip()
         blob = (name + " " + desc).lower()
-        hit = next((w for w in GH_STAR_NOISE if w in blob), None)
+        hit = next((w for w in noise if w in blob), None)
         if hit:
             skipped.append("%s(%s)" % (full, hit))
             continue
@@ -583,9 +604,8 @@ def fetch_gh_stars():
             continue
         owner = full.split("/")[0] if "/" in full else ""
         lic = ((r.get("license") or {}).get("spdx_id") or "").strip()
-        # 有些仓库名就叫 mcp / mcp-server（awslabs/mcp、BrowserMCP/mcp），
-        # 单看标题分不出是谁的，退回 owner/name
-        label = full if len(name) < 6 or name.lower() in GH_STAR_SHORT else name
+        # 仓库名太短（就叫 mcp / subagents）时标题看不出是谁的，退回 owner/name
+        label = full if len(name) < 6 or name.lower() in short_names else name
         rows.append({"名称": label, "仓库": full,
                      # 只拿 owner 和仓库名判断归属：描述里几乎都提 Claude / OpenAI，
                      # 拿描述去猜会把中文作者的仓库判成国外
@@ -595,7 +615,7 @@ def fetch_gh_stars():
                      "星标": stars,
                      "地址": r.get("html_url") or ("https://github.com/" + full),
                      "说明": desc[:110] + "…" if len(desc) > 110 else desc})
-        if len(rows) >= GH_STAR_TOP:
+        if len(rows) >= top:
             break
     if len(rows) < 5:
         raise ValueError("只筛出 %d 个，放弃本次写入" % len(rows))
@@ -801,6 +821,43 @@ def main():
     except Exception as e:  # noqa: BLE001
         failures.append("gh-stars: %s" % e)
         print("  ✗ GitHub star 榜失败：%s" % e)
+
+    # 4b) 技能包：GitHub star。和办公 Agent 内置的「技能中心」不是一套东西——
+    #     后者的条目数各家都不公开，这里排的是开源社区写出来、能装进 Agent 的技能本体。
+    try:
+        rows, skipped = fetch_gh_collection(GH_SKILL_QUERY, GH_SKILL_TOP,
+                                            GH_STAR_NOISE, GH_SKILL_SHORT)
+        boards["技能-star.csv"] = {"source": "GitHub Search API（topic:agent-skills + skill in:name）",
+                                   "updated_at": when}
+        if not args.check:
+            write_csv(BOARD_DIR / "技能-star.csv", rows,
+                      ["排名", "名称", "仓库", "区域", "语言", "许可", "星标", "说明", "地址", "时间"], when)
+            snapshot(history, "技能-star.csv", rows, "仓库", "星标", day)
+        if skipped:
+            print("  · 滤掉 %d 个清单 / 教程：%s" % (len(skipped), "、".join(skipped[:3])))
+        for r in rows[:3]:
+            print("      %-30s %12s" % (r["仓库"], format(r["星标"], ",")))
+    except Exception as e:  # noqa: BLE001
+        failures.append("gh-skills: %s" % e)
+        print("  ✗ 技能榜失败：%s" % e)
+
+    # 4c) 专家包：同上，排的是给编码 Agent 挂的角色包 / 子代理集合
+    try:
+        rows, skipped = fetch_gh_collection(GH_EXPERT_QUERY, GH_EXPERT_TOP,
+                                            GH_STAR_NOISE, GH_EXPERT_SHORT)
+        boards["专家-star.csv"] = {"source": "GitHub Search API（subagent in:name）",
+                                   "updated_at": when}
+        if not args.check:
+            write_csv(BOARD_DIR / "专家-star.csv", rows,
+                      ["排名", "名称", "仓库", "区域", "语言", "许可", "星标", "说明", "地址", "时间"], when)
+            snapshot(history, "专家-star.csv", rows, "仓库", "星标", day)
+        if skipped:
+            print("  · 滤掉 %d 个清单 / 教程：%s" % (len(skipped), "、".join(skipped[:3])))
+        for r in rows[:3]:
+            print("      %-30s %12s" % (r["仓库"], format(r["星标"], ",")))
+    except Exception as e:  # noqa: BLE001
+        failures.append("gh-experts: %s" % e)
+        print("  ✗ 专家榜失败：%s" % e)
 
     # 5) 生态规模：三个口径三张表，各自算各自的
     #    4a 仓库数（GitHub topic + 语言）

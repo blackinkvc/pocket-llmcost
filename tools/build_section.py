@@ -322,17 +322,80 @@ def doc_head(title, desc, active, prefix=""):
 <script src="%s%s" defer></script>
 <script src="%s%s" defer></script>
 <script src="%s%s" defer></script>
+<script src="%s%s" defer></script>
 </head>
 <body>
 
 %s
 """ % (escape(title), escape(desc), p, asset("css/site.css"), p, asset("css/section.css"),
        p, asset("js/board.js"), p, asset("js/ranks.js"), p, asset("js/reports.js"),
+   p, asset("js/toc.js"),
        topbar_html(active, p))
 
 
 # ───────────────────────── 三个板块 ─────────────────────────
-def block_intro(sec, data, prefix=""):
+def toc_html(sec, reports, prefix=""):
+    """首屏右侧的二级目录。
+
+    一级是页面上的块（简介 / 各榜 / 报告），点标题直接跳过去；
+    点小三角展开二级：每张榜一行、每篇报告一行，都能点。
+    二级默认收起——七个榜加十四篇报告平铺出来，右栏会被拉得比正文还长。
+    """
+    cfg = sec.cfg
+    boards = sec.boards
+    rc = cfg.get("reports") or {}
+    rtitle = rc.get("title", "报告") if isinstance(rc, dict) else "报告"
+    has_cards = bool((cfg.get("cards") or {}).get("items")) or bool(cfg.get("featured"))
+    cards_label = ((cfg.get("cards") or {}).get("short") or "概念")
+
+    def group(label, jump, subs):
+        if not subs:
+            return '<li><a href="%s">%s</a></li>' % (jump, escape(label))
+        return (
+            '<li class="toc-g">'
+            '<div class="toc-row">'
+            '<a class="toc-t" href="%s">%s<i>%d</i></a>'
+            '<button class="toc-caret" type="button" aria-expanded="false" '
+            'aria-label="展开%s"><svg viewBox="0 0 10 10" aria-hidden="true">'
+            '<path d="M3.5 2 7 5l-3.5 3"/></svg></button>'
+            '</div><ul class="toc-sub">%s</ul></li>'
+        ) % (jump, escape(label), len(subs), escape(label), "".join(subs))
+
+    items = ['<li><a href="#intro">简介与口径</a></li>']
+
+    if boards:
+        subs = []
+        for i, b in enumerate(boards):
+            href = "#board" if len(boards) == 1 else "#board-%d" % (i + 1)
+            subs.append('<li><a href="%s">%s</a></li>'
+                        % (href, escape(b.get("short") or b.get("title", "天梯榜"))))
+        jump = "#board" if len(boards) == 1 else "#board-1"
+        # 只有一张榜时它本身就是一级条目，不必再开一层
+        items.append(group("榜" if len(boards) > 1
+                           else (boards[0].get("short") or boards[0].get("title", "天梯榜")),
+                           jump, subs if len(boards) > 1 else []))
+
+    if has_cards:
+        items.append('<li><a href="#cards">%s</a></li>' % escape(cards_label))
+
+    if reports:
+        subs = []
+        for r in reports:
+            href = "%s%s/%s.html" % (prefix, sec.slug, slug_quote(r["slug"]))
+            subs.append('<li><a href="%s">%s</a></li>' % (href, escape(r["title"])))
+        items.append(group(rtitle, "#reports", subs))
+    else:
+        items.append('<li><a href="#reports">%s</a></li>' % escape(rtitle))
+
+    return """      <nav class="toc" aria-label="页内目录">
+        <div class="toc-head"><span>目录 / TOC</span><button class="toc-all" type="button">展开全部</button></div>
+        <ul class="toc-list">
+          %s
+        </ul>
+      </nav>""" % "\n          ".join(items)
+
+
+def block_intro(sec, data, prefix="", reports=None):
     meta = data["meta"]
     cfg = sec.cfg
     chips = meta.get("chips") or ", ".join(cfg.get("chips", []))
@@ -385,22 +448,26 @@ def block_intro(sec, data, prefix=""):
         <h1 class="ph-title">%s</h1>
         <p class="ph-sub">%s</p>
         %s
+        %s
       </div>
-      <aside class="spec-card">
+      <aside class="ph-aside">
+      <div class="spec-card">
         <div class="spec-head"><span>SNAPSHOT</span><span>MANUAL</span></div>
         <dl class="spec-body" style="margin:0">
           %s
         </dl>
+      </div>
+%s
       </aside>
     </div>
-    %s
     %s
   </section>
 """ % (prefix, cfg.get("num", ""), escape(sec.name),
        chips_html,
        escape(meta.get("title") or sec.name),
        escape(meta.get("sub") or cfg.get("sub", "")),
-       lede_html, spec_html, verdict_html, extra_html)
+       lede_html, verdict_html, spec_html,
+       toc_html(sec, reports or [], prefix), extra_html)
 
 
 def human_num(v):
@@ -991,7 +1058,7 @@ def build_section(sec, out_dir, prefix=""):
     body = "".join([
         subnav_html(sec, prefix),
         '<main class="wrap">\n\n',
-        block_intro(sec, intro, prefix),
+        block_intro(sec, intro, prefix, reports),
         "".join(blocks),
         cards_html,
         reports_html,

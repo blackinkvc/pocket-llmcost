@@ -7,10 +7,11 @@
 <title>Agent · AI.TRACK</title>
 <meta name="description" content="Agent：命令行工具与 IDE 插件的实时使用量榜、MCP 服务器的调用量与开源热度两榜，以及仓库数 / 上架量 / 扩展存量三张分开的生态表，可按国内 / 国外与时间跨度筛选。">
 <link rel="stylesheet" href="assets/css/site.css?v=958a5662">
-<link rel="stylesheet" href="assets/css/section.css?v=9a422fb1">
+<link rel="stylesheet" href="assets/css/section.css?v=76903104">
 <script src="assets/js/board.js?v=22c52225" defer></script>
 <script src="assets/js/ranks.js?v=76e44c3f" defer></script>
 <script src="assets/js/reports.js?v=971c0e35" defer></script>
+<script src="assets/js/toc.js?v=1aba3a35" defer></script>
 </head>
 <body>
 
@@ -69,15 +70,25 @@
         <h1 class="ph-title">Agent</h1>
         <p class="ph-sub">TOOLS · PROTOCOLS · LONG-HORIZON TASKS</p>
         <p class="ph-lede">Agent 不是新模型，是<strong>把模型放进循环</strong>：调工具、读结果、改计划、再调工具。 决定它能不能干活的，往往不是模型分数，而是权限、沙箱、失败恢复和成本上限。</p>
+        <div class="verdict-box"><p class="vb-label">结论 / VERDICT</p><ol><li><b>编码 Agent 是第一个跑通的场景。</b><span>代码有编译器、测试和版本控制，反馈可验证，所以 Agent 能自我纠错；通用办公场景缺少这套「判卷人」。</span></li><li><b>协议比模型更影响生态。</b><span>MCP 统一了「模型怎么接工具」，A2A 试图统一「Agent 怎么互相调用」。协议稳定后，工具方才有动力接入。</span></li><li><b>榜单只能看量级，不能当市场份额。</b><span>下载量、安装量、调用量都是代理指标，口径各不相同；真实活跃用户数没有任何厂商公开。</span></li></ol></div>
       </div>
-      <aside class="spec-card">
+      <aside class="ph-aside">
+      <div class="spec-card">
         <div class="spec-head"><span>SNAPSHOT</span><span>MANUAL</span></div>
         <dl class="spec-body" style="margin:0">
           <div class="spec-row"><dt>协议</dt><dd>MCP / A2A / AGENTS.md</dd></div><div class="spec-row"><dt>实时榜</dt><dd>7 个</dd></div><div class="spec-row"><dt>抓取频率</dt><dd>每日</dd></div><div class="spec-row"><dt>评测分数</dt><dd>未收录</dd></div><div class="spec-row"><dt>本机实测</dt><dd>待补充</dd></div>
         </dl>
+      </div>
+      <nav class="toc" aria-label="页内目录">
+        <div class="toc-head"><span>目录 / TOC</span><button class="toc-all" type="button">展开全部</button></div>
+        <ul class="toc-list">
+          <li><a href="#intro">简介与口径</a></li>
+          <li class="toc-g"><div class="toc-row"><a class="toc-t" href="#board-1">榜<i>7</i></a><button class="toc-caret" type="button" aria-expanded="false" aria-label="展开榜"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2 7 5l-3.5 3"/></svg></button></div><ul class="toc-sub"><li><a href="#board-1">使用量 · 命令行工具</a></li><li><a href="#board-2">使用量 · IDE 插件</a></li><li><a href="#board-3">MCP 服务器 · 调用量</a></li><li><a href="#board-4">MCP 服务器 · 开源热度</a></li><li><a href="#board-5">MCP 服务器仓库 · 按实现语言</a></li><li><a href="#board-6">MCP 托管平台 · 上架量</a></li><li><a href="#board-7">IDE 扩展市场 · 存量</a></li></ul></li>
+          <li class="toc-g"><div class="toc-row"><a class="toc-t" href="#reports">报告<i>4</i></a><button class="toc-caret" type="button" aria-expanded="false" aria-label="展开报告"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2 7 5l-3.5 3"/></svg></button></div><ul class="toc-sub"><li><a href="agents/%E4%BA%94%E5%B1%82%E8%83%BD%E5%8A%9B%E6%A0%88.html">Agent 的五层能力栈</a></li><li><a href="agents/%E5%8D%8F%E8%AE%AE%E4%B8%8E%E6%8E%A5%E5%8F%A3.html">协议为什么比模型更影响生态</a></li><li><a href="agents/%E8%AF%84%E6%B5%8B%E7%9C%8B%E4%BB%80%E4%B9%88.html">评测 Agent 时看什么，不看什么</a></li><li><a href="agents/%E5%B7%A5%E7%A8%8B%E7%BA%A6%E6%9D%9F%E4%B8%8E%E9%A3%8E%E9%99%A9.html">工程约束与风险清单</a></li></ul></li>
+        </ul>
+      </nav>
       </aside>
     </div>
-    <div class="verdict-box"><p class="vb-label">结论 / VERDICT</p><ol><li><b>编码 Agent 是第一个跑通的场景。</b><span>代码有编译器、测试和版本控制，反馈可验证，所以 Agent 能自我纠错；通用办公场景缺少这套「判卷人」。</span></li><li><b>协议比模型更影响生态。</b><span>MCP 统一了「模型怎么接工具」，A2A 试图统一「Agent 怎么互相调用」。协议稳定后，工具方才有动力接入。</span></li><li><b>榜单只能看量级，不能当市场份额。</b><span>下载量、安装量、调用量都是代理指标，口径各不相同；真实活跃用户数没有任何厂商公开。</span></li></ol></div>
     <div class="intro-extra"><h3>几个榜的口径</h3><ul><li><strong>时间跨度</strong>：滑块选近 N 天，榜上的值＝该窗口内的日均。命令行工具用 npm 的每日下载量直接算，能回溯 90 天；IDE 插件与 MCP 调用量靠每天抓一次的快照，值＝窗口内的<strong>日均新增</strong>（累计值之差 ÷ 天数）。历史不满 7 天时先按累计值排——一两天的差值只是一次抓取之间的抖动，拿来排序会把「装机最多」的那个排到第四。后三张表是单次快照，没有滑块。</li><li><strong>每条卡片写什么</strong>：标题后面标着归属与标识（厂商 · 许可 · 包名，或厂商 · 评分 · 扩展 ID），点标题直达仓库或上架页（闭源项目指向上架页）。下面两行是人工写的<strong>功能</strong>（它做什么）与<strong>特点</strong>（凭什么选它而不是旁边那个）。许可、评分、标签语言、托管方式、仓库地址全部取自接口（npm registry、VS Code 市场、Smithery、GitHub），只有那两行文字是编辑判断——判断会过时，接口不会。</li><li><strong>国内 / 国外</strong>：按厂商、机构、平台的归属判断；判断不了的一律留空，切到国内或国外时不计入——宁可少一条，也不硬猜。MCP 服务器榜大多只能拿到发布者 ID，未标注的会偏多。</li><li><strong>命令行工具</strong>：npm 每日下载量，每天由 GitHub Action 抓一次，窗口截止到昨天（当天的数据还没结算完）。发布新版本会带来下载尖峰，所以单看某一天会被版本号误伤。下载量还会被 CI 重复拉包放大，它是<strong>使用规模的代理指标，不是用户数</strong>。</li><li><strong>IDE 插件</strong>：VS Code 市场累计安装量，装过不等于在用，卸载不扣减，老插件天然占优。</li><li><strong>MCP 服务器 · 调用量</strong>：Smithery 的 <code>useCount</code>，是平台自己记账的调用次数，跨平台不可比。它只有第一页按调用量降序，第二页开始混入高值条目，所以只取第一页 50 条里的前 15 条——<strong>平台没有全局排序接口，这不等于全网排名</strong>。</li><li><strong>MCP 服务器 · 开源热度</strong>：GitHub star 数。收藏不等于安装，更不等于被调用。<code>topic:mcp-server</code> 这个标签被大量泛 AI 项目自贴（21 万星的 n8n 也在里面），所以只取仓库名里带 mcp 的，再滤掉教程、精选清单和开发框架；代价是个别没改名的服务器会漏掉。它和上面那张调用量榜互不包含——一张看「有人在平台上真的在用」，一张看「有人收藏了这个仓库」。</li><li><strong>MCP 服务器仓库 · 按语言</strong>：GitHub 上打了 <code>topic:mcp-server</code> 的公开仓库，按主语言拆。仓库只记一种主语言，各行相加就是话题总数，这张表可以加。</li><li><strong>MCP 托管平台 · 上架量</strong>：平台上架的条数，不是全网数量，也不能和仓库数相减。目前只有 Smithery 公开了可引用的总数。</li><li><strong>IDE 扩展市场 · 存量</strong>：各市场自己报的扩展总数，同口径可比、不可加（一个扩展可能两边都上架）。</li></ul>
 <p><strong>这三个口径（仓库数 / 上架数 / 扩展数）不能相加</strong>，所以在页面上是分开的三张表，不是一张。把它们并成一列加起来，得到的数没有任何含义。</p></div><div class="intro-extra"><h3>待补充</h3><ul><li><strong>2026 年新产品</strong>：等官方文档核对后再补，不按趋势推测。</li><li><strong>基准分数</strong>：不抄厂商自测，等统一脚手架下的可比结果。</li><li><strong>本机实测</strong>：本地 Agent 工作流的耗时、显存与成功率尚未采集，占位在实例索引 #04。</li><li><strong>定价</strong>：订阅与按量计费差异大，本页不写具体价格。</li></ul></div>
   </section>

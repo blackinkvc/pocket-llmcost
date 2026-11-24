@@ -7,10 +7,11 @@
 <title>本地部署 · AI.TRACK</title>
 <meta name="description" content="本地部署：推理引擎按上手成本排一张表，显存按量化档位排一张表；两篇报告讲引擎的边界与一台统一内存机器的实测口径。">
 <link rel="stylesheet" href="assets/css/site.css?v=958a5662">
-<link rel="stylesheet" href="assets/css/section.css?v=9a422fb1">
+<link rel="stylesheet" href="assets/css/section.css?v=76903104">
 <script src="assets/js/board.js?v=22c52225" defer></script>
 <script src="assets/js/ranks.js?v=76e44c3f" defer></script>
 <script src="assets/js/reports.js?v=971c0e35" defer></script>
+<script src="assets/js/toc.js?v=1aba3a35" defer></script>
 </head>
 <body>
 
@@ -64,15 +65,25 @@
         <h1 class="ph-title">本地部署</h1>
         <p class="ph-sub">ON-DEVICE · ENGINE · QUANTIZATION · SNAPSHOT 2026-11</p>
         <p class="ph-lede">本地部署解决三件事：<strong>数据不出门、断网可用、长期成本可控</strong>，代价是模型上限与维护成本。 能不能跑看显存，跑得快不快看带宽，跑得稳不稳看量化与上下文设置。</p>
+        <div class="verdict-box"><p class="vb-label">三条结论 / VERDICT</p><ol><li><b>先定显存，再选模型。</b><span>模型不是按「哪个更强」选，而是按「权重 + KV + 框架开销」塞不塞得进去选。反过来做，最后一定是在跑一个能加载但生成不出来的模型。</span></li><li><b>量化是默认项，不是妥协。</b><span>8 bit 基本无损，能上就上；4 bit 在通用问答与摘要上够用，长链推理、代码、多语言必须单独测——有评测显示 4 bit 在自动指标上只掉 0.3%，人工评测却掉 16.6%。</span></li><li><b>统一内存与独显是两条路线，不是两个档次。</b><span>前者装得下大模型但 decode 慢，后者快但显存小。2026 年的变化只是把这条差距缩小了：M5 Ultra 的 1.2 TB/s 已经接近独显，而 273 GB/s 的 DGX Spark 仍是独显的五分之一。</span></li></ol></div>
       </div>
-      <aside class="spec-card">
+      <aside class="ph-aside">
+      <div class="spec-card">
         <div class="spec-head"><span>SNAPSHOT</span><span>MANUAL</span></div>
         <dl class="spec-body" style="margin:0">
           <div class="spec-row"><dt>引擎</dt><dd>7 个</dd></div><div class="spec-row"><dt>显存档位</dt><dd>5 档</dd></div><div class="spec-row"><dt>本机实测</dt><dd>实例 01</dd></div><div class="spec-row"><dt>本地 LLM 基准</dt><dd>未记录</dd></div><div class="spec-row"><dt>价格</dt><dd>2026 年失真</dd></div>
         </dl>
+      </div>
+      <nav class="toc" aria-label="页内目录">
+        <div class="toc-head"><span>目录 / TOC</span><button class="toc-all" type="button">展开全部</button></div>
+        <ul class="toc-list">
+          <li><a href="#intro">简介与口径</a></li>
+          <li class="toc-g"><div class="toc-row"><a class="toc-t" href="#board-1">榜<i>2</i></a><button class="toc-caret" type="button" aria-expanded="false" aria-label="展开榜"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2 7 5l-3.5 3"/></svg></button></div><ul class="toc-sub"><li><a href="#board-1">引擎</a></li><li><a href="#board-2">显存</a></li></ul></li>
+          <li class="toc-g"><div class="toc-row"><a class="toc-t" href="#reports">报告<i>2</i></a><button class="toc-caret" type="button" aria-expanded="false" aria-label="展开报告"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2 7 5l-3.5 3"/></svg></button></div><ul class="toc-sub"><li><a href="local/01-%E5%BC%95%E6%93%8E%E7%9A%84%E8%BE%B9%E7%95%8C.html">引擎的边界：什么时候该换一套</a></li><li><a href="local/02-%E7%BB%9F%E4%B8%80%E5%86%85%E5%AD%98%E7%9A%84%E5%AE%9E%E6%B5%8B%E5%8F%A3%E5%BE%84.html">一台统一内存机器的实测口径</a></li></ul></li>
+        </ul>
+      </nav>
       </aside>
     </div>
-    <div class="verdict-box"><p class="vb-label">三条结论 / VERDICT</p><ol><li><b>先定显存，再选模型。</b><span>模型不是按「哪个更强」选，而是按「权重 + KV + 框架开销」塞不塞得进去选。反过来做，最后一定是在跑一个能加载但生成不出来的模型。</span></li><li><b>量化是默认项，不是妥协。</b><span>8 bit 基本无损，能上就上；4 bit 在通用问答与摘要上够用，长链推理、代码、多语言必须单独测——有评测显示 4 bit 在自动指标上只掉 0.3%，人工评测却掉 16.6%。</span></li><li><b>统一内存与独显是两条路线，不是两个档次。</b><span>前者装得下大模型但 decode 慢，后者快但显存小。2026 年的变化只是把这条差距缩小了：M5 Ultra 的 1.2 TB/s 已经接近独显，而 273 GB/s 的 DGX Spark 仍是独显的五分之一。</span></li></ol></div>
     <div class="intro-extra"><h3>两张表怎么读</h3><ul><li><strong>引擎表按上手成本排。</strong> 同一台机器装两套是常态：一套跑文本（llama.cpp / Ollama），一套跑图（ComfyUI），因为两者的瓶颈不在同一个地方——文本卡在带宽，生图卡在显存峰值。</li><li><strong>显存表是「能放下」的粗算。</strong> 每档都要再加 2–4 GB 框架开销，并按目标上下文加 KV；表里没有一档能靠「刚好等于」跑起来。</li><li><strong>两张表都不能回答「快不快」。</strong> 速度要按带宽算，或者直接看公开榜单；本页不给 tokens/s，理由见下。</li></ul></div><div class="intro-extra"><h3>已知的取舍</h3><ul><li><strong>不给本地 LLM 的实测 tok/s。</strong> 本机是统一内存机器，只跑过生图与少量文本试验，没有可复现的文本基准；编一个数比不写更糟。</li><li><strong>价格只作参考。</strong> 2026 年 DRAM 缺货把整机价格整体推高：DGX Spark 官方提价 18%，RTX PRO 6000 从约 8,565 美元涨到 1.2 万以上。同一条配置隔月报价不同，价格表半年就废。</li><li><strong>国产加速卡的本地部署未展开。</strong> CANN、MLU、MAC A 三套软件栈各有各的量化格式与算子限制，没有实测就不写步骤。</li><li><strong>本机实践只有生图一条线。</strong> 7 套管线、142 行台账、128 份边车都在实例 01；文本侧只记了「能跑、慢」，没有可比数字。</li></ul></div>
   </section>
   <section class="blk" id="board-1">
