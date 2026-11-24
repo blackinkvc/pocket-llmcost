@@ -5,10 +5,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>硬件 · AI.TRACK</title>
-<meta name="description" content="硬件：把加速卡与本地机型按显存、带宽、功耗排成三张表，再解释 prefill 与 decode 为什么是两种瓶颈。">
+<meta name="description" content="硬件：加速卡、工作站与全球算力中心的台账——显存、带宽、功耗，以及每个站点的容量、芯片、供电与并网约束。">
 <link rel="stylesheet" href="assets/css/site.css?v=958a5662">
 <link rel="stylesheet" href="assets/css/section.css?v=76903104">
-<script src="assets/js/board.js?v=22c52225" defer></script>
+<script src="assets/js/board.js?v=ecbda2a0" defer></script>
 <script src="assets/js/ranks.js?v=76e44c3f" defer></script>
 <script src="assets/js/reports.js?v=971c0e35" defer></script>
 <script src="assets/js/toc.js?v=1aba3a35" defer></script>
@@ -47,6 +47,11 @@
     <a href="#board-1">数据中心</a>
     <a href="#board-2">本地</a>
     <a href="#board-3">出货</a>
+    <a href="#board-4">中国</a>
+    <a href="#board-5">美国</a>
+    <a href="#board-6">东南亚</a>
+    <a href="#board-7">其他</a>
+    <a href="#board-8">供电账</a>
     <a href="#reports">报告</a>
     <span class="sn-sep"></span>
     <a href="principles.html">原理 · 历史</a>
@@ -61,31 +66,31 @@
     <div class="ph-grid">
       <div>
         <div class="card-top" style="margin-bottom:14px;justify-content:flex-start;gap:10px">
-          <span class="chip purple">数据中心</span><span class="chip green">本地工作站</span><span class="chip orange">显存</span><span class="chip purple">带宽</span>
+          <span class="chip purple">数据中心</span><span class="chip green">本地工作站</span><span class="chip orange">算力中心</span><span class="chip purple">供电</span>
         </div>
         <h1 class="ph-title">硬件</h1>
-        <p class="ph-sub">SILICON · MEMORY · BANDWIDTH · SNAPSHOT 2026-11</p>
-        <p class="ph-lede">训练看算力，推理看带宽。同一张卡跑 7B 和 70B，瓶颈不同；同一模型跑 prefill 和 decode，瓶颈也不同。 这一页只记三个数：<strong>显存、带宽、功耗</strong>，以及它们怎么决定「能不能跑」和「跑多快」。</p>
-        <div class="verdict-box"><p class="vb-label">三条结论 / VERDICT</p><ol><li><b>这一代机柜的显存容量没变。</b><span>GB300 NVL72 与 Vera Rubin NVL72 都是 20.7 TB 池化 HBM；翻代的是单卡带宽（8 → 22 TB/s）与机柜互联（约 130 → 260 TB/s）。容量停在同一个数上，说明这一代要解决的是「把数据搬得更快」，不是「把模型放得更大」。</span></li><li><b>prefill 与 decode 开始分芯片卖。</b><span>Rubin CPX 用 128 GB GDDR7 专做 prefill，标准 Rubin 用 HBM4 做 decode——同一条推理链的两段，第一次由两种硅片分别承担。这是「两类瓶颈」第一次被写进产品线，而不只是写在文档里。</span></li><li><b>容量和带宽是两个价签。</b><span>128 GB 的 DGX Spark 带宽 273 GB/s，96 GB 的 RTX PRO 6000 是 1792 GB/s：前者容量多 1.3 倍，生成速度约五分之一。只看显存会买错机器，只看带宽会买不起模型。</span></li></ol></div>
+        <p class="ph-sub">SILICON · MEMORY · BANDWIDTH · COMPUTE CAMPUSES · SNAPSHOT 2026-11</p>
+        <p class="ph-lede">训练看算力，推理看带宽。同一张卡跑 7B 和 70B，瓶颈不同；同一模型跑 prefill 和 decode，瓶颈也不同。 这一页记四个数：<strong>显存、带宽、功耗</strong>，加上<strong>电力</strong>——前三者决定「能不能跑」，第四个决定「能建多少」。</p>
+        <div class="verdict-box"><p class="vb-label">结论 / VERDICT</p><ol><li><b>这一代机柜的显存容量没变。</b><span>GB300 NVL72 与 Vera Rubin NVL72 都是 20.7 TB 池化 HBM；翻代的是单卡带宽（8 → 22 TB/s）与机柜互联（约 130 → 260 TB/s）。容量停在同一个数上，说明这一代要解决的是「把数据搬得更快」，不是「把模型放得更大」。</span></li><li><b>prefill 与 decode 开始分芯片卖。</b><span>Rubin CPX 用 128 GB GDDR7 专做 prefill，标准 Rubin 用 HBM4 做 decode——同一条推理链的两段，第一次由两种硅片分别承担。这是「两类瓶颈」第一次被写进产品线，而不只是写在文档里。</span></li><li><b>容量和带宽是两个价签。</b><span>128 GB 的 DGX Spark 带宽 273 GB/s，96 GB 的 RTX PRO 6000 是 1792 GB/s：前者容量多 1.3 倍，生成速度约五分之一。只看显存会买错机器，只看带宽会买不起模型。</span></li><li><b>瓶颈从芯片换成了电。</b><span>全球数据中心用电 2025 年约 485 TWh，2030 年约 945 TWh；德州大负荷队列 474 GW，是系统峰值的五倍，真正批准通电的只有约 9 GW。同样 1 GW 的园区，内蒙 0.30 元/度、弗吉尼亚 10 美分再加 1.1 美分数据中心税、新加坡 25 美分——电价差四倍，并网排队差三年。</span></li></ol></div>
       </div>
       <aside class="ph-aside">
       <div class="spec-card">
         <div class="spec-head"><span>SNAPSHOT</span><span>MANUAL</span></div>
         <dl class="spec-body" style="margin:0">
-          <div class="spec-row"><dt>数据截至</dt><dd>2026-11-23</dd></div><div class="spec-row"><dt>收录</dt><dd>18 卡 + 9 机型</dd></div><div class="spec-row"><dt>口径</dt><dd>厂商公开规格</dd></div><div class="spec-row"><dt>实测算力</dt><dd>只引公开榜单</dd></div><div class="spec-row"><dt>价格</dt><dd>只记首发价</dd></div><div class="spec-row"><dt>出货</dt><dd>IDC 2025 全年</dd></div>
+          <div class="spec-row"><dt>数据截至</dt><dd>2026-11-24</dd></div><div class="spec-row"><dt>收录</dt><dd>18 卡 + 9 机型</dd></div><div class="spec-row"><dt>算力中心</dt><dd>60 站点 · 5 张榜</dd></div><div class="spec-row"><dt>口径</dt><dd>厂商规格 + 业主公告</dd></div><div class="spec-row"><dt>实测算力</dt><dd>只引公开榜单</dd></div><div class="spec-row"><dt>价格</dt><dd>只记首发价</dd></div>
         </dl>
       </div>
       <nav class="toc" aria-label="页内目录">
         <div class="toc-head"><span>目录 / TOC</span><button class="toc-all" type="button">展开全部</button></div>
         <ul class="toc-list">
           <li><a href="#intro">简介与口径</a></li>
-          <li class="toc-g"><div class="toc-row"><a class="toc-t" href="#board-1">榜<i>3</i></a><button class="toc-caret" type="button" aria-expanded="false" aria-label="展开榜"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2 7 5l-3.5 3"/></svg></button></div><ul class="toc-sub"><li><a href="#board-1">数据中心</a></li><li><a href="#board-2">本地</a></li><li><a href="#board-3">出货</a></li></ul></li>
-          <li class="toc-g"><div class="toc-row"><a class="toc-t" href="#reports">报告<i>2</i></a><button class="toc-caret" type="button" aria-expanded="false" aria-label="展开报告"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2 7 5l-3.5 3"/></svg></button></div><ul class="toc-sub"><li><a href="hardware/01-%E4%B8%A4%E7%B1%BB%E7%93%B6%E9%A2%88.html">两类瓶颈：prefill 吃算力，decode 吃带宽</a></li><li><a href="hardware/02-%E6%98%BE%E5%AD%98%E8%B4%A6-%E4%BB%8E%E6%9D%83%E9%87%8D%E5%88%B0KV.html">显存账：从权重到 KV 的粗算</a></li></ul></li>
+          <li class="toc-g"><div class="toc-row"><a class="toc-t" href="#board-1">榜<i>8</i></a><button class="toc-caret" type="button" aria-expanded="false" aria-label="展开榜"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2 7 5l-3.5 3"/></svg></button></div><ul class="toc-sub"><li><a href="#board-1">数据中心</a></li><li><a href="#board-2">本地</a></li><li><a href="#board-3">出货</a></li><li><a href="#board-4">中国</a></li><li><a href="#board-5">美国</a></li><li><a href="#board-6">东南亚</a></li><li><a href="#board-7">其他</a></li><li><a href="#board-8">供电账</a></li></ul></li>
+          <li class="toc-g"><div class="toc-row"><a class="toc-t" href="#reports">报告<i>3</i></a><button class="toc-caret" type="button" aria-expanded="false" aria-label="展开报告"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2 7 5l-3.5 3"/></svg></button></div><ul class="toc-sub"><li><a href="hardware/03-%E7%AE%97%E5%8A%9B%E4%B8%AD%E5%BF%83%E7%9A%84%E8%B4%A6.html">算力中心的账：MW、万卡与规划</a></li><li><a href="hardware/01-%E4%B8%A4%E7%B1%BB%E7%93%B6%E9%A2%88.html">两类瓶颈：prefill 吃算力，decode 吃带宽</a></li><li><a href="hardware/02-%E6%98%BE%E5%AD%98%E8%B4%A6-%E4%BB%8E%E6%9D%83%E9%87%8D%E5%88%B0KV.html">显存账：从权重到 KV 的粗算</a></li></ul></li>
         </ul>
       </nav>
       </aside>
     </div>
-    <div class="intro-extra"><h3>三张表的关系</h3><ul><li><strong>数据中心榜</strong>：单卡规格与机柜规格混排，机柜行的「显存」是池化总量，不能和单卡行相减，也不能直接比价。带 <code>*</code> 的数字是厂商标称、第三方尚未复核。</li><li><strong>本地与工作站榜</strong>：按容量排。同一档价位里，容量与带宽基本互斥——统一内存能装下 512 GB 的模型，带宽却只有独显的三分之二到五分之一。</li><li><strong>出货榜</strong>：IDC 2025 全年中国加速卡出货量，按张计。它是「一年卖出去多少」，不是「现在有多少卡在跑」，更不能和收入份额、算力份额互换。</li><li><strong>三张表不能相加。</strong> 单卡规格、整机出货、云端保有量是三套口径；把它们并成一列求和，得到的数没有含义。</li></ul></div><div class="intro-extra"><h3>已知的取舍</h3><ul><li><strong>国产卡只写公开规格，且把冲突留着。</strong> 昇腾 950PR 的显存有 112 GB 与 128 GB 两种说法，昇腾 910C 的内存带宽有 1.8 与 3.2 TB/s 两种说法，思元 690 的带宽厂商未公布。表里写「口径不一」而不是取中间值——取平均等于自己造一个数。</li><li><strong>不写实测算力。</strong> 同一张卡在不同框架、不同量化、不同 batch 下能差出一倍，没有统一环境的数字不收。唯一的实测引用是 llama.cpp 公开榜单，且注明版本与用户不同、只能看量级。</li><li><strong>价格只记首发价。</strong> 2026 年 DRAM 缺货把工作站整机价格整体推高：DGX Spark 官方提价 18%，RTX PRO 6000 从约 8,565 美元涨到 1.2 万–1.45 万美元。价格这一列现在只能当参考，不能当比价依据。</li><li><strong>不预测 Rubin Ultra 与 Feynman。</strong> 2027 年的路线图只写「已公布」，不进表——进了表就会被当成已经能买。</li></ul></div>
+    <div class="intro-extra"><h3>八张表怎么读</h3><ul><li><strong>数据中心加速卡</strong>：单卡与机柜混排。机柜行的「显存」是池化总量，不能和单卡行相减，也不能直接比价。</li><li><strong>本地与工作站</strong>：按容量排。同价位里容量与带宽基本互斥——统一内存能装下 512 GB 的模型，带宽只有独显的三分之一到五分之一。</li><li><strong>出货</strong>：IDC 2025 全年中国加速卡出货量，按张计。是「一年卖出去多少」，不是「现在有多少卡在跑」。</li><li><strong>算力中心四张榜</strong>（中国 / 美国 / 东南亚 / 其他海外）：一张榜一个区域，因为口径合不起来。美国与东南亚能写 MW，中国多数只给「万卡 / 万台服务器 / GW / PFLOPS」。榜内数字是该站点已公布的最大容量，已投运与规划同列，逐行标了状态与现网值。</li><li><strong>供电与电网</strong>：电价、电源结构、并网排队三件事并列，不排名。它只回答「这个站点的电从哪来、要等多久、多少钱」。</li><li><strong>不能相加。</strong> 单卡规格、整机出货、园区 IT 负载、园区总电力是四套口径；并成一列求和，得到的数没有含义。</li></ul></div><div class="intro-extra"><h3>已知的取舍</h3><ul><li><strong>国产卡只写公开规格，且把冲突留着。</strong> 昇腾 950PR 的显存有 112 GB 与 128 GB 两种说法，昇腾 910C 的带宽有 1.8 与 3.2 TB/s 两种说法，思元 690 的带宽厂商未公布。表里写「口径不一」而不是取中间值——取平均等于自己造一个数。</li><li><strong>MW 有三种写法，只写在行内，不合并。</strong> IT 负载（给芯片的）、园区电力（含制冷配电，通常是 IT 的 1.2–1.4 倍）、装机供电容量（发电侧）。三者不能互相替代；同一站点在不同来源里差一倍，多半是换了口径。带 <code>*</code> 的数字来自 Epoch AI 与第三方建模，不是业主口径。</li><li><strong>不写实测算力。</strong> 同一张卡在不同框架、不同量化、不同 batch 下能差出一倍，没有统一环境的数字不收。唯一的实测引用是 llama.cpp 公开榜单，且注明版本与用户不同、只能看量级。</li><li><strong>价格只记首发价。</strong> 2026 年 DRAM 缺货把工作站整机价格整体推高：DGX Spark 官方提价 18%，RTX PRO 6000 从约 8,565 美元涨到 1.2 万–1.45 万美元。价格这一列只能当参考，不能当比价依据。</li><li><strong>不预测 2027 年之后的规划容量。</strong> 进了表就会被当成已经能买；只有业主给了时间点、且已在建的项目才收。意向书阶段的（阿根廷、部分印度园区）单独标注，不进规模比较。</li></ul></div>
   </section>
   <section class="blk" id="board-1">
     <div class="blk-head">
@@ -246,7 +251,7 @@
     <p class="bd-empty-tip" hidden>这一档还没有数据。换成「全部」看完整榜单。</p>
     
     
-    <script type="application/json" data-spec="b1">{"mode":"region","unit":"","slider":{"default":24},"series":{}}</script>
+    <script type="application/json" data-spec="b1">{"mode":"region","unit":"","series":{}}</script>
   </section>
   <section class="blk" id="board-2">
     <div class="blk-head">
@@ -335,7 +340,7 @@
     <p class="bd-empty-tip" hidden>这一档还没有数据。换成「全部」看完整榜单。</p>
     
     
-    <script type="application/json" data-spec="b2">{"mode":"region","unit":"","slider":{"default":24},"series":{}}</script>
+    <script type="application/json" data-spec="b2">{"mode":"region","unit":"","series":{}}</script>
   </section>
   <section class="blk" id="board-3">
     <div class="blk-head">
@@ -405,18 +410,700 @@
     
     
   </section>
+  <section class="blk" id="board-4">
+    <div class="blk-head">
+      <span class="blk-num">02.4</span>
+      <h2>中国 · 算力中心</h2>
+      <span class="blk-note is-long">这一榜的单位是混的：中国厂商多按「万卡 / 万台服务器 / GW / PFLOPS」披露，只有少数给 MW，所以右侧一列直接写业主原话的容量与单位，不做换算，也不与海外榜的 MW 比大小。排序是按已公布容量由大到小的粗排，跨单位只读量级。「全国组合」是多园区合计，不能与单体行相加；「未公布」排在末尾。带 * 的是媒体报道、业主未确认。</span>
+    </div>
+    <div class="board is-static" data-board="b4">
+      <article class="bd-card" data-k="乌兰察布 · 集宁（字节跳动）" data-region="国内" data-base="5–6 GW">
+        <span class="bd-rank">1</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>乌兰察布 · 集宁（字节跳动）</h3><span class="bd-val">5–6 GW</span></div>
+          <p class="bd-meta">字节跳动 · 内蒙古 乌兰察布 · 规划 2028 初 · 昇腾 / GB300 混合</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>蒙西电网 + 风光；当地电价约 0.30 元/度；年均 4.3 ℃，近 10 个月自然冷源。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>南华早报 2026-09，配套银团融资 296 亿美元；当地累计规划 6–7 GW，潜在投资超 2000 亿元*。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="乌兰察布 · 星河基地（远景）" data-region="" data-base="2 GW">
+        <span class="bd-rank">2</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>乌兰察布 · 星河基地（远景）</h3><span class="bd-val">2 GW</span></div>
+          <p class="bd-meta">远景科技 · 内蒙古 乌兰察布 · 运营 2026-08 · 未公开</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>源网荷储一体，绿电为主；园区自建新能源与储能。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>12 万 m²、百万卡、百万 P 级，号称全球最大单体 AI 数据中心*。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="乌兰察布（万国数据）" data-region="" data-base="≳1 GW">
+        <span class="bd-rank">3</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>乌兰察布（万国数据）</h3><span class="bd-val">≳1 GW</span></div>
+          <p class="bd-meta">万国数据 · 内蒙古 乌兰察布 · 规划 · 未公开</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>绿电 + 自然冷源；源网荷储配套。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>2026-06 签约，五年投资超 300 亿元，吉瓦级园区。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="乌兰察布（DeepSeek）" data-region="国内" data-base="≈1 GW">
+        <span class="bd-rank">4</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>乌兰察布（DeepSeek）</h3><span class="bd-val">≈1 GW</span></div>
+          <p class="bd-meta">DeepSeek · 内蒙古 乌兰察布 · 规划 · ≥16 万颗 昇腾 950DT*</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>同上：绿电 + 自然冷源。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>彭博社 2026-06 报道，业主未确认；同期融资 500 亿元、投后 520 亿美元*。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="全国组合（万国数据）" data-region="" data-base="1,300 MW">
+        <span class="bd-rank">5</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>全国组合（万国数据）</h3><span class="bd-val">1300 MW</span></div>
+          <p class="bd-meta">万国数据 · 一线城市周边 · 运营 · 混合</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>成熟园区平均 PUE 1.23；2026 资本开支约 100 亿元。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>组合口径：行业 IT 负载第一，机柜 8.2 万个；一线周边储备 900 MW；不与单体行相加。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="全国组合（世纪互联）" data-region="" data-base="1,007 MW">
+        <span class="bd-rank">6</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>全国组合（世纪互联）</h3><span class="bd-val">1007 MW</span></div>
+          <p class="bd-meta">世纪互联 · 北京 / 上海 / 大湾区 · 运营 + 585 在建 · 混合</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>一线城市及周边；零售机柜 5.0 万个。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>组合口径：另有 1,050 MW 预留；不与单体行相加。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="廊坊 B1（润泽）" data-region="" data-base="200 MW">
+        <span class="bd-rank">7</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>廊坊 B1（润泽）</h3><span class="bd-val">200 MW</span></div>
+          <p class="bd-meta">润泽科技 · 河北 廊坊 · 运营 · 昇腾 / GPU 混合</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>环京 1 ms 时延；PUE 1.15；上架率 &gt;90%。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>行业首例单体 200 MW；公司累计交付 ≈750 MW、规划 ≈6 GW；字节贡献 57% 收入。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="廊坊（中国联通）" data-region="国内" data-base="315 MW">
+        <span class="bd-rank">8</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>廊坊（中国联通）</h3><span class="bd-val">315 MW</span></div>
+          <p class="bd-meta">中国联通 · 河北 廊坊 · 在建 · 未公开</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>环京枢纽，1 ms 内到北京；京津冀算力走廊。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>已投产 1.86 万架，另建 3 栋智算机房共 315 MW。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="张北（阿里云）" data-region="国内" data-base="30 万台">
+        <span class="bd-rank">9</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>张北（阿里云）</h3><span class="bd-val">30 万台</span></div>
+          <p class="bd-meta">阿里云 · 河北 张家口 · 运营 · 含光 800 / 神龙</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>风光储输示范；PUE 年均 1.2，极端优化 1.13；全年仅约 15 天需要机械制冷。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>2015 年投运，阿里第一个自建超大规模园区，可扩至 100 万台；与乌兰察布合计 30 万台以上。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="乌兰察布（阿里云）" data-region="国内" data-base="1.6 万卡">
+        <span class="bd-rank">10</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>乌兰察布（阿里云）</h3><span class="bd-val">1.6 万卡</span></div>
+          <p class="bd-meta">阿里云 · 内蒙古 乌兰察布 · 运营 · 含光 800 / 昇腾</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>风电 + 光伏；PUE ≈1.2；4.3 ℃ 年均气温。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>2020 年开园，单集群 1.6 万卡；小鹏、广汽、大疆、比亚迪、复旦的算力落地在此。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="贵安 · 七星（腾讯）" data-region="国内" data-base="30 万台">
+        <span class="bd-rank">11</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>贵安 · 七星（腾讯）</h3><span class="bd-val">30 万台</span></div>
+          <p class="bd-meta">腾讯 · 贵州 贵安 · 运营 · 未公开</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>乌江水电为主，南方电网；山洞自然冷。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>规划存 30 万台服务器；依山凿洞，一期从开挖到试运行半年。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="贵安（华为云）" data-region="国内" data-base="百万台级">
+        <span class="bd-rank">12</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>贵安（华为云）</h3><span class="bd-val">百万台级</span></div>
+          <p class="bd-meta">华为云 · 贵州 贵安 · 运营 · 昇腾 &gt;11 万片（2024-10）</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>水电 + 南方电网；仓储式机房，CloudMatrix384 超节点。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>2021-12 商用，华为云全球总部；《哪吒 2》约四成特效在此渲染。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="和林格尔 / 乌兰察布 / 芜湖（华为云）" data-region="国内" data-base="百万台级">
+        <span class="bd-rank">13</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>和林格尔 / 乌兰察布 / 芜湖（华为云）</h3><span class="bd-val">百万台级</span></div>
+          <p class="bd-meta">华为云 · 内蒙古 / 安徽 · 规划 · 昇腾</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>绿电 + 自然冷；自建比例超 90%。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>三大枢纽设计容量均到百万台级；已运营与规划约 1:6*。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="嘉善（中国移动）" data-region="国内" data-base="5 万卡">
+        <span class="bd-rank">14</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>嘉善（中国移动）</h3><span class="bd-val">5 万卡</span></div>
+          <p class="bd-meta">中国移动 · 浙江 嘉兴 · 运营（首期） · 未公开</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>华东电网；靠液冷压 PUE。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>一期投资约 50 亿元，首期 15,000 PFLOPS，长三角枢纽节点。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="韶关（平头哥 / 中国电信）" data-region="国内" data-base="万卡级">
+        <span class="bd-rank">15</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>韶关（平头哥 / 中国电信）</h3><span class="bd-val">万卡级</span></div>
+          <p class="bd-meta">阿里 · 平头哥 · 广东 韶关 · 规划到十万卡 · 真武 PPU</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>南方电网，水电富集；电价低于珠三角。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>建在电信园区内，国产芯片万卡集群样板*。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="贵安（苹果 iCloud）" data-region="" data-base="未公布">
+        <span class="bd-rank">16</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>贵安（苹果 iCloud）</h3><span class="bd-val">未公布</span></div>
+          <p class="bd-meta">苹果 · 贵州 贵安 · 运营 · 未公开</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>100% 可再生电力，国内首个全绿电数据中心。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>2017 年签约，投资 10 亿美元；与腾讯、华为同处贵安集群。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="乌兰察布（中金数据）" data-region="" data-base="未公布">
+        <span class="bd-rank">17</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>乌兰察布（中金数据）</h3><span class="bd-val">未公布</span></div>
+          <p class="bd-meta">中金数据 · 内蒙古 乌兰察布 · 运营 · 未公开</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>源网荷储绿电直连：自供 8.48 亿 kWh/年，可再生替代率 38.7%。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>全国首个数据中心绿电直连源网荷储项目，2025 年并网。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="乌兰察布（快手）" data-region="国内" data-base="未公布">
+        <span class="bd-rank">18</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>乌兰察布（快手）</h3><span class="bd-val">未公布</span></div>
+          <p class="bd-meta">快手 · 内蒙古 乌兰察布 · 运营 · 未公开</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>绿电 + 自然冷。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>2020-06 落地，投资约百亿，快手首个超大规模园区。</p>
+        </div>
+      </article>
+    </div>
+    <p class="bd-empty-tip" hidden>这一档还没有数据。换成「全部」看完整榜单。</p>
+    
+    
+  </section>
+  <section class="blk" id="board-5">
+    <div class="blk-head">
+      <span class="blk-num">02.5</span>
+      <h2>美国 · 算力中心</h2>
+      <span class="blk-note is-long">数字是「该站点已公布的最大容量」，已投运与规划混在一列——它只用来读规模量级，不是今天的投运容量。每一行的状态与现网值另写在卡片里；「运营 946」表示现网 IT 负载 946 MW，「在建」表示还没有上电。IT 负载只是算力设备那一部分，园区总电力通常还要乘 PUE（1.2–1.4）。带 * 的是第三方建模值，不是业主口径。</span>
+    </div>
+    <div class="board is-static" data-board="b5">
+      <article class="bd-card" data-k="PORTS-Pike（俄亥俄）" data-region="" data-base="8,000">
+        <span class="bd-rank">1</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>PORTS-Pike（俄亥俄）</h3><span class="bd-val">8,000 <small>MW</small></span></div>
+          <p class="bd-meta">OpenAI · SB Energy · NVIDIA · OH · Piketon · 规划 · NVIDIA DSX（GPU / CPU / 网络）</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>配套至少 10 GW 新增发电（其中 9.2 GW 燃气）；SB Energy 建运，20 年租给 OpenAI。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>前 DOE 铀浓缩厂地块；4.25 GW 由 NVIDIA 背书，余 3.75 GW 有选择权。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Hyperion（路易斯安那）" data-region="" data-base="5,000">
+        <span class="bd-rank">2</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Hyperion（路易斯安那）</h3><span class="bd-val">5,000 <small>MW</small></span></div>
+          <p class="bd-meta">Meta · LA · Richland Parish · 在建 · Rubin 代际（约 46.9 万颗）*</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>Entergy 新建燃气机组 + 2026-01 与 TerraPower / Oklo / Vistra 签核电协议。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>5 GW 是 Meta 口径，第三方认为缺站点级证据，按 1.6 GW IT 建模*。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Doña Ana（新墨西哥）" data-region="" data-base="2,450">
+        <span class="bd-rank">3</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Doña Ana（新墨西哥）</h3><span class="bd-val">2,450 <small>MW</small></span></div>
+          <p class="bd-meta">OpenAI · Oracle · STACK · NM · Doña Ana · 在建 · NVIDIA（约 510 万 H100 等效）*</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>2026-04 改为 Bloom 燃料电池微电网供电，园区电力口径；IT 约 1.75 GW*。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>Project Jupiter；州政府批了独立微网。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Fairwater 威斯康星" data-region="" data-base="2,263">
+        <span class="bd-rank">4</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Fairwater 威斯康星</h3><span class="bd-val">2,263 <small>MW</small></span></div>
+          <p class="bd-meta">Microsoft · WI · Mount Pleasant · 运营 369 · GB200 / B200（现网约 17.6 万颗）*</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>电网 + 液冷闭环；2028 年目标 2.26 GW IT。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>号称「最强 AI 数据中心」；首栋 2026-06 完工，第二栋排到 2028。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Project Rainier" data-region="" data-base="2,200">
+        <span class="bd-rank">5</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Project Rainier</h3><span class="bd-val">2,200 <small>MW</small></span></div>
+          <p class="bd-meta">Anthropic · AWS · IN · New Carlisle · 运营 1,037 · Trainium2（约 105 万颗）*</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>电网供电，自研芯片省掉英伟达溢价；AWS 承诺最高 5 GW。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>8 栋中 6 栋交付；Amazon 口径的园区电力是 2.2 GW。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Stargate Shackelford" data-region="" data-base="2,000">
+        <span class="bd-rank">6</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Stargate Shackelford</h3><span class="bd-val">2,000 <small>MW</small></span></div>
+          <p class="bd-meta">OpenAI · Oracle · Vantage · TX · Shackelford · 在建 · Rubin 代际（约 460 万 H100 等效）*</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>ERCOT；Vantage「Frontier」园区。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>Vantage 称 2026 下半年首批交付，第三方判断 2027 才上 IT 负载。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Colossus 2" data-region="" data-base="2,000">
+        <span class="bd-rank">7</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Colossus 2</h3><span class="bd-val">2,000 <small>MW</small></span></div>
+          <p class="bd-meta">xAI（SpaceX） · TN · Memphis · 运营 946 · ≈55 万 GB200 / GB300</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>TVA 电网 + 自备燃气轮机（15 台获批运行至 2027）+ 168 台 Megapack；第三栋 2027-02 到 2 GW。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>世界首个 GW 级训练集群；年底再翻一倍芯片*。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Helios" data-region="" data-base="1,630">
+        <span class="bd-rank">8</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Helios</h3><span class="bd-val">1,630 <small>MW</small></span></div>
+          <p class="bd-meta">CoreWeave · Galaxy · TX · 西德州 · 运营 133 · NVIDIA（型号未披露）</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>ERCOT；原比特币矿场改造，15 年租约。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>已承诺 526 MW IT；1,630 MW 是全部批准容量。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Stargate Saline" data-region="" data-base="1,400">
+        <span class="bd-rank">9</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Stargate Saline</h3><span class="bd-val">1,400 <small>MW</small></span></div>
+          <p class="bd-meta">OpenAI · Oracle · Related · MI · Saline · 在建 · GB300 代际（约 290 万 H100 等效）*</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>MISO；三栋分期。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>2026-06 开工，位于安娜堡西南。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Stargate Port Washington" data-region="" data-base="1,300">
+        <span class="bd-rank">10</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Stargate Port Washington</h3><span class="bd-val">1,300 <small>MW</small></span></div>
+          <p class="bd-meta">OpenAI · Oracle · Vantage · WI · Port Washington · 在建 · GB300 代际（约 260 万 H100 等效）*</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>MISO / PJM 交界，就近取电。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>「灯塔」项目，2025-10 宣布。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Stargate Abilene" data-region="" data-base="1,200">
+        <span class="bd-rank">11</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Stargate Abilene</h3><span class="bd-val">1,200 <small>MW</small></span></div>
+          <p class="bd-meta">OpenAI · Oracle · Crusoe · TX · Abilene · 运营 618 · B200 / B300（满配约 40 万颗）*</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>现场燃气电站 + ERCOT；8 栋中 6 栋交付。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>Stargate 旗舰，2025-09 首次通电。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Stargate Milam" data-region="" data-base="1,200">
+        <span class="bd-rank">12</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Stargate Milam</h3><span class="bd-val">1,200 <small>MW</small></span></div>
+          <p class="bd-meta">OpenAI · SB Energy · TX · Milam · 在建 · GB300 代际（约 250 万 H100 等效）*</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>ERCOT；SB Energy 自建自营。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>首栋完工备案 2026-10，尚未宣布通电。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Independence" data-region="" data-base="1,200">
+        <span class="bd-rank">13</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Independence</h3><span class="bd-val">1,200 <small>MW</small></span></div>
+          <p class="bd-meta">Nebius · MO · Independence · 在建 · 未披露</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>MISO；约 400 英亩自建自营。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>Nebius 首个 GW 级美国项目，未公布租户。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Cedar Rapids" data-region="" data-base="1,133">
+        <span class="bd-rank">14</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Cedar Rapids</h3><span class="bd-val">1,133 <small>MW</small></span></div>
+          <p class="bd-meta">QTS · IA · Cedar Rapids · 在建 · NVIDIA（约 367 万 H100 等效）*</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>MISO；一期报装 616 MW，与第三方测算吻合。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>7 栋园区，业主未公布 MW。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Prometheus" data-region="" data-base="1,000">
+        <span class="bd-rank">15</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Prometheus</h3><span class="bd-val">1,000 <small>MW</small></span></div>
+          <p class="bd-meta">Meta · OH · New Albany · 运营 471 · 约 16.6 万 B300</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>PJM；2026-01 签核电协议，为 1 GW 目标配零碳电源。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>2025-10 首栋通电；第三方 2026-10 换 B300 模型后现网估值为 471 MW。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="El Paso" data-region="" data-base="1,000">
+        <span class="bd-rank">16</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>El Paso</h3><span class="bd-val">1,000 <small>MW</small></span></div>
+          <p class="bd-meta">Meta · BlackRock · TX · El Paso · 在建 · 未披露</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>ERCOT；合资公司 80/20，Meta 为首个入驻方。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>140 亿美元，预计 2028 投运。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Lebanon" data-region="" data-base="1,000">
+        <span class="bd-rank">17</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Lebanon</h3><span class="bd-val">1,000 <small>MW</small></span></div>
+          <p class="bd-meta">Meta · IN · Lebanon · 在建 · 未披露</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>MISO；闭环液冷。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>投资超 100 亿美元，未给投运日期。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Abilene 扩建（微软）" data-region="国外" data-base="900">
+        <span class="bd-rank">18</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Abilene 扩建（微软）</h3><span class="bd-val">900 <small>MW</small></span></div>
+          <p class="bd-meta">Microsoft · Crusoe · TX · Abilene · 在建 · 下一代 AI 芯片（未披露）</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>现场自备电站；两栋各 336 MW IT。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>与 Stargate 园区相邻，Crusoe 称两地合计约 2.1 GW；首栋 2027 年中通电。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Ridgeland" data-region="" data-base="840">
+        <span class="bd-rank">19</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Ridgeland</h3><span class="bd-val">840 <small>MW</small></span></div>
+          <p class="bd-meta">AWS · MS · Ridgeland · 运营 228 · Trainium2*</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>电网；14 栋园区。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>AWS 未公布 MW，规划值按 6–14 栋进度建模*。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Fairwater 亚特兰大" data-region="" data-base="636">
+        <span class="bd-rank">20</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Fairwater 亚特兰大</h3><span class="bd-val">636 <small>MW</small></span></div>
+          <p class="bd-meta">Microsoft · GA · Fayetteville · 运营 636 · 约 30.4 万 B200*</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>QTS 建的纯电网设计：无 UPS、无柴发，靠电网冗余。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>与威斯康星用一张 WAN 连成「AI 超级工厂」。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Polaris Forge 1" data-region="" data-base="400">
+        <span class="bd-rank">21</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Polaris Forge 1</h3><span class="bd-val">400 <small>MW</small></span></div>
+          <p class="bd-meta">CoreWeave · Applied Digital · ND · Ellendale · 运营 250 · NVIDIA（型号未披露）</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>MISO；三栋，第三栋 150 MW 在建。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>Applied Digital 全租给 CoreWeave，合同收入约 110 亿美元。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Omaha TPU" data-region="" data-base="395">
+        <span class="bd-rank">22</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Omaha TPU</h3><span class="bd-val">395 <small>MW</small></span></div>
+          <p class="bd-meta">Google · NE · Omaha · 运营 237 · TPU v5e–v7（约 38 万颗）*</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>SPP 电网；TPU 自用不外售。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>Google 已披露的最大单体 TPU 训练园区。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Colossus 1" data-region="" data-base="300">
+        <span class="bd-rank">23</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Colossus 1</h3><span class="bd-val">300 <small>MW</small></span></div>
+          <p class="bd-meta">xAI（SpaceX） · TN · Memphis · 运营 300 · H100 15 万 / H200 5 万 / GB200 3 万</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>电网（初期仅 8 MW，后升至 150 MW）+ 临时燃气轮机 + Megapack。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>2026-05 起全部算力租给 Anthropic；无公开扩容计划。</p>
+        </div>
+      </article>
+    </div>
+    <p class="bd-empty-tip" hidden>这一档还没有数据。换成「全部」看完整榜单。</p>
+    
+    
+  </section>
+  <section class="blk" id="board-6">
+    <div class="blk-head">
+      <span class="blk-num">02.6</span>
+      <h2>东南亚 · 算力中心</h2>
+      <span class="blk-note is-long">东南亚没有统一口径：同一座城市，运营商披露、地产行研、政府规划能差出一倍（新加坡全国在运就从 985 MW 到 1.46 GW 三种说法）。行内的数都注了来源口径，跨行只读量级。柔佛与新加坡合并看才有意义——约七成区域存量集中在这两个点，柔佛出地出电，新加坡出连接与客户。</span>
+    </div>
+    <div class="board is-static" data-board="b6">
+      <article class="bd-card" data-k="柔佛 · 州域合计" data-region="" data-base="1110">
+        <span class="bd-rank">1</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>柔佛 · 州域合计</h3><span class="bd-val">1,110 <small>MW</small></span></div>
+          <p class="bd-meta">微软 / 字节 / DayOne / AirTrunk 等 · 马来西亚 柔佛 · 运营 1,110 + 在建 602 · 未统一披露</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>TNB 已为 36 个项目供 4.5 GW；绿色通道把并网周期从 36 个月压到 12 个月。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>在建加规划 3,088 MW*；累计投资 350–400 亿美元；数据中心占州用电约 24%。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="柔佛 · Sedenak（AirTrunk JHB1）" data-region="" data-base="150">
+        <span class="bd-rank">2</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>柔佛 · Sedenak（AirTrunk JHB1）</h3><span class="bd-val">150 <small>MW</small></span></div>
+          <p class="bd-meta">AirTrunk · 马来西亚 柔佛 · 运营 50（可扩 150） · NVIDIA（型号未披露）</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>TNB；PUE 1.3–1.4、WUE 1.5–1.8，热带高密度样板。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>20 MW 以上直触液冷；一期 50 MW。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="新加坡 · 裕廊岛" data-region="" data-base="700">
+        <span class="bd-rank">3</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>新加坡 · 裕廊岛</h3><span class="bd-val">700 <small>MW</small></span></div>
+          <p class="bd-meta">政府规划园区 · 新加坡 · 规划 · 待定</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>燃气为主，须配绿电；园区 10% 土地留给新能源技术。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>新加坡最大在建规划，2025-10 宣布；不解决近两年缺口。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="新加坡 · SG6（Equinix）" data-region="" data-base="20">
+        <span class="bd-rank">4</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>新加坡 · SG6（Equinix）</h3><span class="bd-val">20 <small>MW</small></span></div>
+          <p class="bd-meta">Equinix · 新加坡 · 运营 8（满配 20） · NVIDIA（AI 就绪）</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>SP Group；PUE 1.2、Green Mark 铂金，DC-CFA 框架下首批。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>2.9 亿美元；首个 8 MW 已投运。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="新加坡 · 全国合计" data-region="" data-base="1460">
+        <span class="bd-rank">5</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>新加坡 · 全国合计</h3><span class="bd-val">1,460 <small>MW</small></span></div>
+          <p class="bd-meta">多业主 · 新加坡 · 运营 985–1,460（口径不一） · 混合</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>燃气约九成，靠进口 LNG；新增配额 300 + 200 MW，要求 PUE &lt;1.25、≥50% 绿电。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>在建仅 20 MW、开发管道 980 MW；Meta 150 MW 为最大单体，Nxera 94 MW 次之。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="巴淡 · KITP（DayOne）" data-region="" data-base="360">
+        <span class="bd-rank">6</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>巴淡 · KITP（DayOne）</h3><span class="bd-val">360 <small>MW</small></span></div>
+          <p class="bd-meta">DayOne · 印尼 巴淡 · 规划 · 未披露</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>燃气为主；电网扩容落后于上电时间表。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>新柔廖走廊里承接电力密集型负载的一端。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="雅加达 · CGK（Digital Edge）" data-region="" data-base="500">
+        <span class="bd-rank">7</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>雅加达 · CGK（Digital Edge）</h3><span class="bd-val">500 <small>MW</small></span></div>
+          <p class="bd-meta">Digital Edge · 印尼 雅加达 · 在建 · 未披露</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>爪哇—巴厘电网；雅加达占印尼容量八成以上。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>印尼在建 1,084 MW、规划 588 MW。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="雅加达 · JC4（PDG）" data-region="" data-base="240">
+        <span class="bd-rank">8</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>雅加达 · JC4（PDG）</h3><span class="bd-val">240 <small>MW</small></span></div>
+          <p class="bd-meta">Princeton Digital · 印尼 雅加达 · 在建 · 未披露</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>同上。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>2025-11 开工。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="曼谷 / EEC 合计" data-region="" data-base="290">
+        <span class="bd-rank">9</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>曼谷 / EEC 合计</h3><span class="bd-val">290 <small>MW</small></span></div>
+          <p class="bd-meta">Google / AWS / Equinix / DayOne · 泰国 春武里 · 运营 70 + 在建 220 · 混合</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>EGAT；备用率从 2022 年约 50% 降到 2024 年 26%。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>含规划约 0.97 GW*；2026-09 暂缓 49 项施工、117 项审批。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="新柔廖走廊合计" data-region="" data-base="2500">
+        <span class="bd-rank">10</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>新柔廖走廊合计</h3><span class="bd-val">2,500 <small>MW</small></span></div>
+          <p class="bd-meta">新加坡 + 柔佛 + 巴淡 · 跨境 · 运营 &gt;2,500 · 混合</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>新加坡做连接与高价值算力，柔佛与巴淡承接电力密集型。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>东南亚约七成存量集中在新加坡与柔佛。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="马尼拉 合计" data-region="" data-base="90">
+        <span class="bd-rank">11</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>马尼拉 合计</h3><span class="bd-val">90 <small>MW</small></span></div>
+          <p class="bd-meta">STT / Microsoft / DayOne · 菲律宾 马尼拉 · 运营 70 + 在建 20 · 混合</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>吕宋电网，电价高于马来。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>以本国市场为主，规模仍小。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="胡志明 / 河内 合计" data-region="" data-base="104">
+        <span class="bd-rank">12</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>胡志明 / 河内 合计</h3><span class="bd-val">104 <small>MW</small></span></div>
+          <p class="bd-meta">多业主 · 越南 · 运营 104 · 混合</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>EVN；工业电价约 $0.08，是区域最低档。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>增速快但基数小；审批与电力配套是瓶颈。</p>
+        </div>
+      </article>
+    </div>
+    <p class="bd-empty-tip" hidden>这一档还没有数据。换成「全部」看完整榜单。</p>
+    
+    
+  </section>
+  <section class="blk" id="board-7">
+    <div class="blk-head">
+      <span class="blk-num">02.7</span>
+      <h2>其他海外 · 算力中心</h2>
+      <span class="blk-note is-long">印度、中东、欧洲与南美的主要在建项目。这一榜的容量多数是「宣布的目标」，不是电网已批的容量——印度 3 GW、沙特 500 MW、阿根廷 500 MW 都还在意向或审批阶段，进榜是因为规模足够改变区域格局，不是因为它们已经在跑。</span>
+    </div>
+    <div class="board is-static" data-board="b7">
+      <article class="bd-card" data-k="Jamnagar" data-region="" data-base="3000">
+        <span class="bd-rank">1</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Jamnagar</h3><span class="bd-val">3,000 <small>MW</small></span></div>
+          <p class="bd-meta">Reliance · 印度 古吉拉特 · 在建 · GB300 起（推理 &gt;7.5 万 H100 等效）</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>Reliance 自备电厂 + 可再生；首期 120 MW 计划 2026 年底投运。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>号称全球最大单体规划，200–300 亿美元*；Reliance 自己只说「多吉瓦」。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Sines" data-region="" data-base="1200">
+        <span class="bd-rank">2</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Sines</h3><span class="bd-val">1,200 <small>MW</small></span></div>
+          <p class="bd-meta">Start Campus · Nscale · 葡萄牙 Setúbal · 运营（首栋） · Blackwell Ultra / Rubin</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>葡萄牙电网，可再生占比高；园区全许可 1.2 GW。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>首栋 1.26 万颗 Blackwell Ultra 给微软；第二栋 200 MW 装 6.6 万颗 Rubin。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Visakhapatnam" data-region="" data-base="1000">
+        <span class="bd-rank">3</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Visakhapatnam</h3><span class="bd-val">1,000 <small>MW</small></span></div>
+          <p class="bd-meta">Google · Adani · Airtel · 印度 安得拉邦 · 在建 · Google AI 基础设施（未披露）</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>印度电网；环保许可正被起诉。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>150 亿美元、2026–2030，Google 在印最大投资；2028 投运。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Stargate UAE" data-region="" data-base="1000">
+        <span class="bd-rank">4</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Stargate UAE</h3><span class="bd-val">1,000 <small>MW</small></span></div>
+          <p class="bd-meta">G42 · OpenAI · Oracle · 阿联酋 阿布扎比 · 在建 · GB300</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>天然气 + 巴拉卡核电；5 GW 园区首期。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>首期 200 MW 原定 2026Q3，到 10 月仍未宣布通电，方案改为加固设计。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="HUMAIN AI 工厂" data-region="" data-base="500">
+        <span class="bd-rank">5</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>HUMAIN AI 工厂</h3><span class="bd-val">500 <small>MW</small></span></div>
+          <p class="bd-meta">HUMAIN · NVIDIA · 沙特 利雅得 · 在建 · GB300（三年最多 60 万颗）</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>沙特电网 + 天然气；PIF 主权项目。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>500 MW 是多厂合计口径；首个集群约 1.8 万颗 GB300。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Stargate Argentina" data-region="" data-base="500">
+        <span class="bd-rank">6</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Stargate Argentina</h3><span class="bd-val">500 <small>MW</small></span></div>
+          <p class="bd-meta">Sur Energy · OpenAI · 阿根廷 巴塔哥尼亚 · 意向 · 待定</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>巴塔哥尼亚风电资源，配套待定。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>仅意向书（最高 250 亿美元），未进 RIGI 审批。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="Narvik" data-region="" data-base="230">
+        <span class="bd-rank">7</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Narvik</h3><span class="bd-val">230 <small>MW</small></span></div>
+          <p class="bd-meta">Nscale（微软承接） · 挪威 诺尔兰 · 在建 · GB300 约 5.2 万颗 + 2027 起 Rubin 3 万颗</p>
+          <p class="bd-note"><span class="bd-lab">供电</span>水电；原 Stargate Norway。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>OpenAI 2026-04 退出租赁谈判；计划再加 290 MW。</p>
+        </div>
+      </article>
+    </div>
+    <p class="bd-empty-tip" hidden>这一档还没有数据。换成「全部」看完整榜单。</p>
+    
+    
+  </section>
+  <section class="blk" id="board-8">
+    <div class="blk-head">
+      <span class="blk-num">02.8</span>
+      <h2>供电与电网</h2>
+      <span class="blk-note is-long">电价用的是公开的工业或大工业平均费率（EIA 月度、TNB、SP、MEA 口径），不是某个园区的合同价——大负荷客户实际签的价通常更低，但这组数字能说明区域差多少：内蒙 0.30 元/度，折合约 4.2 美分；德州工业 7.2 美分；弗吉尼亚 10 美分再加 1.1 美分数据中心税；新加坡 25 美分。并网一列写的是「排队有多长」，它现在比电价更能决定项目能不能落地。</span>
+    </div>
+    <div class="board is-static" data-board="b8">
+      <article class="bd-card" data-k="内蒙古 · 乌兰察布" data-region="" data-base="">
+        <span class="bd-rank">1</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>内蒙古 · 乌兰察布</h3></div>
+          <p class="bd-meta">0.30 元/kWh（≈$0.042） · 风光富集，年均 4.3 ℃</p>
+          <p class="bd-note"><span class="bd-lab">并网与约束</span>蒙西电网；绿电直连试点，中金数据自供 8.48 亿 kWh/年。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>已签约 89 个项目、容量 12.5 GW；PUE 1.2 级。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="宁夏 · 中卫" data-region="" data-base="">
+        <span class="bd-rank">2</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>宁夏 · 中卫</h3></div>
+          <p class="bd-meta">西部低电价 + 绿电直连 · 500 MW 光伏 + 风电基地直供</p>
+          <p class="bd-note"><span class="bd-lab">并网与约束</span>园区号称 100% 绿电；干冷气候，水是约束。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>八大枢纽之一，以非实时算力为主。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="贵州 · 贵安" data-region="" data-base="">
+        <span class="bd-rank">3</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>贵州 · 贵安</h3></div>
+          <p class="bd-meta">低于东部，水电为主 · 乌江水电 + 火电</p>
+          <p class="bd-note"><span class="bd-lab">并网与约束</span>南方电网；山洞与溶洞自然冷。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>苹果 iCloud 在此做到 100% 可再生。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="河北 · 张家口 / 廊坊" data-region="" data-base="">
+        <span class="bd-rank">4</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>河北 · 张家口 / 廊坊</h3></div>
+          <p class="bd-meta">环京较高，靠绿电交易压成本 · 张北风光储输示范</p>
+          <p class="bd-note"><span class="bd-lab">并网与约束</span>怀来—北京 &lt;2 ms、廊坊 1 ms；京津冀枢纽。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>河北智算 556 EFLOPS、机架 250 万，均全国第一。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="长三角 · 嘉善 / 南通" data-region="" data-base="">
+        <span class="bd-rank">5</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>长三角 · 嘉善 / 南通</h3></div>
+          <p class="bd-meta">东部工商业电价，约为西部两倍 · 火电为主，海上风电增量</p>
+          <p class="bd-note"><span class="bd-lab">并网与约束</span>华东电网负荷紧，新增报装要排队。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>只能靠液冷把 PUE 压到 1.1–1.2。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="粤港澳 · 河源 / 韶关" data-region="" data-base="">
+        <span class="bd-rank">6</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>粤港澳 · 河源 / 韶关</h3></div>
+          <p class="bd-meta">广东工商业电价 · 新丰江水电 + 火电</p>
+          <p class="bd-note"><span class="bd-lab">并网与约束</span>南方电网；河源用万绿湖湖水冷却。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>韶关承接国产芯片万卡集群。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="美国 · 德州（ERCOT）" data-region="" data-base="">
+        <span class="bd-rank">7</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>美国 · 德州（ERCOT）</h3></div>
+          <p class="bd-meta">工业 7.21¢/kWh（2026-08） · 天然气 + 风光，能量型市场</p>
+          <p class="bd-note"><span class="bd-lab">并网与约束</span>大负荷队列 474 GW（2026-06，约九成是数据中心），实际批准通电约 9 GW；Batch Zero 优先通道。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>容量不单独计价，靠实时电价；系统峰值 91.1 GW（2026-07）。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="美国 · 弗吉尼亚（PJM / Dominion）" data-region="" data-base="">
+        <span class="bd-rank">8</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>美国 · 弗吉尼亚（PJM / Dominion）</h3></div>
+          <p class="bd-meta">工业 9.98¢ + 数据中心电税 1.1¢（2026-07 起） · 天然气 + 核电</p>
+          <p class="bd-note"><span class="bd-lab">并网与约束</span>PJM 容量价 325–333 $/MW-day 连续三年封顶；GS-5 大负荷费率按 85% 合同容量计费（2027-01 生效）。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>Dominion 冬季峰值 25,413 MW，比 2019–20 高 45%；空置率 0.2%。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="美国 · 俄亥俄 / 宾州（PJM）" data-region="" data-base="">
+        <span class="bd-rank">9</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>美国 · 俄亥俄 / 宾州（PJM）</h3></div>
+          <p class="bd-meta">工业 9.75¢ / 10.47¢ · 天然气，煤电退役</p>
+          <p class="bd-note"><span class="bd-lab">并网与约束</span>AEP 要求数据中心按 85% 认购容量计费、最长 12 年。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>容量费传导到民用电价，地方反对上升。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="美国 · 佐治亚 / 田纳西" data-region="" data-base="">
+        <span class="bd-rank">10</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>美国 · 佐治亚 / 田纳西</h3></div>
+          <p class="bd-meta">工业 13.05¢ / 6.92¢ · 天然气 + 核电（TVA）</p>
+          <p class="bd-note"><span class="bd-lab">并网与约束</span>Georgia Power 大负荷管道 76.2 GW；TVA 为孟菲斯配气电 + 光伏 PPA。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>佐治亚工业电价一年涨 60%（2026-08 同比）。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="美国 · 亚利桑那" data-region="" data-base="">
+        <span class="bd-rank">11</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>美国 · 亚利桑那</h3></div>
+          <p class="bd-meta">工业 9.73¢ · 核电（Palo Verde）+ 天然气</p>
+          <p class="bd-note"><span class="bd-lab">并网与约束</span>并网排队 2–3 年；水权是硬约束。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>在运数据中心 2,000 MW 以上，另有 10,600 MW 规划。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="美国 · 纽约 / 加州" data-region="" data-base="">
+        <span class="bd-rank">12</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>美国 · 纽约 / 加州</h3></div>
+          <p class="bd-meta">工业 10.54¢ / 24.12¢ · 天然气 + 水电 + 进口</p>
+          <p class="bd-note"><span class="bd-lab">并网与约束</span>纽约州 2026 年暂停大型 AI 数据中心审批。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>加州电价全国最高，扩容最慢。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="马来西亚 · 柔佛（TNB）" data-region="" data-base="">
+        <span class="bd-rank">13</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>马来西亚 · 柔佛（TNB）</h3></div>
+          <p class="bd-meta">工业 33.7 sen（≈$0.079），全包 ≈$0.139 · 天然气 + 煤 + 少量可再生</p>
+          <p class="bd-note"><span class="bd-lab">并网与约束</span>已供 4.5 GW / 36 个项目；签 ESA 8.35 GW、DCTF 批 4.6 GW；绿色通道 12 个月。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>数据中心占州用电 24%，2035 年可能到 40%；停批 Tier I–II。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="新加坡" data-region="" data-base="">
+        <span class="bd-rank">14</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>新加坡</h3></div>
+          <p class="bd-meta">商业 31.91 新分/kWh（2026Q3，≈$0.25） · 天然气约九成，靠进口 LNG</p>
+          <p class="bd-note"><span class="bd-lab">并网与约束</span>新增配额 300 + 200 MW；要求 PUE &lt;1.25、Green Mark 铂金、≥50% 绿电。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>电价创历史新高，仍是亚太最贵的托管市场。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="印尼 · 巴淡 / 雅加达" data-region="" data-base="">
+        <span class="bd-rank">15</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>印尼 · 巴淡 / 雅加达</h3></div>
+          <p class="bd-meta">低于新加坡，燃气为主 · 天然气 + 煤</p>
+          <p class="bd-note"><span class="bd-lab">并网与约束</span>电网扩容慢于上电时间表，部分项目分期投产。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>群岛地形抬高输电成本。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="泰国 · EEC" data-region="" data-base="">
+        <span class="bd-rank">16</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>泰国 · EEC</h3></div>
+          <p class="bd-meta">≈4.15–4.2 THB（≈$0.128） · 天然气约六成</p>
+          <p class="bd-note"><span class="bd-lab">并网与约束</span>2026-09 暂缓 49 项施工、117 项审批；备用率 26%。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>拟对数据中心单列高电价类别。</p>
+        </div>
+      </article>
+      <article class="bd-card" data-k="全球 · 合计" data-region="" data-base="">
+        <span class="bd-rank">17</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>全球 · 合计</h3></div>
+          <p class="bd-meta">— · 可再生 + 天然气为主</p>
+          <p class="bd-note"><span class="bd-lab">并网与约束</span>数据中心用电 485 TWh（2025）→ 约 945 TWh（2030）。</p><p class="bd-note bd-sub"><span class="bd-lab">备注</span>占全球用电 1.5% → 3%；美国占 2030 年前需求增量近一半。</p>
+        </div>
+      </article>
+    </div>
+    <p class="bd-empty-tip" hidden>这一档还没有数据。换成「全部」看完整榜单。</p>
+    
+    
+  </section>
   <section class="blk" id="reports">
     <div class="blk-head">
       <span class="blk-num">03</span>
       <h2>报告</h2>
-      <span class="blk-note">共 2 篇 · 点开是独立页</span>
+      <span class="blk-note">共 3 篇 · 点开是独立页</span>
     </div>
     <div class="rpt-card">
       <div class="rpt-bar">
-        <button class="rpt-chip on" data-tag="">全部 <i>2</i></button><button class="rpt-chip" data-tag="显存">显存 <i>2</i></button>
+        <button class="rpt-chip on" data-tag="">全部 <i>3</i></button><button class="rpt-chip" data-tag="显存">显存 <i>2</i></button>
         <span class="rpt-hint" hidden></span>
       </div>
       <div class="rpt-grid">
+        <a class="rpt-item" data-tags="算力中心,电力,数据中心" href="hardware/03-%E7%AE%97%E5%8A%9B%E4%B8%AD%E5%BF%83%E7%9A%84%E8%B4%A6.html">
+        <span class="rpt-top"><time>2026-11-24</time><span class="rpt-go">→</span></span>
+        <h3>算力中心的账：MW、万卡与规划</h3>
+        <p>同一个 1 GW 园区，可以指 IT 负载、园区电力或装机容量，三者能差出一倍。先把口径拆开，再看规划与投运的差距，最后才是电价——电价只决定运营成本，并网排队才决定能不能建。</p>
+        <span class="rpt-tags"><span class="rpt-tag">算力中心</span><span class="rpt-tag">电力</span><span class="rpt-tag">数据中心</span></span>
+      </a>
         <a class="rpt-item" data-tags="推理,显存,带宽" href="hardware/01-%E4%B8%A4%E7%B1%BB%E7%93%B6%E9%A2%88.html">
         <span class="rpt-top"><time>2026-11-23</time><span class="rpt-go">→</span></span>
         <h3>两类瓶颈：prefill 吃算力，decode 吃带宽</h3>
