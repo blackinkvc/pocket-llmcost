@@ -409,30 +409,45 @@ html:not(.has-js) .rk-ctrl{display:none}
   font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--t3);
 }
 .toc-all{
-  font:inherit;letter-spacing:0;color:var(--t2);background:none;border:0;
-  padding:0;cursor:pointer;transition:color .15s;
+  font:inherit;font-size:9.5px;letter-spacing:0;color:var(--t2);
+  background:none;border:0;padding:2px 4px;margin:-2px -4px;border-radius:3px;
+  cursor:pointer;transition:color .15s,background .15s;
 }
-.toc-all:hover{color:var(--orange)}
+.toc-all:hover{background:#e9ebef;color:var(--t1)}
 .toc-list{list-style:none;margin:0;padding:5px 0 7px}
 .toc-list a{
-  display:block;padding:4px 11px;font-size:12.5px;line-height:1.5;color:var(--t2);
+  display:block;padding:5px 11px;font-size:12.5px;line-height:1.5;color:var(--t2);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   border-left:2px solid transparent;transition:background .13s,color .13s;
 }
-.toc-list a:hover{background:#f0f1f3;color:var(--t1)}
+.toc-list a:hover,.toc-t:hover{background:#f0f1f3;color:var(--t1)}
 .toc-list a.is-on{color:var(--t1);font-weight:600;background:#fff;border-left-color:var(--orange)}
-.toc-row{display:flex;align-items:center}
-.toc-t{flex:1;min-width:0}
-.toc-t i{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--t3);margin-left:6px}
-.toc-caret{
-  flex:none;width:20px;height:20px;margin-right:5px;display:grid;place-items:center;
-  background:none;border:0;border-radius:4px;color:var(--t3);cursor:pointer;
+
+/* 有子项的一级条目：整行是一个展开 / 收起控件，不是链接。
+   点标题就跳走的话，目录会跟着滚出视野，展开等于白展开。 */
+.toc-t{
+  display:flex;align-items:center;gap:8px;width:100%;
+  padding:4px 8px 4px 11px;margin:0;
+  font-family:inherit;font-size:12.5px;line-height:1.5;color:var(--t2);
+  text-align:left;background:none;border:0;border-left:2px solid transparent;
+  cursor:pointer;transition:background .13s,color .13s;
 }
-.toc-caret:hover{background:var(--line-2);color:var(--t1)}
-.toc-caret svg{width:9px;height:9px;fill:none;stroke:currentColor;stroke-width:1.5;transition:transform .16s}
-.toc-g.is-open .toc-caret svg{transform:rotate(90deg)}
-.toc-sub{list-style:none;margin:0;padding:1px 0 3px;display:none}
-.toc-g.is-open .toc-sub{display:block}
+.toc-lab{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.toc-lab i{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--t3);margin-left:6px}
+.toc-caret{
+  flex:none;width:13px;height:13px;color:var(--t3);
+  fill:none;stroke:currentColor;stroke-width:1.6;
+  transition:transform .18s,color .13s;
+}
+.toc-t:hover .toc-caret{color:var(--t2)}
+.toc-g.is-open{background:#f4f6f8;border-bottom:1px solid var(--line-2);margin-bottom:8px}
+.toc-g.is-open > .toc-t{color:var(--t1)}
+.toc-g.is-open > .toc-t .toc-caret{transform:rotate(90deg);color:var(--t1)}
+.toc-g.has-on > .toc-t{font-weight:600;color:var(--t1)}
+
+.toc-sub{list-style:none;margin:0;padding:1px 0 4px;display:none}
+.toc-g.is-open .toc-sub{display:block;animation:tocIn .16s ease-out}
+@keyframes tocIn{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
 .toc-sub a{
   padding-left:26px;font-size:12px;color:var(--t3);
   white-space:normal;overflow-wrap:anywhere;
@@ -440,8 +455,12 @@ html:not(.has-js) .rk-ctrl{display:none}
 .toc-sub a::before{content:"·";margin-right:5px;color:#c9ced5}
 .toc-sub a.is-on{font-weight:600;color:var(--t1)}
 .toc-sub a.is-on::before{color:var(--orange)}
+@media (prefers-reduced-motion:reduce){
+  .toc-g.is-open .toc-sub{animation:none}
+  .toc-caret{transition:none}
+}
 @media (max-width:760px){
   .toc-list a{font-size:12px;padding:5px 11px}
+  .toc-t{font-size:12px;padding:6px 8px 6px 11px}
   .toc-sub a{padding-left:22px}
-  .toc-caret{width:24px;height:24px}
 }

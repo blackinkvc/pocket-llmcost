@@ -7,11 +7,11 @@
 <title>显存账：从权重到 KV 的粗算 · 硬件</title>
 <meta name="description" content="权重只是第一笔开销。KV Cache 随上下文与并发线性增长，框架还要留余量——把这三笔加上去，「32 GB 能跑 70B」这类说法自己就散了。">
 <link rel="stylesheet" href="../assets/css/site.css?v=958a5662">
-<link rel="stylesheet" href="../assets/css/section.css?v=76903104">
+<link rel="stylesheet" href="../assets/css/section.css?v=00540e6a">
 <script src="../assets/js/board.js?v=ecbda2a0" defer></script>
 <script src="../assets/js/ranks.js?v=76e44c3f" defer></script>
 <script src="../assets/js/reports.js?v=971c0e35" defer></script>
-<script src="../assets/js/toc.js?v=1aba3a35" defer></script>
+<script src="../assets/js/toc.js?v=4b9e2ef8" defer></script>
 </head>
 <body>
 
@@ -48,11 +48,6 @@
     <a href="../hardware.html#board-1">数据中心</a>
     <a href="../hardware.html#board-2">本地</a>
     <a href="../hardware.html#board-3">出货</a>
-    <a href="../hardware.html#board-4">中国</a>
-    <a href="../hardware.html#board-5">美国</a>
-    <a href="../hardware.html#board-6">东南亚</a>
-    <a href="../hardware.html#board-7">其他</a>
-    <a href="../hardware.html#board-8">供电账</a>
     <a href="../hardware.html#reports">报告</a>
   </div>
 </div>
@@ -88,7 +83,7 @@ KV     ≈ 2 × layers × kv_heads × head_dim × seq_len × batch × bytes
   </article>
   <nav class="rel">
     <h4>同一话题 · 接着读</h4>
-    <div class="rel-list"><a href="01-%E4%B8%A4%E7%B1%BB%E7%93%B6%E9%A2%88.html"><b>两类瓶颈：prefill 吃算力，decode 吃带宽</b><time>2026-11-23</time></a><a href="03-%E7%AE%97%E5%8A%9B%E4%B8%AD%E5%BF%83%E7%9A%84%E8%B4%A6.html"><b>算力中心的账：MW、万卡与规划</b><time>2026-11-24</time></a></div>
+    <div class="rel-list"><a href="01-%E4%B8%A4%E7%B1%BB%E7%93%B6%E9%A2%88.html"><b>两类瓶颈：prefill 吃算力，decode 吃带宽</b><time>2026-11-23</time></a></div>
   </nav>
   <nav class="pager"><a href="../hardware.html"><span class="pg-l">← BACK</span><span class="pg-t">硬件 · 全部报告</span></a></nav>
 </main>

@@ -337,9 +337,10 @@ def doc_head(title, desc, active, prefix=""):
 def toc_html(sec, reports, prefix=""):
     """首屏右侧的二级目录。
 
-    一级是页面上的块（简介 / 各榜 / 报告），点标题直接跳过去；
-    点小三角展开二级：每张榜一行、每篇报告一行，都能点。
-    二级默认收起——七个榜加十四篇报告平铺出来，右栏会被拉得比正文还长。
+    一级是页面上的块（简介 / 各榜 / 报告）；二级是块里的每一张榜、每一篇报告。
+    没有子项的一级条目是链接，点了直接跳；**有子项的一级条目整行是展开 / 收起控件，不跳转**——
+    点标题就滚走的话，目录离开视野，展开等于没展开。要跳到榜 / 报告区，走二级的第一条。
+    二级默认收起：七个榜加十四篇报告平铺出来，右栏会被拉得比正文还长。
     """
     cfg = sec.cfg
     boards = sec.boards
@@ -347,19 +348,23 @@ def toc_html(sec, reports, prefix=""):
     rtitle = rc.get("title", "报告") if isinstance(rc, dict) else "报告"
     has_cards = bool((cfg.get("cards") or {}).get("items")) or bool(cfg.get("featured"))
     cards_label = ((cfg.get("cards") or {}).get("short") or "概念")
+    seq = [0]
 
     def group(label, jump, subs):
         if not subs:
             return '<li><a href="%s">%s</a></li>' % (jump, escape(label))
+        seq[0] += 1
+        sid = "toc-s%d" % seq[0]
         return (
             '<li class="toc-g">'
-            '<div class="toc-row">'
-            '<a class="toc-t" href="%s">%s<i>%d</i></a>'
-            '<button class="toc-caret" type="button" aria-expanded="false" '
-            'aria-label="展开%s"><svg viewBox="0 0 10 10" aria-hidden="true">'
-            '<path d="M3.5 2 7 5l-3.5 3"/></svg></button>'
-            '</div><ul class="toc-sub">%s</ul></li>'
-        ) % (jump, escape(label), len(subs), escape(label), "".join(subs))
+            '<button class="toc-t" type="button" aria-expanded="false" '
+            'aria-controls="%s" aria-label="展开「%s」，共 %d 项">'
+            '<span class="toc-lab">%s<i>%d</i></span>'
+            '<svg class="toc-caret" viewBox="0 0 10 10" aria-hidden="true">'
+            '<path d="M3.5 2 7 5l-3.5 3"/></svg>'
+            '</button>'
+            '<ul class="toc-sub" id="%s">%s</ul></li>'
+        ) % (sid, escape(label), len(subs), escape(label), len(subs), sid, "".join(subs))
 
     items = ['<li><a href="#intro">简介与口径</a></li>']
 
