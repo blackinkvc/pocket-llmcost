@@ -30,6 +30,7 @@ CONTENT = ROOT / "content"
 sys.path.insert(0, str(HERE))
 import research as R  # noqa: E402  复用 md 渲染与导航定义
 import regions  # noqa: E402  区域推断（国内 / 国外）
+import chrome as C  # noqa: E402  工具条 / 皮肤 / 资源指纹，三处生成器共用
 
 
 # ───────────────────────── 基础解析 ─────────────────────────
@@ -296,19 +297,30 @@ def topbar_html(active, prefix=""):
 
 
 def asset(name):
-    """给静态资源带上内容指纹。
+    """资源指纹的实现挪到 chrome.py，三处生成器共用一份。"""
+    return C.asset(name)
 
-    GitHub Pages 按路径缓存，改了 CSS / JS 不加参数，回访的人会继续用旧的，
-    看到的就是「DOM 更新了、样式没更新」的错位。
+
+def bar_sum_board(sec, counts, n_reports):
+    """工具条摘要：这一页有多少条目 / 多少张榜 / 多少篇报告 + 快照月份。
+
+    数字取自同一轮生成，不另算，避免和榜上的行数对不上。
     """
-    try:
-        h = hashlib.md5((ROOT / "assets" / name).read_bytes()).hexdigest()[:8]
-    except OSError:
-        return "assets/" + name
-    return "assets/%s?v=%s" % (name, h)
+    parts = []
+    rows = sum(c for c in counts if isinstance(c, int))
+    if rows:
+        parts.append("<b>%d</b> 条记录" % rows)
+    if counts:
+        parts.append("<b>%d</b> 张榜" % len(counts))
+    if n_reports:
+        parts.append("<b>%d</b> 篇报告" % n_reports)
+    m = re.search(r"20\d{2}-\d{2}", str(sec.cfg.get("sub") or sec.cfg.get("desc") or ""))
+    if parts:
+        parts.append("快照 " + (m.group(0) if m else dt.date.today().strftime("%Y-%m")))
+    return " · ".join(parts)
 
 
-def doc_head(title, desc, active, prefix=""):
+def doc_head(title, desc, active, prefix="", bar_title=None, bar_sum=""):
     p = prefix
     return """<!DOCTYPE html>
 <!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
@@ -320,18 +332,21 @@ def doc_head(title, desc, active, prefix=""):
 <meta name="description" content="%s">
 <link rel="stylesheet" href="%s%s">
 <link rel="stylesheet" href="%s%s">
+%s
 <script src="%s%s" defer></script>
 <script src="%s%s" defer></script>
 <script src="%s%s" defer></script>
 <script src="%s%s" defer></script>
+%s
 </head>
 <body>
-
-%s
-""" % (escape(title), escape(desc), p, asset("css/site.css"), p, asset("css/section.css"),
+""" % (escape(title), escape(desc),
+       p, asset("css/site.css"), p, asset("css/section.css"),
+       C.head_assets(p),
        p, asset("js/board.js"), p, asset("js/ranks.js"), p, asset("js/reports.js"),
-   p, asset("js/toc.js"),
-       topbar_html(active, p))
+       p, asset("js/toc.js"),
+       C.foot_assets(p)) + topbar_html(active, p) + "\n\n" + C.pbar_html(
+           bar_title or active, bar_sum) + "\n"
 
 
 # ───────────────────────── 三个板块 ─────────────────────────
@@ -1226,7 +1241,9 @@ def build_section(sec, out_dir, prefix=""):
         footer_html(prefix),
         "\n</body>\n</html>\n",
     ])
-    html = doc_head("%s · AI.TRACK" % sec.name, desc, sec.name, prefix) + body
+    html = doc_head("%s · AI.TRACK" % sec.name, desc, sec.name, prefix,
+                    bar_title=sec.name,
+                    bar_sum=bar_sum_board(sec, counts, len(reports))) + body
 
     out = out_dir / sec.page
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -1246,7 +1263,9 @@ def build_section(sec, out_dir, prefix=""):
             continue
         r_prefix = prefix + "../"
         rbody = "".join([
-            doc_head(r["title"] + " · " + sec.name, r["summary"], sec.name, r_prefix),
+            doc_head(r["title"] + " · " + sec.name, r["summary"], sec.name, r_prefix,
+                     bar_title=sec.name,
+                     bar_sum="报告 · <b>%s</b>" % escape(r["date"])),
             subnav_html(sec, r_prefix, report_page=True),
             '<main class="wrap post-wrap">\n',
             '  <p class="crumb"><a href="%sindex.html">首页</a><span class="sep">/</span>'

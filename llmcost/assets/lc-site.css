@@ -1,21 +1,19 @@
 /* ============================================================
    lc-site.css —— llmcost 子页在 AI.TRACK 站里的适配层
-   1) 站点顶栏 sticky 在 0，工具条让出 52px，否则两条重叠
-   2) 五页二级 tab
+   1) 站点顶栏 48px，工具条让出这段高度（工具条本身归 pagebar.css）
+   2) 五页二级 tab（跟着工具条走，配色也用工具条那套中性色，不跟皮肤）
    3) 下载页
-   变量沿用 lc.css（--paper / --card / --rule / --ink / --accent），暗色自动跟随
+   正文变量沿用 lc.css（--paper / --card / --rule / --ink / --accent），皮肤与暗色由 skin.css 决定
    ============================================================ */
 
 /* ---------- 1. 两层 sticky ---------- */
-.top{top:52px;z-index:20}
+/* 站点顶栏在子页里缩到 48px，页签条也在这条工具条里，所以让位高度是定值 */
+:root{--pb-pos:sticky;--pb-top:48px}
+/* 正文左右是 20px，工具条跟着，标题才和下面的卡片对齐 */
+.pb-in{padding:0 20px}
 @media (max-width:860px){
-  .top{top:0;z-index:34;position:static}
+  .pbar{--pb-pos:relative;--pb-top:auto;z-index:34}
   .topbar{position:static}
-  /* 窄屏：摘要在上占满一行，按钮和 tab 自己换行，别互相挤 */
-  .top .in{flex-direction:row}
-  .top .sum{flex:1 1 100%;order:1;font-size:12px;line-height:1.55}
-  .top .grow{display:none}
-  .top .icobtn{order:2}
   .tabs{order:3}
   /* 11 项导航放不下，让它自己横向滚，别把整页撑宽 */
   .mainnav{overflow-x:auto;scrollbar-width:none}
@@ -30,22 +28,19 @@ main.pg > [data-card] > .card-h{flex:0 0 auto}
 
 /* 站点顶栏在子页里缩一点，别和工具条抢高度 */
 .topbar-in{height:48px}
-.top{top:48px}
 
-/* ---------- 2. 工具条 + 二级 tab ---------- */
-.top .in{flex-wrap:wrap;gap:8px 10px}
-.top .sum{flex:1 1 auto;min-width:0}
+/* ---------- 2. 二级 tab ---------- */
 .tabs{
   width:100%;display:flex;gap:2px;flex-wrap:wrap;
-  border-top:1px solid var(--rule);padding-top:7px;margin-top:-1px;
+  border-top:1px solid var(--pb-line);padding-top:6px;margin-top:1px;
 }
 .tabs a{
   font-size:12.5px;line-height:1.4;padding:4px 11px;border-radius:6px;
-  color:var(--ink2);border-bottom:0;white-space:nowrap;
+  color:var(--pb-t2);border-bottom:0;white-space:nowrap;
   transition:background .15s var(--ease),color .15s var(--ease);
 }
-.tabs a:hover{background:var(--card2);color:var(--ink)}
-.tabs a[aria-current="page"]{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.tabs a:hover{background:var(--pb-hover);color:var(--pb-t1)}
+.tabs a[aria-current="page"]{background:var(--pb-on);color:var(--pb-t1);font-weight:600}
 
 /* 数据来源标记 */
 .sum b.live{

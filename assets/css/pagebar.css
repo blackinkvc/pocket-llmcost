@@ -1,0 +1,218 @@
+/* ============================================================
+   pagebar.css —— 页面工具条
+   ------------------------------------------------------------
+   一行：页面标题 · 摘要 ·（撑开）· 深浅 / 刷新 / 外观设置
+   位置在站点顶栏下面，替 5 个看板页原来那条只放摘要的栏。
+
+   刻意不跟皮肤走：配色全写死在 --pb-* 上，只跟深浅色变。
+   理由是同一条栏要横跨两套皮肤（冷灰 / 纸感），跟着皮肤染就会
+   一会儿冷一会儿暖，很难认成同一个控件；深浅必须跟，不然深色页上
+   会横一条白条。
+   ============================================================ */
+
+:root{
+  --tb-h:52px;            /* 站点顶栏高度，sticky 让位用 */
+  --pb-h:42px;            /* 工具条高度 */
+  --pb-bg:rgba(253,253,254,.9);
+  --pb-line:#e7e9ee;
+  --pb-t1:#191c22;
+  --pb-t2:#5b6270;
+  --pb-t3:#8b929f;
+  --pb-hover:#f0f2f6;
+  --pb-on:#e7eaf1;
+  --pb-panel:#ffffff;
+  --pb-pop-line:#e4e7ee;
+  --pb-shadow:0 22px 50px -22px rgba(16,19,28,.34),0 2px 6px rgba(16,19,28,.06);
+}
+:root[data-theme="dark"]{
+  --pb-bg:rgba(17,19,25,.9);
+  --pb-line:#262a35;
+  --pb-t1:#e9ecf3;
+  --pb-t2:#a4abba;
+  --pb-t3:#7c8496;
+  --pb-hover:#20242e;
+  --pb-on:#282d38;
+  --pb-panel:#161920;
+  --pb-pop-line:#2a2f3b;
+  --pb-shadow:0 24px 56px -20px rgba(0,0,0,.8),0 2px 8px rgba(0,0,0,.4);
+}
+@media (max-width:760px){ :root{--tb-h:48px;--pb-h:40px} }
+
+/* 站内没有全局按钮 reset（看板页有、板块页没有），这里自己兜住，
+   否则按钮会带着浏览器默认的 2px 立体边框和灰底。 */
+:where(.pbar,.pb-pop) button{
+  border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer;
+}
+
+/* ---------- 1. 条 ---------- */
+.pbar{
+  /* 板块页不吸顶：下面还有一条二级目录要吸，两条一起占 80px 太高。
+     看板页自己把 --pb-pos 设成 sticky（那条栏里装着五页的页签，必须跟着滚）。 */
+  position:var(--pb-pos,relative);top:var(--pb-top,auto);z-index:24;
+  background:var(--pb-bg);
+  -webkit-backdrop-filter:blur(14px) saturate(120%);
+  backdrop-filter:blur(14px) saturate(120%);
+  border-bottom:1px solid var(--pb-line);
+}
+.pb-in{
+  max-width:1320px;margin:0 auto;padding:0 var(--gut,20px);
+  min-height:var(--pb-h);display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.pb-t{
+  margin:0;flex:0 0 auto;display:flex;align-items:center;gap:8px;
+  font-size:14px;font-weight:650;line-height:1.2;letter-spacing:.01em;
+  color:var(--pb-t1);white-space:nowrap;
+}
+/* 方块标记：和卡片标题栏的小图标同一套语汇，但不吃皮肤的强调色 */
+.pb-t::before{
+  content:"";width:5px;height:5px;flex:0 0 auto;
+  background:var(--pb-t1);opacity:.75;transform:translateY(-1px);
+}
+.pb-sum{
+  flex:0 1 auto;min-width:0;font-size:11.5px;color:var(--pb-t3);
+  letter-spacing:.01em;font-variant-numeric:tabular-nums;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.pb-sum b{color:var(--pb-t2);font-weight:600}
+.pb-sum .dot{
+  display:inline-block;width:2px;height:2px;border-radius:50%;
+  background:currentColor;opacity:.55;vertical-align:middle;margin:0 7px 2px;
+}
+.pb-sum .live{
+  display:inline-block;padding:0 5px;border-radius:4px;background:#0d9f6e;color:#fff;
+  font-size:10.5px;font-weight:600;letter-spacing:.04em;
+}
+.pb-sp{flex:1 1 auto;min-width:6px}
+
+/* ---------- 2. 图标按钮 ---------- */
+.pb-i{
+  width:30px;height:30px;flex:0 0 auto;border-radius:8px;position:relative;
+  display:grid;place-items:center;color:var(--pb-t2);
+  transition:background .15s,color .15s;
+}
+.pb-i:hover{background:var(--pb-hover);color:var(--pb-t1)}
+.pb-i:active{transform:translateY(.5px)}
+.pb-i[aria-expanded="true"]{background:var(--pb-on);color:var(--pb-t1)}
+.pb-i[disabled]{opacity:.35;cursor:default}
+.pb-i svg{
+  width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.7;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+/* 深浅色这颗：深色下画出太阳（点它回浅色），浅色下画出月亮 */
+.pb-i[data-pb="theme"] .is-dark{display:none}
+:root[data-theme="dark"] .pb-i[data-pb="theme"] .is-dark{display:block}
+:root[data-theme="dark"] .pb-i[data-pb="theme"] .is-light{display:none}
+
+/* ---------- 3. 设置浮层 ---------- */
+.pb-pop{
+  position:fixed;z-index:70;width:312px;max-width:calc(100vw - 24px);
+  padding:13px 14px 12px;border-radius:14px;
+  background:var(--pb-panel);border:1px solid var(--pb-pop-line);
+  box-shadow:var(--pb-shadow);color:var(--pb-t1);
+  font-size:12px;line-height:1.55;
+  animation:pb-in .14s cubic-bezier(.2,.7,.3,1);
+}
+.pb-pop[hidden]{display:none}
+@keyframes pb-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.pb-pop{animation:none}}
+
+.pb-pop-h{display:flex;align-items:center;gap:8px;margin:0 0 11px}
+.pb-pop-h b{font-size:12.5px;font-weight:650;letter-spacing:.01em}
+.pb-pop-h .pb-x{
+  margin-left:auto;width:22px;height:22px;border-radius:6px;display:grid;place-items:center;
+  color:var(--pb-t3);font-size:15px;line-height:1;
+}
+.pb-pop-h .pb-x:hover{background:var(--pb-hover);color:var(--pb-t1)}
+
+.pb-lb{
+  display:block;margin:0 0 6px;font-size:10px;font-weight:600;letter-spacing:.14em;
+  color:var(--pb-t3);text-transform:uppercase;
+}
+
+/* 皮肤卡：把两块色直接涂出来，比文字更快认出差别 */
+.pb-skins{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 10px}
+.pb-skin{
+  position:relative;display:flex;flex-direction:column;gap:6px;padding:7px;border-radius:10px;
+  border:1px solid var(--pb-pop-line);background:transparent;text-align:left;
+  transition:border-color .15s,box-shadow .15s;
+}
+/* 选中不靠边框粗细猜：右上角加一枚勾 */
+.pb-skin[aria-pressed="true"]::after{
+  content:"✓";position:absolute;top:6px;right:6px;width:14px;height:14px;border-radius:50%;
+  background:var(--pb-t1);color:var(--pb-panel);font-size:9px;line-height:14px;text-align:center;
+  font-weight:700;
+}
+.pb-skin:hover{border-color:var(--pb-t3)}
+.pb-skin[aria-pressed="true"]{border-color:var(--pb-t1)}
+/* 预览只讲三件事：底色、标题字体、强调色 —— 缩到卡片大小还认得出差别 */
+.pb-prev{
+  display:flex;align-items:center;gap:8px;height:40px;border-radius:7px;padding:0 9px;
+  border:1px solid rgba(0,0,0,.07);
+}
+.pb-prev[data-skin-prev="1"]{background:#f3f4f6}
+.pb-prev[data-skin-prev="2"]{background:#f2f0ea;border-color:#e2ded4}
+.pb-prev .pb-aa{
+  font-family:"Segoe UI",system-ui,sans-serif;font-size:17px;font-weight:700;line-height:1;
+  color:#1b1f24;letter-spacing:-.01em;
+}
+.pb-prev[data-skin-prev="2"] .pb-aa{
+  font-family:"Songti SC","Songti TC",Georgia,serif;font-weight:600;color:#17191b;letter-spacing:.02em;
+}
+.pb-prev .pb-acc{
+  width:15px;height:15px;border-radius:4px;flex:0 0 auto;
+}
+.pb-prev[data-skin-prev="1"] .pb-acc{background:#e8912a}
+.pb-prev[data-skin-prev="2"] .pb-acc{background:#a33a26}
+.pb-skin b{font-size:12px;font-weight:600}
+.pb-skin span{font-size:10.5px;color:var(--pb-t3);letter-spacing:.01em}
+
+.pb-row{display:flex;align-items:center;gap:10px;margin:11px 0 0}
+.pb-row .pb-lb{margin:0;flex:0 0 auto;width:52px}
+.pb-seg{
+  flex:1 1 auto;display:flex;gap:2px;padding:2px;border-radius:8px;background:var(--pb-hover);
+}
+.pb-seg button{
+  flex:1 1 0;padding:4px 0;border-radius:6px;font-size:11.5px;color:var(--pb-t2);
+  transition:background .15s,color .15s;
+}
+.pb-seg button:hover{color:var(--pb-t1)}
+.pb-seg button[aria-pressed="true"]{
+  background:var(--pb-panel);color:var(--pb-t1);font-weight:600;
+  box-shadow:0 1px 2px rgba(16,19,28,.14);
+}
+.pb-note{margin:7px 0 0;font-size:10.5px;line-height:1.6;color:var(--pb-t3)}
+.pb-note b{color:var(--pb-t2);font-weight:600}
+.pb-foot{
+  display:flex;align-items:center;gap:8px;margin:12px 0 0;padding-top:10px;
+  border-top:1px solid var(--pb-pop-line);
+}
+.pb-reset{
+  font-size:11px;color:var(--pb-t3);padding:3px 7px;border-radius:6px;
+  border:1px solid transparent;transition:.15s;
+}
+.pb-reset:hover{color:var(--pb-t1);border-color:var(--pb-pop-line);background:var(--pb-hover)}
+
+/* ---------- 4. 让位：板块页的二级目录吊在顶栏下面 ---------- */
+.subnav{top:var(--tb-h)}
+html{scroll-padding-top:calc(var(--tb-h) + 50px)}
+
+/* ---------- 5. 窄屏 ---------- */
+@media (max-width:760px){
+  .pb-in{gap:6px}
+  .pb-t{font-size:13px}
+  .pb-i{width:28px;height:28px}
+}
+/* 620 以下一行真放不下了：摘要换到第二行占满，别直接丢掉——
+   这条摘要本来就是这一栏存在的理由 */
+@media (max-width:620px){
+  .pb-in{padding-bottom:7px}
+  .pb-t{order:1}
+  .pb-sp{order:2}
+  .pb-i{order:2}
+  .pb-sum{order:3;flex:1 1 100%;font-size:11px;white-space:normal;line-height:1.5;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+}
+@media (max-width:420px){
+  .pb-t{font-size:12.5px}
+  .pb-skins{grid-template-columns:1fr}
+}

@@ -1,0 +1,113 @@
+/* ============================================================
+   skin.css —— 全站皮肤
+   ------------------------------------------------------------
+   皮肤 1「监控台」：冷灰底 + 白卡 + 橙点缀 + 黑体标题（原主站）
+   皮肤 2「研究简报」：纸感底 + 米白卡 + 朱砂点缀 + 宋体标题（原「AI 天梯榜」）
+
+   两套皮肤只换 token，不动组件结构。同一组语义要写两边，因为站里有两套
+   变量名：主站 site.css 的 --bg/--card/--line/--t1/--accent，
+   价格看板 lc.css 的 --paper/--rule/--ink/--accent/--serif。
+
+   生效顺序：skinboot.js 在 <head> 里先把 <html data-skin> 挂好，
+   这个文件排在所有页面样式之后（属性选择器比 :root 多一级，压得住 lc.css）。
+   深色不是第三套皮肤，是在皮肤上叠一层 data-theme="dark"。
+   ============================================================ */
+
+/* ---------- 皮肤 1 · 监控台 ---------- */
+:root[data-skin="1"]{
+  color-scheme:light;
+  --bg:#f3f4f6; --bg-2:#f8f9fa;
+  --card:#ffffff; --line:#e6e8eb; --line-2:#eef0f2;
+  --t1:#1b1f24; --t2:#59606b; --t3:#8a919b;
+  --orange:#e8912a; --orange-bg:#fdf2e2;
+  --green:#16a34a; --green-dot:#22c55e; --green-bg:#e9f6ee;
+  --purple:#7c5cd6; --purple-bg:#f0ecfb;
+  --red:#d2544a; --red-bg:#fceceb;
+  --accent:#e8912a; --accent-soft:#fdf2e2; --bad:var(--red);
+  --panel:#fafbfc; --panel-2:#f4f5f7; --hover:#f0f1f3; --pill:#eceef1;
+  --on-green:#1a7f43; --on-orange:#a06a12; --on-purple:#6b4fbb; --on-red:#b23c32;
+  /* 看板侧 */
+  --paper:var(--bg); --card2:#f8f9fa;
+  --rule:var(--line); --rule2:var(--line-2);
+  --ink:var(--t1); --ink2:var(--t2); --ink3:var(--t3);
+  --vio:#7c5cd6; --pri:var(--orange);
+  --serif:var(--sans); --font:var(--sans);
+}
+:root[data-skin="1"][data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0c0e13; --bg-2:#11141a;
+  --card:#15181f; --line:#242833; --line-2:#1c2029;
+  --t1:#e9ecf3; --t2:#a3abbb; --t3:#7b8497;
+  --orange:#e0a45c; --orange-bg:#241d11;
+  --green:#3ecf9c; --green-dot:#3ecf9c; --green-bg:#10241e;
+  --purple:#a49dff; --purple-bg:#1c1b34;
+  --red:#f57069; --red-bg:#2b1616;
+  --accent:#e0a45c; --accent-soft:#241d11;
+  --panel:#171a21; --panel-2:#1d212a; --hover:#232833; --pill:#2a3040;
+  --on-green:#63d6a4; --on-orange:#e6b877; --on-purple:#b9abe8; --on-red:#f2948c;
+  --card2:#181b23; --vio:#a49dff; --pri:var(--orange);
+}
+
+/* ---------- 皮肤 2 · 研究简报 ---------- */
+:root[data-skin="2"]{
+  color-scheme:light;
+  --bg:#f2f0ea; --bg-2:#f8f6f1;
+  --card:#fffdf9; --line:#e2ded4; --line-2:#edeae2;
+  --t1:#17191b; --t2:#4e545b; --t3:#676c74;
+  --orange:#a33a26; --orange-bg:#f7ebe6;
+  --green:#2b6a4d; --green-dot:#2b6a4d; --green-bg:#e7f0ea;
+  --purple:#6a5583; --purple-bg:#efeaf4;
+  --red:#a33a26; --red-bg:#f7e8e3;
+  --accent:#a33a26; --accent-soft:#f7ebe6; --bad:var(--red);
+  --panel:#f8f6f1; --panel-2:#f2efe8; --hover:#f1ede4; --pill:#eae5da;
+  --on-green:#2b6a4d; --on-orange:#8d6417; --on-purple:#5b4680; --on-red:#a33a26;
+  /* 看板侧 */
+  --paper:var(--bg); --card2:#f8f6f1;
+  --rule:var(--line); --rule2:var(--line-2);
+  --ink:var(--t1); --ink2:var(--t2); --ink3:var(--t3);
+  --vio:#6a5583; --pri:var(--accent);
+  --font:-apple-system,"SF Pro Text","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --serif:"Songti SC","Songti TC","Source Han Serif SC","Noto Serif CJK SC",Georgia,serif;
+}
+:root[data-skin="2"][data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#121316; --bg-2:#171a1d;
+  --card:#191b1e; --line:#2b2d31; --line-2:#242629;
+  --t1:#efede8; --t2:#aeb4bc; --t3:#949aa2;
+  --orange:#d9785f; --orange-bg:#2a1f1c;
+  --green:#5cba8b; --green-dot:#5cba8b; --green-bg:#16231d;
+  --purple:#a894c6; --purple-bg:#211c29;
+  --red:#e08268; --red-bg:#2b1b17;
+  --accent:#d9785f; --accent-soft:#2a1f1c;
+  --panel:#1a1c20; --panel-2:#212327; --hover:#282b30; --pill:#303338;
+  --on-green:#6fc79b; --on-orange:#d9b378; --on-purple:#bda9d8; --on-red:#e59279;
+  --card2:#212327; --vio:#a894c6; --pri:var(--accent);
+}
+
+/* ---------- 皮肤 2 的排印：标题换宋体、字距松一点 ---------- */
+:root[data-skin="2"] h1,
+:root[data-skin="2"] h2,
+:root[data-skin="2"] .ph-title,
+:root[data-skin="2"] .post-title,
+:root[data-skin="2"] .blk-head h2,
+:root[data-skin="2"] .topbar .brand b{
+  font-family:var(--serif);
+  letter-spacing:.015em;
+}
+:root[data-skin="2"] .ph-title{letter-spacing:.02em}
+/* 纸面的卡片靠发丝线定位，阴影要收住，不然像贴上去的 */
+:root[data-skin="2"] .topbar{background:color-mix(in srgb,var(--bg) 88%,transparent)}
+:root[data-skin="2"] .subnav{background:color-mix(in srgb,var(--bg) 90%,transparent)}
+
+/* ---------- 深色：把写死的白底收回来（两套皮肤共用） ---------- */
+:root[data-theme="dark"] .topbar{background:rgba(12,14,18,.92)}
+:root[data-theme="dark"] .subnav{background:rgba(12,14,18,.86)}
+:root[data-theme="dark"] .btn{background:#1c202a;border-color:var(--line);color:var(--t2)}
+:root[data-theme="dark"] .btn:hover{background:#232833;color:var(--t1)}
+:root[data-theme="dark"] .btn.is-primary{background:#e9ecf3;border-color:#e9ecf3;color:#12141a}
+:root[data-theme="dark"] .footer{background:transparent}
+
+/* ============================================================
+   页面工具条（.pbar）的共享几何：宽、内边距、sticky 的让位
+   配色不在这里，在 pagebar.css —— 工具条与皮肤无关。
+   ============================================================ */

@@ -65,12 +65,8 @@ function chartSvg(name){
   var c = (S && S.charts) || {};
   return (isDark() ? (c[name+'_dark'] || c[name]) : c[name]) || '';
 }
-$('btnTheme').onclick = function(){
-  var next = isDark() ? 'light' : 'dark';
-  document.documentElement.dataset.theme = next;
-  try{ localStorage.setItem('lc_theme', next); }catch(e){}
-  render();                                  // 图是 SVG，得按主题换一套配色
-};
+$('btnTheme').onclick = function(){ if (window.PB) PB.toggleTheme(); };
+if (window.PB) PB.onTheme(function(){ if (S) render(); });
 
 /* ---------- 取数 ---------- */
 function load(force){

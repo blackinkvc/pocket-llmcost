@@ -178,6 +178,18 @@ function srcTag(){
         "  MODE = ok ? 'live' : 'snapshot';\n"
         "  load(false);\n"
         "});", 1)
+
+    # 主题按钮交给工具条统一管：设置面板里选深浅也要走同一条路，
+    # 否则两个入口各存一套键，切一页就发现颜色对不上。
+    js = js.replace(
+        "$('btnTheme').onclick = function(){\n"
+        "  var next = isDark() ? 'light' : 'dark';\n"
+        "  document.documentElement.dataset.theme = next;\n"
+        "  try{ localStorage.setItem('lc_theme', next); }catch(e){}\n"
+        "  render();                                  // 图是 SVG，得按主题换一套配色\n"
+        "};",
+        "$('btnTheme').onclick = function(){ if (window.PB) PB.toggleTheme(); };\n"
+        "if (window.PB) PB.onTheme(function(){ if (S) render(); });", 1)
     return js
 
 
@@ -202,6 +214,16 @@ def tabs_html(slug):
     return '<nav class="tabs" aria-label="AI 天梯榜 &amp; 价格追踪">%s</nav>' % "".join(out)
 
 
+BAR_SUM = {
+    "index": "结论、快照、水位",
+    "ranking": "天梯榜、价格 × 实力",
+    "prices": "API / 订阅 / 本地 / 平台",
+    "trend": "曲线、矩阵、调价",
+    "method": "多源校验与出处",
+    "download": "插件包、可执行包与校验",
+}
+
+
 def page(slug, label, desc, body, theme_js, modal):
     return """<!doctype html>
 <!-- 生成物：由 tools/build_pages.py 从 llmcost_ui.html 生成，手改会被覆盖 -->
@@ -212,11 +234,14 @@ def page(slug, label, desc, body, theme_js, modal):
 <meta name="color-scheme" content="light dark">
 <title>{label} · AI 天梯榜 &amp; 价格追踪 · AI.TRACK</title>
 <meta name="description" content="大模型 API 按量价、订阅套餐、本地部署三个维度的成本台账。{desc}">
+<script src="../assets/js/skinboot.js"></script>
 <script>{theme_js}</script>
 <link rel="stylesheet" href="../assets/css/site.css">
 <link rel="stylesheet" href="../kit/shell.css">
 <link rel="stylesheet" href="assets/lc.css">
 <link rel="stylesheet" href="assets/lc-site.css">
+<link rel="stylesheet" href="../assets/css/skin.css">
+<link rel="stylesheet" href="../assets/css/pagebar.css">
 </head>
 <body>
 
@@ -224,17 +249,21 @@ def page(slug, label, desc, body, theme_js, modal):
 
 {nav}
 
-<div class="top"><div class="in">
-  <div class="sum" id="sub" aria-live="polite">读取中…</div>
-  <div class="grow"></div>
-  <button class="icobtn" id="btnReport" title="看核验报告" aria-label="看核验报告">
+<div class="pbar"><div class="pb-in">
+  <h1 class="pb-t">Token 价格追踪</h1>
+  <div class="pb-sum" id="sub" aria-live="polite">{sum}</div>
+  <div class="pb-sp"></div>
+  <button class="pb-i" id="btnReport" title="看核验报告" aria-label="看核验报告">
     <svg viewBox="0 0 24 24"><path d="M6 3.5h9l4 4V20a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1z"/><path d="M14.5 3.5V8H19"/><path d="M8.5 13h7M8.5 16.5h5"/></svg>
   </button>
-  <button class="icobtn" id="btnTheme" title="切换深浅色" aria-label="切换深浅色">
+  <button class="pb-i" id="btnTheme" title="切换深浅色" aria-label="切换深浅色">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/></svg>
   </button>
-  <button class="icobtn" id="btnRefresh" title="重新取数" aria-label="重新取数">
+  <button class="pb-i" id="btnRefresh" title="重新取数" aria-label="重新取数">
     <svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5V10h-5.5"/></svg>
+  </button>
+  <button class="pb-i" data-pb="setup" title="外观设置" aria-label="外观设置" aria-haspopup="dialog" aria-expanded="false">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg>
   </button>
   {tabs}
 </div></div>
@@ -253,11 +282,13 @@ def page(slug, label, desc, body, theme_js, modal):
 
 {modal}
 
+<script src="../assets/js/pagebar.js"></script>
 <script src="assets/lc-engine.js"></script>
 </body>
 </html>
 """.replace("{label}", label).replace("{desc}", desc).replace("{theme_js}", theme_js) \
    .replace("{nav}", nav_html(PRICE_LABEL)).replace("{tabs}", tabs_html(slug)) \
+   .replace("{sum}", BAR_SUM.get(slug, "读取中…")) \
    .replace("{body}", body).replace("{modal}", modal)
 
 

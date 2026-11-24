@@ -23,6 +23,9 @@ import re
 import shutil
 import sys
 
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import chrome as C  # noqa: E402  工具条与资源指纹（三处生成器共用一份）
+
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 RES = ROOT / "research"
 ITEMS = RES / "items"
@@ -306,7 +309,8 @@ def nav_html(active, prefix="../"):
     return "\n      ".join(parts)
 
 
-def shell(title, desc, body, active="研究", noindex=False, prefix="../"):
+def shell(title, desc, body, active="研究", noindex=False, prefix="../",
+          bar_title=None, bar_sum=""):
     robots = '<meta name="robots" content="noindex,follow">' if noindex else ""
     return """<!DOCTYPE html>
 <!-- 生成物：由 tools/research.py 从 research/items 生成，手改会被覆盖 -->
@@ -319,6 +323,8 @@ def shell(title, desc, body, active="研究", noindex=False, prefix="../"):
 %s
 <link rel="stylesheet" href="%sassets/css/site.css">
 <link rel="stylesheet" href="assets/research.css">
+%s
+%s
 </head>
 <body>
 
@@ -337,6 +343,8 @@ def shell(title, desc, body, active="研究", noindex=False, prefix="../"):
   </div>
 </header>
 
+%s
+
 <main class="rs-wrap">
 %s
 </main>
@@ -352,10 +360,13 @@ def shell(title, desc, body, active="研究", noindex=False, prefix="../"):
 </html>
 """ % (H.escape(title), H.escape(desc), robots,
        prefix,                                  # site.css
+       C.head_assets(prefix),                   # 皮肤 + 工具条样式（必须排在页面样式之后）
+       C.foot_assets(prefix),                   # 工具条行为
        prefix,                                  # brand
        nav_html(active, prefix),
        TODAY,                                   # 顶栏日期
        prefix,                                  # 研究看板按钮
+       C.pbar_html(bar_title or active, bar_sum),
        body,
        prefix, prefix,                          # 页脚：研究总览 / 进度看板
        TODAY)                                   # 生成时间
@@ -512,7 +523,8 @@ def render_item(it):
             art.append(render_raw_block(it))
 
     return shell("%s · 研究 · AI.TRACK" % it["title"], it["summary"] or it["title"],
-                 "\n".join(head + art), noindex=(st != "published"))
+                 "\n".join(head + art), noindex=(st != "published"),
+                 bar_title="研究", bar_sum=H.escape(it["title"]))
 
 
 def raw_base(it):
@@ -581,7 +593,8 @@ def render_index(items):
     return shell("研究 · AI.TRACK",
                  "AI 研究的自有产出：已完成 %d 份，整理中 %d 份。每条都附结论、证据、反方观点与原始资料。"
                  % (len(pub), len(pend)),
-                 "\n".join(body))
+                 "\n".join(body), bar_title="研究",
+                 bar_sum="<b>%d</b> 份已完成 · <b>%d</b> 份整理中" % (len(pub), len(pend)))
 
 
 # ───────────────────────── 渲染：看板 ─────────────────────────
@@ -641,7 +654,9 @@ def render_status(items):
     return shell("研究进度看板 · AI.TRACK",
                  "公开的研究进度表：本地积累 %d 条，已上线 %d 条，待审核 %d 条，整理中 %d 条。"
                  % (len(items), n_pub, n_rev, n_stub),
-                 "\n".join(body))
+                 "\n".join(body), bar_title="研究进度",
+                 bar_sum="本地 <b>%d</b> 条 · 上线 <b>%d</b> · 待审 <b>%d</b> · 整理 <b>%d</b>"
+                         % (len(items), n_pub, n_rev, n_stub))
 
 
 # ───────────────────────── 动作 ─────────────────────────
