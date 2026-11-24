@@ -665,7 +665,6 @@ def block_scores(sec, entry, idx, total, num, limit=30):
 
 GEO_COLOR = {"cn": "#e8912a", "us": "#7c5cd6", "sea": "#16a34a", "other": "#d2544a"}
 GEO_STATE = {"on": "#22c55e", "build": "#e8912a", "plan": "#aeb5be"}
-GEO_ZONE = {"cn": "#f8efe1", "us": "#efeaf9", "sea": "#e6f4ea", "other": "#fbecea"}
 
 
 def block_map(sec, entry, idx, total, num):
@@ -700,8 +699,9 @@ def block_map(sec, entry, idx, total, num):
         y0 = min(r["y"] for r in rs) - 16
         x1 = max(r["x"] + r["w"] for r in rs) + 16
         y1 = max(r["y"] + r["h"] for r in rs) + 16
-        zones.append('<rect class="geo-zone" x="%d" y="%d" width="%d" height="%d" rx="26" fill="%s"/>'
-                     % (x0, y0, x1 - x0, y1 - y0, GEO_ZONE.get(g, "#eef1f5")))
+        # 底色交给 CSS（data-g 选色），这样深浅/皮肤切换不用重出 svg
+        zones.append('<rect class="geo-zone" data-g="%s" x="%d" y="%d" width="%d" height="%d" rx="26"/>'
+                     % (g, x0, y0, x1 - x0, y1 - y0))
     grid = []
     step = 80
     x = step

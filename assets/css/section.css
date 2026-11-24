@@ -49,7 +49,7 @@
   background:var(--card);border:1px solid var(--line);border-radius:9px;
   padding:13px 14px;transition:border-color .15s,transform .15s;
 }
-.bd-card:hover{border-color:#d8dde3}
+.bd-card:hover{border-color:var(--line)}
 /* hidden 属性要压过 .bd-card 的 display:flex */
 .bd-card[hidden]{display:none!important}
 .bd-rank{
@@ -103,7 +103,7 @@
   transition:border-color .15s,box-shadow .15s,transform .15s;
 }
 .cx-card:hover{
-  border-color:#d5dbe2;box-shadow:0 3px 14px rgba(20,24,30,.055);transform:translateY(-1px);
+  border-color:var(--line);box-shadow:0 3px 14px rgba(20,24,30,.055);transform:translateY(-1px);
 }
 .cx-no{
   position:absolute;top:14px;right:15px;
@@ -413,7 +413,7 @@ html:not(.has-js) .rk-ctrl{display:none}
   background:none;border:0;padding:2px 4px;margin:-2px -4px;border-radius:3px;
   cursor:pointer;transition:color .15s,background .15s;
 }
-.toc-all:hover{background:#e9ebef;color:var(--t1)}
+.toc-all:hover{background:var(--hover);color:var(--t1)}
 .toc-list{list-style:none;margin:0;padding:5px 0 7px}
 .toc-list a{
   display:block;padding:5px 11px;font-size:12.5px;line-height:1.5;color:var(--t2);
@@ -440,7 +440,7 @@ html:not(.has-js) .rk-ctrl{display:none}
   transition:transform .18s,color .13s;
 }
 .toc-t:hover .toc-caret{color:var(--t2)}
-.toc-g.is-open{background:#f4f6f8;border-bottom:1px solid var(--line-2);margin-bottom:8px}
+.toc-g.is-open{background:var(--panel-2);border-bottom:1px solid var(--line-2);margin-bottom:8px}
 .toc-g.is-open > .toc-t{color:var(--t1)}
 .toc-g.is-open > .toc-t .toc-caret{transform:rotate(90deg);color:var(--t1)}
 .toc-g.has-on > .toc-t{font-weight:600;color:var(--t1)}
@@ -452,7 +452,7 @@ html:not(.has-js) .rk-ctrl{display:none}
   padding-left:26px;font-size:12px;color:var(--t3);
   white-space:normal;overflow-wrap:anywhere;
 }
-.toc-sub a::before{content:"·";margin-right:5px;color:#c9ced5}
+.toc-sub a::before{content:"·";margin-right:5px;color:var(--t3)}
 .toc-sub a.is-on{font-weight:600;color:var(--t1)}
 .toc-sub a.is-on::before{color:var(--orange)}
 @media (prefers-reduced-motion:reduce){
@@ -469,22 +469,26 @@ html:not(.has-js) .rk-ctrl{display:none}
 /* 底图纯装饰：陆地轮廓与经纬网格只是示意，不表示任何疆域；
    真正的信息在每张区卡里——站点名 + 状态点。 */
 .geo-wrap{
-  background:#f6f8fa;border:1px solid var(--line);border-radius:12px;
+  background:var(--panel);border:1px solid var(--line);border-radius:12px;
   padding:10px 10px 0;overflow:hidden;
 }
 .geo-svg{display:block;width:100%;height:auto}
 .geo-note{max-width:74ch}
-.geo-grid line{stroke:#d5dbe2;stroke-width:1;stroke-dasharray:2 8;opacity:.75}
+.geo-grid line{stroke:var(--line);stroke-width:1;stroke-dasharray:2 8;opacity:.75}
 .geo-zone{opacity:.9}
-.geo-corr{stroke:#c6d0da;stroke-width:1;stroke-dasharray:3 7;fill:none}
+/* 分组底块比区卡更淡一层，深浅两套都按同一色相算，不写死浅色 */
+.geo-zone[data-g="cn"]{fill:color-mix(in srgb,var(--orange) 9%,var(--panel))}
+.geo-zone[data-g="us"]{fill:color-mix(in srgb,var(--purple) 9%,var(--panel))}
+.geo-zone[data-g="sea"]{fill:color-mix(in srgb,var(--green) 9%,var(--panel))}
+.geo-corr{stroke:var(--line);stroke-width:1;stroke-dasharray:3 7;fill:none}
 .geo-foot{font-family:var(--sans);font-size:9.5px;fill:var(--t3);opacity:.85}
 /* 四个分组各一层淡色，像分区图；颜色跟站内的 chip 一套 */
 .geo-blk{stroke-width:1;transition:stroke .15s,fill .15s}
-.geo-g[data-g="cn"] .geo-blk{fill:#fffdfa;stroke:#ecdcbe}
-.geo-g[data-g="us"] .geo-blk{fill:#fdfcff;stroke:#ded6f3}
-.geo-g[data-g="sea"] .geo-blk{fill:#fcfffd;stroke:#d0e7d8}
-.geo-g[data-g="other"] .geo-blk{fill:#fffcfc;stroke:#f3dad6}
-.geo-g:hover .geo-blk{stroke:var(--orange);fill:#fffdf8}
+.geo-g[data-g="cn"] .geo-blk{fill:var(--orange-bg);stroke:color-mix(in srgb,var(--orange) 26%,transparent)}
+.geo-g[data-g="us"] .geo-blk{fill:var(--purple-bg);stroke:color-mix(in srgb,var(--purple) 26%,transparent)}
+.geo-g[data-g="sea"] .geo-blk{fill:var(--green-bg);stroke:color-mix(in srgb,var(--green) 26%,transparent)}
+.geo-g[data-g="other"] .geo-blk{fill:var(--red-bg);stroke:color-mix(in srgb,var(--red) 26%,transparent)}
+.geo-g:hover .geo-blk{stroke:var(--orange);fill:var(--card)}
 .geo-name{font-family:var(--sans);font-size:12.5px;font-weight:600;fill:var(--t1)}
 .geo-cap{font-family:var(--mono);font-size:9.5px;fill:var(--orange);letter-spacing:.02em}
 .geo-site{font-family:var(--sans);font-size:10.2px;fill:var(--t2)}
