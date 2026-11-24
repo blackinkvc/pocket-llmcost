@@ -603,6 +603,155 @@ VIEW.panotable = function(){
   };
 };
 
+/* ⑫b 同模型 · 跨渠道价差
+   不按平台排、也不按模型列表排，而是把「同一个模型在几家买」摊成一条价格带：
+   点越散 = 换渠道越值得比价。数字只给最低价与价差，逐家明细点开看。 */
+VIEW.chanmap = function(){
+  var p = S.panorama || {}, models = p.models || [], lines = p.lines || [];
+  if (!lines.length) return {meta:'', body:'<div class="empty">价格库还是空的。</div>'};
+  var KM = {official:'厂商自营', cloud:'云厂商', aggregator:'第三方'};
+  var lg = function(v){ return Math.log(v) / Math.LN10; };
+  var vals = lines.map(function(l){ return +l.last; }).filter(function(v){ return v > 0; });
+  var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
+  /* 轴端点取 1/2/5×10ⁿ 的整档：刻度落在整数上，点不会贴着边框 */
+  var nice = function(v, up){
+    var e = Math.floor(lg(v)), m = v / Math.pow(10, e), n;
+    if (up) n = m <= 1 ? 1 : (m <= 2 ? 2 : (m <= 5 ? 5 : 10));
+    else n = m >= 5 ? 5 : (m >= 2 ? 2 : 1);
+    return n * Math.pow(10, e);
+  };
+  var d0 = nice(lo, false), d1 = nice(hi, true), span = lg(d1) - lg(d0);
+  var px = function(v){ return (lg(v) - lg(d0)) / span * 100; };
+  var ticks = [];
+  for (var e = Math.round(lg(d0)); e <= Math.round(lg(d1)); e++){
+    [1, 2, 5].forEach(function(k){
+      var v = k * Math.pow(10, e);
+      if (v > d0 * 0.999 && v < d1 * 0.999) ticks.push(v);
+    });
+  }
+  var grids = ticks.map(function(v){
+    return '<i class="cm-gl" style="left:' + px(v).toFixed(2) + '%"></i>';
+  }).join('');
+
+  var byModel = {};
+  lines.forEach(function(l){ (byModel[l.model] = byModel[l.model] || []).push(l); });
+  var rows = models.slice().sort(function(a, b){
+    var x = a.spread || 0, y = b.spread || 0;
+    if (Math.abs(y - x) > 1e-9) return y - x;
+    return (b.n_platforms || 0) - (a.n_platforms || 0);
+  });
+
+  var body = rows.map(function(m, i){
+    var ls = (byModel[m.model] || []).slice().sort(function(a, b){ return a.last - b.last; });
+    /* 同价的渠道合并成一个点：一格里七八家都卖 8.64，画七个点只会糊成一条 */
+    var cl = {}, order = [];
+    ls.forEach(function(l){
+      var k = (+l.last).toFixed(3);
+      if (!cl[k]){ cl[k] = {v: +l.last, ls: []}; order.push(k); }
+      cl[k].ls.push(l);
+    });
+    var cs = order.map(function(k){ return cl[k]; });
+    var lowv = cs.length ? cs[0].v : 0;
+    var dots = cs.map(function(c){
+      var kinds = {};
+      c.ls.forEach(function(l){ kinds[l.kind] = 1; });
+      var kind = kinds.official ? 'official' : (kinds.cloud ? 'cloud' : 'aggregator');
+      var offpeak = c.ls.some(function(l){ return l.tier && l.tier !== 'standard'; });
+      var cls = 'cm-pt k-' + kind + (offpeak ? ' t-offpeak' : '')
+        + (cs.length > 1 && c.v === lowv ? ' low' : '');
+      var tip = c.ls.map(function(l){
+        return l.platform_name + ' ¥' + money(l.last, 2) + '（' + (KM[l.kind] || l.kind)
+          + (l.tier && l.tier !== 'standard' ? ' · 谷时价' : '') + '）';
+      }).join('\n');
+      var pos = px(c.v).toFixed(2);
+      return '<i class="' + cls + '" style="left:' + pos + '%" title="' + esc(tip) + '"></i>'
+        + (c.ls.length > 1 ? '<span class="cm-n" style="left:' + pos + '%">×'
+            + c.ls.length + '</span>' : '');
+    }).join('');
+    var nn = cs.length ? cs[0].ls.map(function(l){ return l.platform_name; }) : [];
+    var minName = nn.length
+      ? nn[0] + (nn.length > 1 ? ' 等 ' + nn.length + ' 家' : '') : '—';
+    /* 最低价落在谷时价上要标出来：那是另一个商品，别让人以为白天也能买到 */
+    if (cs.length && cs[0].ls.every(function(l){ return l.tier && l.tier !== 'standard'; })){
+      minName += ' · 谷时';
+    }
+    var sp = m.spread;
+    var spTxt = sp == null ? (ls.length > 1 ? '—' : '单家')
+      : (sp <= 1.02 ? '持平' : sp.toFixed(1) + '×');
+    var xid = 'cm' + i;
+    var det = ls.map(function(l){
+      /* 只跟标准价的官方价比：官方低谷价是另一个商品，拿来当基准会把口径差算成渠道差 */
+      var rel = (m.official && m.official_tier === 'standard'
+        && l.kind !== 'official' && (!l.tier || l.tier === 'standard'))
+        ? l.last / m.official : null;
+      var d = (rel == null || Math.abs(rel - 1) <= 0.005) ? ''
+        : '<span style="color:var(--' + (rel > 1 ? 'bad' : 'ok') + ')">'
+          + (rel > 1 ? '+' : '') + Math.round((rel - 1) * 100) + '%</span>';
+      return '<span class="c' + (cs.length > 1 && l.last === lowv ? ' low' : '') + '">'
+        + '<i class="k-' + l.kind + '"></i>' + esc(l.platform_name)
+        + ' <b>¥' + money(l.last, 2) + '</b>' + (d ? ' ' + d : '')
+        + (l.tier && l.tier !== 'standard'
+            ? '<span class="tag warn" style="margin-left:1px">谷时</span>' : '')
+        + '</span>';
+    }).join('');
+    return '<div class="cm-row" data-x="' + xid + '" tabindex="0" role="button"'
+      + ' aria-expanded="false" aria-controls="' + xid + '">'
+      + '<div class="cm-nm">' + esc(m.display) + '<span class="sm">' + esc(m.model)
+        + (ls.length > 1 ? ' · ' + ls.length + ' 家' : ' · 仅 1 家') + '</span></div>'
+      + '<div class="cm-track">' + grids + dots + '</div>'
+      + '<div class="cm-min">¥' + money(lowv, 2) + '<span class="sm">' + esc(minName) + '</span></div>'
+      + '<div class="cm-sp' + (sp >= 2 ? ' wide' : '') + '">' + spTxt + '</div>'
+      + '</div>'
+      + '<div class="cm-det" id="' + xid + '" style="display:none"><div class="set">' + det + '</div></div>';
+  }).join('');
+
+  var axis = '<div class="cm-axis"><div>模型</div><div class="cm-scale">'
+    + ticks.map(function(v){
+        return '<span style="left:' + px(v).toFixed(2) + '%">¥' + (v >= 1 ? Math.round(v) : v) + '</span>';
+      }).join('')
+    + '</div><div class="h">最低价<span style="font-size:9px;opacity:.8"> 元/百万</span></div>'
+    + '<div class="h sp">价差</div></div>';
+
+  var legend = '<div class="cm-legend">'
+    + '<span><i class="o"></i>厂商自营</span><span><i class="c"></i>云厂商</span>'
+    + '<span><i class="a"></i>第三方</span><span><i class="low"></i>这一行最便宜</span>'
+    + '<span><i class="d"></i>谷时价（另一口径）</span>'
+    + '<span style="margin-left:auto">横轴取对数</span></div>';
+
+  var smy = p.summary || {};
+  var top = rows.filter(function(m){ return m.spread; })[0];
+  var hint = '<p class="hint">同一个模型，各家卖的不是一个价：' + models.length + ' 个模型在 '
+    + (smy.n_platforms || 0) + ' 个渠道上有 ' + lines.length + ' 条报价，价差中位 <b>'
+    + (smy.spread_median || '—') + '×</b>'
+    + (top ? '，最悬殊的是 <b>' + esc(top.display) + ' ' + top.spread.toFixed(1) + '×</b>' : '')
+    + '。点一行展开逐家报价。</p>';
+
+  var wb = (S.plans || []).filter(function(x){
+    return /WorkBuddy/.test(x.platform) && x.convertible;
+  }).sort(function(a, b){ return a.cny_per_1m - b.cny_per_1m; });
+  var subs = '<div class="cm-subs">'
+    + '<div class="k">订阅制渠道<span>按会员额度计费，没有按量价，不进上面这条价格带</span></div>'
+    + '<div class="r2">'
+    + wb.map(function(x){
+        return '<span class="c">' + esc(x.platform) + ' '
+          + esc(String(x.plan).replace(/\(.*$/, '')) + ' <b>¥' + money(x.cny_per_1m, 2) + '</b></span>';
+      }).join('')
+    + '<span class="c mut">Trae <b>未公布按量价</b></span>'
+    + '</div>'
+    + '<div class="f">WorkBuddy 那三个数是三档系数折算出的<b>等效单价</b>（元 / 百万 token），'
+    + '随缓存命中率与输入输出比浮动，只用来判断「订阅到底省不省」，别和上面的按量 API 直接比大小。'
+    + 'Trae 只有订阅档位、查不到 per-token 价，缺可比口径，暂不收录。</div>'
+    + '</div>';
+
+  var foot = '<div class="foot mt">点 = 一家渠道，同价合并、右侧 ×n 是家数；绿圈 = 这一行最低价。'
+    + '官方谷时价与标准价不是同一商品，价差只按标准价算，逐家明细见「模型 × 平台报价」。</div>';
+
+  return {
+    meta: models.length + ' 模型 · ' + lines.length + ' 条渠道报价',
+    body: hint + legend + '<div class="cm">' + axis + body + '</div>' + subs + foot
+  };
+};
+
 /* ⑬ 平台排行 */
 VIEW.platrank = function(){
   var p = S.panorama || {};
@@ -905,6 +1054,24 @@ function bind(){
     };
     tr.onclick = toggle;
     tr.onkeydown = function(e){
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar'){
+        e.preventDefault();
+        toggle();
+      }
+    };
+  });
+  /* 价格带的行：点开看这一行每家的确切报价 */
+  Array.prototype.forEach.call(document.querySelectorAll('.cm-row'), function(el){
+    var det = $(el.getAttribute('data-x'));
+    if (!det) return;
+    var toggle = function(){
+      var open = det.style.display !== 'none';
+      det.style.display = open ? 'none' : '';
+      el.classList.toggle('open', !open);
+      el.setAttribute('aria-expanded', String(!open));
+    };
+    el.onclick = toggle;
+    el.onkeydown = function(e){
       if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar'){
         e.preventDefault();
         toggle();

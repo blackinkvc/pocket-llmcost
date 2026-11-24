@@ -13,11 +13,14 @@ ROOT="$(pwd)"
 MSG=""
 REFRESH=0
 DRY=0
+FORCE=""
 
 for a in "$@"; do
   case "${a}" in
     --refresh) REFRESH=1 ;;
     --dry|--dry-run) DRY=1 ;;
+    # 远端比本地新时，publish.py 默认会停下；确认以本地为准才显式打开
+    --force-remote) FORCE="--force-remote" ;;
     *) MSG="${a}" ;;
   esac
 done
@@ -75,8 +78,8 @@ fi
 # 6) 推送
 if [ "${DRY}" = "1" ]; then
   echo "▸ 试运行，不推送"
-  python3 tools/publish.py -m "${MSG}" --dry-run
+  python3 tools/publish.py -m "${MSG}" ${FORCE} --dry-run
 else
   echo "▸ 推送"
-  python3 tools/publish.py -m "${MSG}"
+  python3 tools/publish.py -m "${MSG}" ${FORCE}
 fi

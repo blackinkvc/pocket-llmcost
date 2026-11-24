@@ -51,6 +51,26 @@ def remote_parts():
     return "blackinkvc", "pocket-llmcost"
 
 
+def guard_remote_ahead(head, dry, force):
+    """远端 HEAD 不在本地历史里 → 本地落后，整棵树覆盖会删掉别人的提交。
+
+    这个脚本不走 git 协议，而是拿本地文件拼一棵新树盖上去；
+    远端有、本地没有的文件会在同一次提交里被标成删除。
+    真出过事：另一个会话刚推了「算力中心」板块，这边推一次就把它 7 个文件删了。
+    """
+    if dry or force or not (ROOT / ".git").exists():
+        return
+    r = subprocess.run(["git", "-C", str(ROOT), "cat-file", "-e", head + "^{commit}"],
+                       capture_output=True, text=True)
+    if r.returncode == 0:
+        return
+    sys.exit(
+        "远端 HEAD %s 不在本地历史里 —— 本地落后于远端。\n"
+        "  这个脚本是整棵树覆盖：现在推，远端新增的文件会被删掉。\n"
+        "  先把远端内容合进来（git fetch / 手工取回），或确认以本地为准加 --force-remote。"
+        % head[:8])
+
+
 def token(soft=False):
     t = (os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN") or "").strip()
     if t:
@@ -139,6 +159,7 @@ def local_files():
 def main():
     argv = sys.argv[1:]
     dry = "--dry-run" in argv
+    force = "--force-remote" in argv
     msg = "chore: 更新站点"
     for i, a in enumerate(argv):
         if a in ("-m", "--message") and i + 1 < len(argv):
@@ -167,6 +188,7 @@ def main():
             sys.exit("远端文件过多，tree 被截断；这条脚本不适合这么大的仓库，改用 git 客户端。")
         remote_files = {e["path"]: e["sha"] for e in tree["tree"] if e["type"] == "blob"}
         print("远端 HEAD %s（%s）" % (head[:8], commit["message"].splitlines()[0][:50]))
+        guard_remote_ahead(head, dry, force)
 
     entries, stat = [], {"same": 0, "add": 0, "mod": 0, "up": 0}
     for s, p in files:
