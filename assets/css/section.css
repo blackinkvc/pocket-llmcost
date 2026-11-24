@@ -144,6 +144,13 @@
 .cx-h-n{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--t3);white-space:nowrap}
 
 /* 还没有落地页的选题：虚线框 + 不做 hover 抬升，避免伪装成可点的卡 */
+/* 组里最后一张落单时（四列网格的第 5、9 张），让它跨两列。
+   否则一行剩下三个空位，看着像没排完；跨两列读起来是「本组的一张重点卡」。
+   注意 4n+1 在任何宽度下都会匹配第 5 张，所以必须配断点：
+   640px 以下网格是单列，span 2 会凭空长出一列，把整组卡片压成两列。 */
+@media (min-width:641px){
+  .cx-card:last-child:nth-child(4n+1){grid-column:span 2}
+}
 .cx-card.is-soon{background:var(--panel);border-style:dashed;cursor:default}
 .cx-card.is-soon:hover{border-color:var(--line);box-shadow:none;transform:none}
 .cx-card.is-soon .cx-kicker{color:var(--t3)}
