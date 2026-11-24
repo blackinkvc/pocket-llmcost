@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>以前要买的软件，现在能现做 · AI+行业</title>
+<meta name="description" content="一份月费 40 美元的生成工具，替掉了 199–499 美元的订阅；一个人两周上线一个带登录、支付、数据库的产品。省下来的钱不是没有代价，它变成了维护、安全和「谁对这个工具负责」。">
+<link rel="stylesheet" href="../assets/css/site.css?v=958a5662">
+<link rel="stylesheet" href="../assets/css/section.css?v=3169b416">
+<script src="../assets/js/board.js?v=10d62f46" defer></script>
+<script src="../assets/js/ranks.js?v=76e44c3f" defer></script>
+<script src="../assets/js/reports.js?v=971c0e35" defer></script>
+<script src="../assets/js/toc.js?v=4b9e2ef8" defer></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a href="../models.html">基模</a>
+      <a href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a href="../hardware.html">硬件</a>
+      <a href="../templates.html">模板</a>
+      <a class="is-active" href="../apps.html">AI+行业</a>
+      <a href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-24</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">AI × INDUSTRY</span>
+    <a href="../apps.html">← 回「AI+行业」</a>
+    <a href="../apps.html#intro">简介</a>
+    <a href="../apps.html#cards">专题</a>
+    <a href="../apps.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../apps.html">AI+行业</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2026-11-24 · 软件 · 成本 · 定制</p>
+    <h1 class="post-title">以前要买的软件，现在能现做</h1>
+    <p class="post-lede">一份月费 40 美元的生成工具，替掉了 199–499 美元的订阅；一个人两周上线一个带登录、支付、数据库的产品。省下来的钱不是没有代价，它变成了维护、安全和「谁对这个工具负责」。</p>
+    <div class="post-body">
+<p>一句判断：<strong>软件的成本结构正在从「许可费」变成「维护费」。</strong> 前者按月付给厂商，后者按月付给时间——区别是后者不出现在发票上。</p>
+<h2>三张真实的账单</h2>
+<p>这些都是媒体或当事人自述的个案，不是统计；列出来是因为它们的方向一致。</p>
+<div class="md-table"><table><thead><tr><th>谁</th><th>原来付什么</th><th>现在怎么替代</th><th>月成本</th></tr></thead><tbody><tr><td>自由媒体顾问 Cody Luongo</td><td>Semrush，199–499 美元/月</td><td>用 Base44 自己做受众互动追踪工具</td><td>40 美元</td></tr><tr><td>活动策划 Sacha Walton</td><td>QuickBooks，38–275 美元/月</td><td>用 Base44 做一个记账 + 财务建议的小工具</td><td>含在上面</td></tr><tr><td>媒体主 Beth Nydick</td><td>约 300 美元/月的各类 SaaS</td><td>用 Claude 做研究、分析、转写、编辑</td><td>20 美元</td></tr><tr><td>设计师 Sarah Busse</td><td>图库授权与外包</td><td>用 ChatGPT 生成图像</td><td>单项目省约 600 美元</td></tr></tbody></table></div>
+<p>这四个案例的共同点不是「AI 很便宜」，而是<strong>它们用的功能本来就只占订阅包的一小块</strong>。Semrush 卖的是整个 SEO 套件，她要的是「我的受众这周看了什么」；QuickBooks 卖的是全套账务合规，他要的是「把流水记下来，顺便告诉我钱花哪了」。</p>
+<h2>为什么现在能现做</h2>
+<p>三件事同时到位：</p>
+<ol><li><strong>模型能写完整的前后端</strong>，不只是补全一个函数；</li><li><strong>托管把运维成本压到接近零</strong>——Supabase、Vercel、Clerk 的免费档就够一个内部工具跑起来；</li><li><strong>需求本来就窄</strong>——窄需求才适合现做，宽需求仍然该买。</li></ol>
+<p>一个带账号、数据库、订阅计费的最小型产品，用 AI 直接写，首三个月总成本可以落在 12–222 美元；外包给自由开发者是 1.5 万–5 万美元，交给代理公司是 5 万–15 万美元。这个对比里最要紧的不是绝对数字，是<strong>试错的门槛</strong>：以前验证一个想法要筹备三个月预算，现在可以先花一个周末做一个能点开的版本。</p>
+<h2>能现做的，和不能现做的</h2>
+<div class="md-table"><table><thead><tr><th>场景</th><th>能不能现做</th><th>原因</th></tr></thead><tbody><tr><td>内部报表、看板、对账脚本</td><td>能</td><td>只有自己人用，错了改一版就行</td></tr><tr><td>单一用途的小工具（排班、报价、素材管理）</td><td>能</td><td>需求窄、无外部依赖</td></tr><tr><td>官网、落地页、活动页</td><td>能</td><td>静态、可回滚</td></tr><tr><td>面向客户的核心交易系统</td><td>谨慎</td><td>出错要赔钱，要审计、要 SLA</td></tr><tr><td>需要对接几十个平台的 ERP / 中台</td><td>不能</td><td>难点不在界面，在每家平台的接口与对账规则</td></tr><tr><td>有合规要求的行业系统（医疗、金融、政务）</td><td>不能</td><td>数据驻留、留痕、等保不是模型能生成的</td></tr></tbody></table></div>
+<p>这张表的分界线不是技术难度，是<strong>责任归属</strong>。能现做的，都是「坏了只影响自己」的东西；不能现做的，都是「坏了要有人签字」的东西。</p>
+<h2>省下的钱去哪了</h2>
+<div class="md-table"><table><thead><tr><th>成本项</th><th>买软件</th><th>现做</th></tr></thead><tbody><tr><td>首次投入</td><td>0（或实施费）</td><td>几小时到两周</td></tr><tr><td>月费</td><td>按席位 / 按量</td><td>托管几十美元</td></tr><tr><td>需求变更</td><td>提工单、等排期</td><td>自己改，或者让模型改</td></tr><tr><td>故障</td><td>厂商 SLA</td><td>自己排查</td></tr><tr><td>人走了</td><td>换个账号继续用</td><td>没人看得懂那份代码</td></tr><tr><td>安全</td><td>厂商负责</td><td>自己负责（密钥、权限、注入）</td></tr></tbody></table></div>
+<p>最后两行是这类项目最常见的死法：一个人用 AI 写了一堆脚本，半年后他离职，工具还在跑，但没人敢动；或者把 API key 写在了前端，被爬了一次才发现。用 AI 写出来的代码有一个特点——<strong>它看起来对，而且能跑</strong>，这比明显报错更难查。</p>
+<h2>所以软件行业在卖什么</h2>
+<p>如果功能可以被现做，软件公司剩下的生意只有三样：<strong>帮你不犯错（合规与安全）、帮你省人（集成与运维）、帮你担责（SLA 与赔付）</strong>。这也是为什么 2026 年大厂都在往「企业版、私有化、审计日志」上加价，而不是往「功能更多」上加价。</p>
+<p>对买方来说，判断标准变得很简单：<strong>这个软件卖的如果是界面，它会被现做掉；卖的如果是责任，它还能收钱。</strong></p>
+<h2>已知的取舍</h2>
+<ul><li><strong>个案不能当趋势。</strong> 上面四个案例都是媒体自述，成功者偏差明显；失败的那些不会写博客。</li><li><strong>「两周上线」有前提。</strong> 需要熟悉那套技术栈、需求写得清、并且愿意逐行 review。非技术背景的人把时间花在学终端命令上，并不比外包便宜。</li><li><strong>维护成本被低估。</strong> 上线只是开始，后面是依赖升级、模型换代、接口变更。这部分没有发票，只有工时。</li><li><strong>不构成采购建议。</strong> 具体到某个团队该买还是该做，取决于数据敏感度和责任边界，本页给的是判断框架。</li></ul>
+    </div>
+  </article>
+  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list"><a href="%E4%B8%AD%E5%8F%B0%E7%94%9F%E6%84%8F.html"><b>中台被两头挤</b><time>2026-11-24</time></a><a href="%E5%BC%80%E6%BA%90%E5%AE%9A%E4%BB%B7.html"><b>开源把价格打到地板，然后开始收费</b><time>2026-11-24</time></a><a href="%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B.html"><b>逆向工程：把闭源产品拆开的人</b><time>2026-11-24</time></a></div>
+  </nav>
+  <nav class="pager"><a href="../apps.html"><span class="pg-l">← BACK</span><span class="pg-t">AI+行业 · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2026-11 公开资料<br>2026 条目：只收能核到月份的<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">AI+行业</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

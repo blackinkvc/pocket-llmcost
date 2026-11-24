@@ -5,10 +5,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Agent · AI.TRACK</title>
-<meta name="description" content="Agent：办公 Agent 的桌面月活、技能与专家两张开源热度榜、命令行与 IDE 的实时使用量、MCP 的调用量与开源热度，以及仓库数 / 上架量 / 扩展存量三张分开的生态表，可按国内 / 国外与时间跨度筛选。">
+<meta name="description" content="Agent：办公 Agent 的桌面月活、技能与专家两张开源热度榜、命令行与 IDE 的实时使用量、MCP 的调用量与开源热度、仓库 / 上架 / 扩展三张生态表，以及一张按首次可用时间排的产品台账，可按国内 / 国外与时间跨度筛选。">
 <link rel="stylesheet" href="assets/css/site.css?v=958a5662">
-<link rel="stylesheet" href="assets/css/section.css?v=00540e6a">
-<script src="assets/js/board.js?v=ecbda2a0" defer></script>
+<link rel="stylesheet" href="assets/css/section.css?v=3169b416">
+<script src="assets/js/board.js?v=10d62f46" defer></script>
 <script src="assets/js/ranks.js?v=76e44c3f" defer></script>
 <script src="assets/js/reports.js?v=971c0e35" defer></script>
 <script src="assets/js/toc.js?v=4b9e2ef8" defer></script>
@@ -27,7 +27,7 @@
       <a href="companies.html">公司</a>
       <a href="hardware.html">硬件</a>
       <a href="templates.html">模板</a>
-      <a href="apps.html">应用</a>
+      <a href="apps.html">AI+行业</a>
       <a href="principles.html">原理 · 历史</a>
       <a href="local.html">本地部署</a>
       <a href="cases.html">实例</a>
@@ -54,6 +54,7 @@
     <a href="#board-8">MCP 服务器仓库 · 按实现语言</a>
     <a href="#board-9">MCP 托管平台 · 上架量</a>
     <a href="#board-10">IDE 扩展市场 · 存量</a>
+    <a href="#board-11">产品台账</a>
     <a href="#cards">对比</a>
     <a href="#reports">报告</a>
     <span class="sn-sep"></span>
@@ -87,9 +88,9 @@
         <div class="toc-head"><span>目录 / TOC</span><button class="toc-all" type="button">展开全部</button></div>
         <ul class="toc-list">
           <li><a href="#intro">简介与口径</a></li>
-          <li class="toc-g"><button class="toc-t" type="button" aria-expanded="false" aria-controls="toc-s1" aria-label="展开「榜」，共 10 项"><span class="toc-lab">榜<i>10</i></span><svg class="toc-caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2 7 5l-3.5 3"/></svg></button><ul class="toc-sub" id="toc-s1"><li><a href="#board-1">使用量 · 命令行工具</a></li><li><a href="#board-2">使用量 · IDE 插件</a></li><li><a href="#board-3">办公 Agent</a></li><li><a href="#board-4">技能</a></li><li><a href="#board-5">专家</a></li><li><a href="#board-6">MCP 服务器 · 调用量</a></li><li><a href="#board-7">MCP 服务器 · 开源热度</a></li><li><a href="#board-8">MCP 服务器仓库 · 按实现语言</a></li><li><a href="#board-9">MCP 托管平台 · 上架量</a></li><li><a href="#board-10">IDE 扩展市场 · 存量</a></li></ul></li>
+          <li class="toc-g"><button class="toc-t" type="button" aria-expanded="false" aria-controls="toc-s1" aria-label="展开「榜」，共 11 项"><span class="toc-lab">榜<i>11</i></span><svg class="toc-caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2 7 5l-3.5 3"/></svg></button><ul class="toc-sub" id="toc-s1"><li><a href="#board-1">使用量 · 命令行工具</a></li><li><a href="#board-2">使用量 · IDE 插件</a></li><li><a href="#board-3">办公 Agent</a></li><li><a href="#board-4">技能</a></li><li><a href="#board-5">专家</a></li><li><a href="#board-6">MCP 服务器 · 调用量</a></li><li><a href="#board-7">MCP 服务器 · 开源热度</a></li><li><a href="#board-8">MCP 服务器仓库 · 按实现语言</a></li><li><a href="#board-9">MCP 托管平台 · 上架量</a></li><li><a href="#board-10">IDE 扩展市场 · 存量</a></li><li><a href="#board-11">产品台账</a></li></ul></li>
           <li><a href="#cards">对比</a></li>
-          <li class="toc-g"><button class="toc-t" type="button" aria-expanded="false" aria-controls="toc-s2" aria-label="展开「报告」，共 5 项"><span class="toc-lab">报告<i>5</i></span><svg class="toc-caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2 7 5l-3.5 3"/></svg></button><ul class="toc-sub" id="toc-s2"><li><a href="agents/%E9%80%9A%E7%94%A8%E5%8A%9E%E5%85%ACAgent%E5%8A%9F%E8%83%BD%E5%AF%B9%E6%AF%94.html">通用办公 Agent 功能对比</a></li><li><a href="agents/%E4%BA%94%E5%B1%82%E8%83%BD%E5%8A%9B%E6%A0%88.html">Agent 的五层能力栈</a></li><li><a href="agents/%E5%8D%8F%E8%AE%AE%E4%B8%8E%E6%8E%A5%E5%8F%A3.html">协议为什么比模型更影响生态</a></li><li><a href="agents/%E8%AF%84%E6%B5%8B%E7%9C%8B%E4%BB%80%E4%B9%88.html">评测 Agent 时看什么，不看什么</a></li><li><a href="agents/%E5%B7%A5%E7%A8%8B%E7%BA%A6%E6%9D%9F%E4%B8%8E%E9%A3%8E%E9%99%A9.html">工程约束与风险清单</a></li></ul></li>
+          <li class="toc-g"><button class="toc-t" type="button" aria-expanded="false" aria-controls="toc-s2" aria-label="展开「报告」，共 7 项"><span class="toc-lab">报告<i>7</i></span><svg class="toc-caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2 7 5l-3.5 3"/></svg></button><ul class="toc-sub" id="toc-s2"><li><a href="agents/%E9%80%9A%E7%94%A8%E5%8A%9E%E5%85%ACAgent%E5%8A%9F%E8%83%BD%E5%AF%B9%E6%AF%94.html">通用办公 Agent 功能对比</a></li><li><a href="agents/%E5%BD%A2%E6%80%81%E5%86%B3%E5%AE%9A%E5%A4%A9%E8%8A%B1%E6%9D%BF.html">形态决定天花板</a></li><li><a href="agents/%E7%BC%96%E7%A0%81Agent%E4%B8%BA%E4%BB%80%E4%B9%88%E5%85%88%E8%B7%91%E9%80%9A.html">编码 Agent 为什么先跑通</a></li><li><a href="agents/%E4%BA%94%E5%B1%82%E8%83%BD%E5%8A%9B%E6%A0%88.html">Agent 的五层能力栈</a></li><li><a href="agents/%E5%8D%8F%E8%AE%AE%E4%B8%8E%E6%8E%A5%E5%8F%A3.html">协议为什么比模型更影响生态</a></li><li><a href="agents/%E8%AF%84%E6%B5%8B%E7%9C%8B%E4%BB%80%E4%B9%88.html">评测 Agent 时看什么，不看什么</a></li><li><a href="agents/%E5%B7%A5%E7%A8%8B%E7%BA%A6%E6%9D%9F%E4%B8%8E%E9%A3%8E%E9%99%A9.html">工程约束与风险清单</a></li></ul></li>
         </ul>
       </nav>
       </aside>
@@ -1110,6 +1111,214 @@
     <span class="blk-stamp">更新 2026-11-24 15:33 · 各市场公开接口</span>
     
   </section>
+  <section class="blk" id="board-11">
+    <div class="blk-head">
+      <span class="blk-num">02.11</span>
+      <h2>产品台账 · 首次可用时间</h2>
+      <span class="blk-note is-long">时间只写首次公开可用的月份，不写融资、不写改版。滑块是时间窗口：默认「全部」，23 条全在；切到「近 6 个月」就只剩这半年里首次出现的新品，它数的是「新增了什么」，不是「当时市面上有什么」。类别按用户拿到的最终形态分，不按底层模型分；排名是收录顺序，不是热度也不是收入。带 * 的条目细节待核。</span>
+    </div>
+    <div class="bd-ctrl" data-ctrl="b11">
+      <div class="seg" role="group" aria-label="按归属筛选"><button type="button" data-region="all" class="on">全部<i>23</i></button><button type="button" data-region="cn">国内<i>3</i></button><button type="button" data-region="intl">国外<i>20</i></button></div>
+      <div class="span">
+        <span class="span-label">时间跨度</span>
+        <output class="span-out">近 63 个月</output>
+        <input type="range" min="1" max="63" step="1" value="63"
+               aria-label="时间跨度（月）">
+        <div class="span-ticks"><button type="button" data-span="1">1 个月</button><button type="button" data-span="3">3 个月</button><button type="button" data-span="6">6 个月</button><button type="button" data-span="12">12 个月</button><button type="button" data-span="24">24 个月</button><button type="button" data-span="36">36 个月</button><button type="button" data-span="60">60 个月</button><button type="button" data-span="63">全部</button></div>
+      </div>
+      <p class="bd-ctrl-note">按发布时间截断，滑块取近 N 个月。</p>
+    </div>
+    <div class="board is-two" data-board="b11">
+      <article class="bd-card" data-k="GitHub Copilot" data-region="国外" data-base="" data-date="2021-06">
+        <span class="bd-rank">1</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>GitHub Copilot</h3><span class="bd-when">2021-06</span></div>
+          <p class="bd-meta">GitHub / 微软 · 编码</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="Midjourney" data-region="国外" data-base="" data-date="2022-07">
+        <span class="bd-rank">2</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Midjourney</h3><span class="bd-when">2022-07</span></div>
+          <p class="bd-meta">Midjourney · 图像</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="Stable Diffusion" data-region="国外" data-base="" data-date="2022-08">
+        <span class="bd-rank">3</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Stable Diffusion</h3><span class="bd-when">2022-08</span></div>
+          <p class="bd-meta">Stability AI · 图像</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="ChatGPT" data-region="国外" data-base="" data-date="2022-11">
+        <span class="bd-rank">4</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>ChatGPT</h3><span class="bd-when">2022-11</span></div>
+          <p class="bd-meta">OpenAI · 通用助手</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="ElevenLabs" data-region="国外" data-base="" data-date="2022-11">
+        <span class="bd-rank">5</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>ElevenLabs</h3><span class="bd-when">2022-11</span></div>
+          <p class="bd-meta">ElevenLabs · 音频</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="Perplexity" data-region="国外" data-base="" data-date="2022-12">
+        <span class="bd-rank">6</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Perplexity</h3><span class="bd-when">2022-12</span></div>
+          <p class="bd-meta">Perplexity · 搜索</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="Claude" data-region="国外" data-base="" data-date="2023-03">
+        <span class="bd-rank">7</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Claude</h3><span class="bd-when">2023-03</span></div>
+          <p class="bd-meta">Anthropic · 通用助手</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="Microsoft 365 Copilot" data-region="国外" data-base="" data-date="2023-03">
+        <span class="bd-rank">8</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Microsoft 365 Copilot</h3><span class="bd-when">2023-03</span></div>
+          <p class="bd-meta">微软 · 办公</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="Cursor" data-region="国外" data-base="" data-date="2023-03">
+        <span class="bd-rank">9</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Cursor</h3><span class="bd-when">2023-03</span></div>
+          <p class="bd-meta">Anysphere · 编码</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="Suno" data-region="国外" data-base="" data-date="2023-04">
+        <span class="bd-rank">10</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Suno</h3><span class="bd-when">2023-04</span></div>
+          <p class="bd-meta">Suno · 音频</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="NotebookLM" data-region="国外" data-base="" data-date="2023-07">
+        <span class="bd-rank">11</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>NotebookLM</h3><span class="bd-when">2023-07</span></div>
+          <p class="bd-meta">Google · 研究</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="豆包" data-region="国内" data-base="" data-date="2023-08">
+        <span class="bd-rank">12</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>豆包</h3><span class="bd-when">2023-08</span></div>
+          <p class="bd-meta">字节跳动 · 通用助手</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="Kimi" data-region="国内" data-base="" data-date="2023-10">
+        <span class="bd-rank">13</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Kimi</h3><span class="bd-when">2023-10</span></div>
+          <p class="bd-meta">月之暗面 · 通用助手</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemini" data-region="国外" data-base="" data-date="2023-12">
+        <span class="bd-rank">14</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemini</h3><span class="bd-when">2023-12</span></div>
+          <p class="bd-meta">Google · 通用助手</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="可灵" data-region="国内" data-base="" data-date="2024-06">
+        <span class="bd-rank">15</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>可灵</h3><span class="bd-when">2024-06</span></div>
+          <p class="bd-meta">快手 · 视频</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="Sora" data-region="国外" data-base="" data-date="2024-12">
+        <span class="bd-rank">16</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Sora</h3><span class="bd-when">2024-12</span></div>
+          <p class="bd-meta">OpenAI · 视频</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="Claude Code" data-region="国外" data-base="" data-date="2025-02">
+        <span class="bd-rank">17</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Claude Code</h3><span class="bd-when">2025-02</span></div>
+          <p class="bd-meta">Anthropic · 编码</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="Codex" data-region="国外" data-base="" data-date="2025-05">
+        <span class="bd-rank">18</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Codex</h3><span class="bd-when">2025-05</span></div>
+          <p class="bd-meta">OpenAI · 编码</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="Veo 3" data-region="国外" data-base="" data-date="2025-05">
+        <span class="bd-rank">19</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Veo 3</h3><span class="bd-when">2025-05</span></div>
+          <p class="bd-meta">Google · 视频</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="Google Antigravity" data-region="国外" data-base="" data-date="2025-11">
+        <span class="bd-rank">20</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Google Antigravity</h3><span class="bd-when">2025-11</span></div>
+          <p class="bd-meta">Google · 编码</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="Nano Banana Pro" data-region="国外" data-base="" data-date="2025-11">
+        <span class="bd-rank">21</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Nano Banana Pro</h3><span class="bd-when">2025-11</span></div>
+          <p class="bd-meta">Google · 图像</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="Perplexity Portable Computer" data-region="国外" data-base="" data-date="2026-08">
+        <span class="bd-rank">22</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Perplexity Portable Computer</h3><span class="bd-when">2026-08</span></div>
+          <p class="bd-meta">Perplexity · 端侧</p>
+          
+        </div>
+      </article>
+      <article class="bd-card" data-k="Gemini 应用的 Workspace 入口" data-region="国外" data-base="" data-date="2026-03">
+        <span class="bd-rank">23</span>
+        <div class="bd-main">
+          <div class="bd-top"><h3>Gemini 应用的 Workspace 入口</h3><span class="bd-when">2026-03</span></div>
+          <p class="bd-meta">Google · 办公</p>
+          
+        </div>
+      </article>
+    </div>
+    <p class="bd-empty-tip" hidden>这一档还没有数据。换成「全部」看完整榜单。</p>
+    
+    
+    <script type="application/json" data-spec="b11">{"mode":"date","unit":"","series":{},"slider":{"default":63,"max":63},"anchor":"2026-08"}</script>
+  </section>
   <section class="blk" id="cards">
     <div class="blk-head">
       <span class="blk-num">03</span>
@@ -1144,11 +1353,11 @@
     <div class="blk-head">
       <span class="blk-num">04</span>
       <h2>报告</h2>
-      <span class="blk-note">共 5 篇 · 点开是独立页</span>
+      <span class="blk-note">共 7 篇 · 点开是独立页</span>
     </div>
     <div class="rpt-card">
       <div class="rpt-bar">
-        <button class="rpt-chip on" data-tag="">全部 <i>5</i></button><button class="rpt-chip" data-tag="工程">工程 <i>2</i></button>
+        <button class="rpt-chip on" data-tag="">全部 <i>7</i></button><button class="rpt-chip" data-tag="工程">工程 <i>3</i></button><button class="rpt-chip" data-tag="产品">产品 <i>2</i></button>
         <span class="rpt-hint" hidden></span>
       </div>
       <div class="rpt-grid">
@@ -1157,6 +1366,18 @@
         <h3>通用办公 Agent 功能对比</h3>
         <p>十一款桌面 Agent 逐项对照：能不能碰本地文件、长任务跑不跑得完、技能 / 专家 / 连接器怎么扩、上下文从哪来，以及选型时该看哪一条。</p>
         <span class="rpt-tags"><span class="rpt-tag">对比</span><span class="rpt-tag">办公 Agent</span><span class="rpt-tag">产品</span></span>
+      </a>
+        <a class="rpt-item" data-tags="产品,分发,商业模式" href="agents/%E5%BD%A2%E6%80%81%E5%86%B3%E5%AE%9A%E5%A4%A9%E8%8A%B1%E6%9D%BF.html">
+        <span class="rpt-top"><time>2026-11-23</time><span class="rpt-go">→</span></span>
+        <h3>形态决定天花板</h3>
+        <p>如果产品的价值主要来自「模型更强」，它迟早会被下一版基模吸收；价值来自工作流、数据与分发，才有独立空间。2026 年给了三条不太乐观但很清楚的证据。</p>
+        <span class="rpt-tags"><span class="rpt-tag">产品</span><span class="rpt-tag">分发</span><span class="rpt-tag">商业模式</span></span>
+      </a>
+        <a class="rpt-item" data-tags="编码,Agent,工程" href="agents/%E7%BC%96%E7%A0%81Agent%E4%B8%BA%E4%BB%80%E4%B9%88%E5%85%88%E8%B7%91%E9%80%9A.html">
+        <span class="rpt-top"><time>2026-11-23</time><span class="rpt-go">→</span></span>
+        <h3>编码 Agent 为什么先跑通</h3>
+        <p>代码有编译器、测试和版本控制，错了立刻知道错在哪——这是唯一一个「判卷人免费且立刻」的场景。办公场景缺的正是这个。</p>
+        <span class="rpt-tags"><span class="rpt-tag">编码</span><span class="rpt-tag">Agent</span><span class="rpt-tag">工程</span></span>
       </a>
         <a class="rpt-item" data-tags="架构,工程" href="agents/%E4%BA%94%E5%B1%82%E8%83%BD%E5%8A%9B%E6%A0%88.html">
         <span class="rpt-top"><time>2026-11-21</time><span class="rpt-go">→</span></span>
@@ -1208,7 +1429,7 @@
       <div class="footer-links">
         <a href="models.html">基模</a><a href="agents.html">Agent</a>
         <a href="companies.html">公司</a><a href="hardware.html">硬件</a>
-        <a href="templates.html">模板</a><a href="apps.html">应用</a>
+        <a href="templates.html">模板</a><a href="apps.html">AI+行业</a>
         <a href="principles.html">原理 · 历史</a><a href="local.html">本地部署</a>
         <a href="cases.html">实例索引</a><a href="lab/index.html">实例 01 · 生图</a>
       </div>

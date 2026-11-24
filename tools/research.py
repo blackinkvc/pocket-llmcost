@@ -40,7 +40,7 @@ SECTIONS = [
     ("公司",     "companies",  "companies.html",      "公司"),
     ("硬件",     "hardware",   "hardware.html",       "硬件"),
     ("模板",     "templates",  "templates.html",      "模板"),
-    ("应用",     "apps",       "apps.html",           "应用"),
+    ("应用",     "apps",       "apps.html",           "AI+行业"),
     # 原理与历史已合并成一页，两个文件夹都能收，指向同一页
     ("原理",     "principles", "principles.html",     "原理 · 历史"),
     ("历史",     "history",    "principles.html#e1",  "原理 · 历史"),
@@ -49,7 +49,8 @@ SECTIONS = [
     ("_其他",    "misc",       "",                    "其他"),
 ]
 SECTION_ALIAS = {"基础模型": "models", "智能体": "agents", "agents": "agents",
-                 "models": "models", "apps": "apps", "cases": "cases"}
+                 "models": "models", "apps": "apps", "cases": "cases",
+                 "AI+行业": "apps", "行业": "apps"}
 CHANNEL_LABEL = {c: label for _, c, _, label in SECTIONS}
 CHANNEL_PAGE = {c: page for _, c, page, _ in SECTIONS}
 CHANNEL_LABEL[""] = ""
@@ -60,7 +61,7 @@ GH_BASE = "https://github.com/" + OWNER_REPO
 NAV = [
     ("index.html", "首页"), ("models.html", "基模"), ("agents.html", "Agent"),
     ("companies.html", "公司"), ("hardware.html", "硬件"), ("templates.html", "模板"),
-    ("apps.html", "应用"), ("principles.html", "原理 · 历史"), ("local.html", "本地部署"),
+    ("apps.html", "AI+行业"), ("principles.html", "原理 · 历史"), ("local.html", "本地部署"),
     ("cases.html", "实例"), ("research/index.html", "研究"),
     ("llmcost/index.html", "AI 天梯榜 &amp; 价格追踪"),
 ]

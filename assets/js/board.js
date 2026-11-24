@@ -289,7 +289,9 @@
       var bits = [];
       if (spec && spec.slider) {
         bits.push(spec.mode === 'date'
-          ? '截到近 ' + this.span + ' 个月'
+          ? (spec.slider.max && this.span >= spec.slider.max
+              ? '窗口＝全部（近 ' + this.span + ' 个月）'
+              : '截到近 ' + this.span + ' 个月')
           : this._spanText(calc));
       }
       if (spec && spec.mode === 'flow' && calc) bits.push('值＝窗口内日均，不是总数');
@@ -318,7 +320,8 @@
       if (this.note) this.note.textContent = bits.join(' · ');
       if (this.out) {
         this.out.textContent = spec && spec.mode === 'date'
-          ? '近 ' + this.span + ' 个月'
+          ? ((spec.slider && spec.slider.max && this.span >= spec.slider.max
+              ? '全部 · 近 ' : '近 ') + this.span + ' 个月')
           : '近 ' + this.span + ' 天';
       }
       [].forEach.call(this.ctrl.querySelectorAll('.span-ticks button'), function (b) {

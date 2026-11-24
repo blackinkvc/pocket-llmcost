@@ -4,11 +4,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>应用 · AI.TRACK</title>
-<meta name="description" content="应用：六类 AI 产品按首次可用时间排成台账，记录形态变化而不是热度；两篇报告讲形态为什么决定天花板。">
+<title>AI+行业 · AI.TRACK</title>
+<meta name="description" content="AI+行业：七个行业被 AI 切开的位置、任务层替代的实际数据、开源对价格的挤压、软件从买到现做的成本对照、逆向工程项目图谱，以及中台与老牌软件（Adobe、聚水潭、微盟）的账本与四条退路。">
 <link rel="stylesheet" href="assets/css/site.css?v=958a5662">
-<link rel="stylesheet" href="assets/css/section.css?v=00540e6a">
-<script src="assets/js/board.js?v=ecbda2a0" defer></script>
+<link rel="stylesheet" href="assets/css/section.css?v=3169b416">
+<script src="assets/js/board.js?v=10d62f46" defer></script>
 <script src="assets/js/ranks.js?v=76e44c3f" defer></script>
 <script src="assets/js/reports.js?v=971c0e35" defer></script>
 <script src="assets/js/toc.js?v=4b9e2ef8" defer></script>
@@ -27,7 +27,7 @@
       <a href="companies.html">公司</a>
       <a href="hardware.html">硬件</a>
       <a href="templates.html">模板</a>
-      <a class="is-active" href="apps.html">应用</a>
+      <a class="is-active" href="apps.html">AI+行业</a>
       <a href="principles.html">原理 · 历史</a>
       <a href="local.html">本地部署</a>
       <a href="cases.html">实例</a>
@@ -42,9 +42,9 @@
 </header>
 <div class="subnav">
   <div class="subnav-in">
-    <span class="sn-label">Products</span>
+    <span class="sn-label">AI × INDUSTRY</span>
     <a href="#intro">简介</a>
-    <a href="#board">台账</a>
+    <a href="#cards">专题</a>
     <a href="#reports">报告</a>
     <span class="sn-sep"></span>
     <a href="principles.html">原理 · 历史</a>
@@ -53,265 +53,129 @@
 </div>
 <main class="wrap">
 
-  <p class="crumb"><a href="index.html">首页</a><span class="sep">/</span><span>06</span><span class="sep">/</span><span>应用</span></p>
+  <p class="crumb"><a href="index.html">首页</a><span class="sep">/</span><span>06</span><span class="sep">/</span><span>AI+行业</span></p>
 
   <section class="page-head" id="intro">
     <div class="ph-grid">
       <div>
         <div class="card-top" style="margin-bottom:14px;justify-content:flex-start;gap:10px">
-          <span class="chip purple">助手</span><span class="chip green">编码</span><span class="chip orange">图像视频</span><span class="chip purple">搜索</span><span class="chip green">办公</span>
+          <span class="chip purple">岗位</span><span class="chip green">开源</span><span class="chip orange">中台</span><span class="chip purple">老牌软件</span><span class="chip green">逆向</span>
         </div>
-        <h1 class="ph-title">应用</h1>
-        <p class="ph-sub">PRODUCTS · FORM OVER HEAT · SNAPSHOT 2026-11</p>
-        <p class="ph-lede">应用层是用户唯一直接感知的地方，也是最容易同质化的一层。 这页不追热度，只记<strong>产品形态</strong>：是聊天框、是编辑器、是工作流，还是直接交付结果。 形态决定它和基模的关系，也决定它会不会被下一版模型吞掉。</p>
-        <div class="verdict-box"><p class="vb-label">三条结论 / VERDICT</p><ol><li><b>2026 年没有出现新的形态类别。</b><span>这一年新增的可核条目只有三条：两个是既有形态的补强（把编辑器、终端、浏览器并进一个 agent 平台；把生成与改图分开建模），一个是把 agent 环境装进本机的端侧产品。形态没变，变的是同一种形态能做的事变多了。</span></li><li><b>模型换代快过应用迭代。</b><span>2026 年 2 月到 9 月，四家实验室至少发了十余次旗舰或准旗舰，平均两三周一次，榜首换手三次以上。应用层如果把价值放在「用了更强的模型」上，等于把护城河交给别人的发布日历。</span></li><li><b>留下来的是工作流、数据与分发。</b><span>Google 把模型塞进搜索与 Workspace，用户不必知道模型叫什么；编码类产品靠编译、测试、版本控制当判卷人，能自我纠错；Perplexity 则把 agent 装到本机，用「数据不出门」换一个不依赖云端的形态。</span></li></ol></div>
+        <h1 class="ph-title">AI+行业</h1>
+        <p class="ph-sub">INDUSTRY · TASKS · OPEN SOURCE · SNAPSHOT 2026-11</p>
+        <div class="ph-lede"><p>应用层的账已经算过一轮了：谁的产品形态能活、谁会被下一版模型吞掉。这页换个视角——<strong>AI 从哪个环节切进一个行业，拿走了什么，剩下的东西为什么还值钱。</strong></p>
+<p>答案很少是「整个行业被替代」。更常见的是：一段任务被拿走，一个岗位被重新装满，一家公司的收费理由被迫换一个。</p></div>
+        <div class="verdict-box"><p class="vb-label">三条结论 / VERDICT</p><ol><li><b>替代发生在任务层，不发生在职业层。</b><span>7.43 亿条招聘数据里，只有 9% 的裁员能直接归因于 AI，但同时有 26.6% 的岗位处在高替代压力下、约 2100 万个岗位发生了任务重组。被拿走的主要是初级任务，于是资深的人觉得自己被增强了，刚毕业的人发现门变窄了——这两件事同时为真。</span></li><li><b>开源把「能力」的价格打到地板，把「集成与责任」留成生意。</b><span>中国开源模型的下载占比 41%，首次超过美国；开源与闭源的 token 价格差近五倍，同一款权重有几十家托管商按官方价四分之一报价。能力不再是商品，把它装进具体流程、替客户担责才是。</span></li><li><b>老牌软件没有被打死，是在重新定价。</b><span>Adobe 收入创纪录、股价却跌到七年新低，因为它主动推迟涨价去换免费用户；聚水潭扭亏靠的是合规与跨境，不是 AI；微盟 AI 收入涨 89%，毛利率只有 13.8%。四条退路——免费换规模、进别人的入口、卖合规、换市场——每一条都要先交出利润。</span></li></ol></div>
       </div>
       <aside class="ph-aside">
       <div class="spec-card">
         <div class="spec-head"><span>SNAPSHOT</span><span>MANUAL</span></div>
         <dl class="spec-body" style="margin:0">
-          <div class="spec-row"><dt>产品条目</dt><dd>23 个</dd></div><div class="spec-row"><dt>分类</dt><dd>6 类</dd></div><div class="spec-row"><dt>时间口径</dt><dd>首次公开可用的月份</dd></div><div class="spec-row"><dt>2026 新增</dt><dd>3 条</dd></div><div class="spec-row"><dt>用户与收入</dt><dd>未收录</dd></div>
+          <div class="spec-row"><dt>行业</dt><dd>7 个</dd></div><div class="spec-row"><dt>报告</dt><dd>7 篇</dd></div><div class="spec-row"><dt>口径</dt><dd>任务而非职业</dd></div><div class="spec-row"><dt>数据</dt><dd>2026-11 公开资料</dd></div><div class="spec-row"><dt>薪酬数据</dt><dd>未收录</dd></div>
         </dl>
       </div>
       <nav class="toc" aria-label="页内目录">
         <div class="toc-head"><span>目录 / TOC</span><button class="toc-all" type="button">展开全部</button></div>
         <ul class="toc-list">
           <li><a href="#intro">简介与口径</a></li>
-          <li><a href="#board">台账</a></li>
-          <li class="toc-g"><button class="toc-t" type="button" aria-expanded="false" aria-controls="toc-s1" aria-label="展开「报告」，共 2 项"><span class="toc-lab">报告<i>2</i></span><svg class="toc-caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2 7 5l-3.5 3"/></svg></button><ul class="toc-sub" id="toc-s1"><li><a href="apps/01-%E5%BD%A2%E6%80%81%E5%86%B3%E5%AE%9A%E5%A4%A9%E8%8A%B1%E6%9D%BF.html">形态决定天花板</a></li><li><a href="apps/02-%E7%BC%96%E7%A0%81Agent%E4%B8%BA%E4%BB%80%E4%B9%88%E5%85%88%E8%B7%91%E9%80%9A.html">编码 Agent 为什么先跑通</a></li></ul></li>
+          <li><a href="#cards">专题</a></li>
+          <li class="toc-g"><button class="toc-t" type="button" aria-expanded="false" aria-controls="toc-s1" aria-label="展开「报告」，共 7 项"><span class="toc-lab">报告<i>7</i></span><svg class="toc-caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2 7 5l-3.5 3"/></svg></button><ul class="toc-sub" id="toc-s1"><li><a href="apps/%E4%B8%AD%E5%8F%B0%E7%94%9F%E6%84%8F.html">中台被两头挤</a></li><li><a href="apps/%E4%BB%BB%E5%8A%A1%E9%87%8D%E7%BB%84.html">岗位没有消失，是被拆成了任务</a></li><li><a href="apps/%E5%BC%80%E6%BA%90%E5%AE%9A%E4%BB%B7.html">开源把价格打到地板，然后开始收费</a></li><li><a href="apps/%E7%8E%B0%E5%81%9A%E8%BD%AF%E4%BB%B6.html">以前要买的软件，现在能现做</a></li><li><a href="apps/%E8%80%81%E7%89%8C%E8%BD%AF%E4%BB%B6.html">老牌软件的四条退路</a></li><li><a href="apps/%E8%A1%8C%E4%B8%9A%E5%8F%B0%E8%B4%A6.html">七个行业，七种被切的方式</a></li><li><a href="apps/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B.html">逆向工程：把闭源产品拆开的人</a></li></ul></li>
         </ul>
       </nav>
       </aside>
     </div>
-    <div class="intro-extra"><h3>这张台账怎么读</h3><ul><li><strong>时间只写首次公开可用的月份。</strong> 滑块拖到某个月，只剩那时之前已经存在的产品——它的用法不是「看增长」，而是「看当时能选什么」。</li><li><strong>类别按用户拿到的最终形态分</strong>，不按底层模型分。同一个模型可以同时是聊天框、编辑器和 API。</li><li><strong>2026 年的条目少，是有意的。</strong> 模型换代不另立条目（那些进基模页）；只有产品形态发生变化、且能核到月份，才加一行。</li><li><strong>没有用户量与收入。</strong> 日活、付费率、ARR 各家口径不一，有的把「注册」算用户，有的把「打开过一次」算月活；并排放会得到一张看起来很精确的错表。</li></ul></div><div class="intro-extra"><h3>已知的取舍</h3><ul><li><strong>国内产品未逐条列。</strong> 即梦、海螺、元宝等都在用，但版本与时间点分散，等能核到统一口径再补。</li><li><strong>不记单次版本强弱。</strong> 同一产品的模型会静默升级，今天测的结论下个月就失效；这页只记形态。</li><li>**带 <code>*</code> 的条目是二手信息。** Antigravity 与 Nano Banana Pro 的细节来自媒体报道与厂商博客，官方文档还没给完整能力边界；Gemini 的 7.5 亿月活是 2026-03 财报口径，不等于活跃使用。</li><li><strong>不用「热度」排序。</strong> 排名只是收录顺序（按时间），不是流行度，也不是收入。</li></ul></div>
+    <div class="intro-extra"><h3>这页怎么读</h3><ul><li><strong>《七个行业，七种被切的方式》</strong> 是主干：金融、客服、短剧、教育、翻译、法律、医疗，一张表看清各自被切在哪一层。</li><li><strong>《岗位没有消失，是被拆成了任务》</strong> 讲方法：用「判卷人、责任、现场」三条判据给自己的岗位排序，而不是等一个行业预测。</li><li><strong>《开源把价格打到地板，然后开始收费》</strong> 讲供给侧：开放权重、托管商压价、许可收紧，以及为什么「免费」正在变成有条件的。</li><li><strong>《以前要买的软件，现在能现做》</strong> 讲买方：四张真实账单、能现做与不能现做的分界，以及被低估的维护成本。</li><li><strong>《逆向工程：把闭源产品拆开的人》</strong> 讲旁路：6.7 万星的接口逆向、5 千星的剪映草稿库、把订阅接到别家模型的代理，以及它们的法律边界。</li><li><strong>《中台被两头挤》</strong> 与 <strong>《老牌软件的四条退路》</strong> 讲卖方：聚水潭、微盟、Adobe 的账本，以及为什么转型先伤毛利。</li></ul></div><div class="intro-extra"><h3>口径与取舍</h3><ul><li><strong>渗透率、暴露度、替代率是三件事</strong>，本页引用时保留原始口径，不横向相加，也不跨行业比较。短剧的 95% 和医疗的 31% 不是同一个分母。</li><li><strong>一次性损益要剔掉再看。</strong> 聚水潭 2025 年归母亏损 16.55 亿元主要来自上市前优先股公允价值变动，同期经营现金流为正；微盟的亏损里含股份支付与税务影响。</li><li><strong>预测与统计分开写。</strong> 渣打 2030 年前削减 15%、客服 2030 年 50% 受影响、WEF 的净增 7800 万，都是前瞻口径；已发生的部分看招聘量、初级岗位占比、外包订单。</li><li><strong>产品台账已移到 Agent 页。</strong> 那张表记的是「某个时间点能选什么产品」，属于工具谱系；行业影响看的是任务怎么被切走，两件事不放在一页。</li><li><strong>不含薪酬与制造业。</strong> 制造业自动化是另一条技术线，混进来会让结论失真；薪酬数据各家口径不一，本页不写具体数字。</li><li><strong>案例多为媒体自述。</strong> 「一个人两周做出产品」这类故事有强烈的成功者偏差，本页引用时都标了来源性质，不当趋势用。</li></ul></div>
   </section>
-  <section class="blk" id="board">
+  <section class="blk" id="cards">
     <div class="blk-head">
       <span class="blk-num">02</span>
-      <h2>产品台账</h2>
-      <span class="blk-note is-long">时间只写首次公开可用的月份，不写融资、不写改版。滑块按月份截断：拖到某个月，只剩那时之前已经存在的产品——用来看「当时能选什么」。带 * 的条目细节待核。</span>
+      <h2>专题</h2>
+      <span class="blk-note">四张卡：行业被切在哪、价格被谁压下去、软件能不能自己做、旁路从哪里进</span>
     </div>
-    <div class="bd-ctrl" data-ctrl="b1">
-      <div class="seg" role="group" aria-label="按归属筛选"><button type="button" data-region="all" class="on">全部<i>23</i></button><button type="button" data-region="cn">国内<i>3</i></button><button type="button" data-region="intl">国外<i>20</i></button></div>
-      <div class="span">
-        <span class="span-label">时间跨度</span>
-        <output class="span-out">近 36 个月</output>
-        <input type="range" min="1" max="36" step="1" value="36"
-               aria-label="时间跨度（月）">
-        <div class="span-ticks"><button type="button" data-span="1">1 个月</button><button type="button" data-span="3">3 个月</button><button type="button" data-span="6">6 个月</button><button type="button" data-span="12">12 个月</button><button type="button" data-span="24">24 个月</button><button type="button" data-span="36">36 个月</button></div>
-      </div>
-      <p class="bd-ctrl-note">按发布时间截断，滑块取近 N 个月。</p>
+    <div class="cx-grid">
+      <a class="cx-card" href="apps/%E8%A1%8C%E4%B8%9A%E5%8F%B0%E8%B4%A6.html">
+        <span class="cx-no">01</span>
+        <span class="cx-kicker">台账</span>
+        <h3>七个行业，七种被切的方式</h3>
+        <p>金融切中后台、客服切一线、短剧切整条产线——同一项技术切的位置完全不同。七行看清各自被拿走什么。</p>
+        <span class="cx-foot"><span>7 个行业 · 1 张判断表</span><span class="cx-go">打开 →</span></span>
+      </a>
+      <a class="cx-card" href="apps/%E5%BC%80%E6%BA%90%E5%AE%9A%E4%BB%B7.html">
+        <span class="cx-no">02</span>
+        <span class="cx-kicker">供给</span>
+        <h3>开源把价格打到地板</h3>
+        <p>下载占比 41%、token 价差近五倍、许可开始按收入分成——能力不再是商品，集成和责任才是。</p>
+        <span class="cx-foot"><span>报告 · 2026-11</span><span class="cx-go">打开 →</span></span>
+      </a>
+      <a class="cx-card" href="apps/%E7%8E%B0%E5%81%9A%E8%BD%AF%E4%BB%B6.html">
+        <span class="cx-no">03</span>
+        <span class="cx-kicker">买方</span>
+        <h3>以前要买的软件，现在能现做</h3>
+        <p>四张真实账单：40 美元替掉 499 美元，20 美元替掉 300 美元；以及省下来的钱变成了谁的工时。</p>
+        <span class="cx-foot"><span>4 个案例 · 3 张对照表</span><span class="cx-go">打开 →</span></span>
+      </a>
+      <a class="cx-card" href="apps/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B.html">
+        <span class="cx-no">04</span>
+        <span class="cx-kicker">旁路</span>
+        <h3>逆向工程：把闭源产品拆开的人</h3>
+        <p>6.7 万星的接口逆向、5 千星的剪映草稿库、把订阅接到别家模型的代理——价格发现，不是商业模式。</p>
+        <span class="cx-foot"><span>5 个项目 · 3 种做法</span><span class="cx-go">打开 →</span></span>
+      </a>
     </div>
-    <div class="board" data-board="b1">
-      <article class="bd-card" data-k="GitHub Copilot" data-region="国外" data-base="" data-date="2021-06">
-        <span class="bd-rank">1</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>GitHub Copilot</h3><span class="bd-when">2021-06</span></div>
-          <p class="bd-meta">GitHub / 微软 · 编码</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="Midjourney" data-region="国外" data-base="" data-date="2022-07">
-        <span class="bd-rank">2</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>Midjourney</h3><span class="bd-when">2022-07</span></div>
-          <p class="bd-meta">Midjourney · 图像</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="Stable Diffusion" data-region="国外" data-base="" data-date="2022-08">
-        <span class="bd-rank">3</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>Stable Diffusion</h3><span class="bd-when">2022-08</span></div>
-          <p class="bd-meta">Stability AI · 图像</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="ChatGPT" data-region="国外" data-base="" data-date="2022-11">
-        <span class="bd-rank">4</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>ChatGPT</h3><span class="bd-when">2022-11</span></div>
-          <p class="bd-meta">OpenAI · 通用助手</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="ElevenLabs" data-region="国外" data-base="" data-date="2022-11">
-        <span class="bd-rank">5</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>ElevenLabs</h3><span class="bd-when">2022-11</span></div>
-          <p class="bd-meta">ElevenLabs · 音频</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="Perplexity" data-region="国外" data-base="" data-date="2022-12">
-        <span class="bd-rank">6</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>Perplexity</h3><span class="bd-when">2022-12</span></div>
-          <p class="bd-meta">Perplexity · 搜索</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="Claude" data-region="国外" data-base="" data-date="2023-03">
-        <span class="bd-rank">7</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>Claude</h3><span class="bd-when">2023-03</span></div>
-          <p class="bd-meta">Anthropic · 通用助手</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="Microsoft 365 Copilot" data-region="国外" data-base="" data-date="2023-03">
-        <span class="bd-rank">8</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>Microsoft 365 Copilot</h3><span class="bd-when">2023-03</span></div>
-          <p class="bd-meta">微软 · 办公</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="Cursor" data-region="国外" data-base="" data-date="2023-03">
-        <span class="bd-rank">9</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>Cursor</h3><span class="bd-when">2023-03</span></div>
-          <p class="bd-meta">Anysphere · 编码</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="Suno" data-region="国外" data-base="" data-date="2023-04">
-        <span class="bd-rank">10</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>Suno</h3><span class="bd-when">2023-04</span></div>
-          <p class="bd-meta">Suno · 音频</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="NotebookLM" data-region="国外" data-base="" data-date="2023-07">
-        <span class="bd-rank">11</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>NotebookLM</h3><span class="bd-when">2023-07</span></div>
-          <p class="bd-meta">Google · 研究</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="豆包" data-region="国内" data-base="" data-date="2023-08">
-        <span class="bd-rank">12</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>豆包</h3><span class="bd-when">2023-08</span></div>
-          <p class="bd-meta">字节跳动 · 通用助手</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="Kimi" data-region="国内" data-base="" data-date="2023-10">
-        <span class="bd-rank">13</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>Kimi</h3><span class="bd-when">2023-10</span></div>
-          <p class="bd-meta">月之暗面 · 通用助手</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="Gemini" data-region="国外" data-base="" data-date="2023-12">
-        <span class="bd-rank">14</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>Gemini</h3><span class="bd-when">2023-12</span></div>
-          <p class="bd-meta">Google · 通用助手</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="可灵" data-region="国内" data-base="" data-date="2024-06">
-        <span class="bd-rank">15</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>可灵</h3><span class="bd-when">2024-06</span></div>
-          <p class="bd-meta">快手 · 视频</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="Sora" data-region="国外" data-base="" data-date="2024-12">
-        <span class="bd-rank">16</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>Sora</h3><span class="bd-when">2024-12</span></div>
-          <p class="bd-meta">OpenAI · 视频</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="Claude Code" data-region="国外" data-base="" data-date="2025-02">
-        <span class="bd-rank">17</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>Claude Code</h3><span class="bd-when">2025-02</span></div>
-          <p class="bd-meta">Anthropic · 编码</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="Codex" data-region="国外" data-base="" data-date="2025-05">
-        <span class="bd-rank">18</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>Codex</h3><span class="bd-when">2025-05</span></div>
-          <p class="bd-meta">OpenAI · 编码</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="Veo 3" data-region="国外" data-base="" data-date="2025-05">
-        <span class="bd-rank">19</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>Veo 3</h3><span class="bd-when">2025-05</span></div>
-          <p class="bd-meta">Google · 视频</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="Google Antigravity" data-region="国外" data-base="" data-date="2025-11">
-        <span class="bd-rank">20</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>Google Antigravity</h3><span class="bd-when">2025-11</span></div>
-          <p class="bd-meta">Google · 编码</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="Nano Banana Pro" data-region="国外" data-base="" data-date="2025-11">
-        <span class="bd-rank">21</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>Nano Banana Pro</h3><span class="bd-when">2025-11</span></div>
-          <p class="bd-meta">Google · 图像</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="Perplexity Portable Computer" data-region="国外" data-base="" data-date="2026-08">
-        <span class="bd-rank">22</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>Perplexity Portable Computer</h3><span class="bd-when">2026-08</span></div>
-          <p class="bd-meta">Perplexity · 端侧</p>
-          
-        </div>
-      </article>
-      <article class="bd-card" data-k="Gemini 应用的 Workspace 入口" data-region="国外" data-base="" data-date="2026-03">
-        <span class="bd-rank">23</span>
-        <div class="bd-main">
-          <div class="bd-top"><h3>Gemini 应用的 Workspace 入口</h3><span class="bd-when">2026-03</span></div>
-          <p class="bd-meta">Google · 办公</p>
-          
-        </div>
-      </article>
-    </div>
-    <p class="bd-empty-tip" hidden>这一档还没有数据。换成「全部」看完整榜单。</p>
-    
-    
-    <script type="application/json" data-spec="b1">{"mode":"date","unit":"","series":{},"slider":{"default":36},"anchor":"2026-08"}</script>
   </section>
   <section class="blk" id="reports">
     <div class="blk-head">
       <span class="blk-num">03</span>
       <h2>报告</h2>
-      <span class="blk-note">共 2 篇 · 点开是独立页</span>
+      <span class="blk-note">共 7 篇 · 点开是独立页</span>
     </div>
     <div class="rpt-card">
+      <div class="rpt-bar">
+        <button class="rpt-chip on" data-tag="">全部 <i>7</i></button><button class="rpt-chip" data-tag="就业">就业 <i>2</i></button><button class="rpt-chip" data-tag="开源">开源 <i>2</i></button>
+        <span class="rpt-hint" hidden></span>
+      </div>
       <div class="rpt-grid">
-        <a class="rpt-item" data-tags="产品,分发,商业模式" href="apps/01-%E5%BD%A2%E6%80%81%E5%86%B3%E5%AE%9A%E5%A4%A9%E8%8A%B1%E6%9D%BF.html">
-        <span class="rpt-top"><time>2026-11-23</time><span class="rpt-go">→</span></span>
-        <h3>形态决定天花板</h3>
-        <p>如果产品的价值主要来自「模型更强」，它迟早会被下一版基模吸收；价值来自工作流、数据与分发，才有独立空间。2026 年给了三条不太乐观但很清楚的证据。</p>
-        <span class="rpt-tags"><span class="rpt-tag">产品</span><span class="rpt-tag">分发</span><span class="rpt-tag">商业模式</span></span>
+        <a class="rpt-item" data-tags="中台,SaaS,电商" href="apps/%E4%B8%AD%E5%8F%B0%E7%94%9F%E6%84%8F.html">
+        <span class="rpt-top"><time>2026-11-24</time><span class="rpt-go">→</span></span>
+        <h3>中台被两头挤</h3>
+        <p>聚水潭 2026 上半年扭亏、收入增 17%，微盟的 AI 收入涨 89% 却把毛利率拉到 13.8%——中台没有被打死，但它赚钱的方式变了：从卖席位，变成卖对接、合规与履约细节。</p>
+        <span class="rpt-tags"><span class="rpt-tag">中台</span><span class="rpt-tag">SaaS</span><span class="rpt-tag">电商</span></span>
       </a>
-        <a class="rpt-item" data-tags="编码,Agent,工程" href="apps/02-%E7%BC%96%E7%A0%81Agent%E4%B8%BA%E4%BB%80%E4%B9%88%E5%85%88%E8%B7%91%E9%80%9A.html">
-        <span class="rpt-top"><time>2026-11-23</time><span class="rpt-go">→</span></span>
-        <h3>编码 Agent 为什么先跑通</h3>
-        <p>代码有编译器、测试和版本控制，错了立刻知道错在哪——这是唯一一个「判卷人免费且立刻」的场景。办公场景缺的正是这个。</p>
-        <span class="rpt-tags"><span class="rpt-tag">编码</span><span class="rpt-tag">Agent</span><span class="rpt-tag">工程</span></span>
+        <a class="rpt-item" data-tags="就业,任务重组,组织" href="apps/%E4%BB%BB%E5%8A%A1%E9%87%8D%E7%BB%84.html">
+        <span class="rpt-top"><time>2026-11-24</time><span class="rpt-go">→</span></span>
+        <h3>岗位没有消失，是被拆成了任务</h3>
+        <p>7.43 亿条招聘数据里，真正因为 AI 削减岗位的企业只有 9%；被重排的是任务，不是编制。真正在缩的不是「岗位数」，是初级岗位这个入口。</p>
+        <span class="rpt-tags"><span class="rpt-tag">就业</span><span class="rpt-tag">任务重组</span><span class="rpt-tag">组织</span></span>
+      </a>
+        <a class="rpt-item" data-tags="开源,定价,商业模式" href="apps/%E5%BC%80%E6%BA%90%E5%AE%9A%E4%BB%B7.html">
+        <span class="rpt-top"><time>2026-11-24</time><span class="rpt-go">→</span></span>
+        <h3>开源把价格打到地板，然后开始收费</h3>
+        <p>中国开源模型下载占比首次超过美国，开源与闭源的 token 价格差到五倍。但「开放权重」不等于开源，免费也正在变成有条件的：年收入过两千万美元，就要单独签约。</p>
+        <span class="rpt-tags"><span class="rpt-tag">开源</span><span class="rpt-tag">定价</span><span class="rpt-tag">商业模式</span></span>
+      </a>
+        <a class="rpt-item" data-tags="软件,成本,定制" href="apps/%E7%8E%B0%E5%81%9A%E8%BD%AF%E4%BB%B6.html">
+        <span class="rpt-top"><time>2026-11-24</time><span class="rpt-go">→</span></span>
+        <h3>以前要买的软件，现在能现做</h3>
+        <p>一份月费 40 美元的生成工具，替掉了 199–499 美元的订阅；一个人两周上线一个带登录、支付、数据库的产品。省下来的钱不是没有代价，它变成了维护、安全和「谁对这个工具负责」。</p>
+        <span class="rpt-tags"><span class="rpt-tag">软件</span><span class="rpt-tag">成本</span><span class="rpt-tag">定制</span></span>
+      </a>
+        <a class="rpt-item" data-tags="Adobe,聚水潭,转型" href="apps/%E8%80%81%E7%89%8C%E8%BD%AF%E4%BB%B6.html">
+        <span class="rpt-top"><time>2026-11-24</time><span class="rpt-go">→</span></span>
+        <h3>老牌软件的四条退路</h3>
+        <p>Adobe 收入创纪录、股价却跌到七年新低；聚水潭扭亏靠的是合规与跨境，微盟的 AI 收入涨 89% 但毛利只有 13.8%。老牌软件的应对不是「加个 AI 按钮」，是往分发、入口、责任、新市场四个方向退。</p>
+        <span class="rpt-tags"><span class="rpt-tag">Adobe</span><span class="rpt-tag">聚水潭</span><span class="rpt-tag">转型</span></span>
+      </a>
+        <a class="rpt-item" data-tags="行业,就业,渗透率" href="apps/%E8%A1%8C%E4%B8%9A%E5%8F%B0%E8%B4%A6.html">
+        <span class="rpt-top"><time>2026-11-24</time><span class="rpt-go">→</span></span>
+        <h3>七个行业，七种被切的方式</h3>
+        <p>金融切中后台、客服切一线、短剧切整条产线、教育切的是备课而不是讲台——同一项技术在七个行业里切的位置完全不同。替代率高低说明不了谁更危险，切在哪一层才说明。</p>
+        <span class="rpt-tags"><span class="rpt-tag">行业</span><span class="rpt-tag">就业</span><span class="rpt-tag">渗透率</span></span>
+      </a>
+        <a class="rpt-item" data-tags="逆向工程,开源,风险" href="apps/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B.html">
+        <span class="rpt-top"><time>2026-11-24</time><span class="rpt-go">→</span></span>
+        <h3>逆向工程：把闭源产品拆开的人</h3>
+        <p>6.7 万星的 gpt4free、5 千星的剪映草稿库、把 Claude Code 订阅接到别家模型的代理——这类项目做的都是同一件事：读懂闭源产品的接口或文件格式，然后绕开它。它们不是商业模式，是价格发现机制。</p>
+        <span class="rpt-tags"><span class="rpt-tag">逆向工程</span><span class="rpt-tag">开源</span><span class="rpt-tag">风险</span></span>
       </a>
       </div>
     </div>
@@ -339,7 +203,7 @@
       <div class="footer-links">
         <a href="models.html">基模</a><a href="agents.html">Agent</a>
         <a href="companies.html">公司</a><a href="hardware.html">硬件</a>
-        <a href="templates.html">模板</a><a href="apps.html">应用</a>
+        <a href="templates.html">模板</a><a href="apps.html">AI+行业</a>
         <a href="principles.html">原理 · 历史</a><a href="local.html">本地部署</a>
         <a href="cases.html">实例索引</a><a href="lab/index.html">实例 01 · 生图</a>
       </div>

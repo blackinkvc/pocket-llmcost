@@ -84,9 +84,10 @@ class Section:
         self.page = self.cfg["page"]
         self.intro_md = folder / "简介.md"
         self.reports_dir = folder / self.cfg.get("reports", {}).get("dir", "报告")
-        # 板块二可以是一个榜，也可以是多个榜
-        if self.cfg.get("boards"):
-            self.boards = self.cfg["boards"]
+        # 板块二可以是一个榜，也可以是多个榜；显式写 [] 表示这个板块没有榜
+        # （行业观察页只有专题卡和报告），不能退回默认的「天梯榜」。
+        if "boards" in self.cfg:
+            self.boards = self.cfg["boards"] or []
         elif self.cfg.get("board"):
             self.boards = [self.cfg["board"]]
         else:
@@ -266,7 +267,7 @@ def footer_html(prefix=""):
       <div class="footer-links">
         <a href="%(p)smodels.html">基模</a><a href="%(p)sagents.html">Agent</a>
         <a href="%(p)scompanies.html">公司</a><a href="%(p)shardware.html">硬件</a>
-        <a href="%(p)stemplates.html">模板</a><a href="%(p)sapps.html">应用</a>
+        <a href="%(p)stemplates.html">模板</a><a href="%(p)sapps.html">AI+行业</a>
         <a href="%(p)sprinciples.html">原理 · 历史</a><a href="%(p)slocal.html">本地部署</a>
         <a href="%(p)scases.html">实例索引</a><a href="%(p)slab/index.html">实例 01 · 生图</a>
       </div>
@@ -916,8 +917,13 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
                 y0, m0 = int(months[0][:4]), int(months[0][5:7])
                 y1, m1 = int(months[-1][:4]), int(months[-1][5:7])
                 date_span = max(1, (y1 - y0) * 12 + (m1 - m0) + 1)
-            date_span = min(date_span or 12, 36)
-            ticks = [d for d in (1, 3, 6, 12, 24) if d < date_span] + [date_span]
+            # 上限跟着数据跨度走：产品台账从 2021 排到 2026，卡在 36 个月
+            # 会让前 12 条永远出不来。超过 36 个月时补一个「全部」刻度。
+            date_span = min(date_span or 12, 120)
+            ticks = [(d, "%d 个月" % d) for d in (1, 3, 6, 12, 24, 36, 60) if d < date_span]
+            ticks.append((date_span, "全部" if date_span > 36 else "%d 个月" % date_span))
+            ticks_html = "".join(
+                '<button type="button" data-span="%d">%s</button>' % (d, lab) for d, lab in ticks)
             span_html = """
       <div class="span">
         <span class="span-label">时间跨度</span>
@@ -927,8 +933,7 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
         <div class="span-ticks">%(ticks)s</div>
       </div>""" % {
                 "max": date_span, "def": date_span,
-                "ticks": "".join('<button type="button" data-span="%d">%d 个月</button>' % (d, d)
-                                 for d in ticks),
+                "ticks": ticks_html,
             }
         default_note = ("拖动滑块改变统计窗口，榜单按新值重排。"
                         if has_series else
@@ -954,7 +959,7 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
         if has_series:
             spec["slider"] = {"default": 7}
         elif mode == "date":
-            spec["slider"] = {"default": date_span or 24}
+            spec["slider"] = {"default": date_span or 24, "max": date_span or 24}
         if anchor:
             spec["anchor"] = anchor
 
@@ -1198,13 +1203,15 @@ def build_section(sec, out_dir, prefix=""):
         blocks.append(block_board(sec, entry, rows, stat, i, len(sec.boards), series, num))
         counts.append(len(rows))
 
-    # 编号跟着实际有内容的块走，别出现「03 报告」下面其实是第四块
+    # 编号跟着实际有内容的块走，别出现「03 报告」下面其实是第四块。
+    # 01 是简介，有榜时榜占 02，剩下按顺序往后排。
     n = 2
+    if sec.boards:
+        n += 1
     cards_html = ""
     if featured or (sec.cfg.get("cards") or {}).get("items"):
-        n += 1
         cards_html = block_cards(sec, featured, "%02d" % n)
-    n += 1
+        n += 1
     reports_html = block_reports(sec, reports, "%02d" % n)
 
     body = "".join([
