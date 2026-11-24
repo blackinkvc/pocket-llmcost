@@ -18,7 +18,8 @@ OUT = ROOT / "llmcost"
 PAGES = [
     ("index", "总览", "结论、快照、水位", ["verdict", "snapshot", "stats", "level"]),
     ("ranking", "榜单", "天梯榜、价格 × 实力", ["ladder", "value", "apichart"]),
-    ("prices", "价目", "API / 订阅 / 本地 / 平台", ["apitable", "plans", "local", "tasks", "panotable", "platrank"]),
+    ("prices", "价目", "API / 订阅 / 本地 / 平台",
+     ["apitable", "plans", "local", "tasks", "chanmap", "panotable", "platrank"]),
     ("trend", "走势", "曲线、矩阵、调价", ["trend", "matrix", "moves", "timeline"]),
     ("method", "口径", "多源校验与出处", ["verify"]),
 ]
@@ -68,7 +69,7 @@ def main():
     cards = {}
     for m in re.finditer(r'<section class="card" data-card="([\w-]+)"[\s\S]*?</section>', src):
         cards[m.group(1)] = with_span(m.group(0).strip())
-    assert len(cards) == 18, "卡片数不对：%d" % len(cards)
+    assert len(cards) == 19, "卡片数不对：%d" % len(cards)
 
     # 主脚本
     js = src[src.rindex("<script>"):]

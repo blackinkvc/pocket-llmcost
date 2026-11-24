@@ -294,6 +294,93 @@ ul.tips code,.foot code{background:var(--card2);border:1px solid var(--rule2);pa
 @keyframes sk{to{background-position:-120% 0}}
 @media (prefers-reduced-motion:reduce){.skel{animation:none}}
 
+/* ---------- 同模型 · 跨渠道价差（对数价格带） ----------
+   一行一个模型，轨道上是各家渠道的报价：位置 = 价格（log10），
+   点色 = 渠道类型，绿圈 = 这一行最便宜，×n = 有几家同价。
+   价格跨两个数量级，线性轴会把便宜的那几家全挤成左边一坨，所以必须取对数。 */
+.cm{--cm-w:176px;--cm-min:100px;--cm-sp:48px}
+.cm-axis,.cm-row{display:grid;
+  grid-template-columns:var(--cm-w) minmax(0,1fr) var(--cm-min) var(--cm-sp);
+  align-items:center;gap:10px}
+.cm-axis{padding:0 6px 5px;font-size:9.5px;letter-spacing:.05em;color:var(--ink3)}
+.cm-axis .h{text-align:right}
+.cm-scale{position:relative;height:14px;
+  border-bottom:1px solid color-mix(in srgb,var(--ink) 22%,transparent)}
+.cm-scale span{position:absolute;bottom:3px;transform:translateX(-50%);white-space:nowrap}
+.cm-row{width:100%;padding:5px 6px;border-radius:8px;text-align:left;cursor:pointer;
+  transition:background .12s var(--ease)}
+.cm-row:hover,.cm-row.open{background:var(--card2)}
+.cm-row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.cm-nm{font-size:12.5px;font-weight:500;color:var(--ink);white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+.cm-nm .sm{display:block;font-size:10.5px;font-weight:400;color:var(--ink3);
+  line-height:1.3;margin:0}
+.cm-track{position:relative;height:16px;min-width:0}
+.cm-track::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;
+  background:var(--rule2)}
+.cm-gl{position:absolute;top:0;bottom:0;width:1px;background:var(--rule2)}
+.cm-pt{position:absolute;top:50%;width:7px;height:7px;border-radius:50%;
+  transform:translate(-50%,-50%);box-shadow:0 0 0 2px var(--card);cursor:default}
+.cm-pt.k-official{background:var(--accent)}
+.cm-pt.k-cloud{background:var(--vio)}
+.cm-pt.k-aggregator{background:var(--ink3)}
+/* 谷时价是另一个商品，不是折扣：空心虚线点，一眼跟标准价分开 */
+.cm-pt.t-offpeak{background:transparent;border:1.5px dashed var(--ink2);
+  width:6px;height:6px}
+.cm-pt.low{width:9px;height:9px;
+  box-shadow:0 0 0 2px var(--card),0 0 0 3px color-mix(in srgb,var(--ok) 55%,transparent)}
+.cm-n{position:absolute;top:50%;transform:translate(5px,-50%);font-size:9px;
+  color:var(--ink3);line-height:1;pointer-events:none}
+.cm-min{text-align:right;font-size:12px;font-weight:600;color:var(--ink);
+  white-space:nowrap}
+.cm-min .sm{display:block;font-size:9.5px;font-weight:400;color:var(--ink3);
+  margin:0 0 0 auto;max-width:100px;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap}
+.cm-sp{text-align:right;font-size:12px;color:var(--ink3);white-space:nowrap}
+.cm-sp.wide{color:var(--bad);font-weight:600}
+.cm-det{padding:1px 6px 9px}
+.cm-det .set{display:flex;flex-wrap:wrap;gap:5px}
+.cm-det .c{display:inline-flex;align-items:center;gap:5px;font-size:11px;
+  color:var(--ink2);background:var(--card);border:var(--hair);border-radius:6px;
+  padding:3px 7px;white-space:nowrap}
+.cm-det .c b{font-weight:600;color:var(--ink)}
+.cm-det .c i{width:5px;height:5px;border-radius:50%;flex:0 0 auto}
+.cm-det .c i.k-official{background:var(--accent)}
+.cm-det .c i.k-cloud{background:var(--vio)}
+.cm-det .c i.k-aggregator{background:var(--ink3)}
+.cm-det .c.low{border-color:color-mix(in srgb,var(--ok) 42%,transparent)}
+.cm-legend{display:flex;flex-wrap:wrap;align-items:center;gap:14px;font-size:10.5px;
+  color:var(--ink3);margin:0 0 7px}
+.cm-legend span{display:inline-flex;align-items:center;gap:5px}
+.cm-legend i{width:7px;height:7px;border-radius:50%;flex:0 0 auto}
+.cm-legend i.o{background:var(--accent)} .cm-legend i.c{background:var(--vio)}
+.cm-legend i.a{background:var(--ink3)}
+.cm-legend i.low{box-shadow:0 0 0 2px color-mix(in srgb,var(--ok) 55%,transparent)}
+.cm-legend i.d{background:transparent;border:1.5px dashed var(--ink2);width:6px;height:6px}
+.cm-subs{margin:11px -6px 0;padding:10px 12px;border-radius:9px;background:var(--card2);
+  border:1px solid var(--rule2);font-size:11.5px;line-height:1.65;color:var(--ink2)}
+.cm-subs .k{font-size:10.5px;font-weight:600;color:var(--ink2);letter-spacing:.03em}
+.cm-subs .k span{font-weight:400;color:var(--ink3);margin-left:6px;letter-spacing:0}
+.cm-subs .r2{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.cm-subs .c{display:inline-flex;align-items:baseline;gap:4px;font-size:11px;color:var(--ink2);
+  background:var(--card);border:var(--hair);border-radius:6px;padding:3px 8px;white-space:nowrap}
+.cm-subs .c b{font-weight:600;color:var(--ink)}
+.cm-subs .c.mut{color:var(--ink3)}
+.cm-subs .c.mut b{color:var(--ink3);font-weight:500}
+.cm-subs .f{margin-top:7px;font-size:10.5px;color:var(--ink3);line-height:1.65}
+@media (max-width:560px){
+  /* 手机上轨道只剩一百来像素，四列一挤刻度就叠成一团：
+     改成两行——名字与价差一行，轨道与最低价一行，整宽留给点。 */
+  .cm-axis{display:none}
+  .cm-row{grid-template-columns:minmax(0,1fr) auto;
+    grid-template-areas:"nm sp" "tr min";gap:1px 10px;padding:7px 6px}
+  .cm-nm{grid-area:nm;font-size:11.5px}
+  .cm-sp{grid-area:sp;display:block;font-size:11.5px}
+  .cm-track{grid-area:tr;margin-top:4px}
+  .cm-min{grid-area:min;display:flex;align-items:baseline;gap:4px;font-size:11px}
+  .cm-min .sm{max-width:76px;margin:0}
+}
+
 /* ---------- 可访问性补丁 ---------- */
 .skip{position:absolute;left:8px;top:-64px;z-index:90;background:var(--card);color:var(--ink);
   padding:9px 14px;border:var(--hair);border-radius:0 0 8px 8px;font-size:13px;
@@ -433,6 +520,14 @@ ul.tips code,.foot code{background:var(--card2);border:1px solid var(--rule2);pa
       API 输出价排名 <span class="r" id="m-apichart"></span>
     </div>
     <div class="card-b" id="b-apichart"><div class="skel"></div></div>
+  </section>
+
+  <section class="card" data-card="chanmap" data-title="同模型跨渠道" data-w="4" data-h="11">
+    <div class="card-h">
+      <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"/><circle cx="8" cy="12" r="2.2"/><circle cx="16" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/></svg></span>
+      同一模型，各家多少钱 <span class="r" id="m-chanmap"></span>
+    </div>
+    <div class="card-b" id="b-chanmap"><div class="skel"></div></div>
   </section>
 
   <section class="card" data-card="panotable" data-title="模型 × 平台" data-w="2" data-h="11">
@@ -1073,6 +1168,155 @@ VIEW.panotable = function(){
   };
 };
 
+/* ⑫b 同模型 · 跨渠道价差
+   不按平台排、也不按模型列表排，而是把「同一个模型在几家买」摊成一条价格带：
+   点越散 = 换渠道越值得比价。数字只给最低价与价差，逐家明细点开看。 */
+VIEW.chanmap = function(){
+  var p = S.panorama || {}, models = p.models || [], lines = p.lines || [];
+  if (!lines.length) return {meta:'', body:'<div class="empty">价格库还是空的。</div>'};
+  var KM = {official:'厂商自营', cloud:'云厂商', aggregator:'第三方'};
+  var lg = function(v){ return Math.log(v) / Math.LN10; };
+  var vals = lines.map(function(l){ return +l.last; }).filter(function(v){ return v > 0; });
+  var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
+  /* 轴端点取 1/2/5×10ⁿ 的整档：刻度落在整数上，点不会贴着边框 */
+  var nice = function(v, up){
+    var e = Math.floor(lg(v)), m = v / Math.pow(10, e), n;
+    if (up) n = m <= 1 ? 1 : (m <= 2 ? 2 : (m <= 5 ? 5 : 10));
+    else n = m >= 5 ? 5 : (m >= 2 ? 2 : 1);
+    return n * Math.pow(10, e);
+  };
+  var d0 = nice(lo, false), d1 = nice(hi, true), span = lg(d1) - lg(d0);
+  var px = function(v){ return (lg(v) - lg(d0)) / span * 100; };
+  var ticks = [];
+  for (var e = Math.round(lg(d0)); e <= Math.round(lg(d1)); e++){
+    [1, 2, 5].forEach(function(k){
+      var v = k * Math.pow(10, e);
+      if (v > d0 * 0.999 && v < d1 * 0.999) ticks.push(v);
+    });
+  }
+  var grids = ticks.map(function(v){
+    return '<i class="cm-gl" style="left:' + px(v).toFixed(2) + '%"></i>';
+  }).join('');
+
+  var byModel = {};
+  lines.forEach(function(l){ (byModel[l.model] = byModel[l.model] || []).push(l); });
+  var rows = models.slice().sort(function(a, b){
+    var x = a.spread || 0, y = b.spread || 0;
+    if (Math.abs(y - x) > 1e-9) return y - x;
+    return (b.n_platforms || 0) - (a.n_platforms || 0);
+  });
+
+  var body = rows.map(function(m, i){
+    var ls = (byModel[m.model] || []).slice().sort(function(a, b){ return a.last - b.last; });
+    /* 同价的渠道合并成一个点：一格里七八家都卖 8.64，画七个点只会糊成一条 */
+    var cl = {}, order = [];
+    ls.forEach(function(l){
+      var k = (+l.last).toFixed(3);
+      if (!cl[k]){ cl[k] = {v: +l.last, ls: []}; order.push(k); }
+      cl[k].ls.push(l);
+    });
+    var cs = order.map(function(k){ return cl[k]; });
+    var lowv = cs.length ? cs[0].v : 0;
+    var dots = cs.map(function(c){
+      var kinds = {};
+      c.ls.forEach(function(l){ kinds[l.kind] = 1; });
+      var kind = kinds.official ? 'official' : (kinds.cloud ? 'cloud' : 'aggregator');
+      var offpeak = c.ls.some(function(l){ return l.tier && l.tier !== 'standard'; });
+      var cls = 'cm-pt k-' + kind + (offpeak ? ' t-offpeak' : '')
+        + (cs.length > 1 && c.v === lowv ? ' low' : '');
+      var tip = c.ls.map(function(l){
+        return l.platform_name + ' ¥' + money(l.last, 2) + '（' + (KM[l.kind] || l.kind)
+          + (l.tier && l.tier !== 'standard' ? ' · 谷时价' : '') + '）';
+      }).join('\n');
+      var pos = px(c.v).toFixed(2);
+      return '<i class="' + cls + '" style="left:' + pos + '%" title="' + esc(tip) + '"></i>'
+        + (c.ls.length > 1 ? '<span class="cm-n" style="left:' + pos + '%">×'
+            + c.ls.length + '</span>' : '');
+    }).join('');
+    var nn = cs.length ? cs[0].ls.map(function(l){ return l.platform_name; }) : [];
+    var minName = nn.length
+      ? nn[0] + (nn.length > 1 ? ' 等 ' + nn.length + ' 家' : '') : '—';
+    /* 最低价落在谷时价上要标出来：那是另一个商品，别让人以为白天也能买到 */
+    if (cs.length && cs[0].ls.every(function(l){ return l.tier && l.tier !== 'standard'; })){
+      minName += ' · 谷时';
+    }
+    var sp = m.spread;
+    var spTxt = sp == null ? (ls.length > 1 ? '—' : '单家')
+      : (sp <= 1.02 ? '持平' : sp.toFixed(1) + '×');
+    var xid = 'cm' + i;
+    var det = ls.map(function(l){
+      /* 只跟标准价的官方价比：官方低谷价是另一个商品，拿来当基准会把口径差算成渠道差 */
+      var rel = (m.official && m.official_tier === 'standard'
+        && l.kind !== 'official' && (!l.tier || l.tier === 'standard'))
+        ? l.last / m.official : null;
+      var d = (rel == null || Math.abs(rel - 1) <= 0.005) ? ''
+        : '<span style="color:var(--' + (rel > 1 ? 'bad' : 'ok') + ')">'
+          + (rel > 1 ? '+' : '') + Math.round((rel - 1) * 100) + '%</span>';
+      return '<span class="c' + (cs.length > 1 && l.last === lowv ? ' low' : '') + '">'
+        + '<i class="k-' + l.kind + '"></i>' + esc(l.platform_name)
+        + ' <b>¥' + money(l.last, 2) + '</b>' + (d ? ' ' + d : '')
+        + (l.tier && l.tier !== 'standard'
+            ? '<span class="tag warn" style="margin-left:1px">谷时</span>' : '')
+        + '</span>';
+    }).join('');
+    return '<div class="cm-row" data-x="' + xid + '" tabindex="0" role="button"'
+      + ' aria-expanded="false" aria-controls="' + xid + '">'
+      + '<div class="cm-nm">' + esc(m.display) + '<span class="sm">' + esc(m.model)
+        + (ls.length > 1 ? ' · ' + ls.length + ' 家' : ' · 仅 1 家') + '</span></div>'
+      + '<div class="cm-track">' + grids + dots + '</div>'
+      + '<div class="cm-min">¥' + money(lowv, 2) + '<span class="sm">' + esc(minName) + '</span></div>'
+      + '<div class="cm-sp' + (sp >= 2 ? ' wide' : '') + '">' + spTxt + '</div>'
+      + '</div>'
+      + '<div class="cm-det" id="' + xid + '" style="display:none"><div class="set">' + det + '</div></div>';
+  }).join('');
+
+  var axis = '<div class="cm-axis"><div>模型</div><div class="cm-scale">'
+    + ticks.map(function(v){
+        return '<span style="left:' + px(v).toFixed(2) + '%">¥' + (v >= 1 ? Math.round(v) : v) + '</span>';
+      }).join('')
+    + '</div><div class="h">最低价<span style="font-size:9px;opacity:.8"> 元/百万</span></div>'
+    + '<div class="h sp">价差</div></div>';
+
+  var legend = '<div class="cm-legend">'
+    + '<span><i class="o"></i>厂商自营</span><span><i class="c"></i>云厂商</span>'
+    + '<span><i class="a"></i>第三方</span><span><i class="low"></i>这一行最便宜</span>'
+    + '<span><i class="d"></i>谷时价（另一口径）</span>'
+    + '<span style="margin-left:auto">横轴取对数</span></div>';
+
+  var smy = p.summary || {};
+  var top = rows.filter(function(m){ return m.spread; })[0];
+  var hint = '<p class="hint">同一个模型，各家卖的不是一个价：' + models.length + ' 个模型在 '
+    + (smy.n_platforms || 0) + ' 个渠道上有 ' + lines.length + ' 条报价，价差中位 <b>'
+    + (smy.spread_median || '—') + '×</b>'
+    + (top ? '，最悬殊的是 <b>' + esc(top.display) + ' ' + top.spread.toFixed(1) + '×</b>' : '')
+    + '。点一行展开逐家报价。</p>';
+
+  var wb = (S.plans || []).filter(function(x){
+    return /WorkBuddy/.test(x.platform) && x.convertible;
+  }).sort(function(a, b){ return a.cny_per_1m - b.cny_per_1m; });
+  var subs = '<div class="cm-subs">'
+    + '<div class="k">订阅制渠道<span>按会员额度计费，没有按量价，不进上面这条价格带</span></div>'
+    + '<div class="r2">'
+    + wb.map(function(x){
+        return '<span class="c">' + esc(x.platform) + ' '
+          + esc(String(x.plan).replace(/\(.*$/, '')) + ' <b>¥' + money(x.cny_per_1m, 2) + '</b></span>';
+      }).join('')
+    + '<span class="c mut">Trae <b>未公布按量价</b></span>'
+    + '</div>'
+    + '<div class="f">WorkBuddy 那三个数是三档系数折算出的<b>等效单价</b>（元 / 百万 token），'
+    + '随缓存命中率与输入输出比浮动，只用来判断「订阅到底省不省」，别和上面的按量 API 直接比大小。'
+    + 'Trae 只有订阅档位、查不到 per-token 价，缺可比口径，暂不收录。</div>'
+    + '</div>';
+
+  var foot = '<div class="foot mt">点 = 一家渠道，同价合并、右侧 ×n 是家数；绿圈 = 这一行最低价。'
+    + '官方谷时价与标准价不是同一商品，价差只按标准价算，逐家明细见「模型 × 平台报价」。</div>';
+
+  return {
+    meta: models.length + ' 模型 · ' + lines.length + ' 条渠道报价',
+    body: hint + legend + '<div class="cm">' + axis + body + '</div>' + subs + foot
+  };
+};
+
 /* ⑬ 平台排行 */
 VIEW.platrank = function(){
   var p = S.panorama || {};
@@ -1375,6 +1619,24 @@ function bind(){
     };
     tr.onclick = toggle;
     tr.onkeydown = function(e){
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar'){
+        e.preventDefault();
+        toggle();
+      }
+    };
+  });
+  /* 价格带的行：点开看这一行每家的确切报价 */
+  Array.prototype.forEach.call(document.querySelectorAll('.cm-row'), function(el){
+    var det = $(el.getAttribute('data-x'));
+    if (!det) return;
+    var toggle = function(){
+      var open = det.style.display !== 'none';
+      det.style.display = open ? 'none' : '';
+      el.classList.toggle('open', !open);
+      el.setAttribute('aria-expanded', String(!open));
+    };
+    el.onclick = toggle;
+    el.onkeydown = function(e){
       if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar'){
         e.preventDefault();
         toggle();
