@@ -647,6 +647,144 @@ def block_scores(sec, entry, idx, total, num, limit=30):
        src_html, dims, limit, "\n      ".join(cards), stamp)
 
 
+GEO_COLOR = {"cn": "#e8912a", "us": "#7c5cd6", "sea": "#16a34a", "other": "#d2544a"}
+GEO_STATE = {"on": "#22c55e", "build": "#e8912a", "plan": "#aeb5be"}
+GEO_ZONE = {"cn": "#f8efe1", "us": "#efeaf9", "sea": "#e6f4ea", "other": "#fbecea"}
+
+
+def block_map(sec, entry, idx, total, num):
+    """地理分布图：一块一个算力区，位置按相对方位摆，不画行政边界。
+
+    底图只做装饰——陆地轮廓与网格都是示意，不表示疆域；每个区是一张
+    圆角卡片，卡里是这个区的主要站点和它的状态点。
+    """
+    path = sec.dir / entry["file"]
+    if not path.exists():
+        return ("""  <section class="blk" id="board-%d">
+    <div class="blk-head"><span class="blk-num">%s</span><h2>%s</h2>
+      <span class="blk-note">待补充</span></div>
+    <p class="blk-empty">缺 <code>content/%s/%s</code>。</p>
+  </section>
+""" % (idx + 1, num, escape(entry.get("title", "地理图")), sec.dir.name, entry["file"]))
+
+    d = json.loads(path.read_text(encoding="utf-8"))
+    vbx = d.get("vb", [1160, 840, 0, 0])
+    W, H = vbx[0], vbx[1]
+    vx, vy = (vbx[2], vbx[3]) if len(vbx) > 3 else (0, 0)
+    lead = entry.get("note", "")
+
+    # 每个分组一块底：取该组所有块的包围盒外扩，四块互不重叠，像地图上的分区
+    zones = []
+    # 「其他」是欧洲 + 中东 + 印度拼在一起的，没有统一底色，当孤岛处理
+    for g in ("cn", "us", "sea"):
+        rs = [r for r in d["rows"] if r.get("g") == g]
+        if not rs:
+            continue
+        x0 = min(r["x"] for r in rs) - 16
+        y0 = min(r["y"] for r in rs) - 16
+        x1 = max(r["x"] + r["w"] for r in rs) + 16
+        y1 = max(r["y"] + r["h"] for r in rs) + 16
+        zones.append('<rect class="geo-zone" x="%d" y="%d" width="%d" height="%d" rx="26" fill="%s"/>'
+                     % (x0, y0, x1 - x0, y1 - y0, GEO_ZONE.get(g, "#eef1f5")))
+    grid = []
+    step = 80
+    x = step
+    while x < W + vx:
+        grid.append('<line x1="%d" y1="%d" x2="%d" y2="%d"/>' % (x, vy, x, vy + H))
+        x += step
+    y = step
+    while y < H + vy:
+        grid.append('<line x1="%d" y1="%d" x2="%d" y2="%d"/>' % (vx, y, vx + W, y))
+        y += step
+
+    def tw(s, size):
+        """粗估文本宽：中文按字号、西文按 0.55 字号。只用来判断标题会不会撞上容量。"""
+        return sum(size if ord(c) > 127 else size * 0.55 for c in s)
+
+    # 连线画在块的下层：只露出块与块之间的那一段，就成了「走廊」
+    geo = {r["id"]: r for r in d["rows"] if r.get("id")}
+    corr = []
+    for a, b in d.get("corridors", []):
+        if a in geo and b in geo:
+            A, B = geo[a], geo[b]
+            corr.append('<line class="geo-corr" x1="%d" y1="%d" x2="%d" y2="%d"/>'
+                        % (A["x"] + A["w"] // 2, A["y"] + A["h"] // 2,
+                           B["x"] + B["w"] // 2, B["y"] + B["h"] // 2))
+
+    blocks, items = [], []
+    for r in d["rows"]:
+        g = r.get("g", "cn")
+        col = GEO_COLOR.get(g, "#e8912a")
+        bx, by, bw, bh = r["x"], r["y"], r["w"], r["h"]
+        # 窄块放不下「标题 + 容量」同一行时，容量挪到标题下面一行，别叠字
+        cap_below = bool(r.get("cap")) and tw(r["name"], 12.5) + tw(r["cap"], 9.5) + 14 > bw - 24
+        top = by + 62 if cap_below else by + 45
+        rows_svg = []
+        for i, (label, st) in enumerate(r["sites"]):
+            ty = top + i * 15
+            rows_svg.append(
+                '<circle cx="%d" cy="%.1f" r="2.3" fill="%s"/>'
+                '<text class="geo-site" x="%d" y="%.1f">%s</text>'
+                % (bx + 15, ty - 3.4, GEO_STATE.get(st, "#aeb5be"), bx + 23, ty, escape(label)))
+        cap_el = ""
+        if r.get("cap"):
+            cap_el = ('<text class="geo-cap" x="%d" y="%d"%s>%s</text>'
+                      % (bx + 20 if cap_below else bx + bw - 12, by + 38 if cap_below else by + 23,
+                         "" if cap_below else ' text-anchor="end"', escape(r["cap"])))
+        blocks.append(
+            '<g class="geo-g" data-g="%s">'
+            '<rect class="geo-blk" x="%d" y="%d" width="%d" height="%d" rx="8"/>'
+            '<rect x="%d" y="%d" width="3" height="13" rx="1.5" fill="%s"/>'
+            '<text class="geo-name" x="%d" y="%d">%s</text>'
+            '%s'
+            '<line class="geo-sep" x1="%d" y1="%d" x2="%d" y2="%d"/>'
+            '%s</g>'
+            % (g, bx, by, bw, bh, bx + 12, by + 12, col, bx + 20, by + 23, escape(r["name"]),
+               cap_el, bx + 12, by + (45 if cap_below else 32), bx + bw - 12,
+               by + (45 if cap_below else 32), "".join(rows_svg)))
+
+        # 窄屏那条：同样的数据摊成卡片，SVG 缩到手机宽度就看不清了
+        items.append(
+            '<div class="geo-li"><div class="geo-li-top">'
+            '<span class="geo-li-name"><i style="background:%s"></i>%s</span>'
+            '<span class="geo-li-cap">%s</span></div>'
+            '<p class="geo-li-sites">%s</p></div>'
+            % (col, escape(r["name"]), escape(r.get("cap", "")),
+               " · ".join('<span class="geo-li-s"><i style="background:%s"></i>%s</span>'
+                          % (GEO_STATE.get(st, "#aeb5be"), escape(lb))
+                          for lb, st in r["sites"])))
+
+    lg = d.get("legend", {})
+    chips = "".join('<span class="geo-key"><i class="dot" style="background:%s"></i>%s</span>'
+                    % (GEO_STATE.get(k, "#aeb5be"), escape(v))
+                    for k, v in lg.get("states", []))
+    chips += "".join('<span class="geo-key"><i class="bar" style="background:%s"></i>%s</span>'
+                     % (GEO_COLOR.get(k, "#e8912a"), escape(v))
+                     for k, v in lg.get("groups", []))
+
+    foot = ('<text class="geo-foot" x="%d" y="%d">示意 · 不表示行政边界 · '
+            '块位置只表相对方位</text>' % (vx + 26, vy + H - 8))
+    svg = ('<svg class="geo-svg" viewBox="%d %d %d %d" role="img" '
+           'aria-label="全球算力中心分布示意图">'
+           '%s<g class="geo-grid">%s</g>%s%s%s</svg>'
+           % (vx, vy, W, H, "".join(zones), "".join(grid), "".join(corr),
+              "".join(blocks), foot))
+
+    return """  <section class="blk" id="board-%d">
+    <div class="blk-head">
+      <span class="blk-num">%s</span>
+      <h2>%s</h2>
+      <span class="blk-note is-long geo-note">%s</span>
+    </div>
+    <div class="geo-wrap">%s
+      <div class="geo-legend">%s<span class="geo-asof">截至 %s</span></div>
+    </div>
+    <div class="geo-list">%s</div>
+  </section>
+""" % (idx + 1, num, escape(entry.get("title", "地理图")), R.inline(lead), svg,
+       chips, escape(d.get("asof", "")), "".join(items))
+
+
 def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
     bcfg = entry
     title = bcfg.get("title", "天梯榜")
@@ -1048,6 +1186,10 @@ def build_section(sec, out_dir, prefix=""):
         if entry.get("kind") == "scores":
             blocks.append(block_scores(sec, entry, i, len(sec.boards), num))
             counts.append("分")
+            continue
+        if entry.get("kind") == "map":
+            blocks.append(block_map(sec, entry, i, len(sec.boards), num))
+            counts.append("图")
             continue
         _, rows = sec.board(entry)
         stat = stats.get(pathlib.Path(entry.get("file", "")).name, {})
