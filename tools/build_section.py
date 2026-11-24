@@ -804,9 +804,14 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
             anchor = dates[-1] if dates else ""
         spec = {
             "mode": mode, "unit": unit,
-            "slider": {"default": 7 if has_series else (date_span or 24)},
             "series": series if has_series else {},
         }
+        # 没有序列就别给滑块：单月快照 / 手工台账拖不动，给了反而让说明行
+        # 写出「近 24 天」这种根本没有的窗口。
+        if has_series:
+            spec["slider"] = {"default": 7}
+        elif mode == "date":
+            spec["slider"] = {"default": date_span or 24}
         if anchor:
             spec["anchor"] = anchor
 

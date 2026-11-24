@@ -230,6 +230,11 @@ GH_EXPERT_QUERY = "subagent in:name archived:false"
 GH_EXPERT_TOP = 12
 GH_EXPERT_SHORT = {"subagent", "subagents", "agents"}
 
+# 技能 / 专家这两类，「a collection of 100+ subagents」是正常的产品描述，
+# 不能像 MCP 那样把 collection / framework 一并滤掉，否则真包会被当成清单误杀。
+GH_PACK_NOISE = ("awesome", "for-beginners", "curriculum", "course", "tutorial",
+                 "cheatsheet", "handbook", "cookbook", "list of", "starter kit")
+
 
 def load_old(filename, key):
     """读上一次的 CSV，用来在个别源失败时沿用旧值。"""
@@ -567,10 +572,29 @@ def fetch_gh_stars():
     return fetch_gh_collection(GH_STAR_QUERY, GH_STAR_TOP, GH_STAR_NOISE, GH_STAR_SHORT)
 
 
-def fetch_gh_collection(query, top, noise, short_names):
+# 中文作者的仓库很少写机构，regions.py 判不出来。下面这几个是人工补的：
+# 依据是仓库描述或 README 用中文写、作者在中文社区活动。判错了就删掉这一行。
+AREA_OVERRIDE = {
+    "alchaincyf/nuwa-skill": "国内",
+    "JDArmy/Evasion-SubAgents": "国内",
+    "oil-oil/codex-deepseek-subagent": "国内",
+    "KKKKhazix/khazix-skills": "国内",
+}
+
+# 名字里带 skill / subagent、但其实不是「能装进 Agent 的能力包」的，剔掉
+GH_PACK_EXCLUDE = {
+    "NVIDIA/SkillSpector",          # 技能的安全扫描器，是工具不是技能
+    "microsoft/SkillOpt",           # 训练技能用的优化器，不是技能本身
+}
+
+
+def fetch_gh_collection(query, top, noise, short_names, exclude=(), full_label=False,
+                        skip_empty=False, owner_only=False):
     """按 star 排一个仓库榜，滤掉清单 / 教程 / 框架类项目。
 
     mcp 服务器、技能包、专家包三张榜走的是同一套逻辑，只有查询串和阈值不同。
+    full_label 用 owner/name 当标题：技能和专家重名太多（好几个 pi-subagents），
+    只写仓库名在页面上分不清是谁的。
     """
     # per_page 别开大：GitHub 的 search 接口翻 50 条经常 504，25 条稳定得多
     url = ("https://api.github.com/search/repositories?q=%s&sort=stars&order=desc&per_page=25"
@@ -599,17 +623,29 @@ def fetch_gh_collection(query, top, noise, short_names):
         if hit:
             skipped.append("%s(%s)" % (full, hit))
             continue
+        if full in exclude:
+            skipped.append("%s(不是能力包)" % full)
+            continue
+        if skip_empty and not desc:
+            skipped.append("%s(无描述)" % full)   # 卡片上只剩标题，读者不知道它是什么
+            continue
         stars = int(r.get("stargazers_count") or 0)
         if not stars:
             continue
         owner = full.split("/")[0] if "/" in full else ""
         lic = ((r.get("license") or {}).get("spdx_id") or "").strip()
         # 仓库名太短（就叫 mcp / subagents）时标题看不出是谁的，退回 owner/name
-        label = full if len(name) < 6 or name.lower() in short_names else name
+        if full_label:
+            label = full
+        else:
+            label = full if len(name) < 6 or name.lower() in short_names else name
         rows.append({"名称": label, "仓库": full,
                      # 只拿 owner 和仓库名判断归属：描述里几乎都提 Claude / OpenAI，
                      # 拿描述去猜会把中文作者的仓库判成国外
-                     "区域": regions.guess(owner, name),
+                     # 技能 / 专家只看 owner：这两类的仓库名里几乎都带 claude / codex / opencode，
+                     # 拿名字去判会把中文作者判成国外。判不出来就留空。
+                     "区域": AREA_OVERRIDE.get(full) or (
+                         regions.guess(owner) if owner_only else regions.guess(owner, name)),
                      "语言": r.get("language") or "",
                      "许可": "" if lic.upper() in ("NOASSERTION", "OTHER") else lic,
                      "星标": stars,
@@ -688,7 +724,9 @@ def fetch_eco_hosted(smithery_total):
 
 
 # ── 写盘 ───────────────────────────────────────────────────
-def write_csv(path, rows, cols, when):
+def write_csv(path, rows, cols, when, region_guess=True):
+    """region_guess=False 用于已经自己判过归属的榜：名称里带 OpenCode / Claude 的仓库
+    一大片，让写入层再猜一遍会把中文作者判成国外。"""
     import csv
     if not path.parent.exists():
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -699,7 +737,7 @@ def write_csv(path, rows, cols, when):
             r = dict(r)
             r["排名"] = i
             # 区域：CSV 里显式写了就用，否则按厂商 / 平台 / 标识推断，推不出留空
-            if "区域" in cols and not r.get("区域"):
+            if region_guess and "区域" in cols and not r.get("区域"):
                 r["区域"] = regions.guess(r.get("厂商"), r.get("平台"),
                                           r.get("标识"), r.get("名称"))
             r.setdefault("时间", when)
@@ -826,12 +864,15 @@ def main():
     #     后者的条目数各家都不公开，这里排的是开源社区写出来、能装进 Agent 的技能本体。
     try:
         rows, skipped = fetch_gh_collection(GH_SKILL_QUERY, GH_SKILL_TOP,
-                                            GH_STAR_NOISE, GH_SKILL_SHORT)
+                                            GH_PACK_NOISE, GH_SKILL_SHORT,
+                                            exclude=GH_PACK_EXCLUDE, full_label=True,
+                                            skip_empty=True, owner_only=True)
         boards["技能-star.csv"] = {"source": "GitHub Search API（topic:agent-skills + skill in:name）",
                                    "updated_at": when}
         if not args.check:
             write_csv(BOARD_DIR / "技能-star.csv", rows,
-                      ["排名", "名称", "仓库", "区域", "语言", "许可", "星标", "说明", "地址", "时间"], when)
+                      ["排名", "名称", "仓库", "区域", "语言", "许可", "星标", "说明", "地址", "时间"], when,
+                      region_guess=False)
             snapshot(history, "技能-star.csv", rows, "仓库", "星标", day)
         if skipped:
             print("  · 滤掉 %d 个清单 / 教程：%s" % (len(skipped), "、".join(skipped[:3])))
@@ -844,12 +885,15 @@ def main():
     # 4c) 专家包：同上，排的是给编码 Agent 挂的角色包 / 子代理集合
     try:
         rows, skipped = fetch_gh_collection(GH_EXPERT_QUERY, GH_EXPERT_TOP,
-                                            GH_STAR_NOISE, GH_EXPERT_SHORT)
+                                            GH_PACK_NOISE, GH_EXPERT_SHORT,
+                                            full_label=True, skip_empty=True,
+                                            owner_only=True)
         boards["专家-star.csv"] = {"source": "GitHub Search API（subagent in:name）",
                                    "updated_at": when}
         if not args.check:
             write_csv(BOARD_DIR / "专家-star.csv", rows,
-                      ["排名", "名称", "仓库", "区域", "语言", "许可", "星标", "说明", "地址", "时间"], when)
+                      ["排名", "名称", "仓库", "区域", "语言", "许可", "星标", "说明", "地址", "时间"], when,
+                      region_guess=False)
             snapshot(history, "专家-star.csv", rows, "仓库", "星标", day)
         if skipped:
             print("  · 滤掉 %d 个清单 / 教程：%s" % (len(skipped), "、".join(skipped[:3])))

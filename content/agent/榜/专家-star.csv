@@ -1,0 +1,13 @@
+﻿排名,名称,仓库,区域,语言,许可,星标,说明,地址,时间
+1,nicobailon/pi-subagents,nicobailon/pi-subagents,,TypeScript,MIT,4253,"Pi extension for async subagent delegation with truncation, artifacts, and session sharing",https://github.com/nicobailon/pi-subagents,2026-11-24T15:40:09+08:00
+2,tintinweb/pi-subagents,tintinweb/pi-subagents,,TypeScript,MIT,1497,"Claude Code like Sub-Agents & Workflow Orchestration for Pi — parallel execution, live widget, fleet view, cus…",https://github.com/tintinweb/pi-subagents,2026-11-24T15:40:09+08:00
+3,0xfurai/claude-code-subagents,0xfurai/claude-code-subagents,,,MIT,1030,A comprehensive collection of 100+ production-ready development subagents for Claude Code,https://github.com/0xfurai/claude-code-subagents,2026-11-24T15:40:09+08:00
+4,HazAT/pi-interactive-subagents,HazAT/pi-interactive-subagents,,TypeScript,MIT,729,"Interactive subagents for pi — spawn, orchestrate, and manage sub-agent sessions in cmux terminals",https://github.com/HazAT/pi-interactive-subagents,2026-11-24T15:40:09+08:00
+5,oil-oil/codex-deepseek-subagent,oil-oil/codex-deepseek-subagent,国内,Python,MIT,400,配置和维护桌面应用中的原生子 Agent，支持选择模型、检查路由、修复、停用和卸载。,https://github.com/oil-oil/codex-deepseek-subagent,2026-11-24T15:40:09+08:00
+6,JDArmy/Evasion-SubAgents,JDArmy/Evasion-SubAgents,国内,Python,MIT,337,Claude Code 免杀 SubAgents,https://github.com/JDArmy/Evasion-SubAgents,2026-11-24T15:40:09+08:00
+7,pamirtuna/gamestudio-subagents,pamirtuna/gamestudio-subagents,,Python,MIT,293,AI-Powered Game Development Team in Your Terminal,https://github.com/pamirtuna/gamestudio-subagents,2026-11-24T15:40:09+08:00
+8,amosblomqvist/pi-subagents,amosblomqvist/pi-subagents,,TypeScript,,231,Simple subagents for pi.,https://github.com/amosblomqvist/pi-subagents,2026-11-24T15:40:09+08:00
+9,amosblomqvist/pi-interactive-subagents,amosblomqvist/pi-interactive-subagents,,TypeScript,MIT,183,Interactive subagents running in tmux panes.,https://github.com/amosblomqvist/pi-interactive-subagents,2026-11-24T15:40:09+08:00
+10,ringlochid/oh-my-subagents,ringlochid/oh-my-subagents,,Python,MIT,182,"Local subagent orchestration for Codex and Claude, with persistent task state, reusable teams, and interruptio…",https://github.com/ringlochid/oh-my-subagents,2026-11-24T15:40:09+08:00
+11,al3rez/ooda-subagents,al3rez/ooda-subagents,,,,176,"OODA Loop AI Agents - Observe, Orient, Decide, Act framework for systematic problem-solving. Built by AstroMVP…",https://github.com/al3rez/ooda-subagents,2026-11-24T15:40:09+08:00
+12,Hotakus/opencode-subagent-magazine,Hotakus/opencode-subagent-magazine,,TypeScript,MIT,137,OpenCode TUI 插件 · 实时子代理监控 · 侧边栏可视化 / Real-time Sub-Agent Monitor Sidebar Plugin for OpenCode TUI,https://github.com/Hotakus/opencode-subagent-magazine,2026-11-24T15:40:09+08:00

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>通用办公 Agent 功能对比 · Agent</title>
+<meta name="description" content="十一款桌面 Agent 逐项对照：能不能碰本地文件、长任务跑不跑得完、技能 / 专家 / 连接器怎么扩、上下文从哪来，以及选型时该看哪一条。">
+<link rel="stylesheet" href="../assets/css/site.css?v=958a5662">
+<link rel="stylesheet" href="../assets/css/section.css?v=76903104">
+<script src="../assets/js/board.js?v=ecbda2a0" defer></script>
+<script src="../assets/js/ranks.js?v=76e44c3f" defer></script>
+<script src="../assets/js/reports.js?v=971c0e35" defer></script>
+<script src="../assets/js/toc.js?v=1aba3a35" defer></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a href="../models.html">基模</a>
+      <a class="is-active" href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a href="../hardware.html">硬件</a>
+      <a href="../templates.html">模板</a>
+      <a href="../apps.html">应用</a>
+      <a href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-24</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">Agents</span>
+    <a href="../agents.html">← 回「Agent」</a>
+    <a href="../agents.html#intro">简介</a>
+    <a href="../agents.html#board-1">使用量 · 命令行工具</a>
+    <a href="../agents.html#board-2">使用量 · IDE 插件</a>
+    <a href="../agents.html#board-3">办公 Agent</a>
+    <a href="../agents.html#board-4">技能</a>
+    <a href="../agents.html#board-5">专家</a>
+    <a href="../agents.html#board-6">MCP 服务器 · 调用量</a>
+    <a href="../agents.html#board-7">MCP 服务器 · 开源热度</a>
+    <a href="../agents.html#board-8">MCP 服务器仓库 · 按实现语言</a>
+    <a href="../agents.html#board-9">MCP 托管平台 · 上架量</a>
+    <a href="../agents.html#board-10">IDE 扩展市场 · 存量</a>
+    <a href="../agents.html#cards">对比</a>
+    <a href="../agents.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../agents.html">Agent</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2026-11-24 · 对比 · 办公 Agent · 产品</p>
+    <h1 class="post-title">通用办公 Agent 功能对比</h1>
+    <p class="post-lede">十一款桌面 Agent 逐项对照：能不能碰本地文件、长任务跑不跑得完、技能 / 专家 / 连接器怎么扩、上下文从哪来，以及选型时该看哪一条。</p>
+    <div class="post-body">
+<p>2026 年这半年，办公 Agent 从「能对话」变成了「能交付」。易观的统计是：9 月国内桌面端 AI 原生办公智能体 20 款产品合计月访问量突破 3 亿次，比 6 月涨了近 5 倍。产品从 5 款变成 20 款，功能表也写得越来越像——都写「自主拆解、多任务并行、本地文件、技能扩展」。</p>
+<p>把宣传语剥掉之后，真正的差别只有四处：<strong>能不能碰你的本地文件、长任务能不能跑到交付、能力怎么扩、它凭什么懂你的业务上下文</strong>。下面按这四条把十一款摆在同一张桌子上。</p>
+<h2>一句话定位</h2>
+<div class="md-table"><table><thead><tr><th>产品</th><th>厂商</th><th>形态</th><th>一句话</th></tr></thead><tbody><tr><td>WorkBuddy</td><td>腾讯</td><td>桌面 Agent</td><td>全场景职场智能体：一句话下任务，交付可验收的结果</td></tr><tr><td>千问办公 QwenWork</td><td>阿里巴巴</td><td>桌面 + 网页 + 钉钉</td><td>企业级通用 Agent：Office 产物、全栈网页、数字员工</td></tr><tr><td>豆包工作</td><td>字节跳动</td><td>桌面 Agent</td><td>与飞书打通的办公 Agent，长任务甩给云电脑</td></tr><tr><td>百度搭子 DuMate</td><td>百度</td><td>桌面 Agent</td><td>安全沙箱里干活的通用智能体，主打「敢装」</td></tr><tr><td>纳米Work</td><td>360</td><td>桌面 + 云端</td><td>云端 7×24 的「AI 专家团队」，5 万技能 + 500 岗位专家</td></tr><tr><td>扣子</td><td>字节跳动</td><td>智能体平台</td><td>自己搭智能体与工作流，再发布到微信、飞书</td></tr><tr><td>Trae</td><td>字节跳动</td><td>AI IDE</td><td>编码向，Work / Code / Design 三模式</td></tr><tr><td>Qoder</td><td>阿里巴巴</td><td>AI IDE</td><td>仓库级理解的编码 Agent</td></tr><tr><td>灵犀专业版</td><td>金山办公</td><td>Office 内嵌</td><td>在 WPS 里改文档，产物是原生格式</td></tr><tr><td>Marvis 马维斯</td><td>腾讯</td><td>操作系统级</td><td>文件 / 系统 / 应用多个管家 Agent，端云双模式</td></tr><tr><td>QClaw</td><td>腾讯电脑管家</td><td>OpenClaw 封装</td><td>微信 / QQ 发指令，本机执行，零配置</td></tr></tbody></table></div>
+<p>表格里的「—」表示官方文档没写，或者这个形态下不成立，不等于没有。</p>
+<h2>一、能不能真在你的电脑上干活</h2>
+<p>这一栏最容易注水。「支持本地文件」有两种意思：一种是能上传文件到云端处理，一种是能在你机器的文件夹里改名、换格式、批处理。只有后者算「动手」。</p>
+<div class="md-table"><table><thead><tr><th>产品</th><th>本地文件</th><th>多任务并行</th><th>手机远程</th><th>定时任务</th><th>关机后继续</th><th>安全边界</th></tr></thead><tbody><tr><td>WorkBuddy</td><td>✔ 授权文件夹</td><td>✔</td><td>✔ 微信 / 企微 / Slack</td><td>✔</td><td>企业版云端数字员工</td><td>本地执行；企业版隔离沙箱</td></tr><tr><td>千问办公</td><td>✔ 桌面端直连</td><td>✔</td><td>✔ IM 频道</td><td>✔</td><td>企业版数字员工托管</td><td>企业上下文；沙箱 + 审批 + 审计</td></tr><tr><td>豆包工作</td><td>✔</td><td>✔ 工作小队</td><td>✔</td><td>—</td><td>✔ 云电脑</td><td>继承飞书权限，个人与企业隔离</td></tr><tr><td>百度搭子</td><td>✔</td><td>✔</td><td>✔ 移动端 App</td><td>✔</td><td>—</td><td>本地沙箱；删除 / 外发强制二次确认</td></tr><tr><td>纳米Work</td><td>✔</td><td>✔ 多 Agent</td><td>—</td><td>✔ 按日 / 周 / 月</td><td>✔</td><td>360 安全底座；操作日志可追溯</td></tr><tr><td>Marvis</td><td>✔</td><td>✔ 多 Agent 分工</td><td>✔ App</td><td>—</td><td>隐私模式走端侧</td><td>效率 / 隐私双模式</td></tr><tr><td>QClaw</td><td>✔</td><td>—</td><td>✔ 微信 / QQ</td><td>✔</td><td>—</td><td>本地执行，数据不出设备</td></tr><tr><td>OpenClaw</td><td>✔</td><td>✔ 子代理并行</td><td>✔ 20+ 渠道</td><td>✔ cron</td><td>网关常驻即可</td><td>默认不开沙箱、shell 全开，要自己收紧</td></tr><tr><td>灵犀专业版</td><td>仅 WPS 文档内</td><td>—</td><td>—</td><td>—</td><td>—</td><td>跟随 WPS 账号与权限</td></tr></tbody></table></div>
+<p>「关机后继续」这一列是分水岭：本地执行的 Agent 一关机就停，云端跑的要额外付一份托管费。豆包工作、千问办公、纳米Work 走的是「本地干不了的活扔云端」，百度搭子、QClaw 则坚持全本地——代价是长任务必须占着你的机器。</p>
+<h2>二、扩展方式：技能 / 专家 / 连接器</h2>
+<p>三家的菜单摆出来几乎是同一个形状。WorkBuddy 的入口是<strong>技能 / 专家 / 连接器</strong>，千问办公是<strong>技能 / 专家套件 / 连接器</strong>，豆包工作叫<strong>技能 / 工作伙伴 / 连接器</strong>，纳米Work 叫<strong>技能包 / 岗位专家</strong>。名字不同，分层是同一套：</p>
+<ul><li><strong>技能</strong>：一段被固化的指令加工具，一个任务一个技能。WorkBuddy 的说法最直白——技能是「经过优化的定向提示词」。</li><li><strong>专家</strong>：把多个技能、流程和人设打成一个包，面向一个岗位或场景。一个人干不完的活，交给一个「角色」。</li><li><strong>连接器</strong>：基于 MCP 接外部系统，GitHub、Jira、飞书、天眼查、携程都在这一层。技能管「怎么干」，连接器管「从哪拿数据」。</li></ul>
+<p>为什么都收成这三格？因为模型不在自己手里，产品能差异化的只剩「给它什么能力」和「让它接什么系统」。这一层做得好不好，直接决定它是「能干的助手」还是「会聊天的壳」。</p>
+<div class="md-table"><table><thead><tr><th>产品</th><th>技能</th><th>专家</th><th>连接器</th><th>自己能写吗</th></tr></thead><tbody><tr><td>WorkBuddy</td><td>✔ 技能</td><td>✔ 专家 / 专家团（多 Agent 并行）</td><td>✔ MCP：GitHub、GitLab、Jira、Notion、Slack 等</td><td>✔ 开放平台可上架</td></tr><tr><td>千问办公</td><td>✔ 技能</td><td>✔ 专家套件；组织级 Skill 可沉淀给团队</td><td>✔</td><td>✔ 自定义技能与专家套件</td></tr><tr><td>豆包工作</td><td>✔ 技能</td><td>✔ 工作伙伴；可组多 Agent 小队</td><td>✔</td><td>—</td></tr><tr><td>百度搭子</td><td>✔ 技能广场</td><td>—</td><td>✔</td><td>✔ 可自建技能</td></tr><tr><td>纳米Work</td><td>✔ 5 万+ 技能</td><td>✔ 500+ 岗位专家；可用「专家教练」捏专属</td><td>—</td><td>✔</td></tr><tr><td>扣子</td><td>✔ 插件</td><td>✔ 智能体</td><td>✔ 插件 / MCP</td><td>✔ 全都能自己搭</td></tr><tr><td>QClaw</td><td>✔ 继承 ClawHub 技能库</td><td>—</td><td>✔</td><td>✔</td></tr><tr><td>OpenClaw</td><td>✔ skills</td><td>✔ sub-agents</td><td>✔ MCP</td><td>✔</td></tr></tbody></table></div>
+<p>WorkBuddy 和千问办公走的是「平台化」：第三方能把技能、专家上架，个人能把流程沉淀成组织资产。扣子和 OpenClaw 走的是「自己写」：自由度最高，但也意味着没人替你保证质量——ClawHub 上曾一次性查出 341 个恶意技能，装之前得自己看代码。</p>
+<h2>三、上下文从哪来：护城河其实在这</h2>
+<p>模型大家都能调，差别在于<strong>它被允许读什么</strong>。</p>
+<div class="md-table"><table><thead><tr><th>产品</th><th>默认能读到什么</th></tr></thead><tbody><tr><td>WorkBuddy</td><td>你授权的本地文件夹、腾讯文档与资料库、连接器接到的外部服务</td></tr><tr><td>千问办公</td><td>钉钉 / 飞书 / 企微里沉淀的群聊、文档、知识库，压成「企业上下文」给 Agent 用</td></tr><tr><td>豆包工作</td><td>飞书的聊天、文档、会议纪要、日程，严格继承你在飞书里的权限</td></tr><tr><td>百度搭子</td><td>本地文件 + 百度搜索与百科，记忆会跟着你的使用习惯走</td></tr><tr><td>纳米Work</td><td>三级共享知识库，换模型不换工作流</td></tr><tr><td>Marvis</td><td>操作系统层：文件、应用、浏览器、搜索</td></tr><tr><td>QClaw / OpenClaw</td><td>本机文件与 IM 历史，数据不出设备</td></tr></tbody></table></div>
+<p>一个反直觉的地方：<strong>接进企业 IM 的产品，胜过功能更多的产品</strong>。因为「懂业务」不是模型变聪明，是它能读到上周的群聊和那份改过五版的文档。代价也很清楚——权限一旦继承，Agent 能看到的东西等于你能看到的东西，审计和最小授权必须一起上。</p>
+<h2>四、按场景选，不按参数选</h2>
+<ul><li><strong>写文档、做 PPT、出周报</strong>：WorkBuddy、豆包工作。拼的是产物能不能直接用，而不是对话框多漂亮。</li><li><strong>数据分析 + 跨软件搬运</strong>：百度搭子、WorkBuddy。要的是「读 Excel、算完、写回 PPT」这条链不断。</li><li><strong>团队一起用、要合规</strong>：千问办公、豆包工作。权限、审计、数字员工这些是企业采购的硬门槛。</li><li><strong>编码</strong>：Trae、Qoder、ZCode。这是另一条线，本页的两个开源榜（技能 / 专家）也主要服务这一条线。</li><li><strong>想自己掌控 / 不想付订阅</strong>：OpenClaw，或者它在国内的封装 QClaw。省下的是订阅费，花掉的是配置时间。</li><li><strong>只在自己的文档里改</strong>：灵犀专业版。格式不丢是它唯一的、也是足够的理由。</li></ul>
+<h2>五、口径与限制</h2>
+<ul><li><strong>月活数字只取一套口径</strong>：本页榜单用 AI产品榜 2026 年 9 月的 PC 客户端月活。易观同月给的是「月访问量」，WorkBuddy 8534 万次、千问办公 4655 万次——两套位次不同，混排会造出一个谁都不认的排名。</li><li><strong>功能来自官方文档与发布会，没有逐台实测</strong>。写「未列」的地方是文档确实没提，不代表产品做不到。</li><li><strong>不写价格</strong>：订阅、积分、企业版三套计费叠在一起，写出来的数字第二天就可能作废。</li><li><strong>迭代以周计</strong>：这些产品平均每周都在改，本文截至 2026 年 11 月，读到的时候请回看各家的更新日志。</li><li><strong>安全提示</strong>：本地执行类 Agent 本质上是把你的机器交给一个会自己写脚本的程序。默认开沙箱、关键操作要确认、别把网关暴露到公网，这三条比功能对比重要。</li></ul>
+    </div>
+  </article>
+  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list"><a href="%E4%BA%94%E5%B1%82%E8%83%BD%E5%8A%9B%E6%A0%88.html"><b>Agent 的五层能力栈</b><time>2026-11-21</time></a><a href="%E5%8D%8F%E8%AE%AE%E4%B8%8E%E6%8E%A5%E5%8F%A3.html"><b>协议为什么比模型更影响生态</b><time>2026-11-20</time></a></div>
+  </nav>
+  <nav class="pager"><a href="../agents.html"><span class="pg-l">← BACK</span><span class="pg-t">Agent · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2026-11 公开资料<br>2026 条目：只收能核到月份的<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">应用</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

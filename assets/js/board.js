@@ -292,15 +292,20 @@
           ? '截到近 ' + this.span + ' 个月'
           : this._spanText(calc));
       }
-      if (spec && spec.mode === 'flow') bits.push('值＝窗口内日均，不是总数');
-      if (spec && spec.mode === 'stock') {
-        if (calc && calc.histDays && calc.histDays < STOCK_MIN_DAYS) {
+      if (spec && spec.mode === 'flow' && calc) bits.push('值＝窗口内日均，不是总数');
+      // 没有序列的累计榜（单月快照、手工台账）就只显示原始值，
+      // 不写「日均新增」——那张榜压根没有第二个时间点。
+      if (spec && spec.mode === 'stock' && calc) {
+        if (calc.histDays && calc.histDays < STOCK_MIN_DAYS) {
           bits.push('历史才 ' + calc.histDays + ' 天，先按累计值排；攒到 ' +
                     STOCK_MIN_DAYS + ' 天再切「日均新增」');
         } else {
           bits.push(stale ? stale + ' 条快照还没拉开差距，先显示累计值' : '值＝窗口内日均新增');
         }
       }
+      // 单次快照的榜（没有序列）没有窗口概念，只交代一句它是什么，
+      // 否则这一行是空的，看着像坏了。
+      if (spec && !calc && spec.mode !== 'date') bits.push('单次快照，没有时间序列');
       if (calc) {
         var nd = 0;
         Object.keys(calc.values).forEach(function (k) {
