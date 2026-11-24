@@ -181,10 +181,16 @@ class Section:
                 "tags": [t.strip() for t in meta.get("tags", "").split(",") if t.strip()],
                 "kicker": meta.get("kicker", ""),
                 "featured": str(meta.get("featured", "")).lower() in ("1", "true", "yes", "是"),
+                # status: todo = 占位提纲。内容还没写完，但入口先立起来：
+                # 卡片、列表、报告页三处都要能看出「这是提纲」，不要伪装成已完成。
+                "status": (meta.get("status") or "").strip().lower(),
                 "rel": [t.strip() for t in meta.get("rel", "").split(",") if t.strip()],
                 "body": body,
             })
         out.sort(key=lambda x: x["date"], reverse=True)
+        # 提纲稿排到后面：日期同日时，读者该先看到写完的那几篇。
+        # 用两次稳定排序，别塞进一个 key —— 日期要倒序、todo 要后置，方向相反。
+        out.sort(key=lambda x: x["status"] == "todo")
         return out
 
     # 板块三·全文：外面写好的独立 HTML（自带样式、图表、交互），原样复制过去，
@@ -1150,19 +1156,25 @@ def block_reports(sec, reports, num):
     for r in reports:
         tag_html = "".join('<span class="rpt-tag">%s</span>' % escape(t) for t in r["tags"])
         extra_id = (' id="%s"' % escape(alias_of[r["slug"]])) if r["slug"] in alias_of else ""
-        items.append("""<a class="rpt-item" data-tags="%s" href="%s"%s>
-        <span class="rpt-top"><time>%s</time><span class="rpt-go">→</span></span>
+        todo = r.get("status") == "todo"
+        items.append("""<a class="rpt-item%s" data-tags="%s" href="%s"%s>
+        <span class="rpt-top"><time>%s</time><span class="rpt-go">%s</span></span>
         <h3>%s</h3>
         <p>%s</p>
         <span class="rpt-tags">%s</span>
-      </a>""" % (escape(",".join(r["tags"])), r["url"], extra_id, escape(r["date"]),
+      </a>""" % (" is-todo" if todo else "", escape(",".join(r["tags"])), r["url"], extra_id,
+                 escape(r["date"]), "提纲 →" if todo else "→",
                  escape(r["title"]), R.inline(r["summary"]), tag_html))
+
+    n_todo = sum(1 for r in reports if r.get("status") == "todo")
+    note = ("共 %d 篇 · 其中 %d 篇还是提纲" % (len(reports), n_todo)) if n_todo \
+        else ("共 %d 篇 · 点开是独立页" % len(reports))
 
     return """  <section class="blk" id="reports">
     <div class="blk-head">
       <span class="blk-num">%s</span>
       <h2>%s</h2>
-      <span class="blk-note">共 %d 篇 · 点开是独立页</span>
+      <span class="blk-note">%s</span>
     </div>
     <div class="rpt-card">
 %s      <div class="rpt-grid">
@@ -1170,7 +1182,7 @@ def block_reports(sec, reports, num):
       </div>
     </div>
   </section>
-""" % (num, escape(sec.cfg.get("reports", {}).get("title", "报告")), len(reports),
+""" % (num, escape(sec.cfg.get("reports", {}).get("title", "报告")), note,
        bar, "\n        ".join(items))
 
 
@@ -1246,6 +1258,7 @@ def build_section(sec, out_dir, prefix=""):
     if len({r["slug"] for r in reports}) != len(reports):
         print("  ! %s 里有 slug 重名（md 与全文同名），全文会被挤掉" % sec.dir.name)
     reports.sort(key=lambda x: x["date"], reverse=True)
+    reports.sort(key=lambda x: x.get("status") == "todo")
     featured = sec.featured(reports)
     relmap = sec.related(reports)
     by_slug = {r["slug"]: r for r in reports}
@@ -1314,10 +1327,12 @@ def build_section(sec, out_dir, prefix=""):
             rout.write_text(R.dress_fulltext(html, back), encoding="utf-8")
             continue
         r_prefix = prefix + "../"
+        todo = r.get("status") == "todo"
         rbody = "".join([
             doc_head(r["title"] + " · " + sec.name, r["summary"], sec.name, r_prefix,
                      bar_title=sec.name,
-                     bar_sum="报告 · <b>%s</b>" % escape(r["date"])),
+                     bar_sum="提纲 · <b>%s</b>" % escape(r["date"]) if todo
+                     else "报告 · <b>%s</b>" % escape(r["date"])),
             subnav_html(sec, r_prefix, report_page=True),
             '<main class="wrap post-wrap">\n',
             '  <p class="crumb"><a href="%sindex.html">首页</a><span class="sep">/</span>'
@@ -1327,6 +1342,9 @@ def build_section(sec, out_dir, prefix=""):
             '    <p class="post-meta">%s%s</p>\n' % (
                 escape(r["date"]),
                 (" · " + " · ".join(escape(t) for t in r["tags"])) if r["tags"] else ""),
+            ('    <p class="post-todo"><b>提纲</b> 这篇还没写完。下面是准备回答的问题、'
+             '已经能用的站内线索，以及还没核的口径——具体数字等核完再写，不先填。</p>\n'
+             ) if todo else "",
             '    <h1 class="post-title">%s</h1>\n' % escape(r["title"]),
             ('    <p class="post-lede">%s</p>\n' % R.inline(r["summary"])) if r["summary"] else "",
             '    <div class="post-body">\n%s\n    </div>\n' % R.md_to_html(r["body"]),

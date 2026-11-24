@@ -17,6 +17,7 @@ GitHub issue（approve: <slug>），提交后由 .github/workflows/approve.yml �
 """
 import datetime
 import html as H
+import json
 import os
 import pathlib
 import re
@@ -220,6 +221,9 @@ def inline(t):
     t = re.sub(r"`([^`]+)`", r"<code>\1</code>", t)
     t = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", t)
     t = re.sub(r"\[([^\]]+)\]\((https?://[^)\s]+)\)", r'<a href="\2" rel="noopener">\1</a>', t)
+    # 站内相对链接（报告之间互指）。只放行普通相对路径，挡掉 javascript: / data:
+    t = re.sub(r"\[([^\]]+)\]\(((?!(?:javascript|data|vbscript):)[^)\s\"']+)\)",
+               r'<a href="\2">\1</a>', t)
     t = re.sub(r"(?<![=\"'])(https?://[^\s<)]+)", r'<a href="\1" rel="noopener">\1</a>', t)
     return t
 
@@ -559,6 +563,89 @@ def human_size(n):
 
 
 # ───────────────────────── 渲染：总览 ─────────────────────────
+def md_front(p):
+    """只读 --- 之间的 frontmatter。不能拿 parse_meta 直接啃整篇：
+    正文里的 URL 含冒号，会被当成键值对。"""
+    try:
+        txt = p.read_text(encoding="utf-8")
+    except OSError:
+        return {}
+    if not txt.startswith("---"):
+        return {}
+    parts = txt.split("---", 2)
+    if len(parts) < 3:
+        return {}
+    d = {}
+    for line in parts[1].splitlines():
+        if ":" in line:
+            k, v = line.split(":", 1)
+            d[k.strip()] = v.strip().strip("\"'")
+    return d
+
+
+def section_reports():
+    """各板块的报告（content/<板块>/报告/*.md），按板块分组。
+
+    研究页只做索引 —— 正文留在板块自己的报告页上，同一篇内容不写两遍。
+    status: todo 的报告也列出来，但要标「提纲」：入口立住了，读者自己判断要不要点。
+    """
+    from urllib.parse import quote
+    groups = []
+    root = ROOT / "content"
+    if not root.exists():
+        return groups
+    for sj in sorted(root.glob("*/section.json")):
+        try:
+            cfg = json.loads(sj.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        slug = cfg.get("slug")
+        rc = cfg.get("reports") or {}
+        rdir = sj.parent / (rc.get("dir") if isinstance(rc, dict) else "报告")
+        if not slug or not rdir.exists():
+            continue
+        rows = []
+        for md in sorted(rdir.glob("*.md")):
+            if md.name.startswith((".", "_")) or md.name == "README.md":
+                continue
+            fm = md_front(md)
+            rows.append({
+                "title": fm.get("title") or md.stem,
+                "date": fm.get("date", ""),
+                "todo": fm.get("status", "").strip().lower() == "todo",
+                "url": "../%s/%s.html" % (slug, quote(md.stem)),
+            })
+        if rows:
+            rows.sort(key=lambda r: r["date"], reverse=True)
+            rows.sort(key=lambda r: r["todo"])
+            groups.append((cfg.get("name") or slug, rows))
+    return groups
+
+
+def render_board_index(groups):
+    total = sum(len(r) for _, r in groups)
+    if not total:
+        return ""
+    out = ['<section class="rs-sec" id="boards">',
+           '<h2 class="rs-sec-t">板块报告（%d）</h2>' % total,
+           '<p class="rs-hint">九个板块各自的台账式报告，按板块分组。这里只做索引，'
+           '正文在板块自己的报告页上；标「提纲」的还没写完。点板块名展开。</p>']
+    for name, rows in groups:
+        n_todo = sum(1 for r in rows if r["todo"])
+        head = "%s · %d 篇" % (name, len(rows)) + ("（%d 篇提纲）" % n_todo if n_todo else "")
+        lis = []
+        for r in rows:
+            lis.append('<li%s><a href="%s">%s</a>%s<time>%s</time></li>' % (
+                ' class="is-todo"' if r["todo"] else "", r["url"], H.escape(r["title"]),
+                '<span class="rs-tag">提纲</span>' if r["todo"] else "",
+                H.escape(r["date"])))
+        out.append('<details class="rs-rbox"><summary class="rs-rsec">%s</summary>'
+                   '<ul class="rs-rlist">%s</ul></details>'
+                   % (H.escape(head), "".join(lis)))
+    out.append("</section>")
+    return "".join(out)
+
+
 def render_index(items):
     pub = [x for x in items if x["status"] == "published"]
     pend = [x for x in items if x["status"] != "published"]
@@ -589,6 +676,8 @@ def render_index(items):
     if not items:
         body.append('<div class="rs-empty">还没有登记任何研究。往投料区 <code>AI行业研究/&lt;板块&gt;/</code> '
                     '丢一个文件，跑 <code>python3 tools/research.py sync</code> 就有了。</div>')
+
+    body.append(render_board_index(section_reports()))
 
     return shell("研究 · AI.TRACK",
                  "AI 研究的自有产出：已完成 %d 份，整理中 %d 份。每条都附结论、证据、反方观点与原始资料。"

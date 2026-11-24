@@ -205,6 +205,20 @@
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
 }
 .rpt-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:10px}
+
+/* 提纲稿：还能点进去，但配色压一档，别和写好的稿子抢注意力 */
+.rpt-item.is-todo{background:var(--panel)}
+.rpt-item.is-todo h3{color:var(--t2);font-weight:500}
+.rpt-item.is-todo .rpt-go{color:var(--t3)}
+.post-todo{
+  margin:0 0 16px;padding:9px 13px;border-left:2px solid var(--orange);
+  background:var(--panel);border-radius:0 6px 6px 0;
+  font-size:12.5px;line-height:1.72;color:var(--t2);
+}
+.post-todo b{
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--orange);
+  text-transform:uppercase;margin-right:7px;
+}
 .rpt-tag{
   font-size:9.5px;color:var(--t3);border:1px solid var(--line);
   border-radius:4px;padding:0 4px;line-height:1.6;
