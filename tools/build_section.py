@@ -397,7 +397,16 @@ def toc_html(sec, reports, prefix=""):
                            jump, subs if len(boards) > 1 else []))
 
     if has_cards:
-        items.append('<li><a href="#cards">%s</a></li>' % escape(cards_label))
+        ccfg = cfg.get("cards") or {}
+        cgroups = ccfg.get("groups") or []
+        citems = ccfg.get("items") or []
+        csubs = []
+        for gi, g in enumerate(cgroups, 1):
+            n = sum(1 for it in citems if (it.get("group") or "") == g.get("name", ""))
+            if n:
+                csubs.append('<li><a href="#cx-g%d">%s<i>%d</i></a></li>'
+                             % (gi, escape(g.get("name", "")), n))
+        items.append(group(cards_label, "#cards", csubs))
 
     if reports:
         subs = []
@@ -1011,24 +1020,47 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
        "\n      ".join(cards), stamp, "" if cards else empty, spec_html)
 
 
+def _cx_card(it, i):
+    """一张专题卡。soon 的卡没有落脚页，就不做成链接 —— 死链比「待补」更难看。"""
+    kick = it.get("kicker", "专题")
+    # 全大写是 kicker 的统一调性，但 SaaS / Adobe 这类专有名词大写就变了意思，原样显示
+    kspan = '<span class="%s">%s</span>' % (
+        "cx-kicker is-case" if any(c.islower() for c in kick) else "cx-kicker",
+        escape(kick))
+    if it.get("soon"):
+        return """<div class="cx-card is-soon">
+        <span class="cx-no">%02d</span>
+        %s
+        <h3>%s</h3>
+        <p>%s</p>
+        <span class="cx-foot"><span>%s</span><span class="cx-go">待补</span></span>
+      </div>""" % (i, kspan, escape(it.get("title", "")),
+                 R.inline(it.get("desc", "")), escape(it.get("meta", "")))
+    return """<a class="cx-card" href="%s">
+        <span class="cx-no">%02d</span>
+        %s
+        <h3>%s</h3>
+        <p>%s</p>
+        <span class="cx-foot"><span>%s</span><span class="cx-go">%s</span></span>
+      </a>""" % (it.get("href", "#"), i, kspan, escape(it.get("title", "")),
+                 R.inline(it.get("desc", "")), escape(it.get("meta", "")),
+                 escape(it.get("go", "打开 →")))
+
+
 def block_cards(sec, featured, num):
     """专题卡：一页里的几个入口，每张卡通向一个子页面（可以是本板块的报告，
     也可以是原理页的某一节）。section.json 的 cards.items 优先，没写就用 featured 报告。
+
+    cards.groups 写了就按组排：一组一个小标题（角度 / 行业 / 学科…），
+    卡片编号跨组连续。11 张卡平铺会让「专题」变成一堆没有层次的方块。
     """
     cfg = sec.cfg.get("cards") or {}
     items = cfg.get("items") or []
+    groups = cfg.get("groups") or []
     cards = []
     if items:
         for i, it in enumerate(items):
-            cards.append("""<a class="cx-card" href="%s">
-        <span class="cx-no">%02d</span>
-        <span class="cx-kicker">%s</span>
-        <h3>%s</h3>
-        <p>%s</p>
-        <span class="cx-foot"><span>%s</span><span class="cx-go">打开 →</span></span>
-      </a>""" % (it.get("href", "#"), i + 1, escape(it.get("kicker", "专题")),
-                 escape(it.get("title", "")), R.inline(it.get("desc", "")),
-                 escape(it.get("meta", ""))))
+            cards.append(_cx_card(it, i + 1))
     else:
         for i, r in enumerate(featured):
             kicker = r["kicker"] or (r["tags"][0] if r["tags"] else "专题")
@@ -1042,18 +1074,38 @@ def block_cards(sec, featured, num):
                  R.inline(r["summary"]), escape(r["date"])))
     if not cards:
         return ""
+
+    inner = "\n      ".join(cards)
+    if groups and items and any(it.get("group") for it in items):
+        seq, chunks = 0, []
+        for gi, g in enumerate(groups, 1):
+            name = g.get("name", "")
+            sub = [it for it in items if (it.get("group") or "") == name]
+            if not sub:
+                continue
+            body = "\n      ".join(_cx_card(it, seq + j + 1) for j, it in enumerate(sub))
+            seq += len(sub)
+            chunks.append("""<div class="cx-sec" id="cx-g%d">
+      <div class="cx-h"><span class="cx-h-k">%s</span><span class="cx-h-t">%s</span><span class="cx-h-n">%d 张</span></div>
+      <div class="cx-grid">
+      %s
+      </div>
+    </div>""" % (gi, escape(name), R.inline(g.get("desc", "")), len(sub), body))
+        inner = "\n    ".join(chunks)
+        grid = inner
+    else:
+        grid = '<div class="cx-grid">\n      %s\n    </div>' % inner
+
     return """  <section class="blk" id="cards">
     <div class="blk-head">
       <span class="blk-num">%s</span>
       <h2>%s</h2>
       <span class="blk-note">%s</span>
     </div>
-    <div class="cx-grid">
-      %s
-    </div>
+    %s
   </section>
-""" % (num, escape(cfg.get("title", "专题")), R.inline(cfg.get("note", "")),
-       "\n      ".join(cards))
+""" % (num, escape(cfg.get("title", "专题")), R.inline(cfg.get("note", "")), grid)
+
 
 
 def block_reports(sec, reports, num):
