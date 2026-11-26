@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unity MCP：把 MCP 从「连工具」推到「直接操作游戏引擎」 · Agent</title>
+<meta name="description" content="A009 的压轴项目之一。与 T004（连接层三件套：代码索引 / MCP-ACP 协议 / 沙盒）同板块但主题不同——T004 讲协议在 AI Coding 架构里的位置">
+<link rel="stylesheet" href="../assets/css/site.css?v=42f35f2b">
+<link rel="stylesheet" href="../assets/css/section.css?v=0afe21cf">
+<script src="../assets/js/skinboot.js?v=deff9a81"></script>
+<link rel="stylesheet" href="../assets/css/skin.css?v=01cdbd8f">
+<link rel="stylesheet" href="../assets/css/pagebar.css?v=b4d2a8e4">
+<script src="../assets/js/board.js?v=10d62f46" defer></script>
+<script src="../assets/js/ranks.js?v=76e44c3f" defer></script>
+<script src="../assets/js/reports.js?v=971c0e35" defer></script>
+<script src="../assets/js/toc.js?v=4b9e2ef8" defer></script>
+<script src="../assets/js/pagebar.js?v=ad60322d" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a href="../models.html">基模</a>
+      <a class="is-active" href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a href="../hardware.html">硬件</a>
+      <a href="../templates.html">模板</a>
+      <a href="../apps.html">AI+行业</a>
+      <a href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-27</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+
+<div class="pbar"><div class="pb-in">
+  <span class="pb-t">Agent</span>
+  <div class="pb-sum">报告 · <b>2026-11-25</b></div>
+  <div class="pb-sp"></div>
+  <button class="pb-i" data-pb="theme" type="button" title="切换深浅色" aria-label="切换深浅色"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/></svg></button>
+  <button class="pb-i" data-pb="reload" type="button" title="刷新这一页" aria-label="刷新这一页"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5V10h-5.5"/></svg></button>
+  <button class="pb-i" data-pb="setup" type="button" title="外观设置" aria-label="外观设置" aria-haspopup="dialog" aria-expanded="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg></button>
+</div></div>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">Agents</span>
+    <a href="../agents.html">← 回「Agent」</a>
+    <a href="../agents.html#intro">简介</a>
+    <a href="../agents.html#board-1">使用量 · 命令行工具</a>
+    <a href="../agents.html#board-2">使用量 · IDE 插件</a>
+    <a href="../agents.html#board-3">办公 Agent</a>
+    <a href="../agents.html#board-4">技能</a>
+    <a href="../agents.html#board-5">专家</a>
+    <a href="../agents.html#board-6">MCP 服务器 · 调用量</a>
+    <a href="../agents.html#board-7">MCP 服务器 · 开源热度</a>
+    <a href="../agents.html#board-8">MCP 服务器仓库 · 按实现语言</a>
+    <a href="../agents.html#board-9">MCP 托管平台 · 上架量</a>
+    <a href="../agents.html#board-10">IDE 扩展市场 · 存量</a>
+    <a href="../agents.html#board-11">产品台账</a>
+    <a href="../agents.html#cards">对比</a>
+    <a href="../agents.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../agents.html">Agent</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2026-11-25 · MCP · Unity · Claude · Cursor · 资料入库</p>
+    <h1 class="post-title">Unity MCP：把 MCP 从「连工具」推到「直接操作游戏引擎」</h1>
+    <p class="post-lede">A009 的压轴项目之一。与 T004（连接层三件套：代码索引 / MCP-ACP 协议 / 沙盒）同板块但主题不同——T004 讲协议在 AI Coding 架构里的位置</p>
+    <div class="post-body">
+<p>能做什么：让 Claude 和 Cursor 直接操作 Unity，建对象、连组件、写脚本，「一句话说完就帮你做完」。图卡上的原话是「AI 操作 Unity｜一句话完成开发」，画面里是 Unity 编辑器与 AI 对话框连线的示意。</p>
+<p>权限边界是它最值得记的一点：只在自己的项目里开，权限握在自己手上，不用把代码传到别处。这和 <a href="../agents/连接层三件套：代码索引、MCP·ACP%20协议与隔离沙盒.html">T004</a> 里「协议管连接与访问权、沙盒管隔离」是同一条思路，只是落到了游戏引擎上——也和 <a href="../apps/交付、审查与评测：AI%20写太快之后的质量闸门.html">T007</a> / <a href="../apps/CAD%20的%20AI%20化落地：四条工作流与人工复核红线.html">T009</a> 反复出现的「Agent 得能看见自己做出来的东西」呼应。</p>
+<p>与 CAD-MCP（<a href="../agents/六个%20CAD%20开源项目横向对比：工作流、门槛与天花板.html">T008</a>）的对照：两者都是把 MCP 接进一个重客户端（AutoCAD / 浩辰 / 中望 ↔ Unity），都强调本地连接与截图/句柄回读；差别是 CAD-MCP 停二维绘图，Unity MCP 面向完整 3D 工程与脚本。后续若收到更多「MCP + 具体软件」的资料，相近内容并入本卡，不同软件并列补要点。</p>
+<blockquote>整理说明：星数 1.6 万、仓库 CoplayDev/unity-mcp 与权限说明来自同源详版文字；用户所给图片版的这张卡左侧星数位置被打码，按详版填，未猜。</blockquote>
+<h2>来源</h2>
+<ul><li>A009《36 万星！10 个可商用开源游戏项目，最后一个 AI 直接帮你做游戏》 · 2026-11-25 · <a href="https://mp.weixin.qq.com/s/1FVwM1cYFsyCkGtSAumS6A" rel="noopener">https://mp.weixin.qq.com/s/1FVwM1cYFsyCkGtSAumS6A</a></li></ul>
+    </div>
+  </article>
+  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list"><a href="MCP%20%E5%BD%A2%E6%80%81%E5%9B%9B%E9%A1%B9%E7%9B%AE%EF%BC%9A%E6%8A%8A%E5%9B%BE%E8%83%BD%E5%8A%9B%E6%9A%B4%E9%9C%B2%E7%BB%99%20Agent.html"><b>MCP 形态四项目：把图能力暴露给 Agent</b><time>2026-11-24</time></a><a href="%E5%85%AD%E4%B8%AA%20CAD%20%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E6%A8%AA%E5%90%91%E5%AF%B9%E6%AF%94%EF%BC%9A%E5%B7%A5%E4%BD%9C%E6%B5%81%E3%80%81%E9%97%A8%E6%A7%9B%E4%B8%8E%E5%A4%A9%E8%8A%B1%E6%9D%BF.html"><b>六个 CAD 开源项目横向对比：工作流、门槛与天花板</b><time>2026-11-24</time></a><a href="%E8%BF%9E%E6%8E%A5%E5%B1%82%E4%B8%89%E4%BB%B6%E5%A5%97%EF%BC%9A%E4%BB%A3%E7%A0%81%E7%B4%A2%E5%BC%95%E3%80%81MCP%C2%B7ACP%20%E5%8D%8F%E8%AE%AE%E4%B8%8E%E9%9A%94%E7%A6%BB%E6%B2%99%E7%9B%92.html"><b>连接层三件套：代码索引、MCP/ACP 协议与隔离沙盒</b><time>2026-11-24</time></a></div>
+  </nav>
+  <nav class="pager"><a href="../agents.html"><span class="pg-l">← BACK</span><span class="pg-t">Agent · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2026-11 公开资料<br>2026 条目：只收能核到月份的<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">AI+行业</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

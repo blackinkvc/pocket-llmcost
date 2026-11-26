@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>183 万张 B300 的口径边界：换算自洽 ≠ 口径成立，以及外部一手补充清单 · 硬件</title>
+<meta name="description" content="⚠️ **本卡是口径与边界整理，不是超算评测**。A036 给了满屏 TOP10 数值与一个极醒目的「183 万张 B300」，但数字分属三种完全不同的性质；先分层，再谈能拿来做什么。">
+<link rel="stylesheet" href="../assets/css/site.css?v=42f35f2b">
+<link rel="stylesheet" href="../assets/css/section.css?v=0afe21cf">
+<script src="../assets/js/skinboot.js?v=deff9a81"></script>
+<link rel="stylesheet" href="../assets/css/skin.css?v=01cdbd8f">
+<link rel="stylesheet" href="../assets/css/pagebar.css?v=b4d2a8e4">
+<script src="../assets/js/board.js?v=10d62f46" defer></script>
+<script src="../assets/js/ranks.js?v=76e44c3f" defer></script>
+<script src="../assets/js/reports.js?v=971c0e35" defer></script>
+<script src="../assets/js/toc.js?v=4b9e2ef8" defer></script>
+<script src="../assets/js/pagebar.js?v=ad60322d" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a href="../models.html">基模</a>
+      <a href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a class="is-active" href="../hardware.html">硬件</a>
+      <a href="../templates.html">模板</a>
+      <a href="../apps.html">AI+行业</a>
+      <a href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-27</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+
+<div class="pbar"><div class="pb-in">
+  <span class="pb-t">硬件</span>
+  <div class="pb-sum">报告 · <b>2026-11-17</b></div>
+  <div class="pb-sp"></div>
+  <button class="pb-i" data-pb="theme" type="button" title="切换深浅色" aria-label="切换深浅色"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/></svg></button>
+  <button class="pb-i" data-pb="reload" type="button" title="刷新这一页" aria-label="刷新这一页"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5V10h-5.5"/></svg></button>
+  <button class="pb-i" data-pb="setup" type="button" title="外观设置" aria-label="外观设置" aria-haspopup="dialog" aria-expanded="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg></button>
+</div></div>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">Hardware</span>
+    <a href="../hardware.html">← 回「硬件」</a>
+    <a href="../hardware.html#intro">简介</a>
+    <a href="../hardware.html#board-1">数据中心</a>
+    <a href="../hardware.html#board-2">本地</a>
+    <a href="../hardware.html#board-3">出货</a>
+    <a href="../hardware.html#board-4">地理图</a>
+    <a href="../hardware.html#board-5">中国</a>
+    <a href="../hardware.html#board-6">美国</a>
+    <a href="../hardware.html#board-7">东南亚</a>
+    <a href="../hardware.html#board-8">其他</a>
+    <a href="../hardware.html#board-9">供电账</a>
+    <a href="../hardware.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../hardware.html">硬件</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2026-11-17 · 等效换算 · FP64 1.2 TFLOPS · 换算自洽 · 口径不自洽对照 · 资料入库</p>
+    <h1 class="post-title">183 万张 B300 的口径边界：换算自洽 ≠ 口径成立，以及外部一手补充清单</h1>
+    <p class="post-lede">⚠️ <strong>本卡是口径与边界整理，不是超算评测</strong>。A036 给了满屏 TOP10 数值与一个极醒目的「183 万张 B300」，但数字分属三种完全不同的性质；先分层，再谈能拿来做什么。</p>
+    <div class="post-body">
+<p><strong>作者自算等效值（第三类 · 可核验但未核验口径）</strong>：整列「≈B300（万张）」按图面底部「<strong>B300 单卡 FP64≈1.2 TFLOPS</strong>」换算，TOP500 官网<strong>没有这一列</strong>。换算<strong>完全自洽</strong>：2198.40 PFlop/s ÷ 1.2 TFLOPS = <strong>183.20 万张</strong>，1809.00 → <strong>150.75</strong>、1353.00 → <strong>112.75</strong>、1012.00 → <strong>84.33</strong>、1000.00 → <strong>83.33</strong>、571.50 → <strong>47.63</strong>、561.20 → <strong>46.77</strong>、477.90 → <strong>39.83</strong>、442.01 → <strong>36.83</strong>、434.90 → <strong>36.24</strong>，10 行逐项除得尽。⚠️ <strong>与 <a href="https://mp.weixin.qq.com/s/yjAqx2IHAhFewtkBdpI8zw" rel="noopener">A035</a>「31.5 GB 既是候选又是可选」正好相反</strong>：那次是口径不自洽，这次是自洽。但<strong>自洽只说明算术对，不说明口径对</strong> —— 单卡 FP64 取值、是否应把 HPL 双精度性能直接除以 GPU 峰值、是否忽略互连与内存瓶颈，作者都没论证；正文自己也写明「<strong>183万张只是理论性能的等效换算，不能代表实际需要多少显卡，更不能直接与 AI 训练算力画等号</strong>」。按「作者自定口径的等效值」留档，<strong>不写成英伟达 B300 规格、不写成实际卡数、不拿去补 AI 训练算力缺口</strong>。</p>
+<p><strong>一手已证实（外部，单列不并入正文）</strong>：TOP500 官网 11/2026 第 68 期（2026-11-16 SC26 芝加哥）+ 新华网 2026-11-23 —— 灵晟 / <strong>LineShine</strong> 第一、HPL <strong>2.198 Exaflop/s</strong>、<strong>13,789,440 核</strong>、国家超级计算深圳中心（NSCS）/ 深圳云计算中心、<strong>LingKun</strong> 平台 + 304 核 <strong>LX2</strong> + <strong>LingQi（灵启）</strong> 互连 + <strong>Kylin OS</strong>、HPCG <strong>22.00 Petaflop/s</strong> 第一（新华网称领先第二名约 26%）；2026 年 6 月第 67 期 ISC2026 汉堡首次登顶、11 月卫冕、终结 El Capitan、2017 神威太湖之光以来首个登顶的中国系统；官网「TOP10 与 6 月版相比未变、仅 27 台新系统为史上最低」。⚠️ 官网搜索结果只给了第 1 名与 2025 年 11 月第 66 期的完整 TOP10（El Capitan 1.809 / Frontier 1.353 / Aurora 1.012 / JUPITER Booster 1.000 / Eagle / HPC6 / Fugaku / Alps / LUMI / Leonardo），<strong>没有给 11/2026 第 2–10 名的逐项数值</strong> → 图面第 2–10 名仍按「图面口径 · 未逐项回一手核实」留档。</p>
+<p><strong>外部一手补充（公众号里没有，单列）</strong>：新华网 2026-11-23 另给 —— 国家超算深圳中心主任 / 总设计师<strong>卢宇彤</strong>；自研 <strong>LX2 CPU</strong> 首创在线加速的「全 CPU 超智融合」架构，HPC 与 AI 算力单芯片协同；搭载<strong>首颗国产 HBM</strong>，内存带宽较传统 CPU 提升 <strong>10 倍</strong>；自研「<strong>灵启</strong>」高速互联可支撑 <strong>200 万端口 / 10 万节点</strong>扩展；首创 <strong>100% 全液冷</strong>，能效比 <strong>52 GFlops/W</strong>；图灵奖得主、TOP500 联合创始人 <strong>Jack Dongarra</strong> 评价其「让世界看到了超算通向 AI for Science 的希望之光」。⚠️ 这些<strong>不写进公众号正文</strong>，也不拿去补 GH01 / GH03 的芯片与液冷工程细节缺口（那是另一层资料）。</p>
+<p><strong>措辞 / 单位差异并列不调和</strong>：① 正文「2.198 <strong>Exaflop/s</strong>」vs 图面「<strong>2,198.40 PFlop/s</strong>」—— 同一数值不同单位与精度，<strong>不是冲突</strong>；② 正文「超过 <strong>1300 万</strong>个计算核心」vs 官方「<strong>13,789,440</strong> cores」—— 约数 vs 精确值，并列；③ 正文「自主设计的处理器和互连网络」vs 官方 LingKun / LX2 / LingQi / Kylin OS vs 新华网 LX2 CPU / 国产 HBM / 灵启 / 全液冷 —— 三层颗粒度不同，并列；④ 正文「<strong>再次</strong>拿下」「中国超算<strong>重回</strong>世界第一」vs 官方「6 月首登顶 / 11 月<strong>卫冕</strong> / since Sunway TaihuLight in 2017」—— 「重回」可对应 2017 之后的空档，「再次 / 卫冕」一致，但不替作者统一措辞；⑤ og:description「<strong>最新</strong>一期」vs content_noencode「<strong>新</strong>一期」—— 一字之差并列。</p>
+<p><strong>层序与计数（不是统计）</strong>：4 个话题标签、10 行榜单、第 68 期 / 第 67 期 / 第 66 期是<strong>期号</strong>、10 个国旗是归属标记、「超过 1300 万个核心」是约数、<code>appmsg_type: 9</code> 是页面字段。⚠️ 别把「183.20 万张」当成第 11 个统计值，它是换算产物。</p>
+<p><strong>与库内榜单类资料的对照（只增不减）</strong>：<a href="../apps/榜单生态：谁在收集%20AI%20数据、四种来源与跟进的代价.html">T043</a> 记过「榜单生态：谁在收集 AI 数据、四种来源与跟」、<a href="https://artificialanalysis.ai/video/leaderboard/image-to-video" rel="noopener">A019</a> 是 AA-Video-I2V v2.1 单期截图、GC05 / G16 挂了很久「榜单类资料缺一手页与多期快照」。<a href="https://mp.weixin.qq.com/s/o_C93hkiSzFeap_0YyfXKg" rel="noopener">A036</a> <strong>第一次给榜单类补上了可点的一手页</strong>（top500.org 11/2026 第 68 期 + 新华网 2026-11-23），但<strong>仍不是多期快照</strong>：本库只有 11/2026 这一期，没有 6/2026 第 67 期或更早同口径图。⚠️ <strong>不回改 <a href="https://artificialanalysis.ai/video/leaderboard/image-to-video" rel="noopener">A019</a> / <a href="../apps/榜单生态：谁在收集%20AI%20数据、四种来源与跟进的代价.html">T043</a> / GC05 / G16</strong>，只在 <a href="../apps/第七型取证范式：有一手页时怎么收、核实成功也不能把全表升格.html">T088</a> 里作说明，并把「多期快照」继续留作缺口。</p>
+<p><strong>证据等级</strong>：「<strong>公共榜单图卡 · 第 1 名核心数字经 TOP500 官网与新华网核实一致 · 等效换算列为作者自定口径且算术自洽 · 第 2–10 名仅图面口径 · 无榜单原页链接（页面 source_url 为空）、无抓取时间、无制图方</strong>」。比 <a href="https://mp.weixin.qq.com/s/iMnx_LuS2x5Znk2MkhdjTg" rel="noopener">A034</a> / <a href="https://mp.weixin.qq.com/s/yjAqx2IHAhFewtkBdpI8zw" rel="noopener">A035</a> 硬在<strong>有一手页且核上了</strong>，软在<strong>换算口径与全表仍未核</strong>。</p>
+<p><strong>一句话</strong>：这条的价值是「一个把 HPL 双精度性能折算成 GPU 等效卡数的口径样本」+「本库第一次核实成功的公共榜单」；凡是想从它读出 B300 实际保有量、AI 训练算力等价、11/2026 完整 TOP10 官方数值或液冷工程规格的，都属于越界。</p>
+<blockquote>整理说明：口径与边界整理卡，非原文观点；三层证据分层、换算自洽不等于口径成立、并列不调和与证据等级为本库整理方法，不代表 TOP500、新华网或公众号立场。</blockquote>
+<h2>来源</h2>
+<ul><li>A035《Cleanzo 安全清理｜免费开源》 · 2026-11-22 · <a href="https://mp.weixin.qq.com/s/yjAqx2IHAhFewtkBdpI8zw" rel="noopener">https://mp.weixin.qq.com/s/yjAqx2IHAhFewtkBdpI8zw</a></li><li>A036《全球超算TOP10：第一名相当于183万张B300》 · 2026-11-17 · <a href="https://mp.weixin.qq.com/s/o_C93hkiSzFeap_0YyfXKg" rel="noopener">https://mp.weixin.qq.com/s/o_C93hkiSzFeap_0YyfXKg</a></li></ul>
+    </div>
+  </article>
+  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list"><a href="%E5%B7%A5%E5%85%B7%E5%8F%B0%E8%B4%A6%20%C2%B7%20%E7%A1%AC%E4%BB%B6.html"><b>工具台账 · 硬件（24 件）</b><time>2026-09-03</time></a><a href="%E4%BB%8E%E3%80%8C%E5%8D%96%20GPU%E3%80%8D%E5%88%B0%E3%80%8CAI%20%E5%B7%A5%E5%8E%82%E3%80%8D%EF%BC%9A%E6%AD%A3%E6%96%87%E5%A4%A7%E7%BA%B2%E3%80%81%E5%9B%BE%E9%9D%A2%E5%B9%B4%E8%A1%A8%E4%B8%8E%E5%AE%98%E6%96%B9%E5%8F%A3%E5%BE%84%E7%9A%84%E8%BE%B9%E7%95%8C.html"><b>从「卖 GPU」到「AI 工厂」：正文大纲、图面年表与官方口径的边界</b><time>2026-11-17</time></a><a href="%E5%85%A8%E7%90%83%E8%B6%85%E7%AE%97%20TOP10%20%E4%B8%8E%E3%80%8C183%20%E4%B8%87%E5%BC%A0%20B300%E3%80%8D%EF%BC%9A%E6%AD%A3%E6%96%87%E5%85%A8%E9%87%8F%E3%80%81%E5%9B%BE%E9%9D%A2%2010%20%E8%A1%8C%E8%A1%A8%E4%B8%8E%E4%B8%80%E6%89%8B%E6%A0%B8%E5%AE%9E%E7%BB%93%E6%9E%9C.html"><b>全球超算 TOP10 与「183 万张 B300」：正文全量、图面 10 行表与一手核实结果</b><time>2026-11-17</time></a></div>
+  </nav>
+  <nav class="pager"><a href="../hardware.html"><span class="pg-l">← BACK</span><span class="pg-t">硬件 · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2026-11 公开资料<br>2026 条目：只收能核到月份的<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">AI+行业</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>工具台账 · Skill（28 件） · Agent</title>
+<meta name="description" content="资料入库时归到「Skill」的 28 个条目：工具、基准、框架、组件都算，记名称、功能、开源情况与原文点评。只进一个板块（按资料里的分类首项），不排名。">
+<link rel="stylesheet" href="../assets/css/site.css?v=42f35f2b">
+<link rel="stylesheet" href="../assets/css/section.css?v=0afe21cf">
+<script src="../assets/js/skinboot.js?v=deff9a81"></script>
+<link rel="stylesheet" href="../assets/css/skin.css?v=01cdbd8f">
+<link rel="stylesheet" href="../assets/css/pagebar.css?v=b4d2a8e4">
+<script src="../assets/js/board.js?v=10d62f46" defer></script>
+<script src="../assets/js/ranks.js?v=76e44c3f" defer></script>
+<script src="../assets/js/reports.js?v=971c0e35" defer></script>
+<script src="../assets/js/toc.js?v=4b9e2ef8" defer></script>
+<script src="../assets/js/pagebar.js?v=ad60322d" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a href="../models.html">基模</a>
+      <a class="is-active" href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a href="../hardware.html">硬件</a>
+      <a href="../templates.html">模板</a>
+      <a href="../apps.html">AI+行业</a>
+      <a href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-27</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+
+<div class="pbar"><div class="pb-in">
+  <span class="pb-t">Agent</span>
+  <div class="pb-sum">报告 · <b>2026-09-03</b></div>
+  <div class="pb-sp"></div>
+  <button class="pb-i" data-pb="theme" type="button" title="切换深浅色" aria-label="切换深浅色"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/></svg></button>
+  <button class="pb-i" data-pb="reload" type="button" title="刷新这一页" aria-label="刷新这一页"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5V10h-5.5"/></svg></button>
+  <button class="pb-i" data-pb="setup" type="button" title="外观设置" aria-label="外观设置" aria-haspopup="dialog" aria-expanded="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg></button>
+</div></div>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">Agents</span>
+    <a href="../agents.html">← 回「Agent」</a>
+    <a href="../agents.html#intro">简介</a>
+    <a href="../agents.html#board-1">使用量 · 命令行工具</a>
+    <a href="../agents.html#board-2">使用量 · IDE 插件</a>
+    <a href="../agents.html#board-3">办公 Agent</a>
+    <a href="../agents.html#board-4">技能</a>
+    <a href="../agents.html#board-5">专家</a>
+    <a href="../agents.html#board-6">MCP 服务器 · 调用量</a>
+    <a href="../agents.html#board-7">MCP 服务器 · 开源热度</a>
+    <a href="../agents.html#board-8">MCP 服务器仓库 · 按实现语言</a>
+    <a href="../agents.html#board-9">MCP 托管平台 · 上架量</a>
+    <a href="../agents.html#board-10">IDE 扩展市场 · 存量</a>
+    <a href="../agents.html#board-11">产品台账</a>
+    <a href="../agents.html#cards">对比</a>
+    <a href="../agents.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../agents.html">Agent</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2026-09-03 · 工具 · 资料入库</p>
+    <h1 class="post-title">工具台账 · Skill（28 件）</h1>
+    <p class="post-lede">资料入库时归到「Skill」的 28 个条目：工具、基准、框架、组件都算，记名称、功能、开源情况与原文点评。只进一个板块（按资料里的分类首项），不排名。</p>
+    <div class="post-body">
+<p>台账收的是原文里被点名、值得单独记一笔的东西——工具、基准、框架、组件都算。按资料原文照录：<strong>作者 / 平台 / 开源没写出来的，就是原文没给，不替它猜</strong>；功能与点评都是原文一句话，没有二次评价。想按主题看这些工具各自解决什么问题，翻本页其它带「资料入库」标签的报告。 台账收的是 2026-09-03 至 2026-11-27 的原文。</p>
+<h3>OpenSpec</h3>
+<p>规格、记忆与工作流：专治 AI 乱写和健忘</p>
+<p>— 平台：规格与工作流层</p>
+<blockquote>把需求与约定固化成图纸，避免每次从头交代</blockquote>
+<h3>Mindfold Trellis</h3>
+<p>规格、记忆与工作流：项目记忆与交接</p>
+<p>— 平台：规格与工作流层</p>
+<blockquote>原文仅列举，未评价</blockquote>
+<h3>Hooks（硬门禁）</h3>
+<p>测试不过直接锁死、不准提交</p>
+<p>— 平台：提交前钩子</p>
+<blockquote>把质量约束从提示词建议升级成系统强制，是该层最有价值的一点</blockquote>
+<h3>FreeCAD MCP</h3>
+<p>8 类工具：建模、改属性、跑 Python、截图、插标注、做 FEM</p>
+<p>— 平台：FreeCAD 桌面端，需活跃窗口 + 本地 RPC · 开源：开源 · GitHub 3,209★（11/4）</p>
+<blockquote>简单零件几轮收敛；复杂装配会飘、易忘上一步，依赖活窗口，崩了连接就断</blockquote>
+<h3>cad-skill</h3>
+<p>一句话生成参数化脚本、导出 STL、四视角预览、改参数重跑</p>
+<p>— 平台：Python 3.10–3.12 → STL / 3D 打印 · 开源：开源 · GitHub 713★（11/4）</p>
+<blockquote>闭环最短，不用懂建模命令；但只服务 3D 打印，不做工程图/装配/公差</blockquote>
+<h3>CAD-MCP</h3>
+<p>35 个 MCP 工具：画线画圆、图层块、标注、查实体句柄、截图、命令透传</p>
+<p>— 平台：Windows：AutoCAD / 浩辰 / 中望；本地或 HTTP · 开源：开源 · GitHub 669★（11/4）</p>
+<blockquote>画完能查、查完能改、改完能截图确认；覆盖国产 CAD，但基本没有三维能力</blockquote>
+<h3>brepjs</h3>
+<p>精确 B-Rep；五阶段工作流 + brep verify 查有效性/尺寸/形状 + 多视角快照</p>
+<p>— 平台：TypeScript / Claude Code 插件 / STEP · 开源：开源 · GitHub 139★（11/4）</p>
+<blockquote>46 个示例零件全过，类型安全、错误编译期挡住；生态小、复杂曲面撑不住</blockquote>
+<h3>AutoCAD MCP Pro</h3>
+<p>248 工具 / 11 资源 / 5 提示词模板 / 6,060 测试；几何验收给 5 种结论</p>
+<p>— 平台：Windows COM（活 AutoCAD）/ 其他平台 ezdxf 无头 · 开源：开源 · GitHub 225★（11/4）</p>
+<blockquote>能出正式图纸、结论带实测值；但太重，COM 挑版本与权限，轻量需求不划算</blockquote>
+<h3>CAD-Agent-Hub</h3>
+<p>一组 MCP server 与桥接器，接进已有商业 CAD/CAE 软件，逐个独立验证</p>
+<p>— 平台：Windows：CATIA V5 / SolidWorks / NX / · 开源：开源 · GitHub 131★（11/4）</p>
+<blockquote>学习成本花一次；但项目分散、无一键安装，COM 成功不等于结果正确</blockquote>
+<h3>karpathy-guidelines</h3>
+<p>澄清假设与需求歧义，避免过度设计与无关改动，按验收目标验证结果</p>
+<p>— 平台：WorkBuddy / Skill（A006 图未给安装方式） · 开源：约 217.8k★（GitHub Stars，A006 图）</p>
+<blockquote>核心价值「明确需求，控制改动，验证结果」；适用修复 Bug / 局部重构 / 审查 AI 生成代码；关键改动仍需人工审查。星数原文标「约」，许可证未写明</blockquote>
+<h3>ponytail</h3>
+<p>优先复用项目现有代码、标准库与已有依赖，收敛到最小完整改动</p>
+<p>— 平台：WorkBuddy / Skill · 开源：约 159.9k★（A006 图）</p>
+<blockquote>「优先复用，让代码保持简单」；适合老项目维护与小型新需求；侧重开发取舍与改动范围。许可证未写明</blockquote>
+<h3>ui-ux-pro-max</h3>
+<p>推荐配色字体与页面布局、整理交互规范与设计系统、生成对应界面代码</p>
+<p>— 平台：WorkBuddy / Skill · 开源：约 134.3k★（A006 图）</p>
+<blockquote>「把配色、字体与布局连成一套」；适用官网落地页 / 后台 SaaS 界面 / 移动应用视觉方案；输入需说明产品类型、目标用户、风格偏好、技术栈。与 A007 品牌色主题相关</blockquote>
+<h3>impeccable</h3>
+<p>审查排版配色与界面层级、优化动效和响应式布局、检查可访问性与视觉细节</p>
+<p>— 平台：WorkBuddy / Skill（界面打磨） · 开源：约 79.1k★（A006 图）</p>
+<blockquote>「从排版到交互，细节都有章法」；按设计命令分步优化，适合在现有界面上迭代；输入给页面截图或前端代码 + 品牌风格与改进目标</blockquote>
+<h3>i-have-adhd</h3>
+<p>优先呈现结论与下一步、减少铺垫和无关信息、追踪多阶段任务进度</p>
+<p>— 平台：WorkBuddy / Skill（清晰表达） · 开源：约 56.2k★（A006 图）</p>
+<blockquote>「少些铺垫，多些清楚的行动步骤」；适合长回答提取重点、复杂任务分阶段、低阅读负担沟通；可配合其他任务技能</blockquote>
+<h3>humanizer</h3>
+<p>识别常见 AI 套话与腔调、删减空泛措辞和重复、调整句式节奏与文章结构</p>
+<p>— 平台：WorkBuddy / Skill（自然写作） · 开源：约 55.3k★（A006 图）</p>
+<blockquote>「把空泛的表达，改成清楚的人话」；以现有文本为改写基础，保留原意与具体信息；适用文章润色、邮件文案、社交内容</blockquote>
+<h3>diagram-design</h3>
+<p>提供多种图表类型与布局、绘制流程架构和用户旅程、生成可独立打开的图表</p>
+<p>— 平台：WorkBuddy / Skill（图表设计）；输出 HTML 与 SVG · 开源：约 48.2k★（A006 图）</p>
+<blockquote>「用统一的视觉语言，讲清复杂关系」；支持统一风格系列图表；适用汇报配图、业务流程、技术架构讲解</blockquote>
+<h3>book-to-skill</h3>
+<p>提炼书籍和文档中的方法、整理决策规则与操作步骤、组织章节参考供按需调用</p>
+<p>— 平台：WorkBuddy / Skill（知识提炼） · 开源：约 34.3k★（A006 图）</p>
+<blockquote>「把读过的知识，变成能调用的方法」；输出技能及对应参考资料，适合有完整结构的知识材料；与个人资料库建设思路直接相关</blockquote>
+<h3>GitHub Skills 本周飙升榜 TOP 10（2026.11.06）</h3>
+<p>五张内页按主题分组：网页设计质感 / 写代码有依据 / 先想清设计 / 有分工的 AI 团队 / 流程与像素特效；</p>
+<p>— 作者：来源：DevSry · Rising This Week（图面标注） · 平台：近 7 日 Star 增长榜；10 条：impeccable +10.1k /</p>
+<blockquote>⚠️ 是<strong>近 7 日 Star 增长</strong>快照，不是累计 Star / 官方排行 / 能力评测；仓库地址、作者、许可、安装方式全未给，数值未回 GitHub 核实；pixelfx 标「6 天」与「近 7 日」口径不一致，按图面留。见 T061 / G24</blockquote>
+<h3>Archify Skill 会验架构图（主条目）</h3>
+<p>Agent Skill：让 Agent 先产出类型化 JSON，再由程序完成 Schema、引用和布局检查，生成可交互 HTML 与多种导出；</p>
+<p>— 作者：公众号「AI情报库」；author「云隐」；alias「YYZG_2020」 · 平台：微信公众号图文，2026-09-03 05:45（库内最早发布）； · 开源：正文点名 GitHub 仓库 tt-a1i/archify；</p>
+<blockquote>⚠️ 归 skill 主板块不新建栏目。⚠️ <strong>仓库真实存在</strong>（GitHub 一手页核实：95.4k stars / 6.5k forks / 1,762 commits / archify.si）</blockquote>
+<h3>外部一手核实：GitHub tt-a1i/archify 真实存在（单列不并入正文）</h3>
+<p>topics 含 agent-skills / claude-code / codex / diagrams-as-code / dsh-plugin / mermaid 等；</p>
+<p>— 作者：GitHub 仓库页 + 第三方教程；非公众号正文 · 平台：描述「Turn any idea, plan, or codebase into · 开源：Apache-2.0（当前）/ MIT（历史 grants 与第三方说法）</p>
+<blockquote>⚠️ 这是<strong>外部一手补充</strong>，单列不并入公众号正文、不拿去补 GS01（触发/版本/冲突）或 GS03（自研实操）。⚠️ <strong>仓库存在 ≠ 图面 9-01 的 39,284 快照已核</strong>：当前 95.4k 与历史快照时点不同，既不能证也不能证伪。见 T089 / T090 / G41</blockquote>
+<h3>Star 四口径时间序列（39,284 → 62.9k / 6.7万 → 95.4k）</h3>
+<p>作为本库第一份「单个项目」可排成时间序列的 Star 快照样本；另「本周 +22,095」是周增长不是累计</p>
+<p>— 作者：A037 图面 + 第三方文章 + GitHub 当前页 · 平台：39,284 Stars（图面 2026.09.01</p>
+<blockquote>⚠️ 四个数<strong>并列不调和、只追加不覆盖、不取平均、不写成规格</strong>（呼应 GSK06 / GS04 / A028 的 1,481★ vs 近 2000 标星）。⚠️ 与 T061 / A025（2026-11-06 近 7 日增长榜，最高 +10.1k）是<strong>不同期、口径相近</strong>的并列关系，不互相补、不互相质疑。</blockquote>
+<h3>P1 工作流与 P2 核心机制（图面逐字）</h3>
+<p>P2：旧问题三条（自然语言直接变图 / 模型补出不存在的关系 / 复杂图重叠断线难复核）→ 五步「01 读取语义 / 02 生成类型化 JSON / 03 Schema 校验 /</p>
+<p>— 作者：A037 长图第 1、2 页（各带水印副本） · 平台：P1：39,284 Stars / 本周 +22,095 / 2026.09.01</p>
+<blockquote>⚠️ 39,284 / 22,095 / 2026.09.01 / archify.dev / 五步 / 五类图 / 关键分工回 HTML 验零<strong>全部 0 次</strong>；「类型化 JSON」「架构图」「可交互」正文里有（6/5/6 次），<strong>不是图面独有</strong>。P1 内嵌架构示意是<strong>演示截图快照</strong>，不是真实拓扑。</blockquote>
+<h3>P3 生成之后：三能力 / 四优点 / 边界句</h3>
+<p>底部边界「<strong>它验证图中声明，不替代运行时监控</strong>」；三张演示界面小图 Cache Miss Request Sequence / Production Deployment</p>
+<p>— 作者：A037 长图第 3 页（带水印副本） · 平台：路径追踪（沿已写入连线查看最短路径）/ 语义镜头（按角色和区域聚焦已写入关系）/</p>
+<blockquote>⚠️ 边界句是<strong>作者自述的能力边界，不是本库结论</strong>；三张小图与 <code>PATH MAP / LENS</code> 控件是<strong>演示截图快照 · 未回一手核实</strong>，不是项目实测。⚠️ 与 A030「合成演示终端 / 假命令」不同，这是正常产品界面示例，不套命令级核验。见 T089 / T090 / T091</blockquote>
+<h3>图内嵌演示界面截图（P1 架构 + P3 三张小图）</h3>
+<p>P3：Cache Miss Request Sequence / Production Deployment Ownership / Agent Tool Call</p>
+<p>— 作者：A037 长图内嵌界面 · 平台：P1：Security &amp; Identity（Auth Service</p>
+<blockquote>⚠️ 全部「<strong>演示截图快照 · 未回一手核实</strong>」：不写成真实系统拓扑、不写成功能实测、不把英文小字当项目文档（沿用 A035「演示数据」标注）。见 T089 / T090 / T091</blockquote>
+<h3>域名三写与许可两写（并列不调和）</h3>
+<p>作为「同一项目多域名、多许可口径」的样本</p>
+<p>— 作者：A037 图面 + GitHub About + 第三方文章 · 平台：archify.dev（图面浏览器地址栏）/ archify.si（GitHub · 开源：Apache-2.0 与 MIT 并列（未调和）</p>
+<blockquote>⚠️ 不校正、不判断哪个是主域、不替作者统一；「MIT」可能对应历史许可但本库<strong>不推断演变时间线</strong>。与 A035「才 5 MB / 约 5 MB」、A036「Exaflop/s / PFlop/s」同属并列不调和类。见 T090 / G42</blockquote>
+<h3>与 T061 / A025 飙升榜的对照（不同期、口径相近）</h3>
+<p>说明「单项目周增长」与「全榜近 7 日增长」是两个对象、两个期号</p>
+<p>— 作者：A037 图面 vs T061（A025，2026-11-06） · 平台：A037：2026-09-01 单项目快照 39,284 Stars / 本周</p>
+<blockquote>⚠️ 并列不调和：不拿 +22,095 去补 T061 榜单，也不拿 +10.1k 去质疑它。⚠️ <strong>A025 / T061 / GS04 / GSK06 一条都不回改</strong> —— A037 是「第一次给单个 Skill 项目补上可点的一手仓库」，但<strong>仍不是榜单多期快照</strong>。见 T090 / T091 / G41</blockquote>
+<h3>两类验零噪音：SVG 圆弧坐标 + 微信 JS 框架变量</h3>
+<p>作为「验零命中先看上下文」的两类样本；加上 A035「反向词别误列」，构成三条硬规矩</p>
+<p>— 作者：A036 / A037 原始 HTML 验零过程 · 平台：A036：「83.33」命中 10 次全是内联 SVG path 圆弧坐标</p>
+<blockquote>⚠️ 别把样式坐标或框架变量当成「正文里也有」；也别把「类型化 JSON / 架构图 / 可交互」这类正文词误列进图面独有清单。见 T089 / T091 / 维护约定第 40、41 条</blockquote>
+<h3>11 张 → 7 组：三页各带成对水印副本</h3>
+<p>沿用 A033「每页成对水印」：无水印版读内容、水印版补号名，两份都不能丢</p>
+<p>— 作者：A037 页面图片资源 · 平台：三页 1024×1536 各 1 组 2 份副本（无水印 png + 带「公众号</p>
+<blockquote>⚠️ 与 A032/A034/A035/A036 的「同一主图多份副本」不同：这次是<strong>三张不同内容的页各带一份水印副本</strong>，不能合并成一组。⚠️ 裁剪版会截掉顶部「ARCHIFY SKILL」与底部五类图图标下半，<strong>不能当完整页用</strong>（呼应 A036 裁剪版不为主证据）。见 T089 / T091</blockquote>
+    </div>
+  </article>
+  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list"><a href="%E5%B7%A5%E5%85%B7%E5%8F%B0%E8%B4%A6%20%C2%B7%20Agent%20%E8%AE%B0%E5%BF%86%20%C2%B7%20%E5%8F%82%E6%95%B0%E5%8C%96%E4%B8%8E%20RAG%20%E6%9B%BF%E4%BB%A3.html"><b>工具台账 · Agent 记忆 · 参数化与 RAG 替代（6 件）</b><time>2026-09-03</time></a><a href="%E5%B7%A5%E5%85%B7%E5%8F%B0%E8%B4%A6%20%C2%B7%20Agent.html"><b>工具台账 · Agent（20 件）</b><time>2026-09-03</time></a><a href="%E5%B7%A5%E5%85%B7%E5%8F%B0%E8%B4%A6%20%C2%B7%20MCP.html"><b>工具台账 · MCP（4 件）</b><time>2026-09-03</time></a></div>
+  </nav>
+  <nav class="pager"><a href="../agents.html"><span class="pg-l">← BACK</span><span class="pg-t">Agent · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2026-11 公开资料<br>2026 条目：只收能核到月份的<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">AI+行业</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

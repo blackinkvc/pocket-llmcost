@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>H01 · Anthropic 把 Messages API 从 Python 移植到 Rust：40%–50% 与 70% 并列 · AI+行业</title>
+<meta name="description" content="**归类决定**：视频归「**实例**」主板块（工程复盘），related 挂 agent / model / infra / ai4s，**不新建栏目**；">
+<link rel="stylesheet" href="../assets/css/site.css?v=42f35f2b">
+<link rel="stylesheet" href="../assets/css/section.css?v=0afe21cf">
+<script src="../assets/js/skinboot.js?v=deff9a81"></script>
+<link rel="stylesheet" href="../assets/css/skin.css?v=01cdbd8f">
+<link rel="stylesheet" href="../assets/css/pagebar.css?v=b4d2a8e4">
+<script src="../assets/js/board.js?v=10d62f46" defer></script>
+<script src="../assets/js/ranks.js?v=76e44c3f" defer></script>
+<script src="../assets/js/reports.js?v=971c0e35" defer></script>
+<script src="../assets/js/toc.js?v=4b9e2ef8" defer></script>
+<script src="../assets/js/pagebar.js?v=ad60322d" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a href="../models.html">基模</a>
+      <a href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a href="../hardware.html">硬件</a>
+      <a href="../templates.html">模板</a>
+      <a class="is-active" href="../apps.html">AI+行业</a>
+      <a href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-27</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+
+<div class="pbar"><div class="pb-in">
+  <span class="pb-t">AI+行业</span>
+  <div class="pb-sum">报告 · <b>2026-11-26</b></div>
+  <div class="pb-sp"></div>
+  <button class="pb-i" data-pb="theme" type="button" title="切换深浅色" aria-label="切换深浅色"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/></svg></button>
+  <button class="pb-i" data-pb="reload" type="button" title="刷新这一页" aria-label="刷新这一页"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5V10h-5.5"/></svg></button>
+  <button class="pb-i" data-pb="setup" type="button" title="外观设置" aria-label="外观设置" aria-haspopup="dialog" aria-expanded="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg></button>
+</div></div>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">AI × INDUSTRY</span>
+    <a href="../apps.html">← 回「AI+行业」</a>
+    <a href="../apps.html#intro">简介</a>
+    <a href="../apps.html#cards">专题</a>
+    <a href="../apps.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../apps.html">AI+行业</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2026-11-26 · Anthropic · Claude · Messages API · Python→Rust · 资料入库</p>
+    <h1 class="post-title">H01 · Anthropic 把 Messages API 从 Python 移植到 Rust：40%–50% 与 70% 并列</h1>
+    <p class="post-lede"><strong>归类决定</strong>：视频归「<strong>实例</strong>」主板块（工程复盘），related 挂 agent / model / infra / ai4s，<strong>不新建栏目</strong>；</p>
+    <div class="post-body">
+<p><strong>页面 / 视频可见信息</strong>：短链 <a href="http://yb.woa.com/8Abur0ylFHZ" rel="noopener">http://yb.woa.com/8Abur0ylFHZ</a> ，11 秒，用户附「【视频解析内容-模型总结信息】」自动解析稿；<strong>视频本体、逐帧画面、字幕、封面、发布账号、发布日期、地点、互动数字全部取不到</strong> → 标「内容待补」+「非逐帧取证」（同 <a href="http://yb.woa.com/DjfzMFlnxuO" rel="noopener">A020</a> / <a href="http://yb.woa.com/HvYlY3lwbsr" rel="noopener">A023</a> / <a href="http://yb.woa.com/4AK3r0d8UHO" rel="noopener">A024</a> / <a href="http://yb.woa.com/14N0XXeQcgj" rel="noopener">A030</a>）。解析稿 5 段按原样全量留档：标题「CPU直降70%，全程零停机」+ 图表左列「Anthropic Messages API / Zero downtime / Python -&gt; Rust」+ CPU 下降折线图；00:02–00:04 推特评论「that's incredible」+ X.com；00:04–00:06 三个无标签柱状图「90万」「200+」「15万」；00:06–00:08 Action 1（AOT 编译器和内存管理）/ Action 2（服务分离和无状态业务逻辑）/ Action 3（重构语言层 (A) &amp; 核心 DSL）/ Action 4（引入新的编译器和运行时）；00:08–00:11 文案「打满1800亿参数模型、完成端到端增量训练、智能体插件支持」+「AI 三个痛点：算力消耗大、成本高昂、AI 行业标准缺失」。</p>
+<p><strong>一手已证实（外部，单列不并入解析稿）</strong>：InfoQ / 新浪财经 2026-10-29 转述 Anthropic 平台工程负责人 <strong>Katelyn Lesse</strong> 的 X 长文（10-26）与 Latent Space 播客（10-27）—— 团队原本没有 Rust 工程师，因 Python 单体 CPU 效率低、CPU 容量需提前规划，借 Claude 把 <strong>Messages API 移植到 Rust</strong>；<strong>CPU 资源消耗减少约 40%–50%</strong>、<strong>首 Token 延迟改善约 10%–20%</strong>（更长工作负载改善更大）；用 <strong>Shadow Traffic 影子流量</strong>让 Python / Rust 两套实现处理等价请求、对比输出后逐步切流；刻意不新增功能，Katelyn 称其为「移植（Port）」；人类定系统架构、迁移策略与验证，Claude 承担代码实现。同期长文另提四类新工程问题（成千上万 Agent 调度、身份认证 vs 授权与 OBO、提示词注入爆炸半径与「大脑 / 双手」分离、Kill Switch 与 OTel 跨 Agent 追踪），单列不并入数字口径。</p>
+<p><strong>媒体转述层（非一手）</strong>：网易号 2026-11-25 给「每请求 CPU 骤减约 <strong>70%</strong>、内存狂降超 <strong>80%</strong>、中位数 TTFT 缩短约 <strong>20%</strong>、全程零停机、不冻结新功能；2026 年 5 月合并代码 &gt;80% 由 Claude 编写；Claude 一周写出初稿」。工程难点：700+ 集成测试与 Python 耦合、断言被削弱；20 个二元选项 &gt; 百万组合；模型输出非确定性；隐私限制不能看客户真实请求。解法「单次推理、双端比对」+ Checkpointing / Fingerprinting + 三重验证循环（Inner / Outer / Memory Loop）+ 忒修斯之船。⚠️ 这是自媒体转述，不是 Anthropic 官方工程博客。</p>
+<p>⚠️ <strong>口径冲突并列不调和</strong>：① <strong>CPU 40%–50%（一手访谈）vs 70%（自媒体 / 视频标题）</strong> —— 不取平均、不覆盖成「最新」（同 <a href="https://mp.weixin.qq.com/s/QQbMio_My7u1i_ladamVkw" rel="noopener">A037</a> Star 四口径、<a href="https://mp.weixin.qq.com/s/tESp7Od1YgtSHT9tEPLK2w" rel="noopener">A039</a> 两期跨口径）；② 内存 &gt;80% 一手未提；③ TTFT 10%–20% 区间 vs 约 20% 中位数点值也不合并；④ 上线时点「上周刚全面上线」（10 月下旬）vs「11 月 25 日宣布完成」；⑤「全程零停机」一手只写「影子流量逐步切流」。</p>
+<p>⚠️ <strong>图面独有 / 解析稿错置</strong>：90万 / 200+ / 15万 三个柱状图<strong>无标签、含义与单位未给</strong> → 不解读、不补数值；Action 1–4 与一手的影子测试 / 逐字节比对 / 三重验证循环对不上，按图面独有留档；末段「1800 亿参数模型 / 端到端增量训练 / 智能体插件 / AI 行业标准缺失」与 Rust API 移植主题明显错配，沿用 <a href="http://yb.woa.com/DjfzMFlnxuO" rel="noopener">A020</a> / <a href="http://yb.woa.com/HvYlY3lwbsr" rel="noopener">A023</a> 的「解析稿语义错置」标注，不并入事实层。</p>
+<p><strong>证据等级</strong>：「视频自动解析稿 · 无逐帧画面 / 字幕 / 封面 / 元信息 · 一手访谈（媒体编辑整理）核到 40%–50% 与影子流量方法 · 自媒体 70% / 80% 与解析稿标题属转述层 · 缺 Anthropic 官方工程博客、原始 benchmark 表、测量口径（每请求 / 服务整体）、请求量、服务版本号与抓取时间（G45）」。⚠️ 两版数字都<strong>不能判定孰对孰错</strong>。</p>
+<p><strong>补齐清单回写 · 打勾不删</strong>：本条一次性补上 <strong>GA01</strong>（多 Agent 协作真实工程案例）、<strong>GC01</strong>（目标→方案→踩坑→量化结果四段齐全的落地复盘）、<strong>GC04 / GC06</strong>（转述偏差与解析稿错乱复核流程又添一例）、<strong>G08</strong>（样本形态与一手页样本）、<strong>G14</strong>（外部验证样本）→ 打 ✅；<strong>G45</strong> 新开缺口（官方博客与 benchmark 表）。原缺口 text / note 一字不改、条目一条不删，补记挂在 <code>DATA.gaps.review</code>。见 H01 / <a href="../apps/H02%20·%20H03%20·%20「OpenAI%20破解数学」与「Claude%20解决黎曼猜想」.html">T098</a> / <a href="../apps/第二十三批归纳：第五页、三条事件与「补好打勾、别删条目」.html">T099</a> / 维护约定第 43 条。</p>
+<blockquote>整理说明：事实整理卡。解析稿按用户提供的 5 段时间轴逐字摘录；一手访谈与自媒体转述分层留档、两版 CPU 数字并列不调和；图面无标签数字不解读。不代表 Anthropic、Claude 或任一媒体立场。</blockquote>
+<h2>来源</h2>
+<ul><li>A040《Anthropic 将核心 API 从 Python 重写为 Rust 的性能对比（视频解析稿）》 · 2026-11-26 · <a href="http://yb.woa.com/8Abur0ylFHZ" rel="noopener">http://yb.woa.com/8Abur0ylFHZ</a></li></ul>
+    </div>
+  </article>
+  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list"><a href="H02%20%C2%B7%20H03%20%C2%B7%20%E3%80%8COpenAI%20%E7%A0%B4%E8%A7%A3%E6%95%B0%E5%AD%A6%E3%80%8D%E4%B8%8E%E3%80%8CClaude%20%E8%A7%A3%E5%86%B3%E9%BB%8E%E6%9B%BC%E7%8C%9C%E6%83%B3%E3%80%8D.html"><b>H02 / H03 · 「OpenAI 破解数学」与「Claude 解决黎曼猜想」：标题简写与形式化核验</b><time>2026-01-01</time></a><a href="%E5%8F%96%E8%AF%81%E8%AE%B0%E5%BD%95%EF%BC%9A%E4%BA%8C%E5%8D%81%E4%B8%89%E6%89%B9%E8%B5%84%E6%96%99%E7%9A%84%E5%8F%AF%E8%A7%81%E8%BE%B9%E7%95%8C%E4%B8%8E%E8%A1%A5%E5%85%A8%E6%9D%A5%E6%BA%90.html"><b>取证记录：二十三批资料的可见边界与补全来源</b><time>2026-09-03</time></a><a href="%E5%B7%A5%E5%85%B7%E5%8F%B0%E8%B4%A6%20%C2%B7%203D%20%C2%B7%20%E5%88%9B%E6%84%8F%E7%BD%91%E9%A1%B5.html"><b>工具台账 · 3D · 创意网页（2 件）</b><time>2026-09-03</time></a></div>
+  </nav>
+  <nav class="pager"><a href="../apps.html"><span class="pg-l">← BACK</span><span class="pg-t">AI+行业 · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2026-11 公开资料<br>2026 条目：只收能核到月份的<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">AI+行业</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

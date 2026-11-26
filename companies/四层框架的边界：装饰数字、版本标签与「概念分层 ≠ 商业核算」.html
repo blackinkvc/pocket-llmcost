@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>四层框架的边界：装饰数字、版本标签与「概念分层 ≠ 商业核算」 · 公司</title>
+<meta name="description" content="⚠️ **本卡是口径与边界整理，不是产业数据**。A031 全篇没有一个可当数据用的数字，却最容易被引成「2026 年 AI 产业链结构」。先把性质标清，再谈它和库里其他框架的关系。">
+<link rel="stylesheet" href="../assets/css/site.css?v=42f35f2b">
+<link rel="stylesheet" href="../assets/css/section.css?v=0afe21cf">
+<script src="../assets/js/skinboot.js?v=deff9a81"></script>
+<link rel="stylesheet" href="../assets/css/skin.css?v=01cdbd8f">
+<link rel="stylesheet" href="../assets/css/pagebar.css?v=b4d2a8e4">
+<script src="../assets/js/board.js?v=10d62f46" defer></script>
+<script src="../assets/js/ranks.js?v=76e44c3f" defer></script>
+<script src="../assets/js/reports.js?v=971c0e35" defer></script>
+<script src="../assets/js/toc.js?v=4b9e2ef8" defer></script>
+<script src="../assets/js/pagebar.js?v=ad60322d" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a href="../models.html">基模</a>
+      <a href="../agents.html">Agent</a>
+      <a class="is-active" href="../companies.html">公司</a>
+      <a href="../hardware.html">硬件</a>
+      <a href="../templates.html">模板</a>
+      <a href="../apps.html">AI+行业</a>
+      <a href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-27</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+
+<div class="pbar"><div class="pb-in">
+  <span class="pb-t">公司</span>
+  <div class="pb-sum">报告 · <b>2026-11-25</b></div>
+  <div class="pb-sp"></div>
+  <button class="pb-i" data-pb="theme" type="button" title="切换深浅色" aria-label="切换深浅色"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/></svg></button>
+  <button class="pb-i" data-pb="reload" type="button" title="刷新这一页" aria-label="刷新这一页"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5V10h-5.5"/></svg></button>
+  <button class="pb-i" data-pb="setup" type="button" title="外观设置" aria-label="外观设置" aria-haspopup="dialog" aria-expanded="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg></button>
+</div></div>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">Companies</span>
+    <a href="../companies.html">← 回「公司」</a>
+    <a href="../companies.html#intro">简介</a>
+    <a href="../companies.html#board">站位</a>
+    <a href="../companies.html#reports">全文</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../companies.html">公司</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2026-11-25 · 数值性质 · 装饰数字 · 版本标签 · 示意值 · 资料入库</p>
+    <h1 class="post-title">四层框架的边界：装饰数字、版本标签与「概念分层 ≠ 商业核算」</h1>
+    <p class="post-lede">⚠️ <strong>本卡是口径与边界整理，不是产业数据</strong>。A031 全篇没有一个可当数据用的数字，却最容易被引成「2026 年 AI 产业链结构」。先把性质标清，再谈它和库里其他框架的关系。</p>
+    <div class="post-body">
+<p><strong>四类「看起来像数字、其实不是数据」的东西（按 <a href="../apps/数字的七类证据性质：演示%20·%20报价%20·%20示意%20·%20可核验计数%20·%20正文未载的图面结果.html">T038</a> 第三类标示意 / 装饰）</strong>：</p>
+<ul><li><strong>00123</strong>：Token 层仪表盘计数器里的插画装饰，<strong>不是 Token 用量、不是计量示例、不是上限</strong>；图面没有单位、刻度、口径</li><li><strong>2026版</strong>：只在标题里出现，页面正文与图面都没有版本依据、更新日期、修订说明，也没有 2025 版或往期图可对照 → 只是<strong>标题版本标签</strong>，不写成「第 N 版」或「年度更新」</li><li><strong>①②③④</strong>：四层的顺序编号，不是数量统计；「一张图」「五场景 / …」是文案与列举，省略号意味着场景未列全</li><li><strong>18 个话题标签</strong>：是分发用的标签，不是分类体系；#人工智能 还出现 2 次，不合并去重成 17 个，按原样全量记</li></ul>
+<p><strong>概念分层 ≠ 企业名单 ≠ 商业核算（本库 infra 线的三层，并列不合并）</strong>：</p>
+<ul><li><strong><a href="https://mp.weixin.qq.com/s/xgudQE7ZRdteA0TmYpG4ig" rel="noopener">A031</a> / 本卡</strong>：四层是<strong>概念分层</strong>——算力（燃料）→ 模型（智慧核心）→ Token（桥梁）→ Agent（执行者）→ 应用落地（场景）。回答「这些词是什么关系」，面向科普</li><li><strong><a href="https://mp.weixin.qq.com/s/vTN1C2sOudQJvDoXD970nA" rel="noopener">A013</a> → <a href="../companies/中国%2015%20家%20AI%20Infra%20企业：五大技术阵营、产品标签与五大商业方向.html">T033</a></strong>：<strong>企业名单</strong>——15 家 AI Infra 企业、五大技术阵营、五大商业方向。回答「谁在做」，面向产业盘点</li><li><strong><a href="https://mp.weixin.qq.com/s/vTN1C2sOudQJvDoXD970nA" rel="noopener">A013</a> → <a href="../companies/页面附载的跨主题图组：Token%20工厂「五站销路%20·%20渠道矩阵%20·%20三本账」.html">T034</a></strong>：<strong>商业核算</strong>——Token 工厂「五站销路 / 渠道矩阵 / 三本账」，把 Token 放到「实际 API 结算与划款」的出厂账里。回答「钱怎么走」，面向账本</li><li>⚠️ 同样一个 Token，<a href="https://mp.weixin.qq.com/s/xgudQE7ZRdteA0TmYpG4ig" rel="noopener">A031</a> 写的是「计量单位·消耗计费·上下文窗口 / 连接模型与价值的桥梁」，<a href="../companies/页面附载的跨主题图组：Token%20工厂「五站销路%20·%20渠道矩阵%20·%20三本账」.html">T034</a> 写的是「出厂账里真金白银的现金流」。<strong>两者互补但层次不同</strong>，不能合并成一个框架，也不能拿 <a href="../companies/页面附载的跨主题图组：Token%20工厂「五站销路%20·%20渠道矩阵%20·%20三本账」.html">T034</a> 的核算口径去「纠正」<a href="https://mp.weixin.qq.com/s/xgudQE7ZRdteA0TmYpG4ig" rel="noopener">A031</a> 的科普口径。图右中「谁更有兑现能力？」是<strong>设问</strong>，不是结论，别当成「哪一层的公司更赚钱」的判断</li></ul>
+<p><strong>证据等级</strong>：写「<strong>公众号原创概念图 · 一手页面与图面可查 · 无数据来源、无版本依据、无企业名单、无第三方核验</strong>」。比 <a href="https://mp.weixin.qq.com/s/vTN1C2sOudQJvDoXD970nA" rel="noopener">A013</a>（同为图片型产业盘点，但给了 15 家具名企业与产品标签）更软：<a href="https://mp.weixin.qq.com/s/xgudQE7ZRdteA0TmYpG4ig" rel="noopener">A031</a> 连一个可核验的实体都没给。⚠️ 也别因为「没数据」就说它错——它是<strong>面向非技术读者的速览框架</strong>，本来就不承担数据职责；本库收的是框架本身，不是产业结论。</p>
+<p><strong>与学习路线 / 硬件 / Agent 板块的挂接</strong>：四层几乎一一对应库里既有板块（hardware 对应算力、model 对应模型、infra 对应 Token 的商业侧、agent 对应 Agent、case 对应应用落地），可作为 <a href="../principles/12%20步路线%20→%20本资料库栏目映射与当前缺口.html">T028</a> 学习路线的<strong>一张目录级速览图</strong>；但它是<strong>并列关系图</strong>，不是学习顺序、不是依赖链、不是能力成熟度模型，不写进路线图当阶段。related 只做挂接，不改各板块结论。</p>
+<p><strong>一句话</strong>：这张图的价值是「把四个高频词摆到一条链上」，不是「给出 2026 年产业链的事实」；凡是想从它里面读出规模、份额、价格、排名或版本演进的，都属于越界。</p>
+<blockquote>整理说明：口径与边界整理卡，非原文观点；三层框架的划分、数值性质与证据等级为本库整理方法，不代表公众号或制图方立场。</blockquote>
+<h2>来源</h2>
+<ul><li>A013《中国的15家顶级 AI Infra 企业》 · 2026-11-25 · <a href="https://mp.weixin.qq.com/s/vTN1C2sOudQJvDoXD970nA" rel="noopener">https://mp.weixin.qq.com/s/vTN1C2sOudQJvDoXD970nA</a></li><li>A031《一图看懂AI产业链（2026版）》 · 2026-11-25 · <a href="https://mp.weixin.qq.com/s/xgudQE7ZRdteA0TmYpG4ig" rel="noopener">https://mp.weixin.qq.com/s/xgudQE7ZRdteA0TmYpG4ig</a></li></ul>
+    </div>
+  </article>
+  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list"><a href="%E5%B7%A5%E5%85%B7%E5%8F%B0%E8%B4%A6%20%C2%B7%20AI%20Infra%20%C2%B7%20%E4%BA%A7%E4%B8%9A%E4%B8%8E%E5%85%AC%E5%8F%B8%E5%9B%BE%E8%B0%B1.html"><b>工具台账 · AI Infra · 产业与公司图谱（29 件）</b><time>2026-09-03</time></a><a href="Token%20%E7%BB%8F%E6%B5%8E%E5%85%A8%E6%99%AF%EF%BC%9A%E8%AF%8D%E5%85%83%E5%B7%A5%E5%8E%82%E4%B8%BA%E6%9E%A2%E7%BA%BD%E7%9A%84%E5%9B%9B%E7%8E%AF%E8%8A%82%E9%97%AD%E7%8E%AF%EF%BC%88%E5%9B%BE%E9%9D%A2%E9%80%90%E5%AD%97%EF%BC%89.html"><b>Token 经济全景：词元工厂为枢纽的四环节闭环（图面逐字）</b><time>2026-11-20</time></a><a href="%E3%80%8C%E8%AF%8D%E5%85%83%E5%B7%A5%E5%8E%82%E3%80%8D%E7%9A%84%E5%9B%9B%E7%A7%8D%E5%8F%A3%E5%BE%84%EF%BC%9A%E5%9C%B0%E6%96%B9%E4%BA%A7%E4%B8%9A%E7%94%9F%E6%80%81%20vs%20%E5%87%BA%E5%8E%82%E8%B4%A6%E6%9C%AC%20vs%20%E4%BC%81%E4%B8%9A%E5%90%8D%E5%8D%95%20vs%20%E6%A6%82%E5%BF%B5%E5%9B%9B%E5%B1%82.html"><b>「词元工厂」的四种口径：地方产业生态 vs 出厂账本 vs 企业名单 vs 概念四层</b><time>2026-11-20</time></a></div>
+  </nav>
+  <nav class="pager"><a href="../companies.html"><span class="pg-l">← BACK</span><span class="pg-t">公司 · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2026-11 公开资料<br>2026 条目：只收能核到月份的<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">AI+行业</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

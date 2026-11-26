@@ -1,0 +1,725 @@
+{
+ "items": {
+  "AI学习资料库.html#T001": {
+   "hash": "634e3327dfc22af6",
+   "path": "content/agent/报告/科研分析路线规划 Skill：工作流与输入输出契约.md",
+   "section": "agent",
+   "title": "科研分析路线规划 Skill：工作流与输入输出契约"
+  },
+  "AI学习资料库.html#T002": {
+   "hash": "8f20ba66591826eb",
+   "path": "content/agent/报告/从该案例提炼：Skill 设计的三条可复用原则.md",
+   "section": "agent",
+   "title": "从该案例提炼：Skill 设计的三条可复用原则"
+  },
+  "AI学习资料库.html#T003": {
+   "hash": "3bcd26a444d556e9",
+   "path": "content/agent/报告/AI Coding 的五层技术栈：决定持续交付的不是模型本身.md",
+   "section": "agent",
+   "title": "AI Coding 的五层技术栈：决定持续交付的不是模型本身"
+  },
+  "AI学习资料库.html#T004": {
+   "hash": "51dd3753090734b5",
+   "path": "content/agent/报告/连接层三件套：代码索引、MCP·ACP 协议与隔离沙盒.md",
+   "section": "agent",
+   "title": "连接层三件套：代码索引、MCP/ACP 协议与隔离沙盒"
+  },
+  "AI学习资料库.html#T005": {
+   "hash": "c2cc1d58aa491d5e",
+   "path": "content/agent/报告/规格、记忆与工作流：给 Agent 上图纸、SOP 与硬门禁.md",
+   "section": "agent",
+   "title": "规格、记忆与工作流：给 Agent 上图纸、SOP 与硬门禁"
+  },
+  "AI学习资料库.html#T006": {
+   "hash": "be8566a1579aa3d7",
+   "path": "content/基模/报告/模型与推理网关：按难度分层路由 + 缓存控本.md",
+   "section": "基模",
+   "title": "模型与推理网关：按难度分层路由 + 缓存控本"
+  },
+  "AI学习资料库.html#T007": {
+   "hash": "b2f25d298936ed76",
+   "path": "content/应用/报告/交付、审查与评测：AI 写太快之后的质量闸门.md",
+   "section": "应用",
+   "title": "交付、审查与评测：AI 写太快之后的质量闸门"
+  },
+  "AI学习资料库.html#T008": {
+   "hash": "664bd393d29d3944",
+   "path": "content/agent/报告/六个 CAD 开源项目横向对比：工作流、门槛与天花板.md",
+   "section": "agent",
+   "title": "六个 CAD 开源项目横向对比：工作流、门槛与天花板"
+  },
+  "AI学习资料库.html#T009": {
+   "hash": "6d92e3e7b8298979",
+   "path": "content/应用/报告/CAD 的 AI 化落地：四条工作流与人工复核红线.md",
+   "section": "应用",
+   "title": "CAD 的 AI 化落地：四条工作流与人工复核红线"
+  },
+  "AI学习资料库.html#T010": {
+   "hash": "03fa72dfee5103b4",
+   "path": "content/应用/报告/CAD 子栏目：归集范围与后续整理约定.md",
+   "section": "应用",
+   "title": "CAD 子栏目：归集范围与后续整理约定"
+  },
+  "AI学习资料库.html#T011": {
+   "hash": "e378477a112fed56",
+   "path": "content/应用/报告/WorkBuddy 制造业经营驾驶舱：21 个业务页面 + 数据中心.md",
+   "section": "应用",
+   "title": "WorkBuddy 制造业经营驾驶舱：21 个业务页面 + 数据中心"
+  },
+  "AI学习资料库.html#T012": {
+   "hash": "eb679d9db7bee8eb",
+   "path": "content/agent/报告/知识图谱 · 上下文工程：8 个项目全景与选型三问.md",
+   "section": "agent",
+   "title": "知识图谱 / 上下文工程：8 个项目全景与选型三问"
+  },
+  "AI学习资料库.html#T013": {
+   "hash": "bf858c5a2c722d4b",
+   "path": "content/agent/报告/Skill 形态三项目：把资料与代码变成可复用能力.md",
+   "section": "agent",
+   "title": "Skill 形态三项目：把资料与代码变成可复用能力"
+  },
+  "AI学习资料库.html#T014": {
+   "hash": "988ff1fb6f15140d",
+   "path": "content/agent/报告/MCP 形态四项目：把图能力暴露给 Agent.md",
+   "section": "agent",
+   "title": "MCP 形态四项目：把图能力暴露给 Agent"
+  },
+  "AI学习资料库.html#T015": {
+   "hash": "83fb884be3a12298",
+   "path": "content/agent/报告/30 个 Skill 清单：可见的前 10 个与逐条详情卡.md",
+   "section": "agent",
+   "title": "30 个 Skill 清单：可见的前 10 个与逐条详情卡"
+  },
+  "AI学习资料库.html#T016": {
+   "hash": "cb54b7eb57dbb97c",
+   "path": "content/应用/报告/图片取证记录：两篇口径冲突与可见边界.md",
+   "section": "应用",
+   "title": "图片取证记录：两篇口径冲突与可见边界"
+  },
+  "AI学习资料库.html#T017": {
+   "hash": "2dacf587fc0433ac",
+   "path": "content/应用/报告/让 AI 把 3D 网页特效改成品牌色：页面可见信息与待核实线索.md",
+   "section": "应用",
+   "title": "让 AI 把 3D 网页特效改成品牌色：页面可见信息与待核实线索"
+  },
+  "AI学习资料库.html#T018": {
+   "hash": "0a9594478227d8e2",
+   "path": "content/应用/报告/企业知识库选型报告 v1.0：可见结构、元信息与逐项待补清单.md",
+   "section": "应用",
+   "title": "企业知识库选型报告 v1.0：可见结构、元信息与逐项待补清单"
+  },
+  "AI学习资料库.html#T019": {
+   "hash": "1a1d42a31825395c",
+   "path": "content/应用/报告/从这份交付说明提炼：一份可回溯的 AI 选型报告该怎么写.md",
+   "section": "应用",
+   "title": "从这份交付说明提炼：一份可回溯的 AI 选型报告该怎么写"
+  },
+  "AI学习资料库.html#T020": {
+   "hash": "04e0b7742745a8bf",
+   "path": "content/应用/报告/36 万星 · 10 个可商用开源游戏项目：三条硬标准、完整清单与选型对号入座.md",
+   "section": "应用",
+   "title": "36 万星 · 10 个可商用开源游戏项目：三条硬标准、完整清单与选型对号入座"
+  },
+  "AI学习资料库.html#T021": {
+   "hash": "1913995627d9fe1c",
+   "path": "content/agent/报告/Unity MCP：把 MCP 从「连工具」推到「直接操作游戏引擎」.md",
+   "section": "agent",
+   "title": "Unity MCP：把 MCP 从「连工具」推到「直接操作游戏引擎」"
+  },
+  "AI学习资料库.html#T022": {
+   "hash": "14755bc8508f5b5c",
+   "path": "content/agent/报告/Game Dev Agent Skills：74 个技能包把三大引擎交给 AI.md",
+   "section": "agent",
+   "title": "Game Dev Agent Skills：74 个技能包把三大引擎交给 AI"
+  },
+  "AI学习资料库.html#T023": {
+   "hash": "e831da081ae9283c",
+   "path": "content/应用/报告/取证记录：二十三批资料的可见边界与补全来源.md",
+   "section": "应用",
+   "title": "取证记录：二十三批资料的可见边界与补全来源"
+  },
+  "AI学习资料库.html#T024": {
+   "hash": "2f6b72f7d5885dd6",
+   "path": "content/原理/报告/大模型的正确学习顺序：12 阶段从入门到实战.md",
+   "section": "原理",
+   "title": "大模型的正确学习顺序：12 阶段从入门到实战"
+  },
+  "AI学习资料库.html#T025": {
+   "hash": "70b6717df04b3390",
+   "path": "content/原理/报告/从 0 到 1 大模型（LLM）最全学习路线图：6 阶段详细版.md",
+   "section": "原理",
+   "title": "从 0 到 1 大模型（LLM）最全学习路线图：6 阶段详细版"
+  },
+  "AI学习资料库.html#T026": {
+   "hash": "f006b6eb846d7dd9",
+   "path": "content/基模/报告/基模三张专题图：Transformer 结构、MoE 混合专家、LoRA 低秩微调.md",
+   "section": "基模",
+   "title": "基模三张专题图：Transformer 结构、MoE 混合专家、LoRA 低秩微调"
+  },
+  "AI学习资料库.html#T027": {
+   "hash": "15f17bad5370e31e",
+   "path": "content/agent/报告/从 0-1 打造商用 AI Agent：定义、类型、四大组件与实现流程.md",
+   "section": "agent",
+   "title": "从 0-1 打造商用 AI Agent：定义、类型、四大组件与实现流程"
+  },
+  "AI学习资料库.html#T028": {
+   "hash": "d8af5817dfe3f9f3",
+   "path": "content/原理/报告/12 步路线 → 本资料库栏目映射与当前缺口.md",
+   "section": "原理",
+   "title": "12 步路线 → 本资料库栏目映射与当前缺口"
+  },
+  "AI学习资料库.html#T029": {
+   "hash": "1e592fa1c76da0a2",
+   "path": "content/硬件/报告/Fluidstack Blackbird：6 个月交付 400MW 模块化数据中心.md",
+   "section": "硬件",
+   "title": "Fluidstack Blackbird：6 个月交付 400MW 模块化数据中心"
+  },
+  "AI学习资料库.html#T030": {
+   "hash": "080db7709e391b34",
+   "path": "content/硬件/报告/从 Blackbird 看「算力交付周期」：为什么模块化是 AI 基建的关键变量.md",
+   "section": "硬件",
+   "title": "从 Blackbird 看「算力交付周期」：为什么模块化是 AI 基建的关键变量"
+  },
+  "AI学习资料库.html#T031": {
+   "hash": "b914576fed330362",
+   "path": "content/agent/报告/DeepSeek Harness（dsh）两个月重度实测：迁移决策、五页图全量与对比数字.md",
+   "section": "agent",
+   "title": "DeepSeek Harness（dsh）两个月重度实测：迁移决策、五页图全量与对比数字"
+  },
+  "AI学习资料库.html#T032": {
+   "hash": "c0e139386ac57f71",
+   "path": "content/应用/报告/观点型资料的证据等级：个人实测怎么收进库才不会被当成事实.md",
+   "section": "应用",
+   "title": "观点型资料的证据等级：个人实测怎么收进库才不会被当成事实"
+  },
+  "AI学习资料库.html#T033": {
+   "hash": "2e1160df6be205e5",
+   "path": "content/公司/报告/中国 15 家 AI Infra 企业：五大技术阵营、产品标签与五大商业方向.md",
+   "section": "公司",
+   "title": "中国 15 家 AI Infra 企业：五大技术阵营、产品标签与五大商业方向"
+  },
+  "AI学习资料库.html#T034": {
+   "hash": "125bfddb762727af",
+   "path": "content/公司/报告/页面附载的跨主题图组：Token 工厂「五站销路 · 渠道矩阵 · 三本账」.md",
+   "section": "公司",
+   "title": "页面附载的跨主题图组：Token 工厂「五站销路 / 渠道矩阵 / 三本账」"
+  },
+  "AI学习资料库.html#T035": {
+   "hash": "e7587fa53a566e64",
+   "path": "content/agent/报告/麦田 Maitian：Agent 驱动的七平台自媒体发布工作台.md",
+   "section": "agent",
+   "title": "麦田 Maitian：Agent 驱动的七平台自媒体发布工作台"
+  },
+  "AI学习资料库.html#T036": {
+   "hash": "2117ac73ef407816",
+   "path": "content/应用/报告/scroll-world：一句话生成苹果官网级沉浸式滚动落地页（A007 线索正式收录）.md",
+   "section": "应用",
+   "title": "scroll-world：一句话生成苹果官网级沉浸式滚动落地页（A007 线索正式收录）"
+  },
+  "AI学习资料库.html#T037": {
+   "hash": "659088f7e2de4ece",
+   "path": "content/基模/报告/高维 Embedding 为什么一定要压下来：PCA · t-SNE · UMAP 全量图解.md",
+   "section": "基模",
+   "title": "高维 Embedding 为什么一定要压下来：PCA / t-SNE / UMAP 全量图解"
+  },
+  "AI学习资料库.html#T038": {
+   "hash": "89faf6f072e282de",
+   "path": "content/应用/报告/数字的七类证据性质：演示 · 报价 · 示意 · 可核验计数 · 正文未载的图面结果.md",
+   "section": "应用",
+   "title": "数字的七类证据性质：演示 / 报价 / 示意 / 可核验计数 / 正文未载的图面结果 / 转述中语义错置 / 自动解析稿的专名·数字·语义错乱"
+  },
+  "AI学习资料库.html#T039": {
+   "hash": "fd575f14364d29d0",
+   "path": "content/应用/报告/MatMaster 接入 Qwen4-Max：三项材料科研实践与全部图面数值.md",
+   "section": "应用",
+   "title": "MatMaster 接入 Qwen4-Max：三项材料科研实践与全部图面数值"
+  },
+  "AI学习资料库.html#T040": {
+   "hash": "a4ed4c94ef4ebe4f",
+   "path": "content/应用/报告/官宣 · 内部评测类资料：怎么收才不会把「自证闭环」写成「第三方验证」.md",
+   "section": "应用",
+   "title": "官宣 / 内部评测类资料：怎么收才不会把「自证闭环」写成「第三方验证」"
+  },
+  "AI学习资料库.html#T041": {
+   "hash": "8dbfed24eea9734a",
+   "path": "content/应用/报告/MiniMax 内部模型 MIM 密码分析战绩：视频描述 4 项声称 × 一手口径交叉校验.md",
+   "section": "应用",
+   "title": "MiniMax 内部模型 MIM 密码分析战绩：视频描述 4 项声称 × 一手口径交叉校验"
+  },
+  "AI学习资料库.html#T042": {
+   "hash": "d57c569b45c9caa5",
+   "path": "content/应用/报告/战绩展示类视频：公开 PoC、二值判定与「转述的转述」怎么标证据等级.md",
+   "section": "应用",
+   "title": "战绩展示类视频：公开 PoC、二值判定与「转述的转述」怎么标证据等级"
+  },
+  "AI学习资料库.html#T043": {
+   "hash": "59553a6ee4c6ad70",
+   "path": "content/应用/报告/榜单生态：谁在收集 AI 数据、四种来源与跟进的代价.md",
+   "section": "应用",
+   "title": "榜单生态：谁在收集 AI 数据、四种来源与跟进的代价"
+  },
+  "AI学习资料库.html#T044": {
+   "hash": "d1aa30c50c8c87c0",
+   "path": "content/agent/报告/MemT-1.0-Pro 记忆原生模型：视频解析稿 4 段时间轴 × 一手口径逐条校正.md",
+   "section": "agent",
+   "title": "MemT-1.0-Pro 记忆原生模型：视频解析稿 4 段时间轴 × 一手口径逐条校正"
+  },
+  "AI学习资料库.html#T045": {
+   "hash": "fdbed2c28674940f",
+   "path": "content/agent/报告/MemT-1.0 系列技术整理：四层参数、记忆模块、训练法与可维护性边界.md",
+   "section": "agent",
+   "title": "MemT-1.0 系列技术整理：四层参数、记忆模块、训练法与可维护性边界"
+  },
+  "AI学习资料库.html#T046": {
+   "hash": "8d5cd43613fef905",
+   "path": "content/应用/报告/带时间轴的视频自动解析稿：四类错乱与怎么标证据等级.md",
+   "section": "应用",
+   "title": "带时间轴的视频自动解析稿：四类错乱与怎么标证据等级"
+  },
+  "AI学习资料库.html#T047": {
+   "hash": "984ce8464a34081d",
+   "path": "content/模板/报告/UI 微交互动效合集（第 5 期）：笔记正文、4 个作品名与「未开源」预告.md",
+   "section": "模板",
+   "title": "UI 微交互动效合集（第 5 期）：笔记正文、4 个作品名与「未开源」预告"
+  },
+  "AI学习资料库.html#T048": {
+   "hash": "1ae60ca4ef8ada2f",
+   "path": "content/模板/报告/模板库分类框架：什么进模板、什么留原板块，以及开源怎么追.md",
+   "section": "模板",
+   "title": "模板库分类框架：什么进模板、什么留原板块，以及开源怎么追"
+  },
+  "AI学习资料库.html#T049": {
+   "hash": "056bfd0dd3f62ca6",
+   "path": "content/原理/报告/千万级 RAG 系统架构全景与规模账：从 1000 万文档到 2 亿 Chunks.md",
+   "section": "原理",
+   "title": "千万级 RAG 系统架构全景与规模账：从 1000 万文档到 2 亿 Chunks"
+  },
+  "AI学习资料库.html#T050": {
+   "hash": "02bec610aa320885",
+   "path": "content/原理/报告/写入链路：实时上传、历史回填、消息队列与文档加工流水线.md",
+   "section": "原理",
+   "title": "写入链路：实时上传、历史回填、消息队列与文档加工流水线"
+  },
+  "AI学习资料库.html#T051": {
+   "hash": "90da0c7b1a14a074",
+   "path": "content/原理/报告/存储与查询链路：5 类存储、查询入口、混合检索、重排与 Grounded 生成.md",
+   "section": "原理",
+   "title": "存储与查询链路：5 类存储、查询入口、混合检索、重排与 Grounded 生成"
+  },
+  "AI学习资料库.html#T052": {
+   "hash": "1466338c0d1a392e",
+   "path": "content/原理/报告/生产保障四层：质量评测、可观测性、索引重建、安全与权限.md",
+   "section": "原理",
+   "title": "生产保障四层：质量评测、可观测性、索引重建、安全与权限"
+  },
+  "AI学习资料库.html#T053": {
+   "hash": "aaae4c6691256c63",
+   "path": "content/agent/报告/跨主题附图：UHP · HarnessRouter 想统一 Agent 后端的接入方式.md",
+   "section": "agent",
+   "title": "跨主题附图：UHP / HarnessRouter 想统一 Agent 后端的接入方式"
+  },
+  "AI学习资料库.html#T054": {
+   "hash": "f5fbc3a185efbacf",
+   "path": "content/原理/报告/RAG 缺口正式补上：三条路线在本库怎么分工、还差什么.md",
+   "section": "原理",
+   "title": "RAG 缺口正式补上：三条路线在本库怎么分工、还差什么"
+  },
+  "AI学习资料库.html#T055": {
+   "hash": "a521930e9e213686",
+   "path": "content/应用/报告/MIT「假数据」训气候模型：视频三层可见内容 × 一手口径逐条对照.md",
+   "section": "应用",
+   "title": "MIT「假数据」训气候模型：视频三层可见内容 × 一手口径逐条对照"
+  },
+  "AI学习资料库.html#T056": {
+   "hash": "e1cce4cea672e71a",
+   "path": "content/应用/报告/一手口径：气候模拟器与「优化训练情景」到底做了什么、边界在哪.md",
+   "section": "应用",
+   "title": "一手口径：气候模拟器与「优化训练情景」到底做了什么、边界在哪"
+  },
+  "AI学习资料库.html#T057": {
+   "hash": "feb030a720fdca7c",
+   "path": "content/应用/报告/「假数据」标签的陷阱：转述链六跳、机构名凭空出现与训练数据设计这条线.md",
+   "section": "应用",
+   "title": "「假数据」标签的陷阱：转述链六跳、机构名凭空出现与训练数据设计这条线"
+  },
+  "AI学习资料库.html#T058": {
+   "hash": "d9002fe3fcee5f33",
+   "path": "content/agent/报告/Epochal · 时光门户：视频六场景 × 一手口径逐条对照.md",
+   "section": "agent",
+   "title": "Epochal / 时光门户：视频六场景 × 一手口径逐条对照"
+  },
+  "AI学习资料库.html#T059": {
+   "hash": "297760c017569294",
+   "path": "content/agent/报告/一手口径：Time Portal 怎么防剧透，以及「0.98」到底量了什么.md",
+   "section": "agent",
+   "title": "一手口径：Time Portal 怎么防剧透，以及「0.98」到底量了什么"
+  },
+  "AI学习资料库.html#T060": {
+   "hash": "5b914b40c83e23b4",
+   "path": "content/agent/报告/「剧透」作为评测问题：单源报道、自编举例与本库三条 Harness · 环境线.md",
+   "section": "agent",
+   "title": "「剧透」作为评测问题：单源报道、自编举例与本库三条 Harness / 环境线"
+  },
+  "AI学习资料库.html#T061": {
+   "hash": "1615758cac1b073b",
+   "path": "content/agent/报告/GitHub Skills 本周飙升榜 TOP 10：热度是入口，价值要放回具体任务.md",
+   "section": "agent",
+   "title": "GitHub Skills 本周飙升榜 TOP 10：热度是入口，价值要放回具体任务"
+  },
+  "AI学习资料库.html#T062": {
+   "hash": "ad2d448036170d23",
+   "path": "content/agent/报告/DSH 必装 10 大插件：DeepSeek Harness 的插件生态与四组内页.md",
+   "section": "agent",
+   "title": "DSH 必装 10 大插件：DeepSeek Harness 的插件生态与四组内页"
+  },
+  "AI学习资料库.html#T063": {
+   "hash": "8c350f7078e9fadd",
+   "path": "content/agent/报告/DSH 只装 4 个：插件不是「放着不用就不花钱」，以及三种口径并列.md",
+   "section": "agent",
+   "title": "DSH 只装 4 个：插件不是「放着不用就不花钱」，以及三种口径并列"
+  },
+  "AI学习资料库.html#T064": {
+   "hash": "0e2e9603ccae538d",
+   "path": "content/agent/报告/麦田补充：仓库、协议、Star 数与运行条件（补 GA04，不回改 A014）.md",
+   "section": "agent",
+   "title": "麦田补充：仓库、协议、Star 数与运行条件（补 GA04，不回改 A014）"
+  },
+  "AI学习资料库.html#T065": {
+   "hash": "9576e30487c95a1a",
+   "path": "content/应用/报告/DPE 数字样机：视频三场景 × 厂商一手材料逐条对照.md",
+   "section": "应用",
+   "title": "DPE 数字样机：视频三场景 × 厂商一手材料逐条对照"
+  },
+  "AI学习资料库.html#T066": {
+   "hash": "91f0a3841207b349",
+   "path": "content/应用/报告/一手口径：DPE 到底做什么、哪些数字只是厂商快照.md",
+   "section": "应用",
+   "title": "一手口径：DPE 到底做什么、哪些数字只是厂商快照"
+  },
+  "AI学习资料库.html#T067": {
+   "hash": "230c14c44ba840ea",
+   "path": "content/应用/报告/产品演示视频怎么收：cad 栏目破零、DSH 线接上、以及厂商自述的边界.md",
+   "section": "应用",
+   "title": "产品演示视频怎么收：cad 栏目破零、DSH 线接上、以及厂商自述的边界"
+  },
+  "AI学习资料库.html#T068": {
+   "hash": "a9ebeba04860a347",
+   "path": "content/应用/报告/「200KB 的 GIS」安装演示：六段命令 × 一手仓库逐条对照.md",
+   "section": "应用",
+   "title": "「200KB 的 GIS」安装演示：六段命令 × 一手仓库逐条对照"
+  },
+  "AI学习资料库.html#T069": {
+   "hash": "ac7e7b13fc9c4bde",
+   "path": "content/应用/报告/一手口径：GeoLibre 是什么、真实安装链路、以及那些对不上的数字.md",
+   "section": "应用",
+   "title": "一手口径：GeoLibre 是什么、真实安装链路、以及那些对不上的数字"
+  },
+  "AI学习资料库.html#T070": {
+   "hash": "966d11dc0c534378",
+   "path": "content/应用/报告/合成演示终端：第五类错乱、命令级核验与本库取证规则再扩一层.md",
+   "section": "应用",
+   "title": "合成演示终端：第五类错乱、命令级核验与本库取证规则再扩一层"
+  },
+  "AI学习资料库.html#T071": {
+   "hash": "07ee119b44eb9365",
+   "path": "content/公司/报告/一图看懂 AI 产业链（2026版）：四层冰山与五类落地场景.md",
+   "section": "公司",
+   "title": "一图看懂 AI 产业链（2026版）：四层冰山与五类落地场景"
+  },
+  "AI学习资料库.html#T072": {
+   "hash": "3f0952cf045b71b2",
+   "path": "content/公司/报告/四层框架的边界：装饰数字、版本标签与「概念分层 ≠ 商业核算」.md",
+   "section": "公司",
+   "title": "四层框架的边界：装饰数字、版本标签与「概念分层 ≠ 商业核算」"
+  },
+  "AI学习资料库.html#T073": {
+   "hash": "63df811718898152",
+   "path": "content/公司/报告/同板块同日不同账号怎么收：概念图、副本去重与 infra 线的补齐.md",
+   "section": "公司",
+   "title": "同板块同日不同账号怎么收：概念图、副本去重与 infra 线的补齐"
+  },
+  "AI学习资料库.html#T074": {
+   "hash": "db543ecd21e60e82",
+   "path": "content/公司/报告/Token 经济全景：词元工厂为枢纽的四环节闭环（图面逐字）.md",
+   "section": "公司",
+   "title": "Token 经济全景：词元工厂为枢纽的四环节闭环（图面逐字）"
+  },
+  "AI学习资料库.html#T075": {
+   "hash": "e98827b7849550ec",
+   "path": "content/公司/报告/「词元工厂」的四种口径：地方产业生态 vs 出厂账本 vs 企业名单 vs 概念四层.md",
+   "section": "公司",
+   "title": "「词元工厂」的四种口径：地方产业生态 vs 出厂账本 vs 企业名单 vs 概念四层"
+  },
+  "AI学习资料库.html#T076": {
+   "hash": "ecdbc4fa33053e74",
+   "path": "content/公司/报告/改写式正文怎么收：图面独有词回 HTML 验零、封面第三种形态与 infra 线补齐.md",
+   "section": "公司",
+   "title": "改写式正文怎么收：图面独有词回 HTML 验零、封面第三种形态与 infra 线补齐"
+  },
+  "AI学习资料库.html#T077": {
+   "hash": "aa355c275f3fcb68",
+   "path": "content/模板/报告/8 个动效网站清单：逐页图面、域名与「怎么用」全量.md",
+   "section": "模板",
+   "title": "8 个动效网站清单：逐页图面、域名与「怎么用」全量"
+  },
+  "AI学习资料库.html#T078": {
+   "hash": "2a5e9b069a0a0192",
+   "path": "content/模板/报告/数字口径、跨主题推广图与「收清单 ≠ 收站点」的边界.md",
+   "section": "模板",
+   "title": "数字口径、跨主题推广图与「收清单 ≠ 收站点」的边界"
+  },
+  "AI学习资料库.html#T079": {
+   "hash": "56e43a22872c39a6",
+   "path": "content/模板/报告/用户标「模板·」怎么收：显式前缀、纯图清单验零与模板库多条渲染.md",
+   "section": "模板",
+   "title": "用户标「模板:」怎么收：显式前缀、纯图清单验零与模板库多条渲染"
+  },
+  "AI学习资料库.html#T080": {
+   "hash": "3c8de22e4d7e36cb",
+   "path": "content/应用/报告/本体 vs 知识图谱：两个层次、TBox·ABox 与 10 行对比表（正文全量）.md",
+   "section": "应用",
+   "title": "本体 vs 知识图谱：两个层次、TBox/ABox 与 10 行对比表（正文全量）"
+  },
+  "AI学习资料库.html#T081": {
+   "hash": "2446ed2acf73cfc3",
+   "path": "content/应用/报告/双向闭环、三个误区与怎么选：数字口径、图面独有结论与无出处专名.md",
+   "section": "应用",
+   "title": "双向闭环、三个误区与怎么选：数字口径、图面独有结论与无出处专名"
+  },
+  "AI学习资料库.html#T082": {
+   "hash": "ea17f531af942442",
+   "path": "content/应用/报告/摘要极简怎么收：先查 JS 字段、排除广告身份，以及概念长文归 kb 的判据.md",
+   "section": "应用",
+   "title": "摘要极简怎么收：先查 JS 字段、排除广告身份，以及概念长文归 kb 的判据"
+  },
+  "AI学习资料库.html#T083": {
+   "hash": "8ecd2fd7f7986bdd",
+   "path": "content/应用/报告/Cleanzo 安全清理｜免费开源：正文全量、图面界面与演示数值逐字.md",
+   "section": "应用",
+   "title": "Cleanzo 安全清理｜免费开源：正文全量、图面界面与演示数值逐字"
+  },
+  "AI学习资料库.html#T084": {
+   "hash": "7c7ff252686819ba",
+   "path": "content/应用/报告/演示界面数值、安全声明边界与「在 GitHub 搜索」不等于仓库链接.md",
+   "section": "应用",
+   "title": "演示界面数值、安全声明边界与「在 GitHub 搜索」不等于仓库链接"
+  },
+  "AI学习资料库.html#T085": {
+   "hash": "31d1de976e726195",
+   "path": "content/应用/报告/同号同系列第二条怎么收：按主用途分栏、搜索词不算仓库、演示数值单列.md",
+   "section": "应用",
+   "title": "同号同系列第二条怎么收：按主用途分栏、搜索词不算仓库、演示数值单列"
+  },
+  "AI学习资料库.html#T086": {
+   "hash": "1f4d85f89ef66d14",
+   "path": "content/硬件/报告/全球超算 TOP10 与「183 万张 B300」：正文全量、图面 10 行表与一手核实结果.md",
+   "section": "硬件",
+   "title": "全球超算 TOP10 与「183 万张 B300」：正文全量、图面 10 行表与一手核实结果"
+  },
+  "AI学习资料库.html#T087": {
+   "hash": "855bd4fa2e318df1",
+   "path": "content/硬件/报告/183 万张 B300 的口径边界：换算自洽 ≠ 口径成立，以及外部一手补充清单.md",
+   "section": "硬件",
+   "title": "183 万张 B300 的口径边界：换算自洽 ≠ 口径成立，以及外部一手补充清单"
+  },
+  "AI学习资料库.html#T088": {
+   "hash": "0fc67b1a00443a32",
+   "path": "content/应用/报告/第七型取证范式：有一手页时怎么收、核实成功也不能把全表升格.md",
+   "section": "应用",
+   "title": "第七型取证范式：有一手页时怎么收、核实成功也不能把全表升格"
+  },
+  "AI学习资料库.html#T089": {
+   "hash": "aad388d1988180bd",
+   "path": "content/agent/报告/Archify：一句正文、三页长图与「让 Agent 出数据、程序画图」的分工.md",
+   "section": "agent",
+   "title": "Archify：一句正文、三页长图与「让 Agent 出数据、程序画图」的分工"
+  },
+  "AI学习资料库.html#T090": {
+   "hash": "c09d552aacc09978",
+   "path": "content/agent/报告/39,284 → 62.9k · 6.7万 → 95.4k.md",
+   "section": "agent",
+   "title": "39,284 → 62.9k / 6.7万 → 95.4k：Star 快照时间序列与「仓库存在 ≠ 快照已核」"
+  },
+  "AI学习资料库.html#T091": {
+   "hash": "9cac83418f53bfca",
+   "path": "content/应用/报告/第八型取证范式：完整 owner·repo 能核什么、不能核什么，以及两类验零噪音.md",
+   "section": "应用",
+   "title": "第八型取证范式：完整 owner/repo 能核什么、不能核什么，以及两类验零噪音"
+  },
+  "AI学习资料库.html#T092": {
+   "hash": "b3d451c72a65663e",
+   "path": "content/硬件/报告/英伟达芯片进化史：6 段正文、8 页长图与官方核实后的产品代际.md",
+   "section": "硬件",
+   "title": "英伟达芯片进化史：6 段正文、8 页长图与官方核实后的产品代际"
+  },
+  "AI学习资料库.html#T093": {
+   "hash": "7ef4a60a9e571333",
+   "path": "content/硬件/报告/从「卖 GPU」到「AI 工厂」：正文大纲、图面年表与官方口径的边界.md",
+   "section": "硬件",
+   "title": "从「卖 GPU」到「AI 工厂」：正文大纲、图面年表与官方口径的边界"
+  },
+  "AI学习资料库.html#T094": {
+   "hash": "f652d458f6adce26",
+   "path": "content/基模/报告/11月 AI 大模型天梯图：一篇内两期并排、两期全表与「非官方评级」声明.md",
+   "section": "基模",
+   "title": "11月 AI 大模型天梯图：一篇内两期并排、两期全表与「非官方评级」声明"
+  },
+  "AI学习资料库.html#T095": {
+   "hash": "2a176f5e99412718",
+   "path": "content/基模/报告/「SSS 从 2 个到 4 个」是跨口径对比：两期分档规则、数值含义与档位集合都变了.md",
+   "section": "基模",
+   "title": "「SSS 从 2 个到 4 个」是跨口径对比：两期分档规则、数值含义与档位集合都变了"
+  },
+  "AI学习资料库.html#T096": {
+   "hash": "2f1bfe72434d99a4",
+   "path": "content/应用/报告/第九 · 十型：一批两条、8 页长图、两期并排，以及「核实纠正了自己」.md",
+   "section": "应用",
+   "title": "第九 / 十型：一批两条、8 页长图、两期并排，以及「核实纠正了自己」"
+  },
+  "AI学习资料库.html#T097": {
+   "hash": "e8530bc4690ab6c4",
+   "path": "content/应用/报告/H01 · Anthropic 把 Messages API 从 Python 移植到.md",
+   "section": "应用",
+   "title": "H01 · Anthropic 把 Messages API 从 Python 移植到 Rust：40%–50% 与 70% 并列"
+  },
+  "AI学习资料库.html#T098": {
+   "hash": "02dfdf9f9d7ce6fd",
+   "path": "content/应用/报告/H02 · H03 · 「OpenAI 破解数学」与「Claude 解决黎曼猜想」.md",
+   "section": "应用",
+   "title": "H02 / H03 · 「OpenAI 破解数学」与「Claude 解决黎曼猜想」：标题简写与形式化核验"
+  },
+  "AI学习资料库.html#T099": {
+   "hash": "73ef4921d57e2c7f",
+   "path": "content/应用/报告/第二十三批归纳：第五页、三条事件与「补好打勾、别删条目」.md",
+   "section": "应用",
+   "title": "第二十三批归纳：第五页、三条事件与「补好打勾、别删条目」"
+  },
+  "AI学习资料库.html#T100": {
+   "hash": "1b63db0af053431b",
+   "path": "content/应用/报告/A041 · llm.asm：24KB 裸机系统跑 Qwen3-0.6B，项目真实但数字全是自测.md",
+   "section": "应用",
+   "title": "A041 · llm.asm：24KB 裸机系统跑 Qwen3-0.6B，项目真实但数字全是自测"
+  },
+  "AI学习资料库.html#T101": {
+   "hash": "29a3dc4cc87d7a32",
+   "path": "content/应用/报告/第二十四批归纳：二进制不等于源码、自测不等于复现、0 个 ✅ 也是结论.md",
+   "section": "应用",
+   "title": "第二十四批归纳：二进制不等于源码、自测不等于复现、0 个 ✅ 也是结论"
+  },
+  "AI学习资料库.html#tools:agent:agent": {
+   "hash": "f712338faf71fd59",
+   "path": "content/agent/报告/工具台账 · Agent.md",
+   "section": "agent",
+   "title": "工具台账 · Agent"
+  },
+  "AI学习资料库.html#tools:agent:mcp": {
+   "hash": "3fdbbd873ca5d133",
+   "path": "content/agent/报告/工具台账 · MCP.md",
+   "section": "agent",
+   "title": "工具台账 · MCP"
+  },
+  "AI学习资料库.html#tools:agent:memory": {
+   "hash": "83cdf1b633ce69a6",
+   "path": "content/agent/报告/工具台账 · Agent 记忆 · 参数化与 RAG 替代.md",
+   "section": "agent",
+   "title": "工具台账 · Agent 记忆 · 参数化与 RAG 替代"
+  },
+  "AI学习资料库.html#tools:agent:skill": {
+   "hash": "9af1c75104147166",
+   "path": "content/agent/报告/工具台账 · Skill.md",
+   "section": "agent",
+   "title": "工具台账 · Skill"
+  },
+  "AI学习资料库.html#tools:公司:infra": {
+   "hash": "8d030b6e897ae146",
+   "path": "content/公司/报告/工具台账 · AI Infra · 产业与公司图谱.md",
+   "section": "公司",
+   "title": "工具台账 · AI Infra · 产业与公司图谱"
+  },
+  "AI学习资料库.html#tools:原理:rag": {
+   "hash": "db7e487f5ef4cdc5",
+   "path": "content/原理/报告/工具台账 · RAG 工程 · 大规模检索系统.md",
+   "section": "原理",
+   "title": "工具台账 · RAG 工程 · 大规模检索系统"
+  },
+  "AI学习资料库.html#tools:原理:roadmap": {
+   "hash": "100a8923e5a5effa",
+   "path": "content/原理/报告/工具台账 · AI 学习路线 · 大模型基础.md",
+   "section": "原理",
+   "title": "工具台账 · AI 学习路线 · 大模型基础"
+  },
+  "AI学习资料库.html#tools:基模:model": {
+   "hash": "5c5ae862184f7973",
+   "path": "content/基模/报告/工具台账 · 基模.md",
+   "section": "基模",
+   "title": "工具台账 · 基模"
+  },
+  "AI学习资料库.html#tools:应用:ai4s": {
+   "hash": "404c617442d65a1f",
+   "path": "content/应用/报告/工具台账 · AI4S · 科研智能体.md",
+   "section": "应用",
+   "title": "工具台账 · AI4S · 科研智能体"
+  },
+  "AI学习资料库.html#tools:应用:cad": {
+   "hash": "0208ea9fc2e7c145",
+   "path": "content/应用/报告/工具台账 · CAD · AI 辅助设计.md",
+   "section": "应用",
+   "title": "工具台账 · CAD · AI 辅助设计"
+  },
+  "AI学习资料库.html#tools:应用:case": {
+   "hash": "bebb25c03bf43080",
+   "path": "content/应用/报告/工具台账 · 实例.md",
+   "section": "应用",
+   "title": "工具台账 · 实例"
+  },
+  "AI学习资料库.html#tools:应用:game": {
+   "hash": "90fd69e310060040",
+   "path": "content/应用/报告/工具台账 · 游戏开发 · 开源与 AI.md",
+   "section": "应用",
+   "title": "工具台账 · 游戏开发 · 开源与 AI"
+  },
+  "AI学习资料库.html#tools:应用:kb": {
+   "hash": "256d9504652d0f8a",
+   "path": "content/应用/报告/工具台账 · 企业知识库 · 选型与成本.md",
+   "section": "应用",
+   "title": "工具台账 · 企业知识库 · 选型与成本"
+  },
+  "AI学习资料库.html#tools:应用:web3d": {
+   "hash": "ae7017d9978ce2f8",
+   "path": "content/应用/报告/工具台账 · 3D · 创意网页.md",
+   "section": "应用",
+   "title": "工具台账 · 3D · 创意网页"
+  },
+  "AI学习资料库.html#tools:模板:template": {
+   "hash": "90143db890c1efd8",
+   "path": "content/模板/报告/工具台账 · 模板 · UI 动效与可复用素材.md",
+   "section": "模板",
+   "title": "工具台账 · 模板 · UI 动效与可复用素材"
+  },
+  "AI学习资料库.html#tools:硬件:hardware": {
+   "hash": "205314f1c5c91518",
+   "path": "content/硬件/报告/工具台账 · 硬件.md",
+   "section": "硬件",
+   "title": "工具台账 · 硬件"
+  }
+ },
+ "sources": {
+  "AI学习资料库.html": {
+   "articles": 41,
+   "at": "2026-11-27T03:51:01",
+   "path": "content/_inbox/AI学习资料库.html",
+   "sections": {
+    "agent": 27,
+    "公司": 8,
+    "原理": 8,
+    "基模": 5,
+    "应用": 42,
+    "模板": 5,
+    "硬件": 6
+   },
+   "sha1": "ed99c5bf8be61365",
+   "tools": 230,
+   "topics": 101
+  }
+ }
+}

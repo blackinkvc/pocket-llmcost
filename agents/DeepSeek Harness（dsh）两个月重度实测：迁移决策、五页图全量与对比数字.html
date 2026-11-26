@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeepSeek Harness（dsh）两个月重度实测：迁移决策、五页图全量与对比数字 · Agent</title>
+<meta name="description" content="公众号「不及而望AI」（user_name gh_e354fa873773），发布于 2026-11-23 18:00。这是**图片型观点文**：16 张正文原图、去重 9 组">
+<link rel="stylesheet" href="../assets/css/site.css?v=42f35f2b">
+<link rel="stylesheet" href="../assets/css/section.css?v=0afe21cf">
+<script src="../assets/js/skinboot.js?v=deff9a81"></script>
+<link rel="stylesheet" href="../assets/css/skin.css?v=01cdbd8f">
+<link rel="stylesheet" href="../assets/css/pagebar.css?v=b4d2a8e4">
+<script src="../assets/js/board.js?v=10d62f46" defer></script>
+<script src="../assets/js/ranks.js?v=76e44c3f" defer></script>
+<script src="../assets/js/reports.js?v=971c0e35" defer></script>
+<script src="../assets/js/toc.js?v=4b9e2ef8" defer></script>
+<script src="../assets/js/pagebar.js?v=ad60322d" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a href="../models.html">基模</a>
+      <a class="is-active" href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a href="../hardware.html">硬件</a>
+      <a href="../templates.html">模板</a>
+      <a href="../apps.html">AI+行业</a>
+      <a href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-27</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+
+<div class="pbar"><div class="pb-in">
+  <span class="pb-t">Agent</span>
+  <div class="pb-sum">报告 · <b>2026-11-25</b></div>
+  <div class="pb-sp"></div>
+  <button class="pb-i" data-pb="theme" type="button" title="切换深浅色" aria-label="切换深浅色"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/></svg></button>
+  <button class="pb-i" data-pb="reload" type="button" title="刷新这一页" aria-label="刷新这一页"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5V10h-5.5"/></svg></button>
+  <button class="pb-i" data-pb="setup" type="button" title="外观设置" aria-label="外观设置" aria-haspopup="dialog" aria-expanded="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg></button>
+</div></div>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">Agents</span>
+    <a href="../agents.html">← 回「Agent」</a>
+    <a href="../agents.html#intro">简介</a>
+    <a href="../agents.html#board-1">使用量 · 命令行工具</a>
+    <a href="../agents.html#board-2">使用量 · IDE 插件</a>
+    <a href="../agents.html#board-3">办公 Agent</a>
+    <a href="../agents.html#board-4">技能</a>
+    <a href="../agents.html#board-5">专家</a>
+    <a href="../agents.html#board-6">MCP 服务器 · 调用量</a>
+    <a href="../agents.html#board-7">MCP 服务器 · 开源热度</a>
+    <a href="../agents.html#board-8">MCP 服务器仓库 · 按实现语言</a>
+    <a href="../agents.html#board-9">MCP 托管平台 · 上架量</a>
+    <a href="../agents.html#board-10">IDE 扩展市场 · 存量</a>
+    <a href="../agents.html#board-11">产品台账</a>
+    <a href="../agents.html#cards">对比</a>
+    <a href="../agents.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../agents.html">Agent</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2026-11-25 · DeepSeek Harness · dsh · Claude Code · Codex · 资料入库</p>
+    <h1 class="post-title">DeepSeek Harness（dsh）两个月重度实测：迁移决策、五页图全量与对比数字</h1>
+    <p class="post-lede">公众号「不及而望AI」（user_name gh_e354fa873773），发布于 2026-11-23 18:00。这是<strong>图片型观点文</strong>：16 张正文原图、去重 9 组</p>
+    <div class="post-body">
+<p>⚠️ 先说性质：这是作者个人两个月重度使用的主观体验与订阅迁移决定，<strong>不是第三方评测、不是可复现 benchmark</strong>。文中所有百分比与时长都是「我觉得 / 就我的使用体验」级的断言，没有测试集、样本量、任务清单或统计口径。证据等级与适用边界见 <a href="../apps/观点型资料的证据等级：个人实测怎么收进库才不会被当成事实.html">T032</a>。</p>
+<p>五页图逐页整理（图面信息全部保留，不放原文）：</p>
+<ul><li>1/5：下个月估计停掉 claude 和 codex 的 200 刀订阅；DeepSeek Harness 已能满足 90% 工作需求，除非从 0 到 1 的搭建，否则基本很少会用 claude。codex 用得更少——操控浏览器之类现在 claude 和 DeepSeek 都能做，而且作者的使用场景也比较少；另加一句「Anthropic 真的太畜了，我至今没解决封号的薛定谔问题」（作者情绪化表述，按原样记录）</li><li>2/5：综合对比后决定只保留 dsh 作主力，偶尔有难题交给 claudecode 做一下方向上的选择。上回发帖说 dsh 能彻底替代 claude 和 codex，被很多技术大佬质疑「是不是收了 DeepSeek 的钱」，作者回应是「深思熟虑和反复比较的结果」。作者自述做过的测试：简单的鹈鹕测试、鳄鱼测试、屎山代码挑战；复杂的像整个项目库代码的重建、长程任务的连续思考和执行，「dsh 都能基本满足」</li><li>3/5：橙字强调「虽然目前确实有思考慢的问题，但是在绝对的成本面前，dsh 依然是性价比之王」。硬数字：同样的任务，dsh + 4.1 Flash 1017 对比 claudecode + opus 5.5，claude 1 小时的任务，dsh 要一个半小时才能完成。缓解办法：不是非常紧急的任务、尤其大家基本都是 vibe coding 时，多开几个会话或者子代理也能解决，「这就跟你带团队是一个道理」</li><li>4/5：分工比喻——能力强的去啃硬骨头、能力中等但卖力的是中坚力量、能力差但忠诚的安排点杂活；蓝字「DeepSeek 目前就属于能力中等但卖力」。可用 magpie 分配路由，甚至用免费模型干杂活、DeepSeek 监控 + 干活、opus 或 gpt 做最后验收。行业判断：国内大部分公司已过了死盯 token 消耗的疯狂阶段，更多是「什么能力水平的模型就干什么样的事」；把 AI 的模型和工具资源分配好，跟把团队各种人才资源分配好一样重要且必要</li><li>5/5：「claudecode 是很强，但是很多时候你并不需要用最强的模型去从 0 数到 1 万，当然有钱就另说」。重度使用 2 个月，几乎可以断定 DeepSeek 目前在编程方面的模型能力已达到 opus 和 codex 90% 的水准；返工率极低，只要时间给够、测试管够，几乎都可以一次过。橙字「我跟 DeepSeek Harness 已经人模合一了」。结尾建议：下载 dsh、把所有插件都装上，再去「破个甲」（原文用词，涉及破解操作，仅按原样记录，不作为操作建议）</li></ul>
+<p>纯文字版三段（与图面互证，措辞略不同，也按原样留）：下个月大概会停掉 Claude 和 Codex 的 200 刀订阅，日常就用 dsh，重度用了两个月能满足九成工作；真遇到从 0 到 1 搭项目或卡在方向上才找 Claude Code。同一个任务 Claude Code 一小时、dsh 一个半小时，慢但算上成本觉得值。dsh 编程能力大概有 Opus 和 Codex 的九成，返工也少，时间给够、测试做足日常开发基本够用。</p>
+<p>8 个话题标签：#howto入门codex #howto手搓skill #大模型 #转码 #java #文科转码 #AI人工智能 #数据科学。</p>
+<p>⚠️ 原文完全没给、一律不补：dsh 的官方链接 / 仓库 / 版本号 / 是否开源 / 定价与订阅金额实际数值；「200 刀」是 claude + codex 订阅的合称，未拆分；4.1 Flash 1017 与 opus 5.5 的命名含义未解释（图面写法，未核实是否为正式版本号）；鹈鹕测试 / 鳄鱼测试 / 屎山代码挑战的具体内容与结果；magpie 的仓库、实现与是否开源；90% 水准 / 返工率 / 1 小时 vs 1.5 小时的统计口径；作者的工作类型与项目规模。</p>
+<p>归位说明：主板块 Agent（编码智能体 / Harness 工具实测，与 <a href="../agents/AI%20Coding%20的五层技术栈：决定持续交付的不是模型本身.html">T003</a> 的五层架构不同主题 → 并列）；分层路由那一层已按同主题<strong>并入 <a href="../models/模型与推理网关：按难度分层路由%20+%20缓存控本.html">T006</a></strong>（model），不在这里重复建卡；related 挂基模 / 实例 / 企业知识库选型 / 学习路线。</p>
+<blockquote>整理说明：5 张分页长图 + 纯文字摘要 + 标签全部整理入内，未遗漏测试名、版本号写法、magpie、团队比喻与结尾建议。作者主观断言与情绪化用语均按原样记录并标注性质，不替其补数据、不背书。</blockquote>
+<h2>来源</h2>
+<ul><li>A012《我宣布 DSH 已经彻底甩开 Claude code 了》 · 2026-11-25 · <a href="https://mp.weixin.qq.com/s/A2fnlab0SoLoAGQJwlmZyg" rel="noopener">https://mp.weixin.qq.com/s/A2fnlab0SoLoAGQJwlmZyg</a></li></ul>
+    </div>
+  </article>
+  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list"><a href="DSH%20%E5%8F%AA%E8%A3%85%204%20%E4%B8%AA%EF%BC%9A%E6%8F%92%E4%BB%B6%E4%B8%8D%E6%98%AF%E3%80%8C%E6%94%BE%E7%9D%80%E4%B8%8D%E7%94%A8%E5%B0%B1%E4%B8%8D%E8%8A%B1%E9%92%B1%E3%80%8D%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%B8%89%E7%A7%8D%E5%8F%A3%E5%BE%84%E5%B9%B6%E5%88%97.html"><b>DSH 只装 4 个：插件不是「放着不用就不花钱」，以及三种口径并列</b><time>2026-11-26</time></a><a href="DSH%20%E5%BF%85%E8%A3%85%2010%20%E5%A4%A7%E6%8F%92%E4%BB%B6%EF%BC%9ADeepSeek%20Harness%20%E7%9A%84%E6%8F%92%E4%BB%B6%E7%94%9F%E6%80%81%E4%B8%8E%E5%9B%9B%E7%BB%84%E5%86%85%E9%A1%B5.html"><b>DSH 必装 10 大插件：DeepSeek Harness 的插件生态与四组内页</b><time>2026-11-26</time></a><a href="39%2C284%20%E2%86%92%2062.9k%20%C2%B7%206.7%E4%B8%87%20%E2%86%92%2095.4k.html"><b>39,284 → 62.9k / 6.7万 → 95.4k：Star 快照时间序列与「仓库存在 ≠ 快照已核」</b><time>2026-09-03</time></a></div>
+  </nav>
+  <nav class="pager"><a href="../agents.html"><span class="pg-l">← BACK</span><span class="pg-t">Agent · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2026-11 公开资料<br>2026 条目：只收能核到月份的<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">AI+行业</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
