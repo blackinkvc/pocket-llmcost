@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>工具台账 · 游戏开发 · 开源与 AI（10 件） · AI+行业</title>
+<meta name="description" content="资料入库时归到「游戏开发 · 开源与 AI」的 10 个条目：工具、基准、框架、组件都算，记名称、功能、开源情况与原文点评。只进一个板块（按资料里的分类首项），不排名。">
+<link rel="stylesheet" href="../assets/css/site.css?v=42f35f2b">
+<link rel="stylesheet" href="../assets/css/section.css?v=0afe21cf">
+<script src="../assets/js/skinboot.js?v=deff9a81"></script>
+<link rel="stylesheet" href="../assets/css/skin.css?v=01cdbd8f">
+<link rel="stylesheet" href="../assets/css/pagebar.css?v=b4d2a8e4">
+<script src="../assets/js/board.js?v=10d62f46" defer></script>
+<script src="../assets/js/ranks.js?v=76e44c3f" defer></script>
+<script src="../assets/js/reports.js?v=971c0e35" defer></script>
+<script src="../assets/js/toc.js?v=4b9e2ef8" defer></script>
+<script src="../assets/js/pagebar.js?v=ad60322d" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a href="../models.html">基模</a>
+      <a href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a href="../hardware.html">硬件</a>
+      <a href="../templates.html">模板</a>
+      <a class="is-active" href="../apps.html">AI+行业</a>
+      <a href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-27</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+
+<div class="pbar"><div class="pb-in">
+  <span class="pb-t">AI+行业</span>
+  <div class="pb-sum">报告 · <b>2026-09-03</b></div>
+  <div class="pb-sp"></div>
+  <button class="pb-i" data-pb="theme" type="button" title="切换深浅色" aria-label="切换深浅色"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/></svg></button>
+  <button class="pb-i" data-pb="reload" type="button" title="刷新这一页" aria-label="刷新这一页"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5V10h-5.5"/></svg></button>
+  <button class="pb-i" data-pb="setup" type="button" title="外观设置" aria-label="外观设置" aria-haspopup="dialog" aria-expanded="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg></button>
+</div></div>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">AI × INDUSTRY</span>
+    <a href="../apps.html">← 回「AI+行业」</a>
+    <a href="../apps.html#intro">简介</a>
+    <a href="../apps.html#cards">专题</a>
+    <a href="../apps.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../apps.html">AI+行业</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2026-09-03 · 工具 · 资料入库</p>
+    <h1 class="post-title">工具台账 · 游戏开发 · 开源与 AI（10 件）</h1>
+    <p class="post-lede">资料入库时归到「游戏开发 · 开源与 AI」的 10 个条目：工具、基准、框架、组件都算，记名称、功能、开源情况与原文点评。只进一个板块（按资料里的分类首项），不排名。</p>
+    <div class="post-body">
+<p>台账收的是原文里被点名、值得单独记一笔的东西——工具、基准、框架、组件都算。按资料原文照录：<strong>作者 / 平台 / 开源没写出来的，就是原文没给，不替它猜</strong>；功能与点评都是原文一句话，没有二次评价。想按主题看这些工具各自解决什么问题，翻本页其它带「资料入库」标签的报告。 台账收的是 2026-09-03 至 2026-11-27 的原文。</p>
+<h3>Godot</h3>
+<p>2D、3D、动画、物理全包；导出即商用，不抽成、不绑平台</p>
+<p>— 作者：godotengine（A009 同源详版） · 平台：2D/3D 游戏引擎；桌面/移动/Web；一个安装包 · 开源：MIT · 11.8 万星（图卡）/ 十二万星（详版）</p>
+<blockquote>独立开发者的亲儿子；想做 2D 又不想被平台规则绑住基本是首选。⚠️ 两处星数口径不同，未调和，见 T020</blockquote>
+<h3>Cocos（cocos2d-x）</h3>
+<p>一套代码多端发布，微信生态友好；API 成熟、教程遍地</p>
+<p>— 作者：cocos2d（A009 同源详版） · 平台：国产跨端引擎；Web / iOS / 安卓 / 微信小游戏等 · 开源：近一万星 · 许可证原文未注明</p>
+<blockquote>发国内小游戏最顺，绕不开它；团队里谁都能快速接手。星数只写「近一万」，不精修</blockquote>
+<h3>Phaser</h3>
+<p>网页 2D 小游戏框架，API 成熟、教程多</p>
+<p>— 作者：phaserjs（A009 同源详版） · 平台：HTML5 / 浏览器直接跑 · 开源：4 万星 · 许可证原文未注明</p>
+<blockquote>HTML5 常青树，网页小游戏首选；很多人的第一行代码，打开网页就能玩最省事</blockquote>
+<h3>PixiJS</h3>
+<p>精灵、粒子、滤镜全有，Web 顶级 2D 渲染，性能强劲</p>
+<p>— 作者：pixijs（A009 同源详版） · 平台：Web 2D 渲染器 · 开源：4.8 万星 · 许可证原文未注明</p>
+<blockquote>专攻 Web 2D 渲染；做高品质互动、需要画面细节时比通用引擎更趁手</blockquote>
+<h3>Babylon.js</h3>
+<p>PBR、物理、粒子系统齐全，浏览器里跑出电影级画面</p>
+<p>— 作者：BabylonJS / 微软维护（A009 同源详版） · 平台：Web3D 引擎；浏览器内运行 · 开源：2.6 万星 · 许可证原文未注明</p>
+<blockquote>搞网页 3D 绕不开的一站。⚠️ 用户所给图片版没有这张独立卡，星数与定位据同源详版补全，见 T020 / T023</blockquote>
+<h3>Bevy</h3>
+<p>ECS 架构，性能上限高，适合认真啃 3D 的硬核团队</p>
+<p>— 作者：bevyengine（A009 同源详版） · 平台：Rust / ECS 数据驱动引擎 · 开源：4.9 万星 · 许可证原文未注明</p>
+<blockquote>天花板高，代价是 Rust 学习曲线、入门没前面几个轻松。⚠️ 无独立图卡，据同源详版补全</blockquote>
+<h3>raylib</h3>
+<p>一个压缩包开工，源码摊开没有黑盒魔法，适合学游戏循环与渲染原理</p>
+<p>— 作者：raysan5（A009 同源详版） · 平台：C 语言；桌面 / 移动 / Web；零依赖 · 开源：3.5 万星 · 许可证原文未注明</p>
+<blockquote>想搞明白底层怎么跑的选它；图卡上标为第 6 项，详版顺序为第 7 项，两种编号并列保留</blockquote>
+<h3>libGDX</h3>
+<p>一套代码铺开多端，Java 生态稳、文档全、老项目多</p>
+<p>— 作者：libgdx（A009 同源详版） · 平台：Java；桌面 / 安卓 / iOS / Web · 开源：2.5 万星 · 许可证原文未注明</p>
+<blockquote>团队 Java 底子厚几乎不用重新招人。⚠️ 无独立图卡，据同源详版补全</blockquote>
+<h3>Unity MCP</h3>
+<p>建对象、连组件、写脚本，一句话让 AI 直接操作 Unity</p>
+<p>— 作者：CoplayDev（A009 同源详版） · 平台：Unity 编辑器 + Claude / Cursor；本地项目内运行 · 开源：1.6 万星 · 许可证原文未注明</p>
+<blockquote>只在你自己的项目里开，权限握在自己手上，不用把代码传到别处；图卡左侧星数被打码，按同源详版填，见 T021</blockquote>
+<h3>Game Dev Agent Skills</h3>
+<p>74 个技能包，游戏原型快速生成，卡在哪一步直接问</p>
+<p>— 作者：gamedev-skills（A009 同源详版） · 平台：装进 AI 工具的技能包合集；覆盖 Godot / Unity / Unreal · 开源：9.2 千星 · 许可证原文未注明</p>
+<blockquote>等于请了个随叫随到的游戏导师；图卡右上角小窗写「游戏原型快速快速生成」（图面重复字按原样保留），见 T022</blockquote>
+    </div>
+  </article>
+  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list"><a href="%E5%B7%A5%E5%85%B7%E5%8F%B0%E8%B4%A6%20%C2%B7%203D%20%C2%B7%20%E5%88%9B%E6%84%8F%E7%BD%91%E9%A1%B5.html"><b>工具台账 · 3D · 创意网页（2 件）</b><time>2026-09-03</time></a><a href="%E5%B7%A5%E5%85%B7%E5%8F%B0%E8%B4%A6%20%C2%B7%20AI4S%20%C2%B7%20%E7%A7%91%E7%A0%94%E6%99%BA%E8%83%BD%E4%BD%93.html"><b>工具台账 · AI4S · 科研智能体（13 件）</b><time>2026-09-03</time></a><a href="%E5%B7%A5%E5%85%B7%E5%8F%B0%E8%B4%A6%20%C2%B7%20CAD%20%C2%B7%20AI%20%E8%BE%85%E5%8A%A9%E8%AE%BE%E8%AE%A1.html"><b>工具台账 · CAD · AI 辅助设计（5 件）</b><time>2026-09-03</time></a></div>
+  </nav>
+  <nav class="pager"><a href="../apps.html"><span class="pg-l">← BACK</span><span class="pg-t">AI+行业 · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2026-11 公开资料<br>2026 条目：只收能核到月份的<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">AI+行业</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一手口径：GeoLibre 是什么、真实安装链路、以及那些对不上的数字 · AI+行业</title>
+<meta name="description" content="⚠️ **本卡全部来自 GitHub 仓库 / README、项目官网与第三方说明，不是视频画面，也不是对该视频的背书**。单列一卡是为了把「视频演示了什么」和「真实项目是什么」彻底分开。">
+<link rel="stylesheet" href="../assets/css/site.css?v=42f35f2b">
+<link rel="stylesheet" href="../assets/css/section.css?v=0afe21cf">
+<script src="../assets/js/skinboot.js?v=deff9a81"></script>
+<link rel="stylesheet" href="../assets/css/skin.css?v=01cdbd8f">
+<link rel="stylesheet" href="../assets/css/pagebar.css?v=b4d2a8e4">
+<script src="../assets/js/board.js?v=10d62f46" defer></script>
+<script src="../assets/js/ranks.js?v=76e44c3f" defer></script>
+<script src="../assets/js/reports.js?v=971c0e35" defer></script>
+<script src="../assets/js/toc.js?v=4b9e2ef8" defer></script>
+<script src="../assets/js/pagebar.js?v=ad60322d" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a href="../models.html">基模</a>
+      <a href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a href="../hardware.html">硬件</a>
+      <a href="../templates.html">模板</a>
+      <a class="is-active" href="../apps.html">AI+行业</a>
+      <a href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-27</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+
+<div class="pbar"><div class="pb-in">
+  <span class="pb-t">AI+行业</span>
+  <div class="pb-sum">报告 · <b>2026-11-26</b></div>
+  <div class="pb-sp"></div>
+  <button class="pb-i" data-pb="theme" type="button" title="切换深浅色" aria-label="切换深浅色"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/></svg></button>
+  <button class="pb-i" data-pb="reload" type="button" title="刷新这一页" aria-label="刷新这一页"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5V10h-5.5"/></svg></button>
+  <button class="pb-i" data-pb="setup" type="button" title="外观设置" aria-label="外观设置" aria-haspopup="dialog" aria-expanded="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg></button>
+</div></div>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">AI × INDUSTRY</span>
+    <a href="../apps.html">← 回「AI+行业」</a>
+    <a href="../apps.html#intro">简介</a>
+    <a href="../apps.html#cards">专题</a>
+    <a href="../apps.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../apps.html">AI+行业</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2026-11-26 · GeoLibre · opengeos · Qiusheng Wu · MIT · 资料入库</p>
+    <h1 class="post-title">一手口径：GeoLibre 是什么、真实安装链路、以及那些对不上的数字</h1>
+    <p class="post-lede">⚠️ <strong>本卡全部来自 GitHub 仓库 / README、项目官网与第三方说明，不是视频画面，也不是对该视频的背书</strong>。单列一卡是为了把「视频演示了什么」和「真实项目是什么」彻底分开。</p>
+    <div class="post-body">
+<p><strong>项目身份</strong>：<strong>GeoLibre</strong>（不是 GisLibre / GISHub），仓库 <code>opengeos/GeoLibre</code>，MIT 协议，主语言 TypeScript（约 90.5%，另有 Rust 1.7% 做桌面 / 移动宿主、Python 6% 管 Jupyter 包装），2026-05-27 建仓，作者 <strong>Qiusheng Wu（吴秋生）</strong>。定位「lightweight, cloud-native GIS platform」：浏览器 / Windows / macOS / Linux 桌面 / Android / iOS / Jupyter / R 里跑同一套工作台，工程文件 <code>.geolibre.json</code>（另有资料写 <code>.geolibre</code>），主打<strong>数据留在本地、不上传云端</strong>。官网 geolibre.app，在线版 web.geolibre.app，共享 share.geolibre.app，插件 plugins.geolibre.app。</p>
+<p><strong>技术栈（按 README 原文）</strong>：<strong>Tauri v2 + React + TypeScript + MapLibre GL JS + DuckDB-WASM Spatial + deck.gl</strong>；四种可切换渲染引擎 MapLibre GL JS（默认）/ Mapbox GL JS / CesiumJS / ArcGIS Maps SDK for JavaScript；基于 WebAssembly 的 Whitebox Next Gen 地理处理工具箱（浏览器内运行，无需 Python 侧车）；Pyodide / Jupyter 桥接；可导出独立离线 HTML 工程。⚠️ <strong>没有 Electron</strong>，也没有 <code>install.py</code>。</p>
+<p><strong>真实安装 / 分发链路（并列，不调和）</strong>：</p>
+<ul><li><strong>从源码</strong>：<code>git clone <a href="https://github.com/opengeos/GeoLibre.git" rel="noopener">https://github.com/opengeos/GeoLibre.git</a> &amp;&amp; cd GeoLibre &amp;&amp; npm install &amp;&amp; npm run dev</code>，需 Node.js 22+，桌面构建另需 Rust</li><li><strong>零安装</strong>：直接打开 <code><a href="https://web.geolibre.app/" rel="noopener">https://web.geolibre.app/</a></code>（无需注册 / API Key）；网页版有明确边界——本地对话框、MBTiles、工程存盘、本地 Python 侧车与 Whitebox 栅格工具在网页版不可用或隐藏</li><li><strong>桌面 / 移动</strong>：Release 页安装包（Win / macOS / Linux）、Mac App Store（沙箱版会砍掉 Python 侧引擎、本地 Jupyter、Earth Engine 登录与外部插件安装）、Google Play、flatpak、AUR、Microsoft Store</li><li><strong>Notebook</strong>：<code>pip install geolibre</code> 或 <code>conda install -c conda-forge geolibre</code>（anywidget 桥接，非独立 GIS 内核）；R 包走 <code>pak::pak("opengeos/geolibre-r")</code></li><li><strong>容器</strong>：<code>docker run --rm -p 8080:80 ghcr.io/opengeos/geolibre:latest</code></li></ul>
+<p>⚠️ <strong>数字口径并列留档（全部社媒转述 / 不同时点快照，按 <a href="../apps/数字的七类证据性质：演示%20·%20报价%20·%20示意%20·%20可核验计数%20·%20正文未载的图面结果.html">T038</a> 第四类标「可核验但未核验」）</strong>：</p>
+<ul><li><strong>Star</strong>：2k（开源约两个月，2026-05-27 建仓后）→ 3.7k → 4.3k → 4.7k → 6.7k（2026-08-27 v2.8.0 前后）→ 8k → 8.7k → <strong>GitHub API 实测 8815</strong>（收录日 2026-11-26）。全是不同抓取日，不调和、不写成「当前 Star」之外的结论</li><li><strong>体积</strong>：社媒「主程序仅 <strong>200KB</strong>」；第三方对比表 GeoLibre 桌面 <strong>120MB</strong> / 安卓 <strong>40MB</strong>，QGIS <strong>500MB+ / 几百兆 / 3GB</strong> 三说，ArcGIS Pro <strong>3GB+</strong>；另有博客写 <code>geolibre-cli.wasm</code> 约 <strong>24MB</strong>、DuckDB-WASM <strong>40MB / 35MB</strong>（超 Cloudflare 25MiB 限制需走 CDN）。<strong>200KB 与 120MB 不是同一口径，不互相否定也不合并</strong></li><li><strong>工具数</strong>：<strong>700+ / 1000+ / 1066</strong>（细分 矢量 313 / 栅格 256 / 遥感 154 / 水文 100 / 地形 99 / LiDAR 65 / 转换 49 / 网络 26 / 投影 4）；<strong>版本</strong> v2.8.0（2026-08-27）；<strong>平台</strong> 浏览器 / 桌面 / 手机 / Jupyter / R；QGIS 官方当前 4.2.3（2026-09-25）/ LTR 3.44.15</li></ul>
+<p><strong>第三方主动划的边界（要一起收）</strong>：GEOPERA 明写「<strong>Can GeoLibre replace QGIS? For many jobs, yes… QGIS still wins on plugin depth and unusual workflows. Most people will run both</strong>」；国内对比表也写「不替代 ArcGIS / QGIS，而是填补零安装、跨设备、轻量化、隐私优先的空白」。Toolclove 注明 README 自述「项目主要在 AI 模型辅助下、经人工审阅构建，请用户自行核对结果」，且 Mapbox / ArcGIS 引擎需自备凭据。⚠️ 所以「刷爆 Github」「QGIS 当场尴尬」「彻底颠覆行业」都是社媒标题，不是项目方结论。</p>
+<p><strong>一句话</strong>：真实项目是<strong>开源、可查、可 <code>npm run dev</code> 跑起来的浏览器 GIS 工作台</strong>；视频里那条 <code>git clone GisLabs/GISHub → python3 install.py → QGIS installed successfully</code> 的链路，与它<strong>没有任何一条对得上</strong>。本库收的是「原型是什么 + 演示错在哪」，不是「照视频装一遍」。</p>
+<blockquote>整理说明：一手口径整理卡，来自 GitHub 仓库 / README、项目官网与第三方说明；未在本机跑通安装、未实测体积与 Star 抓取日以外的数值，不冒充视频画面。</blockquote>
+<h2>来源</h2>
+<ul><li>A030《GITHUB 开源项目安装演示（200KB 的 GIS / GISHub / QGIS installed successfully）》 · 2026-11-26 · <a href="http://yb.woa.com/14N0XXeQcgj" rel="noopener">http://yb.woa.com/14N0XXeQcgj</a></li></ul>
+    </div>
+  </article>
+  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list"><a href="%E3%80%8C200KB%20%E7%9A%84%20GIS%E3%80%8D%E5%AE%89%E8%A3%85%E6%BC%94%E7%A4%BA%EF%BC%9A%E5%85%AD%E6%AE%B5%E5%91%BD%E4%BB%A4%20%C3%97%20%E4%B8%80%E6%89%8B%E4%BB%93%E5%BA%93%E9%80%90%E6%9D%A1%E5%AF%B9%E7%85%A7.html"><b>「200KB 的 GIS」安装演示：六段命令 × 一手仓库逐条对照</b><time>2026-11-26</time></a><a href="H02%20%C2%B7%20H03%20%C2%B7%20%E3%80%8COpenAI%20%E7%A0%B4%E8%A7%A3%E6%95%B0%E5%AD%A6%E3%80%8D%E4%B8%8E%E3%80%8CClaude%20%E8%A7%A3%E5%86%B3%E9%BB%8E%E6%9B%BC%E7%8C%9C%E6%83%B3%E3%80%8D.html"><b>H02 / H03 · 「OpenAI 破解数学」与「Claude 解决黎曼猜想」：标题简写与形式化核验</b><time>2026-01-01</time></a><a href="%E5%8F%96%E8%AF%81%E8%AE%B0%E5%BD%95%EF%BC%9A%E4%BA%8C%E5%8D%81%E4%B8%89%E6%89%B9%E8%B5%84%E6%96%99%E7%9A%84%E5%8F%AF%E8%A7%81%E8%BE%B9%E7%95%8C%E4%B8%8E%E8%A1%A5%E5%85%A8%E6%9D%A5%E6%BA%90.html"><b>取证记录：二十三批资料的可见边界与补全来源</b><time>2026-09-03</time></a></div>
+  </nav>
+  <nav class="pager"><a href="../apps.html"><span class="pg-l">← BACK</span><span class="pg-t">AI+行业 · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2026-11 公开资料<br>2026 条目：只收能核到月份的<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">AI+行业</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

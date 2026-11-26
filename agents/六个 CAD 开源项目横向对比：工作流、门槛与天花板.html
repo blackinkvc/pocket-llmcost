@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>六个 CAD 开源项目横向对比：工作流、门槛与天花板 · Agent</title>
+<meta name="description" content="文章从「开源桌面、3D 打印、二维图纸、商业三维」四条工作流里各挑了能打的项目，共六个，星数为 11 月 4 日拉取的数据。主板块归 Skill（能力封装与工具选型）">
+<link rel="stylesheet" href="../assets/css/site.css?v=42f35f2b">
+<link rel="stylesheet" href="../assets/css/section.css?v=0afe21cf">
+<script src="../assets/js/skinboot.js?v=deff9a81"></script>
+<link rel="stylesheet" href="../assets/css/skin.css?v=01cdbd8f">
+<link rel="stylesheet" href="../assets/css/pagebar.css?v=b4d2a8e4">
+<script src="../assets/js/board.js?v=10d62f46" defer></script>
+<script src="../assets/js/ranks.js?v=76e44c3f" defer></script>
+<script src="../assets/js/reports.js?v=971c0e35" defer></script>
+<script src="../assets/js/toc.js?v=4b9e2ef8" defer></script>
+<script src="../assets/js/pagebar.js?v=ad60322d" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a href="../models.html">基模</a>
+      <a class="is-active" href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a href="../hardware.html">硬件</a>
+      <a href="../templates.html">模板</a>
+      <a href="../apps.html">AI+行业</a>
+      <a href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-27</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+
+<div class="pbar"><div class="pb-in">
+  <span class="pb-t">Agent</span>
+  <div class="pb-sum">报告 · <b>2026-11-24</b></div>
+  <div class="pb-sp"></div>
+  <button class="pb-i" data-pb="theme" type="button" title="切换深浅色" aria-label="切换深浅色"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/></svg></button>
+  <button class="pb-i" data-pb="reload" type="button" title="刷新这一页" aria-label="刷新这一页"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5V10h-5.5"/></svg></button>
+  <button class="pb-i" data-pb="setup" type="button" title="外观设置" aria-label="外观设置" aria-haspopup="dialog" aria-expanded="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg></button>
+</div></div>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">Agents</span>
+    <a href="../agents.html">← 回「Agent」</a>
+    <a href="../agents.html#intro">简介</a>
+    <a href="../agents.html#board-1">使用量 · 命令行工具</a>
+    <a href="../agents.html#board-2">使用量 · IDE 插件</a>
+    <a href="../agents.html#board-3">办公 Agent</a>
+    <a href="../agents.html#board-4">技能</a>
+    <a href="../agents.html#board-5">专家</a>
+    <a href="../agents.html#board-6">MCP 服务器 · 调用量</a>
+    <a href="../agents.html#board-7">MCP 服务器 · 开源热度</a>
+    <a href="../agents.html#board-8">MCP 服务器仓库 · 按实现语言</a>
+    <a href="../agents.html#board-9">MCP 托管平台 · 上架量</a>
+    <a href="../agents.html#board-10">IDE 扩展市场 · 存量</a>
+    <a href="../agents.html#board-11">产品台账</a>
+    <a href="../agents.html#cards">对比</a>
+    <a href="../agents.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../agents.html">Agent</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2026-11-24 · CAD · Skill · MCP · 开源工具 · 资料入库</p>
+    <h1 class="post-title">六个 CAD 开源项目横向对比：工作流、门槛与天花板</h1>
+    <p class="post-lede">文章从「开源桌面、3D 打印、二维图纸、商业三维」四条工作流里各挑了能打的项目，共六个，星数为 11 月 4 日拉取的数据。主板块归 Skill（能力封装与工具选型）</p>
+    <div class="post-body">
+<ul><li>FreeCAD MCP（3,209★，8 类工具 / 2 个部件 / 1 条本地连接）：在 FreeCAD 界面里建草图、拉伸、倒角，覆盖建模、改属性、跑 Python、截图、插标注、做 FEM。实测简单零件（法兰、支架）几轮收敛；复杂装配会飘、agent 会忘上一步，得手动喂上下文。门槛中等：装软件、找 addon 目录、手动启动 RPC 三步。优点免费可编程；缺点依赖活着的 FreeCAD 窗口，软件一崩连接就断、大装配会卡</li><li>cad-skill（713★，4 视角预览 / Python 3.10–3.12 / 1 个 Skill 全包）：描述要打印的物件 → agent 写参数化脚本 → 导出 STL → 渲染四视角预览，不满意改参数重跑。案例有 MagSafe 支架、手机壳、Gridfinity 收纳盒，以及从 3D 扫描的鼠标轮廓反推凹槽（旋转到最小包围矩形、正好占 3×3 网格、拇指位加斜向取物口）。门槛低到中；优点闭环短、一句话到可切片 STL；缺点只服务 3D 打印，不负责工程图、装配、标公差</li><li>CAD-MCP（669★，35 个 MCP 工具 / 3 款 CAD / 2 种传输模式）：v2.0 覆盖画线画圆、图层块、标注、查询实体句柄、截 CAD 窗口，核心闭环是「画完能查、查完能改、改完能截图确认」，并留命令透传让未封装命令也能直接发。支持 AutoCAD、浩辰、中望；走本地或 HTTP。门槛中等、复杂指令要拆几步；优点覆盖国产 CAD；缺点三维能力基本没有，只能当二维绘图助手</li><li>brepjs（139★，46 个示例零件全过 / 5 个工作阶段 / 1 条 VERIFY）：把精确 B-Rep（数学边界，区别于三角网格近似）写进 TypeScript。Claude Code 插件按五阶段走，CLI 用 brep verify 查有效性、尺寸、形状并出多视角快照。真实会话：agent 读 Raspberry Pi 5 官方图纸写外壳 → verify 报错自己改 → 加风扇位 → 导出 STEP 能在 FreeCAD 打开。门槛中等偏低（会 TS 即可）；优点类型安全、错误在编译期挡住；缺点生态小、社区薄、复杂曲面撑不住</li><li>AutoCAD MCP Pro（225★，248 工具 / 11 资源 / 5 提示词模板 / 6,060 条测试 / 5 种验收结论）：Windows 走 COM 操控活着的 AutoCAD，其他平台走 ezdxf 无头读写；1.7 的 drawing_verify_requirements 把需求绑到真实几何上量。示例含 24 齿渐开线齿轮、带键槽的孔、A-A 剖视、ISO129 标注、H7 配合、ISO7200 图框，每根线自己画再自己渲染。门槛高（工具多、COM 挑版本与权限）；优点结论带实测值、不靠「看起来对」；缺点太重，轻量需求像杀鸡用牛刀</li><li>CAD-Agent-Hub（131★，6 类商业软件 / 1 个 Windows 平台 / 逐个独立验证）：一堆 MCP server 与桥接器，接 CATIA V5、SolidWorks、NX/UG、EPLAN、Fusion Electronics、ANSYS Workbench；必须和 CAD 同用户同权限，每个子项目单独装、单独验证。README 最实在的一句：COM 调用成功，不代表模型、网格、图纸或仿真结果是对的，得自己去原生软件里看。门槛高；优点把 agent 接进你已在用的商业软件、学习成本花一次；缺点项目分散、无一键安装、更新跟着商业软件走</li></ul>
+<p>六个项目的共同点（也是这篇文章最值得记的一句）：都在补同一块短板——让 agent 能看见自己画出来的东西。视图、读实体句柄、verify 快照，本质都是给模型装眼睛。</p>
+<p>选型速记：用 FreeCAD 的先装 FreeCAD MCP；家里有 3D 打印机看 cad-skill；天天改 DWG 的在 CAD-MCP 与 AutoCAD MCP Pro 里挑；写 TypeScript 的试 brepjs；用 CATIA / SolidWorks / NX 的看 CAD-Agent-Hub。</p>
+<blockquote>整理说明：用户所给页面只返回标题与话题标签，正文据可检索到的同源详版（公众号「小柒讲编程」，署名小柒）补全；六项目的星数、工具数、实测与优缺点均来自该同源内容，未混入其他 CAD 教程的细节。项目作者原文未署名，故速查表标「原文未注明」。</blockquote>
+<h2>来源</h2>
+<ul><li>A003《六个 CAD Skill，装完就能直接画!》 · 2026-11-24 · <a href="https://mp.weixin.qq.com/s/Jc-MFavK3WVRkDTjTLMT6Q" rel="noopener">https://mp.weixin.qq.com/s/Jc-MFavK3WVRkDTjTLMT6Q</a></li></ul>
+    </div>
+  </article>
+  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list"><a href="30%20%E4%B8%AA%20Skill%20%E6%B8%85%E5%8D%95%EF%BC%9A%E5%8F%AF%E8%A7%81%E7%9A%84%E5%89%8D%2010%20%E4%B8%AA%E4%B8%8E%E9%80%90%E6%9D%A1%E8%AF%A6%E6%83%85%E5%8D%A1.html"><b>30 个 Skill 清单：可见的前 10 个与逐条详情卡</b><time>2026-11-24</time></a><a href="MCP%20%E5%BD%A2%E6%80%81%E5%9B%9B%E9%A1%B9%E7%9B%AE%EF%BC%9A%E6%8A%8A%E5%9B%BE%E8%83%BD%E5%8A%9B%E6%9A%B4%E9%9C%B2%E7%BB%99%20Agent.html"><b>MCP 形态四项目：把图能力暴露给 Agent</b><time>2026-11-24</time></a><a href="Skill%20%E5%BD%A2%E6%80%81%E4%B8%89%E9%A1%B9%E7%9B%AE%EF%BC%9A%E6%8A%8A%E8%B5%84%E6%96%99%E4%B8%8E%E4%BB%A3%E7%A0%81%E5%8F%98%E6%88%90%E5%8F%AF%E5%A4%8D%E7%94%A8%E8%83%BD%E5%8A%9B.html"><b>Skill 形态三项目：把资料与代码变成可复用能力</b><time>2026-11-24</time></a></div>
+  </nav>
+  <nav class="pager"><a href="../agents.html"><span class="pg-l">← BACK</span><span class="pg-t">Agent · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2026-11 公开资料<br>2026 条目：只收能核到月份的<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">AI+行业</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

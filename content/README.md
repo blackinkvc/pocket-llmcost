@@ -124,6 +124,22 @@ tags: 机制, 时间线
 - 文件名即 URL：`三条主线.md` → `models/三条主线.html`。**中文文件名可以用**，但改名等于改链接。
 - 没写 `date` 的按文件修改时间排。
 
+## 资料入库（`_inbox/`）
+
+平时攒的「资料库型 HTML」（带 `const DATA` 的单文件，里面是知识点 / 原文 / 工具台账）
+不单独开页面，拆进已有板块的报告里：
+
+```bash
+python3 tools/ingest.py content/_inbox/新资料.html   # 一条知识点 → 一篇报告
+python3 tools/build_section.py
+```
+
+- 栏目 → 板块的对照在 `tools/ingest.py` 的 `SITE_MAP`，**不新建页面**。
+- 入库报告都带 `资料入库` 标签，页面上能一键筛出来。
+- 每条末尾有「来源」：A0xx 编号、原文标题、日期、链接。
+- 台账 `_inbox/ledger.json` 保证重跑幂等，且不覆盖手改过的 md。
+- 细节见 [`_inbox/README.md`](_inbox/README.md)。
+
 ## 诚实优先
 
 这套结构里最容易出问题的是**天梯榜**：

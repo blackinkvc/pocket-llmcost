@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一手口径：气候模拟器与「优化训练情景」到底做了什么、边界在哪 · AI+行业</title>
+<meta name="description" content="⚠️ **本卡全部来自一手来源（MIT News / MIT Climate Portal / PNAS 摘要 / 作者 perspective），不是视频画面，也不等于那条短视频讲对了**。">
+<link rel="stylesheet" href="../assets/css/site.css?v=42f35f2b">
+<link rel="stylesheet" href="../assets/css/section.css?v=0afe21cf">
+<script src="../assets/js/skinboot.js?v=deff9a81"></script>
+<link rel="stylesheet" href="../assets/css/skin.css?v=01cdbd8f">
+<link rel="stylesheet" href="../assets/css/pagebar.css?v=b4d2a8e4">
+<script src="../assets/js/board.js?v=10d62f46" defer></script>
+<script src="../assets/js/ranks.js?v=76e44c3f" defer></script>
+<script src="../assets/js/reports.js?v=971c0e35" defer></script>
+<script src="../assets/js/toc.js?v=4b9e2ef8" defer></script>
+<script src="../assets/js/pagebar.js?v=ad60322d" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a href="../models.html">基模</a>
+      <a href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a href="../hardware.html">硬件</a>
+      <a href="../templates.html">模板</a>
+      <a class="is-active" href="../apps.html">AI+行业</a>
+      <a href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-27</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+
+<div class="pbar"><div class="pb-in">
+  <span class="pb-t">AI+行业</span>
+  <div class="pb-sum">报告 · <b>2026-11-25</b></div>
+  <div class="pb-sp"></div>
+  <button class="pb-i" data-pb="theme" type="button" title="切换深浅色" aria-label="切换深浅色"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/></svg></button>
+  <button class="pb-i" data-pb="reload" type="button" title="刷新这一页" aria-label="刷新这一页"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5V10h-5.5"/></svg></button>
+  <button class="pb-i" data-pb="setup" type="button" title="外观设置" aria-label="外观设置" aria-haspopup="dialog" aria-expanded="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg></button>
+</div></div>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">AI × INDUSTRY</span>
+    <a href="../apps.html">← 回「AI+行业」</a>
+    <a href="../apps.html#intro">简介</a>
+    <a href="../apps.html#cards">专题</a>
+    <a href="../apps.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../apps.html">AI+行业</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2026-11-25 · AI4S · 气候模拟器 · ESM · ScenarioMIP · 资料入库</p>
+    <h1 class="post-title">一手口径：气候模拟器与「优化训练情景」到底做了什么、边界在哪</h1>
+    <p class="post-lede">⚠️ <strong>本卡全部来自一手来源（MIT News / MIT Climate Portal / PNAS 摘要 / 作者 perspective），不是视频画面，也不等于那条短视频讲对了</strong>。</p>
+    <div class="post-body">
+<p><strong>问题背景</strong>：地球系统模型（ESM）是物理细节最全的气候模型，但<strong>跑一个情景可能要几个月超算</strong>；气候模拟器（climate emulator）是快速 AI 代理模型，几秒出结果，用来测成千上万种情景、识别区域干预的意外后果。常规做法用 <strong>6–8 条基于现实排放轨迹的情景</strong>训练，每条都得跑一次完整 ESM → 数据集昂贵、生产周期长，工具交付时常已过时；且只用平滑现实轨迹训练，模拟器<strong>遇到没见过的情景会失效</strong>。</p>
+<p><strong>方法（论文 Significance 与摘要）</strong>：当前提升泛化能力的研究多集中在「把物理约束嵌进模型架构」，而这篇反过来指出<strong>训练数据本身才是天花板</strong>。做法是用<strong>可微的简单气候模型（SCM）</strong>计算「模拟器损失对训练数据扰动的敏感度」，再<strong>迭代更新训练数据</strong>以最大化模拟器技能，直到误差降到阈值。生成的合成情景不再是平滑曲线，而是含高频波动：例如 <strong>2050 年 CO₂ 排放骤增、2037 年甲烷快速下降</strong>。作者称这些 wiggles 让模拟器「提取更多关于整个系统的信息」。</p>
+<p><strong>论文报告的结果</strong>（按 PNAS 摘要原样）：</p>
+<ul><li>在 SCM 上，<strong>用 1 条按此法优化的情景训练的模拟器，胜过用 6 条标准 ScenarioMIP 路径训练的模拟器</strong>——而且数据集更小。这正是视频里「六次 / 一次」两个数字的真实来源</li><li>该模拟器能<strong>分离不同气候强迫因子的物理行为</strong>（如温室气体 vs 气溶胶），无需额外的 single-forcing runs</li><li>把 SCM 优化出来的情景拿去驱动<strong>中等复杂度气候模型</strong>（作者 perspective 点名 MIT Earth System Model / MESM），得到的训练集比直接用 ScenarioMIP 输出训练更 skillful</li><li>政策向测试：某污染物被削减、其他排放继续上升的<strong>局部污染物控制</strong>场景中，传统模拟器在评测里失败，优化数据训出的模拟器通过（MIT News 口径）</li></ul>
+<p><strong>作者与机构</strong>（PNAS 作者名单 + MIT News）：第一作者 <strong>Christopher B. Womack</strong>（MIT PhD ’26，现 ETH Zurich 博后）；共同作者 Shahine Bouabid（MIT EAPS 博后）、Andrei Sokolov（MIT CS3 研究科学家）、Popat Salunke（CS3 博后）、Glenn Flierl（EAPS 海洋学教授）、Sebastian D. Eastham（Imperial College London 副教授）；资深作者 <strong>Noelle E. Selin</strong>（MIT IDSS / EAPS 教授、CS3 主任）。编辑 Eric Rignot（UC Irvine）。</p>
+<p><strong>时间与出处并列</strong>：PNAS 2026-11-9 上线（received 2026-06-18 / accepted 2026-10-16）；arXiv 预印本 2606.19302；MIT News 报道 2026-11-12。论文声明<strong>代码与全部复现数据在 Zenodo 公开</strong>；研究属 BC3 项目，由 Schmidt Sciences 通过 MIT Grand Challenges 资助，算力用 MIT Svante 集群与 MIT 研究计算办公室资源。⚠️ 二手来源对「PNAS 已发表 / arXiv 预印本」两种说法并存，这里按各自出处并列，不调和。</p>
+<p>⚠️ <strong>边界（必须主动补回来）</strong>：① 验证只在 <strong>SCM + 中等复杂度模型</strong>上；作者 perspective 明写「下一步是用完整尺度气候模型跑这些情景，证明它在该尺度有效」；② 因此 MIT News 的「只需运行一次完整 ESM」与论文把完整 ESM 列为 future work <strong>两种口径并列留</strong>，不能写成「已省下 6–8 次」；③ 结果是<strong>团队自测</strong>，缺第三方独立复现；④ 论文自己说这是关于<strong>气候模拟器</strong>的结论，不外推到「所有 AI 训练都用假数据更好」；⑤ 覆盖变量有限（如温度响应为主），区域降雨等政策效果二手解读里被指出缺独立验证。</p>
+<p><strong>一句话</strong>：这不是「喂假数据让模型变聪明」，是<strong>把昂贵的物理模拟预算，从「多跑几条像真的未来」改成「精心设计一条信息量最大的不像真的未来」</strong>——优化对象是训练数据的结构多样性，不是模型架构，也不是往数据里掺假。</p>
+<blockquote>整理说明：一手口径整理卡，内容来自检索到的 MIT News / MIT Climate Portal / PNAS 摘要与作者 perspective；不冒充视频画面，未核实论文全文与第三方复现。</blockquote>
+<h2>来源</h2>
+<ul><li>A023《「MIT神操作」假数据训练 AI 气候模型（视频解析稿）》 · 2026-11-25 · <a href="http://yb.woa.com/HvYlY3lwbsr" rel="noopener">http://yb.woa.com/HvYlY3lwbsr</a></li></ul>
+    </div>
+  </article>
+  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list"><a href="MIT%E3%80%8C%E5%81%87%E6%95%B0%E6%8D%AE%E3%80%8D%E8%AE%AD%E6%B0%94%E5%80%99%E6%A8%A1%E5%9E%8B%EF%BC%9A%E8%A7%86%E9%A2%91%E4%B8%89%E5%B1%82%E5%8F%AF%E8%A7%81%E5%86%85%E5%AE%B9%20%C3%97%20%E4%B8%80%E6%89%8B%E5%8F%A3%E5%BE%84%E9%80%90%E6%9D%A1%E5%AF%B9%E7%85%A7.html"><b>MIT「假数据」训气候模型：视频三层可见内容 × 一手口径逐条对照</b><time>2026-11-25</time></a><a href="MatMaster%20%E6%8E%A5%E5%85%A5%20Qwen4-Max%EF%BC%9A%E4%B8%89%E9%A1%B9%E6%9D%90%E6%96%99%E7%A7%91%E7%A0%94%E5%AE%9E%E8%B7%B5%E4%B8%8E%E5%85%A8%E9%83%A8%E5%9B%BE%E9%9D%A2%E6%95%B0%E5%80%BC.html"><b>MatMaster 接入 Qwen4-Max：三项材料科研实践与全部图面数值</b><time>2026-11-25</time></a><a href="MiniMax%20%E5%86%85%E9%83%A8%E6%A8%A1%E5%9E%8B%20MIM%20%E5%AF%86%E7%A0%81%E5%88%86%E6%9E%90%E6%88%98%E7%BB%A9%EF%BC%9A%E8%A7%86%E9%A2%91%E6%8F%8F%E8%BF%B0%204%20%E9%A1%B9%E5%A3%B0%E7%A7%B0%20%C3%97%20%E4%B8%80%E6%89%8B%E5%8F%A3%E5%BE%84%E4%BA%A4%E5%8F%89%E6%A0%A1%E9%AA%8C.html"><b>MiniMax 内部模型 MIM 密码分析战绩：视频描述 4 项声称 × 一手口径交叉校验</b><time>2026-11-25</time></a></div>
+  </nav>
+  <nav class="pager"><a href="../apps.html"><span class="pg-l">← BACK</span><span class="pg-t">AI+行业 · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2026-11 公开资料<br>2026 条目：只收能核到月份的<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">AI+行业</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

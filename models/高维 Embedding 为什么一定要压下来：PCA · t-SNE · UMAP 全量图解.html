@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!-- 生成物：由 tools/build_section.py 从 content/ 生成，手改会被覆盖 -->
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>高维 Embedding 为什么一定要压下来：PCA / t-SNE / UMAP 全量图解 · 基模</title>
+<meta name="description" content="公众号「Mira的AI」（meta author 同名，user_name gh_42324ee37537），发布于 **2026-10-17 12:06**（比本批另两篇早一个多月，收录日仍记 2026-11-25）">
+<link rel="stylesheet" href="../assets/css/site.css?v=42f35f2b">
+<link rel="stylesheet" href="../assets/css/section.css?v=0afe21cf">
+<script src="../assets/js/skinboot.js?v=deff9a81"></script>
+<link rel="stylesheet" href="../assets/css/skin.css?v=01cdbd8f">
+<link rel="stylesheet" href="../assets/css/pagebar.css?v=b4d2a8e4">
+<script src="../assets/js/board.js?v=10d62f46" defer></script>
+<script src="../assets/js/ranks.js?v=76e44c3f" defer></script>
+<script src="../assets/js/reports.js?v=971c0e35" defer></script>
+<script src="../assets/js/toc.js?v=4b9e2ef8" defer></script>
+<script src="../assets/js/pagebar.js?v=ad60322d" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="../index.html">
+      <b>AI.TRACK</b><span class="sep">/</span><span class="sub">AI 发展监控台</span>
+    </a>
+    <nav class="mainnav">
+      <a href="../index.html">首页</a>
+      <a class="is-active" href="../models.html">基模</a>
+      <a href="../agents.html">Agent</a>
+      <a href="../companies.html">公司</a>
+      <a href="../hardware.html">硬件</a>
+      <a href="../templates.html">模板</a>
+      <a href="../apps.html">AI+行业</a>
+      <a href="../principles.html">原理 · 历史</a>
+      <a href="../local.html">本地部署</a>
+      <a href="../cases.html">实例</a>
+      <a href="../research/index.html">研究</a>
+      <a href="../llmcost/index.html">AI 天梯榜 &amp; 价格追踪</a>
+    </nav>
+    <div class="topbar-right">
+      <span class="meta">2026-11-27</span>
+      <a class="btn is-primary" href="../principles.html#e1">时间线</a>
+    </div>
+  </div>
+</header>
+
+<div class="pbar"><div class="pb-in">
+  <span class="pb-t">基模</span>
+  <div class="pb-sum">报告 · <b>2026-11-25</b></div>
+  <div class="pb-sp"></div>
+  <button class="pb-i" data-pb="theme" type="button" title="切换深浅色" aria-label="切换深浅色"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/></svg></button>
+  <button class="pb-i" data-pb="reload" type="button" title="刷新这一页" aria-label="刷新这一页"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5V10h-5.5"/></svg></button>
+  <button class="pb-i" data-pb="setup" type="button" title="外观设置" aria-label="外观设置" aria-haspopup="dialog" aria-expanded="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg></button>
+</div></div>
+<div class="subnav">
+  <div class="subnav-in">
+    <span class="sn-label">Models</span>
+    <a href="../models.html">← 回「基模」</a>
+    <a href="../models.html#intro">简介</a>
+    <a href="../models.html#board-1">分榜</a>
+    <a href="../models.html#board-2">台账</a>
+    <a href="../models.html#cards">概念</a>
+    <a href="../models.html#reports">报告</a>
+  </div>
+</div>
+<main class="wrap post-wrap">
+  <p class="crumb"><a href="../index.html">首页</a><span class="sep">/</span><a href="../models.html">基模</a><span class="sep">/</span><span>报告</span></p>
+  <article class="post">
+    <p class="post-meta">2026-11-25 · 降维 · Embedding · PCA · t-SNE · 资料入库</p>
+    <h1 class="post-title">高维 Embedding 为什么一定要压下来：PCA / t-SNE / UMAP 全量图解</h1>
+    <p class="post-lede">公众号「Mira的AI」（meta author 同名，user_name gh_42324ee37537），发布于 <strong>2026-10-17 12:06</strong>（比本批另两篇早一个多月，收录日仍记 2026-11-25）</p>
+    <div class="post-body">
+<p>归基模板块：Embedding 与模型表达空间属于核心原理，是 <a href="../principles/12%20步路线%20→%20本资料库栏目映射与当前缺口.html">T028</a> 学习路线第 2 步的补充，与 <a href="../models/基模三张专题图：Transformer%20结构、MoE%20混合专家、LoRA%20低秩微调.html">T026</a>（Transformer / MoE / LoRA）不同主题 → 并列新卡；related 挂学习路线。同时它也是 RAG / 向量检索可视化的前置知识（本库 RAG 栏目仍空，见补齐清单）。</p>
+<p>主问题（纯文字正文与图面互证）：模型里的 Embedding 经常几百甚至几千维，机器能直接算，但人看不见 768 维、1536 维空间长什么样，所以常压到二维或三维观察数据结构；这类方法叫<strong>降维 Dimensionality Reduction</strong>，真正麻烦的不是「从高维变低维」，而是「压缩以后，到底该优先保留什么」。</p>
+<p><strong>逐张知识卡全量整理</strong>（14 组主题，图面信息一条不漏）：</p>
+<ul><li>① 768 维的 Embedding 人根本看不见：机器能计算高维距离，人只能直观看见 2D 或 3D；猫 / 狗 / 汽车 / 飞机各编码成 768 维向量；降维不是把数据随便删到只剩两列，而是把原空间里重要的结构尽量压进更少维度（768D → 2D），常用 PCA / t-SNE / UMAP；二维平面上相似事物靠更近、不同事物分成不同簇；⚠️ 二维图是压缩后的表示，不是原始高维空间本身，图上的距离与位置反映的是降维后尽量保留的相似关系，不能等同于原始 768 维空间中的真实距离</li><li>② 先从最直观的 PCA 开始：如果只能留一条轴，应该选哪条？主成分分析寻找数据变化最大的方向，让投影后尽量少挤在一起；二维示例是沿对角线拉长的点云，标出「主成分方向（变化最大）」与「次要方向（变化小）」；沿主成分方向投影点仍分布很开、保留主要变化，沿垂直方向投影点挤在一起、信息被压缩；PCA 问的是「从哪个方向看过去，最不容易把数据压扁？」</li><li>③ 为什么 PCA 叫「线性降维」？因为它只能用直的坐标轴做投影：本质只做坐标轴的线性旋转与组合，再投影到较低维的直线或平面上，不能把卷曲的流形沿表面展开；例 1 斜直线数据 PCA 表现良好（一维直线即可表示，投影后相对顺序基本保持）；例 2 瑞士卷流形线性投影会压坏结构（流形上相距很远的 A / B 两点，投影后可能落在相近甚至重合位置）；结论：PCA 擅长整体线性结构，结构弯曲时局部邻居可能被压坏</li><li>④ PCA 到底在「最大化」什么？保留尽可能多的方差：步骤 1 高维数据找最大变化方向（数据沿某方向最分散即方差最大）→ 步骤 2 PC1 沿方差最大方向、PC2 与 PC1 正交并在剩余变化中找方差最大方向 → 步骤 3 投影到 PC1–PC2 平面，每个样本得到两个新坐标轴上的坐标；关键要点：PC1 使投影方差最大，PC2 与 PC1 正交并使剩余投影方差最大；数学形式：寻找单位向量 w，最大化 Var(Xw)，且 ‖w‖ = 1；结论：先找最主要的变化方向，再用前几个方向作为新坐标轴</li><li>⑤ t-SNE 换了一个问题：先保证高维里的邻居别走散。t 分布随机邻域嵌入，不追求每一对点的距离都一样，而是让高维中互相靠近的点在二维里尽量还靠近；步骤 1 高维把距离转成邻居概率（对每个点计算与其他点成为邻居的概率，距离越近概率越大；以点 A 为例 B / C 距离近概率大、D 距离远概率小）；步骤 2 二维调整点的位置让邻居概率尽量相似（A、B、C 仍然靠近，D 可以放在更远的位置）；结论：高维里互相靠近的点，二维里尽量还靠近</li><li>⑥ t-SNE 图上簇离得远，高维里也一定远吗？不一定：它优先保护局部邻居，不保证远距离关系。高维真实结构（猫狗两簇有一定接近、有少量混合样本）→ t-SNE 结果 1（两簇被明显分开，簇内局部邻居保留但两簇图上相距较远）/ 结果 2（两簇看起来依然比较接近且方向不同，同样保留各自局部邻居）；可以相信的：同一簇内的点通常仍聚在一起（局部邻居被保留）、不同类别在图上明显混合往往意味着高维中也比较相似、可用 t-SNE 发现局部结构 / 聚类倾向 / 类别混合；不能直接解释的：簇与簇之间的绝对距离不能按比例直接解释为高维真实距离、不同运行参数与随机初始化可能得到不同整体布局（旋转 / 平移 / 簇间距变化）但局部结构仍可能保持一致、t-SNE 更关注「谁是邻居」而不是「簇与簇之间究竟有多远」；结论：簇内邻域通常比簇间距离更值得相信</li><li>⑦ t-SNE 里的「簇大小」也不能随便解释：二维空间会为了匹配局部概率而拉伸或压缩；① 原始高维空间两类别分布相近（A 更松散、B 更紧凑）② t-SNE 二维结果 A 大 B 小 ③ 改变参数（如 perplexity）簇的视觉大小会变化，但每个点的局部邻居关系基本保持；三个不能：簇的绝对大小 ≠ 原空间内部方差、空白区域大小 ≠ 真实间隔、二维密度 ≠ 原始样本密度的直接复制；更适合看：哪些点聚在一起，哪些点混在一起</li><li>⑧ UMAP 和 t-SNE 真正差在哪里？两个都重视局部邻居，但构造与优化方式不同。<strong>t-SNE 用概率分布匹配局部邻居</strong>：① 构造高维相似性（成对概率 p_{j|i}，基于距离把每个点与其他点的相似性转成邻居概率，重点关注局部邻居）② 低维空间用重尾的 t 分布匹配，使低维点对相似性 q_{j|i} 尽量匹配高维 p_{j|i}（图面画了高维高斯分布 vs 低维 t 分布重尾曲线）③ 特点：擅长展现局部簇结构、聚类通常更清晰；全局距离难以解释、簇与簇之间远近不可靠；标准 t-SNE 是非参数方法，无法直接对新数据点进行映射，需要额外方法（如训练外推模型）④ 典型效果：清晰紧凑的局部簇。<strong>UMAP 用邻域图优化低维布局</strong>：① 基于 k 近邻构建带权重的邻域图，边的权重表示局部连通强度 / 局部相似性 ② 在二维中优化图结构布局，使相连的点保持靠近，同时尽量保持整体连通结构 ③ 特点：通常比 t-SNE 更快、能较好扩展到大规模数据；常见实现（如 umap-learn）支持在拟合后对新数据点进行 transform；通常能更好保留整体连通性和结构关系，但并不保证全局距离的度量精度 ④ 典型效果：在保持局部簇的同时展现更多整体连通关系。直观理解：t-SNE 像把近邻抱紧；UMAP 像在保近邻的同时尽量留下关系网的连接。⚠️ 结果受参数、初始化、距离度量和数据本身影响，不能把「UMAP 更保全局」理解成距离完全可信</li><li>⑨ 那 UMAP 为什么后来这么常见？它也保护邻居，但先把邻域组织成一张关系网：步骤 1 高维数据每个点都有自己的邻居（为每个点找最近邻居 / 局部邻域，关注每个点附近的局部结构，而不是一开始就考虑所有点之间的距离）；步骤 2 构建加权的邻域关系网（fuzzy graph，边越粗表示邻居关系越强：图面示例 A–B 很强 / A–C 较强 / C–D 较弱 / D–E 很强）；步骤 3 在二维中优化点的位置，尽量保留加权邻域图结构（原本是强邻居的点更靠近、弱邻居可适当分开）；步骤 4 得到二维可视化结果（很大程度保留局部连接关系、相似点聚一起、不同簇自然分开）；<strong>统一流形逼近与投影 UMAP</strong>：把高维邻域压成一张可优化的关系网，再在二维里重新摆点；不是把所有高维距离原样搬到二维，而是尽量保住局部连接关系</li><li>⑩ 到底什么时候用哪一个？不是 UMAP 更新就一定更好，先问你想保住什么：① 想快速看整体线性结构，或降维后继续建模 → <strong>PCA</strong>（初步探索数据结构 / 解释方差了解主要变异来源 / 大数据快速处理 / 作为后续建模前的预处理）② 最关心局部簇是否分开、哪些类别混在一起 → <strong>t-SNE</strong>（Embedding 可视化 / 发现类别簇 / 分析局部混合情况；⚠️ 别按比例解释簇间距离与绝对大小）③ 想兼顾局部邻域、速度与一些整体连接 → <strong>UMAP</strong>（适合大量 Embedding 数据 / 数据探索与可视化 / 聚类展示 / 支持新数据映射 transform；⚠️ 二维距离仍不是高维真实距离）；没有万能冠军，选择方法就是选择你愿意保留什么、牺牲什么</li><li>⑪ 同一份数据，三种方法到底看见什么？图不同，不代表谁画错了：原始数据是「四个类别沿一条弯曲分支的高维流形分布」（蓝 A / 青 B / 橙 C / 绿 D）；PCA 看整体线性方向、t-SNE 看局部聚团与混合、UMAP 看局部簇与大致连接；它们优先保存高维空间里的不同信息</li><li>⑫ UMAP 也不是高维空间的「真实照片」：768D → 2D 本身就是极强的信息压缩；高维空间（以 768 维为例）数据位于复杂流形上，包含多个局部簇和长程连接；二维嵌入只能看到经过压缩的 2D 视图，有些邻域被保留，但也会出现拉伸、重叠或分离等失真（部分邻域保留 / 局部结构较好；不同簇可能重叠，而高维中是分开的；有些结构被拉伸或分离）；三种方法典型表现都会产生扭曲但方式不同：PCA 线性投影、主要保留全局方差、局部结构容易被压扁混合；t-SNE 强调局部邻域、能分开局部簇，但会扭曲簇间距离、远处关系往往不可信；UMAP 保留更多局部连通、并在一定程度上反映整体布局，但二维距离仍不能当作高维真实度量；⚠️ 无论哪种方法，都一定会扭曲原空间；降维图是一种有目标的观察视角，不是原始高维空间的地图——它帮助发现结构、比较样本、生成假设，但并不能还原高维空间中真实的几何关系</li><li>⑬ 再往前一步：模型为什么把世界表示得越来越高维？高维给模型表达空间，降维给人观察窗口。高维 Embedding 空间用许多独立的语义方向同时表示多个因素（图面标出语义 / 类别 / 上下文 / 风格 / 位置 / 关系）；<strong>常见的向量维度（示例）</strong>：256 维（小型模型 / 早期模型）、768 维（BERT 等常用模型）、1536 维（现代文本 / 多模态模型）、4096 维（大规模模型）；更高维提供更多坐标自由度，可以同时编码更多变化因素。从世界到可视化：复杂数据（包含语义、类别、位置、风格、关系、上下文等多种因素，图面示例为猫 / 建筑 / 海景四张图）→ 高维模型表示（每个对象是一个高维向量，图面示例数值 0.12 / -1.03 / 0.89 …、-0.45 / 0.78 / 1.02 …、1.21 / 0.33 / -0.67 …、-0.02 / 1.56 / 0.48 …）→ PCA / t-SNE / UMAP 投影到 2D → 人可观察的 2D 图（猫 / 狗 / 汽车 / 飞机 / 建筑 / 车辆簇）；模型可在许多维度上同时表示多个因素、捕捉复杂模式，人通常只能直接看懂 2D 或 3D 投影；⚠️ 更多维不自动等于更聪明，也不保证表示更好，有效维度、训练目标和数据结构同样重要；结论：<strong>高维是模型的表达空间，降维是人的观察窗口</strong></li><li>⑭ 主图（三种版式，同一内容）：「高维数据，怎么『压』成二维？PCA · t-SNE · UMAP」，左侧高维 Embedding 三维散点，右侧三张二维结果——PCA 呈线性斜带、t-SNE 呈三团分离、UMAP 呈弧形连通</li></ul>
+<p>纯文字正文另给了一版更简的定性比较（与图面一致）：PCA 更关注整体结构、寻找数据变化最大的方向再投影，速度快稳定、适合后续建模，但对弯曲复杂非线性结构表现不一定好；t-SNE 换思路，不要求整体形状保住但让高维里靠近的点压到二维后尽量别走散，容易画出聚类、适合看 Embedding 有没有局部簇，但两个簇图上离得远不代表高维里真的差那么远，簇大小与簇间空白不能随便解释；UMAP 同样重视局部邻居，通常比 t-SNE 更兼顾整体结构、大数据上速度更友好；三种不是谁绝对更强，PCA 看整体线性结构、t-SNE 看局部聚类、UMAP 在局部结构 / 整体关系 / 速度之间平衡；最重要的是降维后的二维图不是高维空间的「真实照片」，不同算法保留不同信息，同一批数据画出来可能完全不一样。结尾同图面：「高维是模型的表达空间，降维是人的观察窗口」。</p>
+<p>⚠️ 原文没给、一律不补：所有散点图都是<strong>示意 / 示例</strong>（图面多处明写「示意」「示例」），不是真实数据集结果；未给数据集名称、样本量、超参数具体取值（只出现 perplexity、k 近邻等名词）、运行时间对比数值、代码或库版本；256 / 768 / 1536 / 4096 维是「常见的向量维度（示例）」，不是某个具体模型的规格声明；未给作者资质、参考文献或外部链接。数值性质见 <a href="../apps/数字的七类证据性质：演示%20·%20报价%20·%20示意%20·%20可核验计数%20·%20正文未载的图面结果.html">T038</a>。</p>
+<p>与本库的互照：<a href="../principles/从%200%20到%201%20大模型（LLM）最全学习路线图：6%20阶段详细版.html">T025</a> 阶段三的 RAG 技术清单里有 Chunking / Embedding / Milvus·Faiss·Chroma / Top-K / Rerank，但没讲「Embedding 长什么样、怎么检查聚类质量」；本卡正好补上这一层的原理直觉。也与 <a href="../models/基模三张专题图：Transformer%20结构、MoE%20混合专家、LoRA%20低秩微调.html">T026</a> 的 Transformer 结构、<a href="../models/模型与推理网关：按难度分层路由%20+%20缓存控本.html">T006</a> 的模型分层路由同属基模板块，但主题不同，并列不合并。</p>
+<blockquote>整理说明：18 张知识卡全部逐张读完并整理，未遗漏公式、维度表、参数名与三个「不能解释」的坑；纯文字正文与话题标签也已收录。图面数值均标为示意值，见 <a href="../apps/数字的七类证据性质：演示%20·%20报价%20·%20示意%20·%20可核验计数%20·%20正文未载的图面结果.html">T038</a>。</blockquote>
+<h2>来源</h2>
+<ul><li>A016《高维数据，为什么一定要「压」下来？（PCA / t-SNE / UMAP）》 · 2026-11-25 · <a href="https://mp.weixin.qq.com/s/yd-qvdazH_TJBgWYm_nNUw" rel="noopener">https://mp.weixin.qq.com/s/yd-qvdazH_TJBgWYm_nNUw</a></li></ul>
+    </div>
+  </article>
+  <nav class="rel">
+    <h4>同一话题 · 接着读</h4>
+    <div class="rel-list"><a href="%E5%B7%A5%E5%85%B7%E5%8F%B0%E8%B4%A6%20%C2%B7%20%E5%9F%BA%E6%A8%A1.html"><b>工具台账 · 基模（12 件）</b><time>2026-09-03</time></a><a href="11%E6%9C%88%20AI%20%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%A4%A9%E6%A2%AF%E5%9B%BE%EF%BC%9A%E4%B8%80%E7%AF%87%E5%86%85%E4%B8%A4%E6%9C%9F%E5%B9%B6%E6%8E%92%E3%80%81%E4%B8%A4%E6%9C%9F%E5%85%A8%E8%A1%A8%E4%B8%8E%E3%80%8C%E9%9D%9E%E5%AE%98%E6%96%B9%E8%AF%84%E7%BA%A7%E3%80%8D%E5%A3%B0%E6%98%8E.html"><b>11月 AI 大模型天梯图：一篇内两期并排、两期全表与「非官方评级」声明</b><time>2026-11-19</time></a><a href="%E3%80%8CSSS%20%E4%BB%8E%202%20%E4%B8%AA%E5%88%B0%204%20%E4%B8%AA%E3%80%8D%E6%98%AF%E8%B7%A8%E5%8F%A3%E5%BE%84%E5%AF%B9%E6%AF%94%EF%BC%9A%E4%B8%A4%E6%9C%9F%E5%88%86%E6%A1%A3%E8%A7%84%E5%88%99%E3%80%81%E6%95%B0%E5%80%BC%E5%90%AB%E4%B9%89%E4%B8%8E%E6%A1%A3%E4%BD%8D%E9%9B%86%E5%90%88%E9%83%BD%E5%8F%98%E4%BA%86.html"><b>「SSS 从 2 个到 4 个」是跨口径对比：两期分档规则、数值含义与档位集合都变了</b><time>2026-11-19</time></a></div>
+  </nav>
+  <nav class="pager"><a href="../models.html"><span class="pg-l">← BACK</span><span class="pg-t">基模 · 全部报告</span></a></nav>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h5>定位</h5>
+      <p>AI 发展监控台：把基模、Agent、公司、硬件、模板、应用、原理与历史、本地部署拆成可核对的台账。人工维护，不自动抓取。</p>
+      <p class="fine">带 <b>*</b> 的条目为待核实细节；空值与「—」表示未采集，不用推测值填充。</p>
+    </div>
+    <div>
+      <h5>数据口径</h5>
+      <p class="fine">知识基线：2026-11 公开资料<br>2026 条目：只收能核到月份的<br>时间统一 YYYY-MM<br>评测分数：无出处不收录</p>
+      <p class="fine">页面不含本机路径、账号与未公开数据。</p>
+    </div>
+    <div>
+      <h5>站点地图</h5>
+      <div class="footer-links">
+        <a href="../models.html">基模</a><a href="../agents.html">Agent</a>
+        <a href="../companies.html">公司</a><a href="../hardware.html">硬件</a>
+        <a href="../templates.html">模板</a><a href="../apps.html">AI+行业</a>
+        <a href="../principles.html">原理 · 历史</a><a href="../local.html">本地部署</a>
+        <a href="../cases.html">实例索引</a><a href="../lab/index.html">实例 01 · 生图</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
