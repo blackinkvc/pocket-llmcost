@@ -1,0 +1,51 @@
+# 研究规划表：一条一个任务
+# phase: doing（进行中）/ next（下一步）/ queued（排队中）
+# 这里只写「打算做什么、要回答什么」；写完的条目由 items/ 自动进上面的进度表，
+# 各板块已立提纲的报告（frontmatter 带 status: todo）会自动进规划表，不用在这里重复登记。
+- title: 单位智能的价格怎么算
+  channel: hardware
+  phase: doing
+  ask: 把「每百万 token 多少钱」拆成算力、能耗、折旧三层，给出可复算的口径，而不是比一张报价单。
+  eta: 2026-12
+
+- title: 显存之外：KV Cache 与上下文成本
+  channel: local
+  phase: next
+  ask: 上下文从 8K 拉到 128K，显存与速度各付多少；什么规模该用检索分块代替硬拉上下文。
+  eta: 2026-12
+
+- title: 国产卡能不能跑：三套软件栈的算子覆盖
+  channel: hardware
+  phase: queued
+  ask: CANN、MLU、MAC A 各自缺哪些算子，哪些主流模型能跑通、哪些只能跑半截。
+  eta: 2027-01
+
+- title: Agent 评测：跑分之外的行为口径
+  channel: agents
+  phase: next
+  ask: 任务完成率、步数、回滚率、人工接管率怎么记，同样的任务怎么复现第二次。
+  eta: 2026-12
+
+- title: 开源许可证地图：哪些能商用
+  channel: models
+  phase: queued
+  ask: Apache / MIT / 社区协议 / 自定义条款的边界，按模型逐个标，而不是按「开源」两个字。
+  eta: 2027-01
+
+- title: 行业报告的财务口径怎么对齐
+  channel: companies
+  phase: queued
+  ask: 同一家公司年报、业绩公告、第三方统计三种数差在哪，引用时该怎么标注。
+  eta: 2027-01
+
+- title: 一个实例的完整成本账
+  channel: cases
+  phase: queued
+  ask: 本机生图这条线的电费、时间、废片率、可复用率，摊到每张可用图上多少钱。
+  eta: 2027-02
+
+- title: 编排层：把多步任务写死的代价
+  channel: agents
+  phase: doing
+  ask: 硬编码工作流与让模型自己规划，各自在什么任务规模上先崩，拐点在哪。
+  eta: 2026-12

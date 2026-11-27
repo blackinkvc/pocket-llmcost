@@ -646,44 +646,156 @@ def render_board_index(groups):
     return "".join(out)
 
 
+PLAN = RES / "plan.yml"
+PHASE_LABEL = {"doing": "进行中", "next": "下一步", "queued": "排队中"}
+PHASE_RANK = {"doing": 0, "next": 1, "queued": 2}
+ST_STEPS = ["投料", "整理", "审核", "上线"]
+ST_DONE = {"stub": 1, "review": 3, "published": 4}
+
+
+def load_plan():
+    """research/plan.yml：一条一个规划任务。极简 YAML，不引第三方库。
+
+    只认 `- title:` 起头的一块，块内 `key: value`。写错层级不会报错，只是那条不出现。
+    """
+    rows = []
+    if not PLAN.exists():
+        return rows
+    cur = None
+    for line in PLAN.read_text(encoding="utf-8").splitlines():
+        s = line.strip()
+        if not s or s.startswith("#"):
+            continue
+        if s.startswith("- "):
+            if cur:
+                rows.append(cur)
+            cur = {}
+            s = s[2:]
+        if cur is not None and ":" in s:
+            k, v = s.split(":", 1)
+            cur[k.strip()] = v.strip().strip("\"'")
+    if cur:
+        rows.append(cur)
+    rows = [r for r in rows if r.get("title")]
+    rows.sort(key=lambda r: PHASE_RANK.get(r.get("phase", "queued"), 2))
+    return rows
+
+
+def md_only(day):
+    """日期只留 MM-DD：一行里塞两个完整日期太挤，年份看年份就够。"""
+    return day[5:] if day and len(day) >= 10 else (day or "")
+
+
+def prog_bar(st):
+    """四段进度：投料 / 整理 / 审核 / 上线。绿=已完成，橙=正在这一步。"""
+    n = ST_DONE.get(st, 0)
+    seg = "".join('<i class="%s" title="%s"></i>'
+                  % ("on" if i < n else ("cur" if i == n else ""), ST_STEPS[i])
+                  for i in range(4))
+    return '<span class="rs-prog">%s<span class="rs-prog-n">%d/4</span></span>' % (seg, n)
+
+
 def render_index(items):
+    plan = load_plan()
+    groups = section_reports()
+    todos = [(name, r) for name, rows in groups for r in rows if r["todo"]]
     pub = [x for x in items if x["status"] == "published"]
     pend = [x for x in items if x["status"] != "published"]
+    n_rep = sum(len(r) for _, r in groups)
+    n_plan = len(plan) + len(todos)
 
-    def card(it):
+    def prow(it):
         st = it["status"]
-        cls = "rs-card" + ("" if st == "published" else " is-pending")
-        tags = "".join('<span class="rs-tag">%s</span>' % H.escape(t) for t in it["tags"][:4])
-        return ('<a class="%s" href="%s.html">'
-                '<div class="rs-card-top"><span class="rs-badge is-%s">%s</span>%s%s</div>'
-                '<h2>%s</h2><p>%s</p></a>'
-                % (cls, it["slug"], st, ST_LABEL[st],
+        tags = "".join('<span class="rs-tag">%s</span>' % H.escape(t) for t in it["tags"][:3])
+        dates = []
+        if it["created_at"]:
+            dates.append("投料 " + md_only(it["created_at"]))
+        if it["published_at"]:
+            dates.append("上线 " + md_only(it["published_at"]))
+        if it["raw"]:
+            dates.append("原始 %d 份" % len(it["raw"]))
+        return ('<li class="rs-row">'
+                '<div class="rs-cell-main"><a class="rs-row-t" href="%s.html">%s</a>'
+                '<p class="rs-row-d">%s</p>'
+                '<div class="rs-row-meta">%s%s</div></div>'
+                '<div class="rs-cell-stage"><span class="rs-badge is-%s">%s</span></div>'
+                '<div class="rs-cell-prog">%s</div>'
+                '<div class="rs-cell-date">%s</div></li>'
+                % (it["slug"], H.escape(it["title"]), H.escape(it["summary"] or "（摘要待补）"),
                    channel_chip(it["channel"], link=False), tags,
-                   H.escape(it["title"]), H.escape(it["summary"] or "（摘要待补）")))
+                   st, ST_LABEL[st], prog_bar(st),
+                   "".join("<time>%s</time>" % H.escape(d) for d in dates)))
+
+    def planrow(title, phase, ask, ch_label, eta, url="", src=""):
+        head = ('<a class="rs-row-t" href="%s">%s</a>' % (H.escape(url), H.escape(title))
+                if url else '<span class="rs-row-t">%s</span>' % H.escape(title))
+        bits = []
+        if ch_label:
+            bits.append('<span class="rs-chip">%s</span>' % H.escape(ch_label))
+        if src:
+            bits.append('<span class="rs-tag">%s</span>' % H.escape(src))
+        return ('<li class="rs-row is-plan">'
+                '<div class="rs-cell-main">%s<p class="rs-row-d">%s</p>'
+                '<div class="rs-row-meta">%s</div></div>'
+                '<div class="rs-cell-stage"><span class="rs-badge is-%s">%s</span></div>'
+                '<div class="rs-cell-date"><time>%s</time></div></li>'
+                % (head, H.escape(ask or ""), "".join(bits),
+                   phase, PHASE_LABEL.get(phase, phase), H.escape(eta or "—")))
 
     body = ['<header class="rs-head"><div class="rs-crumb">研究</div>',
             '<h1>研究</h1>',
-            '<p class="rs-lead">自己做完、并且敢署名的一份份研究。'
-            '已完成 %d 份，另有 %d 份在整理或待审——进度全在<a href="status.html">看板</a>上。</p></header>'
-            % (len(pub), len(pend))]
-    if pub:
-        body.append('<section class="rs-sec"><h2 class="rs-sec-t">已完成（%d）</h2><div class="rs-grid">%s</div></section>'
-                    % (len(pub), "".join(card(x) for x in pub)))
-    if pend:
-        body.append('<section class="rs-sec"><h2 class="rs-sec-t">整理中（%d）</h2>'
-                    '<p class="rs-hint">这些标题是我已经在做、还没定稿的。点进去能看到摘要和已经收进来的原始资料。</p>'
-                    '<div class="rs-grid">%s</div></section>' % (len(pend), "".join(card(x) for x in pend)))
-    if not items:
+            '<p class="rs-lead">一张进度表、一张规划表。进度按仓库里的文件推出来——'
+            '有定稿文件才算上线；规划是我打算做、还没做完的题，做完就挪到上面那张表里。'
+            '细节在<a href="status.html">看板</a>上。</p></header>']
+
+    body.append('<section class="rs-kpis">%s</section>'
+                % "".join('<div class="rs-kpi"><b>%s</b><span>%s</span><em>%s</em></div>'
+                          % (v, H.escape(k), H.escape(e)) for k, v, e in [
+                              ("本地研究", len(items), "条登记"),
+                              ("已上线", len(pub), "网友可读"),
+                              ("规划中", n_plan, "含提纲"),
+                              ("板块报告", n_rep, "篇索引")]))
+
+    # ── 进度表 ──
+    body.append('<section class="rs-sec" id="progress"><h2 class="rs-sec-t">任务进度表（%d）</h2>'
+                '<p class="rs-hint">四段进度：投料 → 整理 → 审核 → 上线。'
+                '「待审核」是 AI 已经整理完、我还没点头的；「整理中」只有标题与摘要。'
+                '状态不是手填的，按文件推导。</p>' % len(items))
+    if items:
+        body.append('<div class="rs-tbl"><div class="rs-thead"><span>任务</span><span>阶段</span>'
+                    '<span>进度</span><span>日期</span></div><ul class="rs-rows">%s</ul></div>'
+                    % "".join(prow(x) for x in items))
+    else:
         body.append('<div class="rs-empty">还没有登记任何研究。往投料区 <code>AI行业研究/&lt;板块&gt;/</code> '
                     '丢一个文件，跑 <code>python3 tools/research.py sync</code> 就有了。</div>')
+    body.append("</section>")
 
-    body.append(render_board_index(section_reports()))
+    # ── 规划表 ──
+    body.append('<section class="rs-sec" id="plan"><h2 class="rs-sec-t">规划表（%d）</h2>'
+                '<p class="rs-hint">两类：我登记的研究规划（<code>research/plan.yml</code>），'
+                '和各板块已立提纲待写正文的报告。「计划」是打算动手的月份，不是承诺。</p>' % n_plan)
+    rows_html = [planrow(r["title"], r.get("phase", "queued"), r.get("ask", ""),
+                         CHANNEL_LABEL.get(r.get("channel", ""), "") or r.get("channel", ""),
+                         r.get("eta", ""), src="研究规划") for r in plan]
+    rows_html += [planrow(r["title"], "queued", "提纲已立，正文待写。", name, "",
+                          url=r["url"], src="提纲") for name, r in todos]
+    if rows_html:
+        body.append('<div class="rs-tbl"><div class="rs-thead is-plan"><span>任务</span><span>阶段</span>'
+                    '<span>计划</span></div><ul class="rs-rows">%s</ul></div>'
+                    % "".join(rows_html))
+    else:
+        body.append('<div class="rs-empty">规划表是空的。往 <code>research/plan.yml</code> 加一条就有。</div>')
+    body.append("</section>")
+
+    body.append(render_board_index(groups))
 
     return shell("研究 · AI.TRACK",
-                 "AI 研究的自有产出：已完成 %d 份，整理中 %d 份。每条都附结论、证据、反方观点与原始资料。"
-                 % (len(pub), len(pend)),
+                 "研究是一张进度表加一张规划表：本地 %d 条、已上线 %d 条、规划中 %d 条、"
+                 "板块报告 %d 篇。进度由仓库文件推导，规划写明要回答什么。"
+                 % (len(items), len(pub), n_plan, n_rep),
                  "\n".join(body), bar_title="研究",
-                 bar_sum="<b>%d</b> 份已完成 · <b>%d</b> 份整理中" % (len(pub), len(pend)))
+                 bar_sum="<b>%d</b> 条研究 · <b>%d</b> 已上线 · <b>%d</b> 项规划"
+                         % (len(items), len(pub), n_plan))
 
 
 # ───────────────────────── 渲染：看板 ─────────────────────────
