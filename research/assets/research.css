@@ -216,7 +216,7 @@ a.rs-chip:hover{color:var(--t1);border-color:var(--line-2)}
 .rs-rawopen a:hover{text-decoration:underline}
 
 /* 板块报告索引：按板块分组的一列清单。
-   研究页主体是网格卡片，这里故意不用网格 —— 一进来就该分得清
+   研究页主体是上面两张表（进度 / 规划），这里故意不用网格 —— 一进来就该分得清
    「自己的研究」和「板块的台账报告」是两件事。 */
 .rs-rbox{border-bottom:1px solid var(--line-2)}
 .rs-rbox:first-of-type{border-top:1px solid var(--line-2);margin-top:14px}
@@ -254,4 +254,63 @@ a.rs-chip:hover{color:var(--t1);border-color:var(--line-2)}
 @media (max-width:560px){
   .rs-rlist li{flex-wrap:wrap;gap:4px}
   .rs-rlist time{margin-left:auto}
+}
+
+/* 进度表 / 规划表：一行一个任务。
+   读者来研究页是问「做到哪了、还欠什么」，卡片墙只能看标题，看不出进度。
+   四段进度条比百分比诚实：它显示卡在哪一步，而不是编一个 70%。 */
+.rs-tbl{
+  background:var(--card);border:1px solid var(--line);border-radius:11px;
+  overflow:hidden;margin-top:12px;
+}
+.rs-thead,.rs-row{display:grid;align-items:center;gap:12px;padding:11px 15px}
+.rs-thead,.rs-row{grid-template-columns:minmax(0,1fr) 92px 118px 122px}
+.rs-thead{
+  grid-template-columns:minmax(0,1fr) 92px 118px 122px;
+  background:var(--panel);border-bottom:1px solid var(--line);
+  font-size:11.5px;color:var(--t3);letter-spacing:.05em;
+}
+.rs-thead.is-plan,.rs-row.is-plan{grid-template-columns:minmax(0,1fr) 92px 92px}
+.rs-rows{list-style:none;margin:0;padding:0}
+.rs-row{border-top:1px solid var(--line-2)}
+.rs-rows .rs-row:first-child{border-top:0}
+.rs-row:hover{background:var(--panel)}
+.rs-cell-main{min-width:0}
+.rs-row-t{
+  display:block;font-size:14px;line-height:1.45;color:var(--t1);font-weight:600;
+  text-decoration:none;overflow-wrap:anywhere;
+}
+a.rs-row-t:hover{color:var(--orange)}
+.rs-row-d{
+  margin:4px 0 0;font-size:12.5px;line-height:1.6;color:var(--t3);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.rs-row.is-plan .rs-row-d{-webkit-line-clamp:3}
+.rs-row-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:7px}
+.rs-cell-stage{white-space:nowrap}
+.rs-cell-prog{white-space:nowrap}
+.rs-cell-date{
+  font-family:var(--mono);font-size:11px;color:var(--t3);
+  display:flex;flex-direction:column;gap:3px;line-height:1.5;
+}
+
+/* 四段进度：投料 / 整理 / 审核 / 上线 —— 绿是过了，橙是正在这一步 */
+.rs-prog{display:inline-flex;align-items:center;gap:3px}
+.rs-prog i{display:block;width:15px;height:5px;border-radius:2px;background:var(--line-2)}
+.rs-prog i.on{background:var(--green)}
+.rs-prog i.cur{background:var(--orange)}
+.rs-prog-n{margin-left:5px;font-family:var(--mono);font-size:10.5px;color:var(--t3)}
+
+/* 规划阶段 */
+.rs-badge.is-doing{background:var(--orange-bg);color:#9a5b12}
+.rs-badge.is-next{background:var(--purple-bg);color:#5b3fa8}
+.rs-badge.is-queued{background:var(--line-2);color:var(--t3)}
+
+@media (max-width:720px){
+  .rs-thead{display:none}
+  .rs-row,.rs-row.is-plan{display:block;padding:12px 14px}
+  .rs-row-t{font-size:13.5px}
+  .rs-cell-stage{display:inline-flex;margin-top:10px}
+  .rs-cell-prog{display:inline-flex;margin:10px 0 0 10px;vertical-align:middle}
+  .rs-cell-date{flex-direction:row;gap:10px;margin-top:8px}
 }
