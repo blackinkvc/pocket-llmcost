@@ -567,3 +567,89 @@ html:not(.has-js) .rk-ctrl{display:none}
   .geo-li-s{white-space:nowrap}
   .geo-li-s i{display:inline-block;width:5px;height:5px;border-radius:50%;margin-right:4px;vertical-align:1px}
 }
+
+/* ---------- 板块：三种架构（CPU / GPU / TPU） ---------- */
+/* 三张卡长得一样，只有标签色不同；颜色全部走 token，深浅两套皮肤都能用 */
+.cmp-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));
+  gap:10px;align-items:stretch;
+}
+.cmp-card{
+  display:flex;flex-direction:column;
+  background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:13px 15px 12px;
+}
+.cmp-hd{
+  display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;
+  padding-bottom:9px;border-bottom:1px solid var(--line-2);
+}
+.cmp-tag{
+  font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;
+  padding:2px 7px;border-radius:5px;line-height:1.5;
+}
+.cmp-card[data-k="cpu"] .cmp-tag{background:var(--purple-bg);color:var(--on-purple)}
+.cmp-card[data-k="gpu"] .cmp-tag{background:var(--orange-bg);color:var(--on-orange)}
+.cmp-card[data-k="tpu"] .cmp-tag{background:var(--green-bg);color:var(--on-green)}
+.cmp-cn{font-size:11.5px;color:var(--t3)}
+.cmp-lead{
+  flex-basis:100%;margin:4px 0 0;font-size:12.5px;font-weight:600;
+  color:var(--t1);line-height:1.55;
+}
+.cmp-sec{padding-top:10px}
+.cmp-sec+.cmp-sec{
+  margin-top:11px;padding-top:11px;border-top:1px dashed var(--line-2);
+}
+.cmp-sec h3{
+  margin:0 0 6px;font-family:var(--mono);font-size:10px;font-weight:500;
+  letter-spacing:.14em;color:var(--t3);text-transform:uppercase;
+}
+.cmp-t{margin:0 0 4px;font-size:12.5px;font-weight:600;line-height:1.5}
+.cmp-d{margin:0;font-size:11.8px;line-height:1.75;color:var(--t2)}
+/* 量级注：左边一道细线，跟正文分开，不抢读 */
+.cmp-n{
+  margin:7px 0 0;padding-left:8px;border-left:2px solid var(--line);
+  font-size:11px;line-height:1.65;color:var(--t3);
+  font-variant-numeric:tabular-nums;
+}
+.cmp-stack{display:flex;flex-direction:column;margin:3px 0 8px}
+.cmp-lv{
+  position:relative;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;
+  background:var(--panel);border:1px solid var(--line-2);border-radius:6px;
+  padding:5px 9px;
+}
+.cmp-lv+.cmp-lv{margin-top:13px}
+.cmp-lv+.cmp-lv::before{
+  content:"";position:absolute;left:15px;top:-13px;width:1px;height:13px;
+  background:var(--line);
+}
+.cmp-lv b{font-size:11.5px;font-weight:600;color:var(--t1)}
+.cmp-lv span{font-size:10.5px;color:var(--t3)}
+.cmp-uses{display:flex;flex-wrap:wrap;gap:5px}
+.cmp-use{
+  font-size:11.2px;color:var(--t2);background:var(--hover);
+  padding:2.5px 8px;border-radius:5px;line-height:1.5;
+}
+/* 代价沉底：三张卡高度不一致时，这一行仍然对齐 */
+.cmp-cost{
+  margin:auto 0 0;padding-top:10px;
+  border-top:1px solid var(--line-2);
+  font-size:11.5px;line-height:1.7;color:var(--t2);
+}
+.cmp-cost b{
+  margin-right:6px;font-size:10.5px;font-weight:600;
+  color:var(--on-red);letter-spacing:.02em;
+}
+.cmp-foot{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;
+  margin-top:11px;padding-top:10px;border-top:1px solid var(--line);
+}
+.cmp-foot p{flex:1 1 420px;margin:0;font-size:11.3px;line-height:1.75;color:var(--t3)}
+.cmp-src{
+  font-size:11px;color:var(--t3);white-space:nowrap;
+  border-bottom:1px dashed var(--line);
+}
+.cmp-src:hover{color:var(--orange);border-bottom-color:var(--orange)}
+@media (max-width:760px){
+  .cmp-card{padding:12px 13px}
+  .cmp-foot p{flex-basis:100%}
+}
