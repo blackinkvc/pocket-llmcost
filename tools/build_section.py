@@ -682,6 +682,78 @@ GEO_COLOR = {"cn": "#e8912a", "us": "#7c5cd6", "sea": "#16a34a", "other": "#d254
 GEO_STATE = {"on": "#22c55e", "build": "#e8912a", "plan": "#aeb5be"}
 
 
+def block_cmp(sec, entry, idx, total, num):
+    """三种架构：CPU / GPU / TPU 横向对照。
+
+    数据在 content/<板块>/架构.json。每张卡写三段——计算模型、内存层级、
+    适用场景——末尾一行「代价」，让「同一段代码为什么快慢不同」有落点。
+    """
+    path = sec.dir / entry["file"]
+    if not path.exists():
+        return ("""  <section class="blk" id="board-%d">
+    <div class="blk-head"><span class="blk-num">%s</span><h2>%s</h2>
+      <span class="blk-note">待补充</span></div>
+    <p class="blk-empty">缺 <code>content/%s/%s</code>。</p>
+  </section>
+""" % (idx + 1, num, escape(entry.get("title", "三种架构")), sec.dir.name, entry["file"]))
+
+    d = json.loads(path.read_text(encoding="utf-8"))
+    cards = []
+    for c in d["cards"]:
+        stack = "".join(
+            '<div class="cmp-lv"><b>%s</b><span>%s</span></div>'
+            % (escape(x["t"]), escape(x.get("s", ""))) for x in c["mem"].get("stack", []))
+        uses = "".join('<span class="cmp-use">%s</span>' % escape(u) for u in c.get("uses", []))
+        cards.append("""      <article class="cmp-card" data-k="%s">
+        <header class="cmp-hd">
+          <span class="cmp-tag">%s</span><span class="cmp-cn">%s</span>
+          <p class="cmp-lead">%s</p>
+        </header>
+        <div class="cmp-sec">
+          <h3>计算模型</h3>
+          <p class="cmp-t">%s</p>
+          <p class="cmp-d">%s</p>
+          <p class="cmp-n">%s</p>
+        </div>
+        <div class="cmp-sec">
+          <h3>内存架构</h3>
+          <div class="cmp-stack">%s</div>
+          <p class="cmp-d">%s</p>
+          <p class="cmp-n">%s</p>
+        </div>
+        <div class="cmp-sec">
+          <h3>适用场景</h3>
+          <div class="cmp-uses">%s</div>
+        </div>
+        <p class="cmp-cost"><b>代价</b>%s</p>
+      </article>""" % (escape(c.get("k", "cpu")), escape(c.get("tag", "")), escape(c.get("cn", "")),
+                       escape(c.get("lead", "")),
+                       escape(c["calc"]["t"]), escape(c["calc"]["d"]), escape(c["calc"]["n"]),
+                       stack, escape(c["mem"]["d"]), escape(c["mem"]["n"]),
+                       uses, escape(c.get("cost", ""))))
+
+    src = d.get("source") or {}
+    src_html = ""
+    if src.get("url"):
+        src_html = ('<a class="cmp-src" href="%s" target="_blank" rel="noopener">'
+                    '图与正文整理自「%s」《%s》↗</a>'
+                    % (escape(src["url"]), escape(src.get("name", "")), escape(src.get("title", ""))))
+
+    return """  <section class="blk" id="board-%d">
+    <div class="blk-head">
+      <span class="blk-num">%s</span>
+      <h2>%s</h2>
+      <span class="blk-note is-long">%s</span>
+    </div>
+    <div class="cmp-grid">
+%s
+    </div>
+    <div class="cmp-foot"><p>%s</p>%s</div>
+  </section>
+""" % (idx + 1, num, escape(entry.get("title", "三种架构")), R.inline(entry.get("note", "")),
+       "\n".join(cards), R.inline(d.get("foot", "")), src_html)
+
+
 def block_map(sec, entry, idx, total, num):
     """地理分布图：一块一个算力区，位置按相对方位摆，不画行政边界。
 
@@ -1275,6 +1347,10 @@ def build_section(sec, out_dir, prefix=""):
         if entry.get("kind") == "map":
             blocks.append(block_map(sec, entry, i, len(sec.boards), num))
             counts.append("图")
+            continue
+        if entry.get("kind") == "cmp":
+            blocks.append(block_cmp(sec, entry, i, len(sec.boards), num))
+            counts.append("类")
             continue
         _, rows = sec.board(entry)
         stat = stats.get(pathlib.Path(entry.get("file", "")).name, {})
