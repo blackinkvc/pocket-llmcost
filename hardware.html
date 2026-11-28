@@ -7,7 +7,7 @@
 <title>硬件 · AI.TRACK</title>
 <meta name="description" content="硬件：加速卡、工作站与全球算力中心的台账——显存、带宽、功耗，以及每个站点的容量、芯片、供电与并网约束。">
 <link rel="stylesheet" href="assets/css/site.css?v=42f35f2b">
-<link rel="stylesheet" href="assets/css/section.css?v=b22bf665">
+<link rel="stylesheet" href="assets/css/section.css?v=13f75932">
 <script src="assets/js/skinboot.js?v=deff9a81"></script>
 <link rel="stylesheet" href="assets/css/skin.css?v=01cdbd8f">
 <link rel="stylesheet" href="assets/css/pagebar.css?v=b4d2a8e4">
@@ -92,7 +92,7 @@
       <div class="spec-card">
         <div class="spec-head"><span>SNAPSHOT</span><span>MANUAL</span></div>
         <dl class="spec-body" style="margin:0">
-          <div class="spec-row"><dt>数据截至</dt><dd>2026-11-24</dd></div><div class="spec-row"><dt>收录</dt><dd>18 卡 + 9 机型 + 3 类架构 + 14 家用卡</dd></div><div class="spec-row"><dt>算力中心</dt><dd>60 站点 · 5 张榜</dd></div><div class="spec-row"><dt>口径</dt><dd>厂商规格 + 业主公告</dd></div><div class="spec-row"><dt>实测算力</dt><dd>只引公开榜单</dd></div><div class="spec-row"><dt>价格</dt><dd>只记首发价</dd></div>
+          <div class="spec-row"><dt>数据截至</dt><dd>2026-11-24</dd></div><div class="spec-row"><dt>收录</dt><dd>18 卡（每张一页详情）+ 9 机型 + 3 类架构 + 14 家用卡</dd></div><div class="spec-row"><dt>算力中心</dt><dd>60 站点 · 5 张榜</dd></div><div class="spec-row"><dt>口径</dt><dd>厂商规格 + 业主公告</dd></div><div class="spec-row"><dt>实测算力</dt><dd>只引公开榜单</dd></div><div class="spec-row"><dt>价格</dt><dd>只记首发价</dd></div>
         </dl>
       </div>
       <nav class="toc" aria-label="页内目录">
@@ -105,7 +105,7 @@
       </nav>
       </aside>
     </div>
-    <div class="intro-extra"><h3>十张表怎么读</h3><ul><li><strong>三种架构</strong>：CPU / GPU / TPU 三张卡，只讲设计取向——计算模型、内存层级、适用场景，末尾各留一行「代价」。它是下面所有表的前置：先知道三块硅各自在赌什么，再看具体型号的显存与带宽。</li><li><strong>数据中心加速卡</strong>：单卡与机柜混排。机柜行的「显存」是池化总量，不能和单卡行相减，也不能直接比价。</li><li><strong>本地与工作站</strong>：按容量排。同价位里容量与带宽基本互斥——统一内存能装下 512 GB 的模型，带宽只有独显的三分之一到五分之一。</li><li><strong>出货</strong>：IDC 2025 全年中国加速卡出货量，按张计。是「一年卖出去多少」，不是「现在有多少卡在跑」。</li><li><strong>各家用什么卡</strong>：14 家公司（7 家海外、7 家中国）各一行，写清主力型号、卡数与折算算力。条形按算力占比切而不是按卡数——一张 GB200 顶两张 H100，按卡数切会把两代卡算成一样重。徽标分「在役」与「已签」：签约容量常常是三年后的机房，不能当现网用。</li><li><strong>算力中心四张榜</strong>（中国 / 美国 / 东南亚 / 其他海外）：一张榜一个区域，因为口径合不起来。美国与东南亚能写 MW，中国多数只给「万卡 / 万台服务器 / GW / PFLOPS」。榜内数字是该站点已公布的最大容量，已投运与规划同列，逐行标了状态与现网值。</li><li><strong>供电与电网</strong>：电价、电源结构、并网排队三件事并列，不排名。它只回答「这个站点的电从哪来、要等多久、多少钱」。</li><li><strong>不能相加。</strong> 单卡规格、整机出货、园区 IT 负载、园区总电力是四套口径；并成一列求和，得到的数没有含义。</li></ul></div><div class="intro-extra"><h3>已知的取舍</h3><ul><li><strong>国产卡只写公开规格，且把冲突留着。</strong> 昇腾 950PR 的显存有 112 GB 与 128 GB 两种说法，昇腾 910C 的带宽有 1.8 与 3.2 TB/s 两种说法，思元 690 的带宽厂商未公布。表里写「口径不一」而不是取中间值——取平均等于自己造一个数。</li><li><strong>MW 有三种写法，只写在行内，不合并。</strong> IT 负载（给芯片的）、园区电力（含制冷配电，通常是 IT 的 1.2–1.4 倍）、装机供电容量（发电侧）。三者不能互相替代；同一站点在不同来源里差一倍，多半是换了口径。带 <code>*</code> 的数字来自 Epoch AI 与第三方建模，不是业主口径。</li><li><strong>不写实测算力。</strong> 同一张卡在不同框架、不同量化、不同 batch 下能差出一倍，没有统一环境的数字不收。唯一的实测引用是 llama.cpp 公开榜单，且注明版本与用户不同、只能看量级。</li><li><strong>价格只记首发价。</strong> 2026 年 DRAM 缺货把工作站整机价格整体推高：DGX Spark 官方提价 18%，RTX PRO 6000 从约 8,565 美元涨到 1.2 万–1.45 万美元。价格这一列只能当参考，不能当比价依据。</li><li><strong>不预测 2027 年之后的规划容量。</strong> 进了表就会被当成已经能买；只有业主给了时间点、且已在建的项目才收。意向书阶段的（阿根廷、部分印度园区）单独标注，不进规模比较。</li><li><strong>用卡的卡数是量级，不是财报数。</strong> 14 家里只有少数公开过具体张数：xAI、华为、Anthropic 的 Trainium 这批有确数，其余是 IDC 出货、产业链纪要与「GW × 每 GW 卡数」的推算，误差常在 ±30%。算力按标称 BF16 稠密峰值折算，实际达成率通常只有 30–50%——「19,028 EFLOPS」是横向比量级的尺子，不是能租到的算力。签约与在役必须分开读：OpenAI 那 26 GW 写的是 2027 年以后的机房。</li></ul></div>
+    <div class="intro-extra"><h3>十张表怎么读</h3><ul><li><strong>三种架构</strong>：CPU / GPU / TPU 三张卡，只讲设计取向——计算模型、内存层级、适用场景，末尾各留一行「代价」。它是下面所有表的前置：先知道三块硅各自在赌什么，再看具体型号的显存与带宽。</li><li><strong>数据中心加速卡</strong>：单卡与机柜混排。机柜行的「显存」是池化总量，不能和单卡行相减，也不能直接比价。<strong>18 张卡各有一页详情</strong>（卡片右上角「详情」）：完整规格、三个数怎么读、同厂横向、以及这一条数字里还没填的窟窿。</li><li><strong>本地与工作站</strong>：按容量排。同价位里容量与带宽基本互斥——统一内存能装下 512 GB 的模型，带宽只有独显的三分之一到五分之一。</li><li><strong>出货</strong>：IDC 2025 全年中国加速卡出货量，按张计。是「一年卖出去多少」，不是「现在有多少卡在跑」。</li><li><strong>各家用什么卡</strong>：14 家公司（7 家海外、7 家中国）各一行，写清主力型号、卡数与折算算力。条形按算力占比切而不是按卡数——一张 GB200 顶两张 H100，按卡数切会把两代卡算成一样重。徽标分「在役」与「已签」：签约容量常常是三年后的机房，不能当现网用。</li><li><strong>算力中心四张榜</strong>（中国 / 美国 / 东南亚 / 其他海外）：一张榜一个区域，因为口径合不起来。美国与东南亚能写 MW，中国多数只给「万卡 / 万台服务器 / GW / PFLOPS」。榜内数字是该站点已公布的最大容量，已投运与规划同列，逐行标了状态与现网值。</li><li><strong>供电与电网</strong>：电价、电源结构、并网排队三件事并列，不排名。它只回答「这个站点的电从哪来、要等多久、多少钱」。</li><li><strong>不能相加。</strong> 单卡规格、整机出货、园区 IT 负载、园区总电力是四套口径；并成一列求和，得到的数没有含义。</li></ul></div><div class="intro-extra"><h3>已知的取舍</h3><ul><li><strong>国产卡只写公开规格，且把冲突留着。</strong> 昇腾 950PR 的显存有 112 GB 与 128 GB 两种说法，昇腾 910C 的带宽有 1.8 与 3.2 TB/s 两种说法，思元 690 的带宽厂商未公布。表里写「口径不一」而不是取中间值——取平均等于自己造一个数。</li><li><strong>MW 有三种写法，只写在行内，不合并。</strong> IT 负载（给芯片的）、园区电力（含制冷配电，通常是 IT 的 1.2–1.4 倍）、装机供电容量（发电侧）。三者不能互相替代；同一站点在不同来源里差一倍，多半是换了口径。带 <code>*</code> 的数字来自 Epoch AI 与第三方建模，不是业主口径。</li><li><strong>不写实测算力。</strong> 同一张卡在不同框架、不同量化、不同 batch 下能差出一倍，没有统一环境的数字不收。唯一的实测引用是 llama.cpp 公开榜单，且注明版本与用户不同、只能看量级。</li><li><strong>价格只记首发价。</strong> 2026 年 DRAM 缺货把工作站整机价格整体推高：DGX Spark 官方提价 18%，RTX PRO 6000 从约 8,565 美元涨到 1.2 万–1.45 万美元。价格这一列只能当参考，不能当比价依据。</li><li><strong>不预测 2027 年之后的规划容量。</strong> 进了表就会被当成已经能买；只有业主给了时间点、且已在建的项目才收。意向书阶段的（阿根廷、部分印度园区）单独标注，不进规模比较。</li><li><strong>用卡的卡数是量级，不是财报数。</strong> 14 家里只有少数公开过具体张数：xAI、华为、Anthropic 的 Trainium 这批有确数，其余是 IDC 出货、产业链纪要与「GW × 每 GW 卡数」的推算，误差常在 ±30%。算力按标称 BF16 稠密峰值折算，实际达成率通常只有 30–50%——「19,028 EFLOPS」是横向比量级的尺子，不是能租到的算力。签约与在役必须分开读：OpenAI 那 26 GW 写的是 2027 年以后的机房。</li></ul></div>
   </section>
   <section class="blk" id="board-1">
     <div class="blk-head">
@@ -190,153 +190,153 @@
     <div class="blk-head">
       <span class="blk-num">02.2</span>
       <h2>数据中心加速卡</h2>
-      <span class="blk-note is-long">机柜行写的是池化总量，单卡行写的是单卡规格，两者不能相减也不能比价。显存决定「放不放得下」，带宽决定「生成多快」，算力决定「读 prompt 多快」。带 * 的是厂商标称、第三方尚未复核的数字。</span>
+      <span class="blk-note is-long">机柜行写的是池化总量，单卡行写的是单卡规格，两者不能相减也不能比价。显存决定「放不放得下」，带宽决定「生成多快」，算力决定「读 prompt 多快」。点标题旁的<strong>详情</strong>看单条的完整规格、同厂横向与口径窟窿；带 * 的是厂商标称、第三方尚未复核的数字。</span>
     </div>
     <div class="bd-ctrl" data-ctrl="b2">
       <div class="seg" role="group" aria-label="按归属筛选"><button type="button" data-region="all" class="on">全部<i>18</i></button><button type="button" data-region="cn">国内<i>7</i></button><button type="button" data-region="intl">国外<i>11</i></button></div>
       <p class="bd-ctrl-note">按所属机构筛选，未标注归属的条目不计入国内 / 国外。</p>
     </div>
     <div class="board" data-board="b2">
-      <article class="bd-card" data-k="Vera Rubin NVL72 机柜" data-region="国外" data-base="">
+      <article class="bd-card is-detail" data-k="Vera Rubin NVL72 机柜" data-region="国外" data-base="">
         <span class="bd-rank">1</span>
         <div class="bd-main">
-          <div class="bd-top"><h3>Vera Rubin NVL72 机柜</h3></div>
+          <div class="bd-top"><h3><a href="hardware/卡/vera-rubin-nvl72.html">Vera Rubin NVL72 机柜</a></h3><a class="bd-go" href="hardware/卡/vera-rubin-nvl72.html">详情<i>→</i></a></div>
           <p class="bd-meta">NVIDIA · 20.7 TB HBM4（72 卡池化） · 单卡 22 TB/s · 机柜 260 TB/s · 机柜约 120–130 kW</p>
           <p class="bd-note">2026-06 全量生产、秋季起交付八家云；容量与 GB300 持平，翻代的是带宽与算力。</p>
         </div>
       </article>
-      <article class="bd-card" data-k="GB300 NVL72 机柜" data-region="国外" data-base="">
+      <article class="bd-card is-detail" data-k="GB300 NVL72 机柜" data-region="国外" data-base="">
         <span class="bd-rank">2</span>
         <div class="bd-main">
-          <div class="bd-top"><h3>GB300 NVL72 机柜</h3></div>
+          <div class="bd-top"><h3><a href="hardware/卡/gb300-nvl72.html">GB300 NVL72 机柜</a></h3><a class="bd-go" href="hardware/卡/gb300-nvl72.html">详情<i>→</i></a></div>
           <p class="bd-meta">NVIDIA · 20.7 TB HBM3e（72 卡池化） · 机柜 130 TB/s NVLink 5 · 机柜级</p>
           <p class="bd-note">上一代在产机型；MLPerf v6.0 四机柜并联跑 DeepSeek-R1 约 250 万 tok/s *。</p>
         </div>
       </article>
-      <article class="bd-card" data-k="MI455X" data-region="国外" data-base="">
+      <article class="bd-card is-detail" data-k="MI455X" data-region="国外" data-base="">
         <span class="bd-rank">3</span>
         <div class="bd-main">
-          <div class="bd-top"><h3>MI455X</h3></div>
+          <div class="bd-top"><h3><a href="hardware/卡/mi455x.html">MI455X</a></h3><a class="bd-go" href="hardware/卡/mi455x.html">详情<i>→</i></a></div>
           <p class="bd-meta">AMD · 432 GB HBM4 · 19.6 TB/s · 未公开</p>
           <p class="bd-note">CDNA 5 面向大规模训练；同代另有 MI430X（HPC）与 MI440X（企业整机）。</p>
         </div>
       </article>
-      <article class="bd-card" data-k="MI350X" data-region="国外" data-base="">
+      <article class="bd-card is-detail" data-k="MI350X" data-region="国外" data-base="">
         <span class="bd-rank">4</span>
         <div class="bd-main">
-          <div class="bd-top"><h3>MI350X</h3></div>
+          <div class="bd-top"><h3><a href="hardware/卡/mi350x.html">MI350X</a></h3><a class="bd-go" href="hardware/卡/mi350x.html">详情<i>→</i></a></div>
           <p class="bd-meta">AMD · 288 GB HBM3e · 8 TB/s · 约 1.0 kW</p>
           <p class="bd-note">上一代大显存路线，单卡 288 GB 曾是最能塞的一张。</p>
         </div>
       </article>
-      <article class="bd-card" data-k="Rubin GPU 单卡" data-region="国外" data-base="">
+      <article class="bd-card is-detail" data-k="Rubin GPU 单卡" data-region="国外" data-base="">
         <span class="bd-rank">5</span>
         <div class="bd-main">
-          <div class="bd-top"><h3>Rubin GPU 单卡</h3></div>
+          <div class="bd-top"><h3><a href="hardware/卡/rubin-gpu.html">Rubin GPU 单卡</a></h3><a class="bd-go" href="hardware/卡/rubin-gpu.html">详情<i>→</i></a></div>
           <p class="bd-meta">NVIDIA · 288 GB HBM4 · 22 TB/s · 随机柜</p>
           <p class="bd-note">3360 亿晶体管；单卡 50 PFLOPS NVFP4、NVLink 6 单卡 3.6 TB/s *。</p>
         </div>
       </article>
-      <article class="bd-card" data-k="思元 690" data-region="国内" data-base="">
+      <article class="bd-card is-detail" data-k="思元 690" data-region="国内" data-base="">
         <span class="bd-rank">6</span>
         <div class="bd-main">
-          <div class="bd-top"><h3>思元 690</h3></div>
+          <div class="bd-top"><h3><a href="hardware/卡/siyuan-690.html">思元 690</a></h3><a class="bd-go" href="hardware/卡/siyuan-690.html">详情<i>→</i></a></div>
           <p class="bd-meta">寒武纪 · 196 GB HBM3 · 未公开 · 未公开</p>
           <p class="bd-note">2026 年初量产，双芯片封装，半精度 700 TFLOPS 级 *。</p>
         </div>
       </article>
-      <article class="bd-card" data-k="B200" data-region="国外" data-base="">
+      <article class="bd-card is-detail" data-k="B200" data-region="国外" data-base="">
         <span class="bd-rank">7</span>
         <div class="bd-main">
-          <div class="bd-top"><h3>B200</h3></div>
+          <div class="bd-top"><h3><a href="hardware/卡/b200.html">B200</a></h3><a class="bd-go" href="hardware/卡/b200.html">详情<i>→</i></a></div>
           <p class="bd-meta">NVIDIA · 192 GB HBM3e · 8 TB/s · 约 1.0 kW</p>
           <p class="bd-note">Blackwell 单卡，存量 Blackwell 集群的主力。</p>
         </div>
       </article>
-      <article class="bd-card" data-k="MI300X" data-region="国外" data-base="">
+      <article class="bd-card is-detail" data-k="MI300X" data-region="国外" data-base="">
         <span class="bd-rank">8</span>
         <div class="bd-main">
-          <div class="bd-top"><h3>MI300X</h3></div>
+          <div class="bd-top"><h3><a href="hardware/卡/mi300x.html">MI300X</a></h3><a class="bd-go" href="hardware/卡/mi300x.html">详情<i>→</i></a></div>
           <p class="bd-meta">AMD · 192 GB HBM3 · 5.3 TB/s · 750 W</p>
           <p class="bd-note">上一代大显存推理卡，单卡放得下 70B 全精度。</p>
         </div>
       </article>
-      <article class="bd-card" data-k="TPU Ironwood" data-region="国外" data-base="">
+      <article class="bd-card is-detail" data-k="TPU Ironwood" data-region="国外" data-base="">
         <span class="bd-rank">9</span>
         <div class="bd-main">
-          <div class="bd-top"><h3>TPU Ironwood</h3></div>
+          <div class="bd-top"><h3><a href="hardware/卡/tpu-ironwood.html">TPU Ironwood</a></h3><a class="bd-go" href="hardware/卡/tpu-ironwood.html">详情<i>→</i></a></div>
           <p class="bd-meta">Google · 192 GB HBM · 7.37 TB/s · 液冷</p>
           <p class="bd-note">第七代 TPU，自用为主，不对外单卖。</p>
         </div>
       </article>
-      <article class="bd-card" data-k="昇腾 950DT" data-region="国内" data-base="">
+      <article class="bd-card is-detail" data-k="昇腾 950DT" data-region="国内" data-base="">
         <span class="bd-rank">10</span>
         <div class="bd-main">
-          <div class="bd-top"><h3>昇腾 950DT</h3></div>
+          <div class="bd-top"><h3><a href="hardware/卡/ascend-950dt.html">昇腾 950DT</a></h3><a class="bd-go" href="hardware/卡/ascend-950dt.html">详情<i>→</i></a></div>
           <p class="bd-meta">华为 · 144 GB HiZQ 2.0 · 4 TB/s · 未公开</p>
           <p class="bd-note">2026 年四季度；主攻训练与 decode，与 950PR 分工。</p>
         </div>
       </article>
-      <article class="bd-card" data-k="沐曦 C600" data-region="国内" data-base="">
+      <article class="bd-card is-detail" data-k="沐曦 C600" data-region="国内" data-base="">
         <span class="bd-rank">11</span>
         <div class="bd-main">
-          <div class="bd-top"><h3>沐曦 C600</h3></div>
+          <div class="bd-top"><h3><a href="hardware/卡/muxi-c600.html">沐曦 C600</a></h3><a class="bd-go" href="hardware/卡/muxi-c600.html">详情<i>→</i></a></div>
           <p class="bd-meta">沐曦 · 144 GB HBM3e · 3 TB/s · 350 W</p>
           <p class="bd-note">CUDA 兼容迁移路线，图形与推理两用。</p>
         </div>
       </article>
-      <article class="bd-card" data-k="H200" data-region="国外" data-base="">
+      <article class="bd-card is-detail" data-k="H200" data-region="国外" data-base="">
         <span class="bd-rank">12</span>
         <div class="bd-main">
-          <div class="bd-top"><h3>H200</h3></div>
+          <div class="bd-top"><h3><a href="hardware/卡/h200.html">H200</a></h3><a class="bd-go" href="hardware/卡/h200.html">详情<i>→</i></a></div>
           <p class="bd-meta">NVIDIA · 141 GB HBM3e · 4.8 TB/s · 700 W</p>
           <p class="bd-note">与 H100 同算力，换的是显存与带宽。</p>
         </div>
       </article>
-      <article class="bd-card" data-k="Rubin CPX 预填充卡" data-region="国外" data-base="">
+      <article class="bd-card is-detail" data-k="Rubin CPX 预填充卡" data-region="国外" data-base="">
         <span class="bd-rank">13</span>
         <div class="bd-main">
-          <div class="bd-top"><h3>Rubin CPX 预填充卡</h3></div>
+          <div class="bd-top"><h3><a href="hardware/卡/rubin-cpx.html">Rubin CPX 预填充卡</a></h3><a class="bd-go" href="hardware/卡/rubin-cpx.html">详情<i>→</i></a></div>
           <p class="bd-meta">NVIDIA · 128 GB GDDR7 · 未公开（NVL144 CPX 机柜 1.7 PB/s） · 机柜约 370 kW</p>
           <p class="bd-note">只做 prefill；单卡 30 PFLOPS NVFP4 *，用 GDDR7 换容量与成本。</p>
         </div>
       </article>
-      <article class="bd-card" data-k="昇腾 950PR" data-region="国内" data-base="">
+      <article class="bd-card is-detail" data-k="昇腾 950PR" data-region="国内" data-base="">
         <span class="bd-rank">14</span>
         <div class="bd-main">
-          <div class="bd-top"><h3>昇腾 950PR</h3></div>
+          <div class="bd-top"><h3><a href="hardware/卡/ascend-950pr.html">昇腾 950PR</a></h3><a class="bd-go" href="hardware/卡/ascend-950pr.html">详情<i>→</i></a></div>
           <p class="bd-meta">华为 · 112 GB / 128 GB（口径不一） · 1.6 TB/s · 600 W</p>
           <p class="bd-note">2026-03 量产，主攻 prefill；单卡算力约为 H20 的 2.87 倍 *。</p>
         </div>
       </article>
-      <article class="bd-card" data-k="MTT S5000" data-region="国内" data-base="">
+      <article class="bd-card is-detail" data-k="MTT S5000" data-region="国内" data-base="">
         <span class="bd-rank">15</span>
         <div class="bd-main">
-          <div class="bd-top"><h3>MTT S5000</h3></div>
+          <div class="bd-top"><h3><a href="hardware/卡/mtt-s5000.html">MTT S5000</a></h3><a class="bd-go" href="hardware/卡/mtt-s5000.html">详情<i>→</i></a></div>
           <p class="bd-meta">摩尔线程 · 80 GB HBM2e · 1.6 TB/s · 400 W</p>
           <p class="bd-note">渲染与推理一体的路线，影视与数字孪生场景多。</p>
         </div>
       </article>
-      <article class="bd-card" data-k="H100 SXM" data-region="国外" data-base="">
+      <article class="bd-card is-detail" data-k="H100 SXM" data-region="国外" data-base="">
         <span class="bd-rank">16</span>
         <div class="bd-main">
-          <div class="bd-top"><h3>H100 SXM</h3></div>
+          <div class="bd-top"><h3><a href="hardware/卡/h100-sxm.html">H100 SXM</a></h3><a class="bd-go" href="hardware/卡/h100-sxm.html">详情<i>→</i></a></div>
           <p class="bd-meta">NVIDIA · 80 GB HBM3 · 3.35 TB/s · 700 W</p>
           <p class="bd-note">存量训练主力，多数公开基准仍以它为分母。</p>
         </div>
       </article>
-      <article class="bd-card" data-k="昇腾 910C" data-region="国内" data-base="">
+      <article class="bd-card is-detail" data-k="昇腾 910C" data-region="国内" data-base="">
         <span class="bd-rank">17</span>
         <div class="bd-main">
-          <div class="bd-top"><h3>昇腾 910C</h3></div>
+          <div class="bd-top"><h3><a href="hardware/卡/ascend-910c.html">昇腾 910C</a></h3><a class="bd-go" href="hardware/卡/ascend-910c.html">详情<i>→</i></a></div>
           <p class="bd-meta">华为 · 64 GB HBM2e · 1.8 TB/s / 3.2 TB/s（口径不一） · 350 W</p>
           <p class="bd-note">国产存量主力；互联与显存带宽两处口径互不一致。</p>
         </div>
       </article>
-      <article class="bd-card" data-k="壁仞 BR104" data-region="国内" data-base="">
+      <article class="bd-card is-detail" data-k="壁仞 BR104" data-region="国内" data-base="">
         <span class="bd-rank">18</span>
         <div class="bd-main">
-          <div class="bd-top"><h3>壁仞 BR104</h3></div>
+          <div class="bd-top"><h3><a href="hardware/卡/br104.html">壁仞 BR104</a></h3><a class="bd-go" href="hardware/卡/br104.html">详情<i>→</i></a></div>
           <p class="bd-meta">壁仞 · 64 GB HBM3 · 1.5 TB/s · 400 W</p>
           <p class="bd-note">能效取向；万卡级集群案例少于昇腾。</p>
         </div>
