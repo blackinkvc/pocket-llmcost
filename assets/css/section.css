@@ -828,3 +828,119 @@ html:not(.has-js) .rk-ctrl{display:none}
 .chip-sib .post-body .md-table td:first-child{white-space:normal}
 .chip-sib .post-body .md-table td{font-size:11.5px}
 .chip-sib .post-body .md-table strong{color:var(--orange)}
+
+/* ---------- 板块：单卡的位置（散点） ---------- */
+/* 横轴对数、纵轴线性：带宽跨一个数量级，线性轴会把低端全挤在左边。
+   标签位置写在性能.json 里（lx/ly/la），不靠自动布局——点数不多，手排更稳。 */
+.pc-wrap{
+  background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:10px 14px 8px;
+}
+.pc-svg{
+  display:block;width:100%;max-width:940px;height:auto;
+  margin:0 auto;overflow:visible;
+}
+.pc-grid line{stroke:var(--line);stroke-width:1;opacity:.85}
+.pc-tk{font-family:var(--mono);font-size:9.5px;fill:var(--t3)}
+.pc-ax-t{
+  font-family:var(--mono);font-size:9.5px;fill:var(--t3);
+  letter-spacing:.02em;
+}
+.pc-band-l{stroke:var(--orange);stroke-width:1;stroke-dasharray:3 4;opacity:.42}
+.pc-band-t{font-family:var(--mono);font-size:9px;fill:var(--orange);opacity:.9}
+
+.pc-pt circle{
+  stroke:var(--panel);stroke-width:1.4;
+  transition:stroke-width .14s,filter .14s;
+}
+.pc-pt .pc-lb{
+  font-family:var(--sans);font-size:10px;fill:var(--t2);
+  pointer-events:none;transition:fill .14s;
+}
+.pc-pt:hover circle{stroke-width:2.2;filter:drop-shadow(0 1px 3px rgba(0,0,0,.28))}
+.pc-pt:hover .pc-lb{fill:var(--t1)}
+
+.pc-legend{
+  display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;
+  margin-top:4px;padding:9px 2px 4px;border-top:1px solid var(--line-2);
+  font-size:11.5px;color:var(--t2);
+}
+.pc-key{display:inline-flex;align-items:center;gap:5px}
+.pc-key i{width:8px;height:8px;border-radius:50%}
+.pc-bub{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11px;color:var(--t3);
+}
+.pc-bub i{
+  width:9px;height:9px;border-radius:50%;
+  border:1px dashed var(--t3);flex:none;
+}
+.pc-asof{
+  margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--t3);
+}
+
+/* 窄屏：SVG 缩到 700 以下标签会互相压，换成同一份数据的表 */
+.pc-list{
+  display:none;margin:0;padding:0;list-style:none;
+  background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  overflow:hidden;
+}
+.pc-list li{
+  display:grid;grid-template-columns:1fr repeat(3,auto);gap:3px 12px;
+  align-items:baseline;padding:9px 13px;
+  border-bottom:1px solid var(--line-2);
+}
+.pc-list li:last-child{border-bottom:0}
+.pc-lo{
+  display:flex;align-items:center;gap:6px;min-width:0;
+  color:var(--t1);text-decoration:none;
+}
+.pc-lo i{width:6px;height:6px;border-radius:50%;flex:none}
+.pc-lo b{
+  font-size:11.5px;font-weight:600;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.pc-lv{
+  font-family:var(--mono);font-size:11px;color:var(--t1);
+  text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+.pc-lv small{margin-left:1px;font-size:9px;color:var(--t3)}
+
+.pc-foot{
+  margin:10px 0 0;max-width:88ch;
+  font-size:11.5px;line-height:1.8;color:var(--t3);
+}
+.pc-out{margin-top:14px;padding-top:11px;border-top:1px solid var(--line)}
+.pc-out-h{
+  margin-bottom:7px;font-family:var(--mono);font-size:10px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--t3);
+}
+.pc-out-h span{
+  margin-left:7px;font-family:var(--sans);font-size:10.5px;
+  letter-spacing:0;text-transform:none;opacity:.88;
+}
+.pc-out ul{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.pc-out li{
+  display:flex;align-items:baseline;gap:9px;
+  font-size:11.5px;line-height:1.75;color:var(--t3);
+}
+.pc-out li a{
+  flex:none;color:var(--t1);font-weight:600;text-decoration:none;
+  border-bottom:1px dashed var(--line);
+}
+.pc-out li a:hover{color:var(--orange);border-color:var(--orange)}
+.pc-rk-n{font-family:var(--mono);font-size:10.5px}
+.pc-rk-p{
+  margin-left:auto;font-family:var(--mono);font-size:10.5px;
+  color:var(--t2);font-variant-numeric:tabular-nums;
+}
+
+@media (max-width:860px){
+  .pc-wrap{display:none}
+  .pc-list{display:block}
+  /* 图外那几行在窄屏改回行内流：flex 折行时第二行会顶到最左边，缩进对不齐 */
+  .pc-out li{display:block}
+  .pc-out li a{margin-right:8px}
+  .pc-rk-p{display:block;margin-left:0}
+}
+.pc-lead{stroke:var(--t3);stroke-width:1;opacity:.45}
