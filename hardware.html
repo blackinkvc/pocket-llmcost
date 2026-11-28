@@ -7,7 +7,7 @@
 <title>硬件 · AI.TRACK</title>
 <meta name="description" content="硬件：加速卡、工作站与全球算力中心的台账——显存、带宽、功耗，以及每个站点的容量、芯片、供电与并网约束。">
 <link rel="stylesheet" href="assets/css/site.css?v=42f35f2b">
-<link rel="stylesheet" href="assets/css/section.css?v=13f75932">
+<link rel="stylesheet" href="assets/css/section.css?v=46b38e20">
 <script src="assets/js/skinboot.js?v=deff9a81"></script>
 <link rel="stylesheet" href="assets/css/skin.css?v=01cdbd8f">
 <link rel="stylesheet" href="assets/css/pagebar.css?v=b4d2a8e4">
@@ -46,7 +46,7 @@
 
 <div class="pbar"><div class="pb-in">
   <span class="pb-t">硬件</span>
-  <div class="pb-sum"><b>125</b> 条记录 · <b>11</b> 张榜 · <b>10</b> 篇报告 · 快照 2026-11</div>
+  <div class="pb-sum"><b>139</b> 条记录 · <b>12</b> 张榜 · <b>10</b> 篇报告 · 快照 2026-11</div>
   <div class="pb-sp"></div>
   <button class="pb-i" data-pb="theme" type="button" title="切换深浅色" aria-label="切换深浅色"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/></svg></button>
   <button class="pb-i" data-pb="reload" type="button" title="刷新这一页" aria-label="刷新这一页"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5V10h-5.5"/></svg></button>
@@ -58,15 +58,16 @@
     <a href="#intro">简介</a>
     <a href="#board-1">架构</a>
     <a href="#board-2">数据中心</a>
-    <a href="#board-3">本地</a>
-    <a href="#board-4">出货</a>
-    <a href="#board-5">用卡</a>
-    <a href="#board-6">地理图</a>
-    <a href="#board-7">中国</a>
-    <a href="#board-8">美国</a>
-    <a href="#board-9">东南亚</a>
-    <a href="#board-10">其他</a>
-    <a href="#board-11">供电账</a>
+    <a href="#board-3">性能图</a>
+    <a href="#board-4">本地</a>
+    <a href="#board-5">出货</a>
+    <a href="#board-6">用卡</a>
+    <a href="#board-7">地理图</a>
+    <a href="#board-8">中国</a>
+    <a href="#board-9">美国</a>
+    <a href="#board-10">东南亚</a>
+    <a href="#board-11">其他</a>
+    <a href="#board-12">供电账</a>
     <a href="#reports">报告</a>
     <span class="sn-sep"></span>
     <a href="principles.html">原理 · 历史</a>
@@ -86,26 +87,26 @@
         <h1 class="ph-title">硬件</h1>
         <p class="ph-sub">SILICON · MEMORY · BANDWIDTH · COMPUTE CAMPUSES · SNAPSHOT 2026-11</p>
         <p class="ph-lede">训练看算力，推理看带宽。同一张卡跑 7B 和 70B，瓶颈不同；同一模型跑 prefill 和 decode，瓶颈也不同。 这一页记四个数：<strong>显存、带宽、功耗</strong>，加上<strong>电力</strong>——前三者决定「能不能跑」，第四个决定「能建多少」。</p>
-        <div class="verdict-box"><p class="vb-label">结论 / VERDICT</p><ol><li><b>这一代机柜的显存容量没变。</b><span>GB300 NVL72 与 Vera Rubin NVL72 都是 20.7 TB 池化 HBM；翻代的是单卡带宽（8 → 22 TB/s）与机柜互联（约 130 → 260 TB/s）。容量停在同一个数上，说明这一代要解决的是「把数据搬得更快」，不是「把模型放得更大」。</span></li><li><b>prefill 与 decode 开始分芯片卖。</b><span>Rubin CPX 用 128 GB GDDR7 专做 prefill，标准 Rubin 用 HBM4 做 decode——同一条推理链的两段，第一次由两种硅片分别承担。这是「两类瓶颈」第一次被写进产品线，而不只是写在文档里。</span></li><li><b>同一份权重，三块硅的搬法不一样。</b><span>CPU 的缓存由硬件预取决定，GPU 的共享内存要程序员自己分配、自己同步，TPU 的片上 SRAM 由编译器在编译期排好。谁在等数据、等几次，取决于这三套搬运规则——所以「这卡快不快」在没说是哪类负载之前，是个没答案的问题。</span></li><li><b>容量和带宽是两个价签。</b><span>128 GB 的 DGX Spark 带宽 273 GB/s，96 GB 的 RTX PRO 6000 是 1792 GB/s：前者容量多 1.3 倍，生成速度约五分之一。只看显存会买错机器，只看带宽会买不起模型。</span></li><li><b>瓶颈从芯片换成了电。</b><span>全球数据中心用电 2025 年约 485 TWh，2030 年约 945 TWh；德州大负荷队列 474 GW，是系统峰值的五倍，真正批准通电的只有约 9 GW。同样 1 GW 的园区，内蒙 0.30 元/度、弗吉尼亚 10 美分再加 1.1 美分数据中心税、新加坡 25 美分——电价差四倍，并网排队差三年。</span></li><li><b>「都用英伟达」是错的，只有 Anthropic 一家的主力不是。</b><span>14 家里 12 家买英伟达，但 Anthropic 的算力九成在 TPU 与 Trainium 上；Google 训练几乎不用别人的卡，华为 100% 自家。AMD 签下了 OpenAI 6 GW、Meta 6 GW 与微软、Oracle——签约名单很长，2026 年内真正上机的只有首期各 1 GW。买第二供应商是为了压价，不是已经换掉了英伟达。</span></li></ol></div>
+        <div class="verdict-box"><p class="vb-label">结论 / VERDICT</p><ol><li><b>这一代机柜的显存容量没变。</b><span>GB300 NVL72 与 Vera Rubin NVL72 都是 20.7 TB 池化 HBM；翻代的是单卡带宽（8 → 22 TB/s）与机柜互联（约 130 → 260 TB/s）。容量停在同一个数上，说明这一代要解决的是「把数据搬得更快」，不是「把模型放得更大」。</span></li><li><b>prefill 与 decode 开始分芯片卖。</b><span>Rubin CPX 用 128 GB GDDR7 专做 prefill，标准 Rubin 用 HBM4 做 decode——同一条推理链的两段，第一次由两种硅片分别承担。这是「两类瓶颈」第一次被写进产品线，而不只是写在文档里。</span></li><li><b>同一份权重，三块硅的搬法不一样。</b><span>CPU 的缓存由硬件预取决定，GPU 的共享内存要程序员自己分配、自己同步，TPU 的片上 SRAM 由编译器在编译期排好。谁在等数据、等几次，取决于这三套搬运规则——所以「这卡快不快」在没说是哪类负载之前，是个没答案的问题。</span></li><li><b>容量和带宽是两个价签。</b><span>128 GB 的 DGX Spark 带宽 273 GB/s，96 GB 的 RTX PRO 6000 是 1792 GB/s：前者容量多 1.3 倍，生成速度约五分之一。只看显存会买错机器，只看带宽会买不起模型。</span></li><li><b>瓶颈从芯片换成了电。</b><span>全球数据中心用电 2025 年约 485 TWh，2030 年约 945 TWh；德州大负荷队列 474 GW，是系统峰值的五倍，真正批准通电的只有约 9 GW。同样 1 GW 的园区，内蒙 0.30 元/度、弗吉尼亚 10 美分再加 1.1 美分数据中心税、新加坡 25 美分——电价差四倍，并网排队差三年。</span></li><li><b>带宽差 15 倍，容量只差 7 倍。</b><span>这批单卡里最快与最慢的显存带宽是 1.5 到 22 TB/s，容量却是 64 到 432 GB——一个差近十五倍，一个差不到七倍。8 TB/s 以上的只有四张（B200 与 MI350X 各 8、MI455X 19.6、Rubin 22）；64–80 GB 那一档的四张（H100、昇腾 910C、MTT S5000、壁仞 BR104）连 70B FP16 都放不下。这一代卡的差距主要落在搬数据上，不在装模型上——所以「多少 GB」单独看，会挑错卡。</span></li><li><b>「都用英伟达」是错的，只有 Anthropic 一家的主力不是。</b><span>14 家里 12 家买英伟达，但 Anthropic 的算力九成在 TPU 与 Trainium 上；Google 训练几乎不用别人的卡，华为 100% 自家。AMD 签下了 OpenAI 6 GW、Meta 6 GW 与微软、Oracle——签约名单很长，2026 年内真正上机的只有首期各 1 GW。买第二供应商是为了压价，不是已经换掉了英伟达。</span></li></ol></div>
       </div>
       <aside class="ph-aside">
       <div class="spec-card">
         <div class="spec-head"><span>SNAPSHOT</span><span>MANUAL</span></div>
         <dl class="spec-body" style="margin:0">
-          <div class="spec-row"><dt>数据截至</dt><dd>2026-11-24</dd></div><div class="spec-row"><dt>收录</dt><dd>18 卡（每张一页详情）+ 9 机型 + 3 类架构 + 14 家用卡</dd></div><div class="spec-row"><dt>算力中心</dt><dd>60 站点 · 5 张榜</dd></div><div class="spec-row"><dt>口径</dt><dd>厂商规格 + 业主公告</dd></div><div class="spec-row"><dt>实测算力</dt><dd>只引公开榜单</dd></div><div class="spec-row"><dt>价格</dt><dd>只记首发价</dd></div>
+          <div class="spec-row"><dt>数据截至</dt><dd>2026-11-24</dd></div><div class="spec-row"><dt>收录</dt><dd>18 卡（每张一页详情）+ 1 张位置图 + 9 机型 + 3 类架构 + 14 家用卡</dd></div><div class="spec-row"><dt>算力中心</dt><dd>60 站点 · 5 张榜</dd></div><div class="spec-row"><dt>口径</dt><dd>厂商规格 + 业主公告</dd></div><div class="spec-row"><dt>实测算力</dt><dd>只引公开榜单</dd></div><div class="spec-row"><dt>价格</dt><dd>只记首发价</dd></div>
         </dl>
       </div>
       <nav class="toc" aria-label="页内目录">
         <div class="toc-head"><span>目录 / TOC</span><button class="toc-all" type="button">展开全部</button></div>
         <ul class="toc-list">
           <li><a href="#intro">简介与口径</a></li>
-          <li class="toc-g"><button class="toc-t" type="button" aria-expanded="false" aria-controls="toc-s1" aria-label="展开「榜」，共 11 项"><span class="toc-lab">榜<i>11</i></span><svg class="toc-caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2 7 5l-3.5 3"/></svg></button><ul class="toc-sub" id="toc-s1"><li><a href="#board-1">架构</a></li><li><a href="#board-2">数据中心</a></li><li><a href="#board-3">本地</a></li><li><a href="#board-4">出货</a></li><li><a href="#board-5">用卡</a></li><li><a href="#board-6">地理图</a></li><li><a href="#board-7">中国</a></li><li><a href="#board-8">美国</a></li><li><a href="#board-9">东南亚</a></li><li><a href="#board-10">其他</a></li><li><a href="#board-11">供电账</a></li></ul></li>
+          <li class="toc-g"><button class="toc-t" type="button" aria-expanded="false" aria-controls="toc-s1" aria-label="展开「榜」，共 12 项"><span class="toc-lab">榜<i>12</i></span><svg class="toc-caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2 7 5l-3.5 3"/></svg></button><ul class="toc-sub" id="toc-s1"><li><a href="#board-1">架构</a></li><li><a href="#board-2">数据中心</a></li><li><a href="#board-3">性能图</a></li><li><a href="#board-4">本地</a></li><li><a href="#board-5">出货</a></li><li><a href="#board-6">用卡</a></li><li><a href="#board-7">地理图</a></li><li><a href="#board-8">中国</a></li><li><a href="#board-9">美国</a></li><li><a href="#board-10">东南亚</a></li><li><a href="#board-11">其他</a></li><li><a href="#board-12">供电账</a></li></ul></li>
           <li class="toc-g"><button class="toc-t" type="button" aria-expanded="false" aria-controls="toc-s2" aria-label="展开「报告」，共 10 项"><span class="toc-lab">报告<i>10</i></span><svg class="toc-caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2 7 5l-3.5 3"/></svg></button><ul class="toc-sub" id="toc-s2"><li><a href="hardware/Fluidstack%20Blackbird%EF%BC%9A6%20%E4%B8%AA%E6%9C%88%E4%BA%A4%E4%BB%98%20400MW%20%E6%A8%A1%E5%9D%97%E5%8C%96%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83.html">Fluidstack Blackbird：6 个月交付 400MW 模块化数据中心</a></li><li><a href="hardware/%E4%BB%8E%20Blackbird%20%E7%9C%8B%E3%80%8C%E7%AE%97%E5%8A%9B%E4%BA%A4%E4%BB%98%E5%91%A8%E6%9C%9F%E3%80%8D%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E6%A8%A1%E5%9D%97%E5%8C%96%E6%98%AF%20AI%20%E5%9F%BA%E5%BB%BA%E7%9A%84%E5%85%B3%E9%94%AE%E5%8F%98%E9%87%8F.html">从 Blackbird 看「算力交付周期」：为什么模块化是 AI 基建的关键变量</a></li><li><a href="hardware/03-%E7%AE%97%E5%8A%9B%E4%B8%AD%E5%BF%83%E7%9A%84%E8%B4%A6.html">算力中心的账：MW、万卡与规划</a></li><li><a href="hardware/01-%E4%B8%A4%E7%B1%BB%E7%93%B6%E9%A2%88.html">两类瓶颈：prefill 吃算力，decode 吃带宽</a></li><li><a href="hardware/02-%E6%98%BE%E5%AD%98%E8%B4%A6-%E4%BB%8E%E6%9D%83%E9%87%8D%E5%88%B0KV.html">显存账：从权重到 KV 的粗算</a></li><li><a href="hardware/183%20%E4%B8%87%E5%BC%A0%20B300%20%E7%9A%84%E5%8F%A3%E5%BE%84%E8%BE%B9%E7%95%8C%EF%BC%9A%E6%8D%A2%E7%AE%97%E8%87%AA%E6%B4%BD%20%E2%89%A0%20%E5%8F%A3%E5%BE%84%E6%88%90%E7%AB%8B%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%A4%96%E9%83%A8%E4%B8%80%E6%89%8B%E8%A1%A5%E5%85%85%E6%B8%85%E5%8D%95.html">183 万张 B300 的口径边界：换算自洽 ≠ 口径成立，以及外部一手补充清单</a></li><li><a href="hardware/%E4%BB%8E%E3%80%8C%E5%8D%96%20GPU%E3%80%8D%E5%88%B0%E3%80%8CAI%20%E5%B7%A5%E5%8E%82%E3%80%8D%EF%BC%9A%E6%AD%A3%E6%96%87%E5%A4%A7%E7%BA%B2%E3%80%81%E5%9B%BE%E9%9D%A2%E5%B9%B4%E8%A1%A8%E4%B8%8E%E5%AE%98%E6%96%B9%E5%8F%A3%E5%BE%84%E7%9A%84%E8%BE%B9%E7%95%8C.html">从「卖 GPU」到「AI 工厂」：正文大纲、图面年表与官方口径的边界</a></li><li><a href="hardware/%E5%85%A8%E7%90%83%E8%B6%85%E7%AE%97%20TOP10%20%E4%B8%8E%E3%80%8C183%20%E4%B8%87%E5%BC%A0%20B300%E3%80%8D%EF%BC%9A%E6%AD%A3%E6%96%87%E5%85%A8%E9%87%8F%E3%80%81%E5%9B%BE%E9%9D%A2%2010%20%E8%A1%8C%E8%A1%A8%E4%B8%8E%E4%B8%80%E6%89%8B%E6%A0%B8%E5%AE%9E%E7%BB%93%E6%9E%9C.html">全球超算 TOP10 与「183 万张 B300」：正文全量、图面 10 行表与一手核实结果</a></li><li><a href="hardware/%E8%8B%B1%E4%BC%9F%E8%BE%BE%E8%8A%AF%E7%89%87%E8%BF%9B%E5%8C%96%E5%8F%B2%EF%BC%9A6%20%E6%AE%B5%E6%AD%A3%E6%96%87%E3%80%818%20%E9%A1%B5%E9%95%BF%E5%9B%BE%E4%B8%8E%E5%AE%98%E6%96%B9%E6%A0%B8%E5%AE%9E%E5%90%8E%E7%9A%84%E4%BA%A7%E5%93%81%E4%BB%A3%E9%99%85.html">英伟达芯片进化史：6 段正文、8 页长图与官方核实后的产品代际</a></li><li><a href="hardware/%E5%B7%A5%E5%85%B7%E5%8F%B0%E8%B4%A6%20%C2%B7%20%E7%A1%AC%E4%BB%B6.html">工具台账 · 硬件（24 件）</a></li></ul></li>
         </ul>
       </nav>
       </aside>
     </div>
-    <div class="intro-extra"><h3>十张表怎么读</h3><ul><li><strong>三种架构</strong>：CPU / GPU / TPU 三张卡，只讲设计取向——计算模型、内存层级、适用场景，末尾各留一行「代价」。它是下面所有表的前置：先知道三块硅各自在赌什么，再看具体型号的显存与带宽。</li><li><strong>数据中心加速卡</strong>：单卡与机柜混排。机柜行的「显存」是池化总量，不能和单卡行相减，也不能直接比价。<strong>18 张卡各有一页详情</strong>（卡片右上角「详情」）：完整规格、三个数怎么读、同厂横向、以及这一条数字里还没填的窟窿。</li><li><strong>本地与工作站</strong>：按容量排。同价位里容量与带宽基本互斥——统一内存能装下 512 GB 的模型，带宽只有独显的三分之一到五分之一。</li><li><strong>出货</strong>：IDC 2025 全年中国加速卡出货量，按张计。是「一年卖出去多少」，不是「现在有多少卡在跑」。</li><li><strong>各家用什么卡</strong>：14 家公司（7 家海外、7 家中国）各一行，写清主力型号、卡数与折算算力。条形按算力占比切而不是按卡数——一张 GB200 顶两张 H100，按卡数切会把两代卡算成一样重。徽标分「在役」与「已签」：签约容量常常是三年后的机房，不能当现网用。</li><li><strong>算力中心四张榜</strong>（中国 / 美国 / 东南亚 / 其他海外）：一张榜一个区域，因为口径合不起来。美国与东南亚能写 MW，中国多数只给「万卡 / 万台服务器 / GW / PFLOPS」。榜内数字是该站点已公布的最大容量，已投运与规划同列，逐行标了状态与现网值。</li><li><strong>供电与电网</strong>：电价、电源结构、并网排队三件事并列，不排名。它只回答「这个站点的电从哪来、要等多久、多少钱」。</li><li><strong>不能相加。</strong> 单卡规格、整机出货、园区 IT 负载、园区总电力是四套口径；并成一列求和，得到的数没有含义。</li></ul></div><div class="intro-extra"><h3>已知的取舍</h3><ul><li><strong>国产卡只写公开规格，且把冲突留着。</strong> 昇腾 950PR 的显存有 112 GB 与 128 GB 两种说法，昇腾 910C 的带宽有 1.8 与 3.2 TB/s 两种说法，思元 690 的带宽厂商未公布。表里写「口径不一」而不是取中间值——取平均等于自己造一个数。</li><li><strong>MW 有三种写法，只写在行内，不合并。</strong> IT 负载（给芯片的）、园区电力（含制冷配电，通常是 IT 的 1.2–1.4 倍）、装机供电容量（发电侧）。三者不能互相替代；同一站点在不同来源里差一倍，多半是换了口径。带 <code>*</code> 的数字来自 Epoch AI 与第三方建模，不是业主口径。</li><li><strong>不写实测算力。</strong> 同一张卡在不同框架、不同量化、不同 batch 下能差出一倍，没有统一环境的数字不收。唯一的实测引用是 llama.cpp 公开榜单，且注明版本与用户不同、只能看量级。</li><li><strong>价格只记首发价。</strong> 2026 年 DRAM 缺货把工作站整机价格整体推高：DGX Spark 官方提价 18%，RTX PRO 6000 从约 8,565 美元涨到 1.2 万–1.45 万美元。价格这一列只能当参考，不能当比价依据。</li><li><strong>不预测 2027 年之后的规划容量。</strong> 进了表就会被当成已经能买；只有业主给了时间点、且已在建的项目才收。意向书阶段的（阿根廷、部分印度园区）单独标注，不进规模比较。</li><li><strong>用卡的卡数是量级，不是财报数。</strong> 14 家里只有少数公开过具体张数：xAI、华为、Anthropic 的 Trainium 这批有确数，其余是 IDC 出货、产业链纪要与「GW × 每 GW 卡数」的推算，误差常在 ±30%。算力按标称 BF16 稠密峰值折算，实际达成率通常只有 30–50%——「19,028 EFLOPS」是横向比量级的尺子，不是能租到的算力。签约与在役必须分开读：OpenAI 那 26 GW 写的是 2027 年以后的机房。</li></ul></div>
+    <div class="intro-extra"><h3>十一张表怎么读</h3><ul><li><strong>三种架构</strong>：CPU / GPU / TPU 三张卡，只讲设计取向——计算模型、内存层级、适用场景，末尾各留一行「代价」。它是下面所有表的前置：先知道三块硅各自在赌什么，再看具体型号的显存与带宽。</li><li><strong>数据中心加速卡</strong>：单卡与机柜混排。机柜行的「显存」是池化总量，不能和单卡行相减，也不能直接比价。<strong>18 张卡各有一页详情</strong>（卡片右上角「详情」）：完整规格、三个数怎么读、同厂横向、以及这一条数字里还没填的窟窿。</li><li><strong>单卡的位置</strong>：显存 × 带宽的散点图，气泡是按功耗缩的，三条虚线是模型门槛（70B FP8 / 70B FP16 / 405B FP8）。压在线外就是放不下，不用逐个读表。横轴取对数——带宽跨一个数量级，线性轴会把低端全挤在左边。功耗没公布的点画成空心，带宽没公布的两张（思元 690、Rubin CPX）干脆不进图，不按 0 摆。</li><li><strong>本地与工作站</strong>：按容量排。同价位里容量与带宽基本互斥——统一内存能装下 512 GB 的模型，带宽只有独显的三分之一到五分之一。</li><li><strong>出货</strong>：IDC 2025 全年中国加速卡出货量，按张计。是「一年卖出去多少」，不是「现在有多少卡在跑」。</li><li><strong>各家用什么卡</strong>：14 家公司（7 家海外、7 家中国）各一行，写清主力型号、卡数与折算算力。条形按算力占比切而不是按卡数——一张 GB200 顶两张 H100，按卡数切会把两代卡算成一样重。徽标分「在役」与「已签」：签约容量常常是三年后的机房，不能当现网用。</li><li><strong>算力中心四张榜</strong>（中国 / 美国 / 东南亚 / 其他海外）：一张榜一个区域，因为口径合不起来。美国与东南亚能写 MW，中国多数只给「万卡 / 万台服务器 / GW / PFLOPS」。榜内数字是该站点已公布的最大容量，已投运与规划同列，逐行标了状态与现网值。</li><li><strong>供电与电网</strong>：电价、电源结构、并网排队三件事并列，不排名。它只回答「这个站点的电从哪来、要等多久、多少钱」。</li><li><strong>不能相加。</strong> 单卡规格、整机出货、园区 IT 负载、园区总电力是四套口径；并成一列求和，得到的数没有含义。</li></ul></div><div class="intro-extra"><h3>已知的取舍</h3><ul><li><strong>国产卡只写公开规格，且把冲突留着。</strong> 昇腾 950PR 的显存有 112 GB 与 128 GB 两种说法，昇腾 910C 的带宽有 1.8 与 3.2 TB/s 两种说法，思元 690 的带宽厂商未公布。表里写「口径不一」而不是取中间值——取平均等于自己造一个数。</li><li><strong>MW 有三种写法，只写在行内，不合并。</strong> IT 负载（给芯片的）、园区电力（含制冷配电，通常是 IT 的 1.2–1.4 倍）、装机供电容量（发电侧）。三者不能互相替代；同一站点在不同来源里差一倍，多半是换了口径。带 <code>*</code> 的数字来自 Epoch AI 与第三方建模，不是业主口径。</li><li><strong>不写实测算力。</strong> 同一张卡在不同框架、不同量化、不同 batch 下能差出一倍，没有统一环境的数字不收。唯一的实测引用是 llama.cpp 公开榜单，且注明版本与用户不同、只能看量级。</li><li><strong>价格只记首发价。</strong> 2026 年 DRAM 缺货把工作站整机价格整体推高：DGX Spark 官方提价 18%，RTX PRO 6000 从约 8,565 美元涨到 1.2 万–1.45 万美元。价格这一列只能当参考，不能当比价依据。</li><li><strong>不预测 2027 年之后的规划容量。</strong> 进了表就会被当成已经能买；只有业主给了时间点、且已在建的项目才收。意向书阶段的（阿根廷、部分印度园区）单独标注，不进规模比较。</li><li><strong>用卡的卡数是量级，不是财报数。</strong> 14 家里只有少数公开过具体张数：xAI、华为、Anthropic 的 Trainium 这批有确数，其余是 IDC 出货、产业链纪要与「GW × 每 GW 卡数」的推算，误差常在 ±30%。算力按标称 BF16 稠密峰值折算，实际达成率通常只有 30–50%——「19,028 EFLOPS」是横向比量级的尺子，不是能租到的算力。签约与在役必须分开读：OpenAI 那 26 GW 写的是 2027 年以后的机房。</li></ul></div>
   </section>
   <section class="blk" id="board-1">
     <div class="blk-head">
@@ -350,14 +351,134 @@
   <section class="blk" id="board-3">
     <div class="blk-head">
       <span class="blk-num">02.3</span>
+      <h2>单卡的位置</h2>
+      <span class="blk-note is-long">横轴是显存带宽、纵轴是显存容量，两条一起定这张卡「能放多大、吐多快」。三条虚线是模型门槛：压在线上方才放得下。点的大小是功耗，空心的是厂商没公布。几乎重合的（TPU Ironwood 与 B200）是真的规格接近，不是画错。</span>
+    </div>
+    <div class="pc-wrap">
+      <svg class="pc-svg" viewBox="0 0 720 440" role="img" aria-label="单卡显存与带宽分布">
+        <g class="pc-grid"><line x1="84.2" y1="44" x2="84.2" y2="390"/><line x1="143.6" y1="44" x2="143.6" y2="390"/><line x1="227.2" y1="44" x2="227.2" y2="390"/><line x1="332.5" y1="44" x2="332.5" y2="390"/><line x1="429.4" y1="44" x2="429.4" y2="390"/><line x1="513.1" y1="44" x2="513.1" y2="390"/><line x1="618.4" y1="44" x2="618.4" y2="390"/><line x1="70" y1="343.9" x2="656" y2="343.9"/><line x1="70" y1="286.2" x2="656" y2="286.2"/><line x1="70" y1="251.6" x2="656" y2="251.6"/><line x1="70" y1="182.4" x2="656" y2="182.4"/><line x1="70" y1="78.6" x2="656" y2="78.6"/></g>
+        <g class="pc-band"><line class="pc-band-l" x1="70" y1="339.5" x2="656" y2="339.5"/><text class="pc-band-t" x="664" y="343.1">70B FP8</text><line class="pc-band-l" x1="70" y1="289.1" x2="656" y2="289.1"/><text class="pc-band-t" x="664" y="292.7">70B FP16</text><line class="pc-band-l" x1="70" y1="98.1" x2="656" y2="98.1"/><text class="pc-band-t" x="664" y="101.7">405B FP8</text></g>
+        <g class="pc-axis"><text class="pc-tk" x="84.2" y="408" text-anchor="middle">1.5</text><text class="pc-tk" x="143.6" y="408" text-anchor="middle">2</text><text class="pc-tk" x="227.2" y="408" text-anchor="middle">3</text><text class="pc-tk" x="332.5" y="408" text-anchor="middle">5</text><text class="pc-tk" x="429.4" y="408" text-anchor="middle">8</text><text class="pc-tk" x="513.1" y="408" text-anchor="middle">12</text><text class="pc-tk" x="618.4" y="408" text-anchor="middle">20</text><text class="pc-tk" x="62" y="347.5" text-anchor="end">64</text><text class="pc-tk" x="62" y="289.8" text-anchor="end">144</text><text class="pc-tk" x="62" y="255.2" text-anchor="end">192</text><text class="pc-tk" x="62" y="186.0" text-anchor="end">288</text><text class="pc-tk" x="62" y="82.2" text-anchor="end">432</text>
+          <text class="pc-ax-t" x="656" y="430" text-anchor="end">显存带宽 · TB/s →</text>
+          <text class="pc-ax-t" x="70" y="30" text-anchor="start">显存容量 · GB ↑</text>
+        </g>
+        <g class="pc-pts"><line class="pc-lead" x1="408" y1="247" x2="400" y2="228"/><line class="pc-lead" x1="84.2" y1="350" x2="80" y2="366"/>
+          <a class="pc-pt" href="hardware/卡/rubin-gpu.html"><circle cx="638.1" cy="182.4" r="13.5" fill="#76b900"/><text class="pc-lb" x="624" y="186" text-anchor="end">Rubin GPU 单卡</text><title>Rubin GPU 单卡 · 288 GB · 22 TB/s · 随机柜摊分，约 1.7 kW｜70B FP8 档约 314 tok/s</title></a>
+          <a class="pc-pt is-open" href="hardware/卡/mi455x.html"><circle cx="614.2" cy="78.6" r="8.0" style="fill:none;stroke:#d2453a;stroke-dasharray:2.4 2.4;stroke-width:1.6"/><text class="pc-lb" x="600" y="83" text-anchor="end">MI455X</text><title>MI455X · 432 GB · 19.6 TB/s · 功耗未公开｜70B FP8 档约 280 tok/s</title></a>
+          <a class="pc-pt" href="hardware/卡/mi350x.html"><circle cx="429.4" cy="182.4" r="11.1" fill="#d2453a"/><text class="pc-lb" x="429" y="166" text-anchor="middle">MI350X</text><title>MI350X · 288 GB · 8 TB/s · 约 1.0 kW｜70B FP8 档约 114 tok/s</title></a>
+          <a class="pc-pt" href="hardware/卡/b200.html"><circle cx="429.4" cy="251.6" r="11.1" fill="#76b900"/><text class="pc-lb" x="429" y="274" text-anchor="middle">B200</text><title>B200 · 192 GB · 8 TB/s · 约 1.0 kW｜70B FP8 档约 114 tok/s</title></a>
+          <a class="pc-pt is-open" href="hardware/卡/tpu-ironwood.html"><circle cx="412.5" cy="251.6" r="8.0" style="fill:none;stroke:#4b6fd6;stroke-dasharray:2.4 2.4;stroke-width:1.6"/><text class="pc-lb" x="400" y="223" text-anchor="end">TPU Ironwood</text><title>TPU Ironwood · 192 GB · 7.37 TB/s · 液冷，功耗未单列｜70B FP8 档约 105 tok/s</title></a>
+          <a class="pc-pt" href="hardware/卡/mi300x.html"><circle cx="344.5" cy="251.6" r="10.0" fill="#d2453a"/><text class="pc-lb" x="344" y="270" text-anchor="end">MI300X</text><title>MI300X · 192 GB · 5.3 TB/s · 750 W｜70B FP8 档约 76 tok/s</title></a>
+          <a class="pc-pt" href="hardware/卡/h200.html"><circle cx="324.1" cy="288.4" r="9.7" fill="#76b900"/><text class="pc-lb" x="342" y="300" text-anchor="start">H200</text><title>H200 · 141 GB · 4.8 TB/s · 700 W｜70B FP8 档约 69 tok/s</title></a>
+          <a class="pc-pt is-open" href="hardware/卡/ascend-950dt.html"><circle cx="286.5" cy="286.2" r="8.0" style="fill:none;stroke:#b2559b;stroke-dasharray:2.4 2.4;stroke-width:1.6"/><text class="pc-lb" x="286" y="264" text-anchor="end">昇腾 950DT</text><title>昇腾 950DT · 144 GB · 4 TB/s · 功耗未公开｜70B FP8 档约 57 tok/s</title></a>
+          <a class="pc-pt" href="hardware/卡/muxi-c600.html"><circle cx="227.2" cy="286.2" r="7.0" fill="#7c5cd6"/><text class="pc-lb" x="227" y="304" text-anchor="middle">沐曦 C600</text><title>沐曦 C600 · 144 GB · 3 TB/s · 350 W｜70B FP8 档约 43 tok/s</title></a>
+          <a class="pc-pt" href="hardware/卡/h100-sxm.html"><circle cx="249.9" cy="332.3" r="9.7" fill="#76b900"/><text class="pc-lb" x="262" y="336" text-anchor="start">H100 SXM</text><title>H100 SXM · 80 GB · 3.35 TB/s · 700 W｜70B FP8 档约 48 tok/s</title></a>
+          <a class="pc-pt" href="hardware/卡/mtt-s5000.html"><circle cx="97.5" cy="332.3" r="7.6" fill="#7c5cd6"/><text class="pc-lb" x="112" y="328" text-anchor="start">MTT S5000</text><title>MTT S5000 · 80 GB · 1.6 TB/s · 400 W｜70B FP8 档约 23 tok/s</title></a>
+          <a class="pc-pt" href="hardware/卡/ascend-910c.html"><circle cx="121.8" cy="343.9" r="7.0" fill="#b2559b"/><text class="pc-lb" x="134" y="354" text-anchor="start">昇腾 910C</text><title>昇腾 910C · 64 GB · 1.8 TB/s · 350 W｜70B FP8 档约 26 tok/s</title></a>
+          <a class="pc-pt" href="hardware/卡/ascend-950pr.html"><circle cx="97.5" cy="309.3" r="9.1" fill="#b2559b"/><text class="pc-lb" x="112" y="301" text-anchor="start">昇腾 950PR</text><title>昇腾 950PR · 112 GB · 1.6 TB/s · 600 W｜70B FP8 档约 23 tok/s</title></a>
+          <a class="pc-pt" href="hardware/卡/br104.html"><circle cx="84.2" cy="343.9" r="7.6" fill="#7c5cd6"/><text class="pc-lb" x="76" y="372" text-anchor="start">壁仞 BR104</text><title>壁仞 BR104 · 64 GB · 1.5 TB/s · 400 W｜70B FP8 档约 21 tok/s</title></a></g>
+      </svg>
+      <div class="pc-legend"><span class="pc-key"><i style="background:#76b900"></i>NVIDIA</span><span class="pc-key"><i style="background:#d2453a"></i>AMD</span><span class="pc-key"><i style="background:#4b6fd6"></i>Google</span><span class="pc-key"><i style="background:#b2559b"></i>昇腾</span><span class="pc-key"><i style="background:#7c5cd6"></i>其他国产</span><span class="pc-bub"><i></i>气泡 = 功耗，空心 = 未公开</span>
+        <span class="pc-asof">截至 2026-11-24</span></div>
+    </div>
+    <ul class="pc-list">        <li>
+          <a class="pc-lo" href="hardware/卡/rubin-gpu.html"><i style="background:#76b900"></i><b>Rubin GPU 单卡</b></a>
+          <span class="pc-lv">288<small>GB</small></span>
+          <span class="pc-lv">22<small>TB/s</small></span>
+          <span class="pc-lv">314<small>tok/s</small></span>
+        </li>        <li>
+          <a class="pc-lo" href="hardware/卡/mi455x.html"><i style="background:#d2453a"></i><b>MI455X</b></a>
+          <span class="pc-lv">432<small>GB</small></span>
+          <span class="pc-lv">19.6<small>TB/s</small></span>
+          <span class="pc-lv">280<small>tok/s</small></span>
+        </li>        <li>
+          <a class="pc-lo" href="hardware/卡/mi350x.html"><i style="background:#d2453a"></i><b>MI350X</b></a>
+          <span class="pc-lv">288<small>GB</small></span>
+          <span class="pc-lv">8<small>TB/s</small></span>
+          <span class="pc-lv">114<small>tok/s</small></span>
+        </li>        <li>
+          <a class="pc-lo" href="hardware/卡/b200.html"><i style="background:#76b900"></i><b>B200</b></a>
+          <span class="pc-lv">192<small>GB</small></span>
+          <span class="pc-lv">8<small>TB/s</small></span>
+          <span class="pc-lv">114<small>tok/s</small></span>
+        </li>        <li>
+          <a class="pc-lo" href="hardware/卡/tpu-ironwood.html"><i style="background:#4b6fd6"></i><b>TPU Ironwood</b></a>
+          <span class="pc-lv">192<small>GB</small></span>
+          <span class="pc-lv">7.37<small>TB/s</small></span>
+          <span class="pc-lv">105<small>tok/s</small></span>
+        </li>        <li>
+          <a class="pc-lo" href="hardware/卡/mi300x.html"><i style="background:#d2453a"></i><b>MI300X</b></a>
+          <span class="pc-lv">192<small>GB</small></span>
+          <span class="pc-lv">5.3<small>TB/s</small></span>
+          <span class="pc-lv">76<small>tok/s</small></span>
+        </li>        <li>
+          <a class="pc-lo" href="hardware/卡/h200.html"><i style="background:#76b900"></i><b>H200</b></a>
+          <span class="pc-lv">141<small>GB</small></span>
+          <span class="pc-lv">4.8<small>TB/s</small></span>
+          <span class="pc-lv">69<small>tok/s</small></span>
+        </li>        <li>
+          <a class="pc-lo" href="hardware/卡/ascend-950dt.html"><i style="background:#b2559b"></i><b>昇腾 950DT</b></a>
+          <span class="pc-lv">144<small>GB</small></span>
+          <span class="pc-lv">4<small>TB/s</small></span>
+          <span class="pc-lv">57<small>tok/s</small></span>
+        </li>        <li>
+          <a class="pc-lo" href="hardware/卡/h100-sxm.html"><i style="background:#76b900"></i><b>H100 SXM</b></a>
+          <span class="pc-lv">80<small>GB</small></span>
+          <span class="pc-lv">3.35<small>TB/s</small></span>
+          <span class="pc-lv">48<small>tok/s</small></span>
+        </li>        <li>
+          <a class="pc-lo" href="hardware/卡/muxi-c600.html"><i style="background:#7c5cd6"></i><b>沐曦 C600</b></a>
+          <span class="pc-lv">144<small>GB</small></span>
+          <span class="pc-lv">3<small>TB/s</small></span>
+          <span class="pc-lv">43<small>tok/s</small></span>
+        </li>        <li>
+          <a class="pc-lo" href="hardware/卡/ascend-910c.html"><i style="background:#b2559b"></i><b>昇腾 910C</b></a>
+          <span class="pc-lv">64<small>GB</small></span>
+          <span class="pc-lv">1.8<small>TB/s</small></span>
+          <span class="pc-lv">26<small>tok/s</small></span>
+        </li>        <li>
+          <a class="pc-lo" href="hardware/卡/mtt-s5000.html"><i style="background:#7c5cd6"></i><b>MTT S5000</b></a>
+          <span class="pc-lv">80<small>GB</small></span>
+          <span class="pc-lv">1.6<small>TB/s</small></span>
+          <span class="pc-lv">23<small>tok/s</small></span>
+        </li>        <li>
+          <a class="pc-lo" href="hardware/卡/ascend-950pr.html"><i style="background:#b2559b"></i><b>昇腾 950PR</b></a>
+          <span class="pc-lv">112<small>GB</small></span>
+          <span class="pc-lv">1.6<small>TB/s</small></span>
+          <span class="pc-lv">23<small>tok/s</small></span>
+        </li>        <li>
+          <a class="pc-lo" href="hardware/卡/br104.html"><i style="background:#7c5cd6"></i><b>壁仞 BR104</b></a>
+          <span class="pc-lv">64<small>GB</small></span>
+          <span class="pc-lv">1.5<small>TB/s</small></span>
+          <span class="pc-lv">21<small>tok/s</small></span>
+        </li></ul>
+    <p class="pc-foot">横轴按对数排，否则 1.5 与 3.35 会挤成一团、22 又把右边撑空。纵轴是单卡容量，不含 KV cache——真实部署要再留 20–40% 给上下文。<strong>速度可以粗算：带宽 ÷ 模型大小。</strong> 同样跑 70B FP8（70 GB），Rubin 单卡的理论上限约 314 tok/s，B200 与 MI350X 都是 114，H100 是 48，昇腾 910C 是 26——这是单请求的极限，不是吞吐；batch 开大以后总吞吐能高一个量级，但延迟还是这条线决定。</p>
+    <div class="pc-out">
+      <div class="pc-out-h">图外还有两条 <span>放不上坐标轴，不是 0</span></div>
+      <ul>      <li><a href="hardware/卡/siyuan-690.html">思元 690</a><span>196 GB 的容量不低，但带宽始终没公布。不知道的东西不摆位置——放在图外，不当 0 处理。</span></li>
+      <li><a href="hardware/卡/rubin-cpx.html">Rubin CPX 预填充卡</a><span>128 GB GDDR7，带宽只在机柜级给（NVL144 CPX 1.7 PB/s）。单卡数拿不到，也没法和 HBM 卡同轴比。</span></li>
+</ul>
+    </div>
+    <div class="pc-out">
+      <div class="pc-out-h">机柜不在图上 <span>折成单卡会假，横向比的是 NVLink 不是 HBM</span></div>
+      <ul class="pc-rack">        <li><a href="hardware/卡/vera-rubin-nvl72.html"><b>Vera Rubin NVL72</b></a>
+          <span class="pc-rk-n">20.7 TB HBM4 · 260 TB/s NVLink · 120–130 kW</span>
+          <span class="pc-rk-p">折单卡 288 GB / 3.6 TB/s</span></li>        <li><a href="hardware/卡/gb300-nvl72.html"><b>GB300 NVL72</b></a>
+          <span class="pc-rk-n">20.7 TB HBM3e · 130 TB/s NVLink · 机柜级</span>
+          <span class="pc-rk-p">折单卡 288 GB / 1.8 TB/s</span></li></ul>
+    </div>
+  </section>
+  <section class="blk" id="board-4">
+    <div class="blk-head">
+      <span class="blk-num">02.4</span>
       <h2>本地与工作站</h2>
       <span class="blk-note is-long">同价位档里容量与带宽基本互斥：128 GB 统一内存的机器，带宽只有独显的五分之一左右。这一榜按容量排，速度看带宽列，实测换算在报告里。</span>
     </div>
-    <div class="bd-ctrl" data-ctrl="b3">
+    <div class="bd-ctrl" data-ctrl="b4">
       <div class="seg" role="group" aria-label="按归属筛选"><button type="button" data-region="all" class="on">全部<i>9</i></button><button type="button" data-region="cn">国内<i>0</i></button><button type="button" data-region="intl">国外<i>9</i></button></div>
       <p class="bd-ctrl-note">按所属机构筛选，未标注归属的条目不计入国内 / 国外。</p>
     </div>
-    <div class="board" data-board="b3">
+    <div class="board" data-board="b4">
       <article class="bd-card" data-k="Mac Studio M5 Ultra" data-region="国外" data-base="">
         <span class="bd-rank">1</span>
         <div class="bd-main">
@@ -434,15 +555,15 @@
     <p class="bd-empty-tip" hidden>这一档还没有数据。换成「全部」看完整榜单。</p>
     
     
-    <script type="application/json" data-spec="b3">{"mode":"region","unit":"","series":{}}</script>
+    <script type="application/json" data-spec="b4">{"mode":"region","unit":"","series":{}}</script>
   </section>
-  <section class="blk" id="board-4">
+  <section class="blk" id="board-5">
     <div class="blk-head">
-      <span class="blk-num">02.4</span>
+      <span class="blk-num">02.5</span>
       <h2>出货 · 2025 全年</h2>
       <span class="blk-note is-long">IDC 按张统计的中国 AI 加速卡出货量，是「一年卖出去多少」，不是「现在有多少在跑」。份额只在同一次统计内可比，不能拿去和收入份额、算力份额互换。</span>
     </div>
-    <div class="board is-static" data-board="b4">
+    <div class="board is-static" data-board="b5">
       <article class="bd-card" data-k="英伟达" data-region="" data-base="220">
         <span class="bd-rank">1</span>
         <div class="bd-main">
@@ -504,9 +625,9 @@
     
     
   </section>
-  <section class="blk" id="board-5">
+  <section class="blk" id="board-6">
     <div class="blk-head">
-      <span class="blk-num">02.5</span>
+      <span class="blk-num">02.6</span>
       <h2>各家用什么卡</h2>
       <span class="blk-note is-long mix-lead">同一个问题在不同公司里的答案不一样：Anthropic 的主力是 TPU 与 Trainium，英伟达只是个位数；Google 与华为几乎不用别人的卡；OpenAI、Meta、微软则签了一堆「第二供应商」，但真正上机的还是英伟达。条形按<strong>算力占比</strong>切，不按卡数——一张 GB200 顶两张 H100，按卡数切会把新旧混在一起。</span>
     </div>
@@ -1093,9 +1214,9 @@
     </div>
     <p class="mix-foot">卡数是公开口径的<strong>量级</strong>，不是财报数：有的来自业主公告，有的来自 IDC 出货，有的是产业链纪要的估算，误差常在 ±30%。算力按厂商标称 BF16 稠密峰值折算，实际达成率通常只有 30–50%，所以「EFLOPS」只用于横向比量级，不能当作可用算力。签约容量与在役容量必须分开看：OpenAI 的 26 GW、Anthropic 的 3.5 GW 都写在合同里，但机柜要等到 2027 以后。</p>
   </section>
-  <section class="blk" id="board-6">
+  <section class="blk" id="board-7">
     <div class="blk-head">
-      <span class="blk-num">02.6</span>
+      <span class="blk-num">02.7</span>
       <h2>算力地理图</h2>
       <span class="blk-note is-long geo-note">块位置只表相对方位，不是经纬度，面积也不按容量比例。每块是一个算力区，块里的点是该区有代表性的站点：绿点运营、橙点在建、灰点规划或未确认。容量、供电与并网约束在下面四张区域榜里。</span>
     </div>
@@ -1104,13 +1225,13 @@
     </div>
     <div class="geo-list"><div class="geo-li"><div class="geo-li-top"><span class="geo-li-name"><i style="background:#e8912a"></i>内蒙古 · 乌兰察布</span><span class="geo-li-cap">单体 5–6 GW</span></div><p class="geo-li-sites"><span class="geo-li-s"><i style="background:#aeb5be"></i>字节跳动 · 集宁</span> · <span class="geo-li-s"><i style="background:#22c55e"></i>远景 · 星河基地</span> · <span class="geo-li-s"><i style="background:#aeb5be"></i>万国数据</span> · <span class="geo-li-s"><i style="background:#22c55e"></i>阿里云 · 1.6 万卡</span> · <span class="geo-li-s"><i style="background:#aeb5be"></i>DeepSeek</span></p></div><div class="geo-li"><div class="geo-li-top"><span class="geo-li-name"><i style="background:#e8912a"></i>宁夏 · 中卫</span><span class="geo-li-cap">未公开</span></div><p class="geo-li-sites"><span class="geo-li-s"><i style="background:#22c55e"></i>中卫 绿电直供</span> · <span class="geo-li-s"><i style="background:#aeb5be"></i>庆阳 枢纽</span></p></div><div class="geo-li"><div class="geo-li-top"><span class="geo-li-name"><i style="background:#e8912a"></i>京津冀</span><span class="geo-li-cap">30 万台</span></div><p class="geo-li-sites"><span class="geo-li-s"><i style="background:#22c55e"></i>阿里 · 张北</span> · <span class="geo-li-s"><i style="background:#22c55e"></i>润泽 · 廊坊 B1</span> · <span class="geo-li-s"><i style="background:#e8912a"></i>联通 · 廊坊</span></p></div><div class="geo-li"><div class="geo-li-top"><span class="geo-li-name"><i style="background:#e8912a"></i>贵州 · 贵安</span><span class="geo-li-cap">百万台级</span></div><p class="geo-li-sites"><span class="geo-li-s"><i style="background:#22c55e"></i>腾讯 · 七星</span> · <span class="geo-li-s"><i style="background:#22c55e"></i>华为云 · 昇腾</span> · <span class="geo-li-s"><i style="background:#22c55e"></i>苹果 iCloud</span></p></div><div class="geo-li"><div class="geo-li-top"><span class="geo-li-name"><i style="background:#e8912a"></i>长三角</span><span class="geo-li-cap">5 万卡</span></div><p class="geo-li-sites"><span class="geo-li-s"><i style="background:#22c55e"></i>移动 · 嘉善</span> · <span class="geo-li-s"><i style="background:#aeb5be"></i>华为 · 芜湖</span></p></div><div class="geo-li"><div class="geo-li-top"><span class="geo-li-name"><i style="background:#e8912a"></i>粤港澳</span><span class="geo-li-cap">万卡 → 十万卡</span></div><p class="geo-li-sites"><span class="geo-li-s"><i style="background:#aeb5be"></i>平头哥 · 韶关</span> · <span class="geo-li-s"><i style="background:#22c55e"></i>电信 · 韶关</span> · <span class="geo-li-s"><i style="background:#22c55e"></i>腾讯 · 河源</span></p></div><div class="geo-li"><div class="geo-li-top"><span class="geo-li-name"><i style="background:#d2544a"></i>欧洲</span><span class="geo-li-cap">1.2 GW</span></div><p class="geo-li-sites"><span class="geo-li-s"><i style="background:#22c55e"></i>Sines · 葡萄牙 1.2 GW</span> · <span class="geo-li-s"><i style="background:#e8912a"></i>Narvik · 挪威 230</span></p></div><div class="geo-li"><div class="geo-li-top"><span class="geo-li-name"><i style="background:#7c5cd6"></i>田纳西 · 孟菲斯</span><span class="geo-li-cap">2 GW</span></div><p class="geo-li-sites"><span class="geo-li-s"><i style="background:#22c55e"></i>Colossus 2 · 946</span> · <span class="geo-li-s"><i style="background:#22c55e"></i>Colossus 1 · 300</span></p></div><div class="geo-li"><div class="geo-li-top"><span class="geo-li-name"><i style="background:#7c5cd6"></i>东部 · PJM</span><span class="geo-li-cap">0.2% 空置</span></div><p class="geo-li-sites"><span class="geo-li-s"><i style="background:#22c55e"></i>Ashburn 集群</span> · <span class="geo-li-s"><i style="background:#22c55e"></i>Fairwater 亚特兰大</span> · <span class="geo-li-s"><i style="background:#22c55e"></i>Ridgeland 密西西比</span></p></div><div class="geo-li"><div class="geo-li-top"><span class="geo-li-name"><i style="background:#7c5cd6"></i>德州 · ERCOT</span><span class="geo-li-cap">队列 474 GW</span></div><p class="geo-li-sites"><span class="geo-li-s"><i style="background:#22c55e"></i>Stargate Abilene · 618</span> · <span class="geo-li-s"><i style="background:#e8912a"></i>Shackelford · 2,000</span> · <span class="geo-li-s"><i style="background:#e8912a"></i>Milam · 1,200</span> · <span class="geo-li-s"><i style="background:#22c55e"></i>Helios · 133</span> · <span class="geo-li-s"><i style="background:#e8912a"></i>El Paso · Meta</span></p></div><div class="geo-li"><div class="geo-li-top"><span class="geo-li-name"><i style="background:#7c5cd6"></i>中西部 · MISO</span><span class="geo-li-cap">单体 1.4 GW</span></div><p class="geo-li-sites"><span class="geo-li-s"><i style="background:#22c55e"></i>Prometheus 俄亥俄</span> · <span class="geo-li-s"><i style="background:#e8912a"></i>Lebanon 印第安纳</span> · <span class="geo-li-s"><i style="background:#e8912a"></i>Port Washington 威州</span> · <span class="geo-li-s"><i style="background:#e8912a"></i>Saline 密歇根</span> · <span class="geo-li-s"><i style="background:#e8912a"></i>Cedar Rapids 爱荷华</span></p></div><div class="geo-li"><div class="geo-li-top"><span class="geo-li-name"><i style="background:#7c5cd6"></i>西南 · AZ / NM</span><span class="geo-li-cap">2,450 MW</span></div><p class="geo-li-sites"><span class="geo-li-s"><i style="background:#e8912a"></i>Doña Ana 新墨西哥</span> · <span class="geo-li-s"><i style="background:#22c55e"></i>凤凰城 · 存量 2 GW</span></p></div><div class="geo-li"><div class="geo-li-top"><span class="geo-li-name"><i style="background:#16a34a"></i>柔佛</span><span class="geo-li-cap">1,110 MW</span></div><p class="geo-li-sites"><span class="geo-li-s"><i style="background:#22c55e"></i>州域 · 运营 + 在建 602</span> · <span class="geo-li-s"><i style="background:#22c55e"></i>AirTrunk JHB1 · 50</span> · <span class="geo-li-s"><i style="background:#e8912a"></i>字节 / 微软</span></p></div><div class="geo-li"><div class="geo-li-top"><span class="geo-li-name"><i style="background:#16a34a"></i>新加坡</span><span class="geo-li-cap">1,460 MW</span></div><p class="geo-li-sites"><span class="geo-li-s"><i style="background:#aeb5be"></i>裕廊岛 700（规划）</span> · <span class="geo-li-s"><i style="background:#22c55e"></i>SG6 · Equinix 8</span> · <span class="geo-li-s"><i style="background:#aeb5be"></i>Meta 150</span></p></div><div class="geo-li"><div class="geo-li-top"><span class="geo-li-name"><i style="background:#16a34a"></i>巴淡 / 雅加达</span><span class="geo-li-cap">在建 1,084</span></div><p class="geo-li-sites"><span class="geo-li-s"><i style="background:#aeb5be"></i>DayOne · KITP 360</span> · <span class="geo-li-s"><i style="background:#e8912a"></i>Digital Edge · CGK 500</span> · <span class="geo-li-s"><i style="background:#e8912a"></i>PDG · JC4 240</span></p></div><div class="geo-li"><div class="geo-li-top"><span class="geo-li-name"><i style="background:#d2544a"></i>印度</span><span class="geo-li-cap">3 GW</span></div><p class="geo-li-sites"><span class="geo-li-s"><i style="background:#e8912a"></i>Jamnagar · 信实</span> · <span class="geo-li-s"><i style="background:#e8912a"></i>Visakhapatnam · 谷歌</span></p></div><div class="geo-li"><div class="geo-li-top"><span class="geo-li-name"><i style="background:#d2544a"></i>中东 · 海湾</span><span class="geo-li-cap">1 GW</span></div><p class="geo-li-sites"><span class="geo-li-s"><i style="background:#e8912a"></i>Stargate UAE · G42</span> · <span class="geo-li-s"><i style="background:#e8912a"></i>HUMAIN · 沙特</span></p></div></div>
   </section>
-  <section class="blk" id="board-7">
+  <section class="blk" id="board-8">
     <div class="blk-head">
-      <span class="blk-num">02.7</span>
+      <span class="blk-num">02.8</span>
       <h2>中国 · 算力中心</h2>
       <span class="blk-note is-long">这一榜的单位是混的：中国厂商多按「万卡 / 万台服务器 / GW / PFLOPS」披露，只有少数给 MW，所以右侧一列直接写业主原话的容量与单位，不做换算，也不与海外榜的 MW 比大小。排序是按已公布容量由大到小的粗排，跨单位只读量级。「全国组合」是多园区合计，不能与单体行相加；「未公布」排在末尾。带 * 的是媒体报道、业主未确认。</span>
     </div>
-    <div class="board is-static" data-board="b7">
+    <div class="board is-static" data-board="b8">
       <article class="bd-card" data-k="乌兰察布 · 集宁（字节跳动）" data-region="国内" data-base="5–6 GW">
         <span class="bd-rank">1</span>
         <div class="bd-main">
@@ -1260,13 +1381,13 @@
     
     
   </section>
-  <section class="blk" id="board-8">
+  <section class="blk" id="board-9">
     <div class="blk-head">
-      <span class="blk-num">02.8</span>
+      <span class="blk-num">02.9</span>
       <h2>美国 · 算力中心</h2>
       <span class="blk-note is-long">数字是「该站点已公布的最大容量」，已投运与规划混在一列——它只用来读规模量级，不是今天的投运容量。每一行的状态与现网值另写在卡片里；「运营 946」表示现网 IT 负载 946 MW，「在建」表示还没有上电。IT 负载只是算力设备那一部分，园区总电力通常还要乘 PUE（1.2–1.4）。带 * 的是第三方建模值，不是业主口径。</span>
     </div>
-    <div class="board is-static" data-board="b8">
+    <div class="board is-static" data-board="b9">
       <article class="bd-card" data-k="PORTS-Pike（俄亥俄）" data-region="" data-base="8,000">
         <span class="bd-rank">1</span>
         <div class="bd-main">
@@ -1456,13 +1577,13 @@
     
     
   </section>
-  <section class="blk" id="board-9">
+  <section class="blk" id="board-10">
     <div class="blk-head">
-      <span class="blk-num">02.9</span>
+      <span class="blk-num">02.10</span>
       <h2>东南亚 · 算力中心</h2>
       <span class="blk-note is-long">东南亚没有统一口径：同一座城市，运营商披露、地产行研、政府规划能差出一倍（新加坡全国在运就从 985 MW 到 1.46 GW 三种说法）。行内的数都注了来源口径，跨行只读量级。柔佛与新加坡合并看才有意义——约七成区域存量集中在这两个点，柔佛出地出电，新加坡出连接与客户。</span>
     </div>
-    <div class="board is-static" data-board="b9">
+    <div class="board is-static" data-board="b10">
       <article class="bd-card" data-k="柔佛 · 州域合计" data-region="" data-base="1110">
         <span class="bd-rank">1</span>
         <div class="bd-main">
@@ -1564,13 +1685,13 @@
     
     
   </section>
-  <section class="blk" id="board-10">
+  <section class="blk" id="board-11">
     <div class="blk-head">
-      <span class="blk-num">02.10</span>
+      <span class="blk-num">02.11</span>
       <h2>其他海外 · 算力中心</h2>
       <span class="blk-note is-long">印度、中东、欧洲与南美的主要在建项目。这一榜的容量多数是「宣布的目标」，不是电网已批的容量——印度 3 GW、沙特 500 MW、阿根廷 500 MW 都还在意向或审批阶段，进榜是因为规模足够改变区域格局，不是因为它们已经在跑。</span>
     </div>
-    <div class="board is-static" data-board="b10">
+    <div class="board is-static" data-board="b11">
       <article class="bd-card" data-k="Jamnagar" data-region="" data-base="3000">
         <span class="bd-rank">1</span>
         <div class="bd-main">
@@ -1632,13 +1753,13 @@
     
     
   </section>
-  <section class="blk" id="board-11">
+  <section class="blk" id="board-12">
     <div class="blk-head">
-      <span class="blk-num">02.11</span>
+      <span class="blk-num">02.12</span>
       <h2>供电与电网</h2>
       <span class="blk-note is-long">电价用的是公开的工业或大工业平均费率（EIA 月度、TNB、SP、MEA 口径），不是某个园区的合同价——大负荷客户实际签的价通常更低，但这组数字能说明区域差多少：内蒙 0.30 元/度，折合约 4.2 美分；德州工业 7.2 美分；弗吉尼亚 10 美分再加 1.1 美分数据中心税；新加坡 25 美分。并网一列写的是「排队有多长」，它现在比电价更能决定项目能不能落地。</span>
     </div>
-    <div class="board is-static" data-board="b11">
+    <div class="board is-static" data-board="b12">
       <article class="bd-card" data-k="内蒙古 · 乌兰察布" data-region="" data-base="">
         <span class="bd-rank">1</span>
         <div class="bd-main">

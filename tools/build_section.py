@@ -19,6 +19,7 @@ import csv
 import datetime as dt
 import hashlib
 import json
+import math
 import pathlib
 import re
 import sys
@@ -903,6 +904,172 @@ def block_mix(sec, entry, idx, total, num):
        R.inline(entry.get("note") or d.get("lead", "")),
        legend, escape(d.get("asof", "")), escape(d.get("basis", "")),
        "\n".join(rows), "\n".join(roll), R.inline(d.get("foot", "")))
+
+
+def _num(v):
+    return ("%g" % v)
+
+
+def block_chart(sec, entry, idx, total, num):
+    """单卡性能图：显存 × 带宽的散点，气泡大小是功耗。
+
+    横轴取对数——带宽从 1.5 到 22 TB/s 跨了一个数量级，线性轴会把低端
+    全挤在左边。三条横线是模型门槛（70B FP8 / 70B FP16 / 405B FP8），
+    点压在线上还是线外，直接回答「这张卡放不放得下」。
+
+    位置由这里算，标签位置写在数据里：点是按规格摆的，标签是排出来的，
+    不让自动布局去猜——一改数据标签就乱跑，比手写坐标更难维护。
+    """
+    path = sec.dir / entry["file"]
+    if not path.exists():
+        return ("""  <section class="blk" id="board-%d">
+    <div class="blk-head"><span class="blk-num">%s</span><h2>%s</h2>
+      <span class="blk-note">待补充</span></div>
+    <p class="blk-empty">缺 <code>content/%s/%s</code>。</p>
+  </section>
+""" % (idx + 1, num, escape(entry.get("title", "单卡性能图")), sec.dir.name, entry["file"]))
+
+    d = json.loads(path.read_text(encoding="utf-8"))
+    V = {v["k"]: v for v in d["vendors"]}
+    ax = d["axes"]
+    xg, yg = ax["x"], ax["y"]
+    model_gb = float((d.get("model") or {}).get("gb") or 70)
+
+    PX0, PX1, PY0, PY1 = 70, 656, 390, 44
+    lx0, lx1 = math.log10(xg["min"]), math.log10(xg["max"])
+
+    def fx(v):
+        v = max(min(v, xg["max"]), xg["min"])
+        return PX0 + (math.log10(v) - lx0) / (lx1 - lx0) * (PX1 - PX0)
+
+    def fy(v):
+        return PY0 - (v - yg["min"]) / float(yg["max"] - yg["min"]) * (PY0 - PY1)
+
+    ws = [r["w"] for r in d["rows"] if r.get("w")]
+    wlo, whi = 300.0, float(max(ws) if ws else 1800)
+
+    def rad(w):
+        # 面积编码：半径按 √功耗，不然 1.7 kW 的球会把 350 W 的压成一个点
+        if not w:
+            return 8.0
+        t = max(0.0, min(1.0, (w - wlo) / max(whi - wlo, 1.0)))
+        return 5.5 + 8.0 * math.sqrt(t)
+
+    grid = "".join(
+        '<line x1="%.1f" y1="%d" x2="%.1f" y2="%d"/>' % (fx(t), PY1, fx(t), PY0)
+        for t in xg["ticks"])
+    grid += "".join(
+        '<line x1="%d" y1="%.1f" x2="%d" y2="%.1f"/>' % (PX0, fy(t), PX1, fy(t))
+        for t in yg["ticks"])
+
+    xt = "".join(
+        '<text class="pc-tk" x="%.1f" y="408" text-anchor="middle">%s</text>'
+        % (fx(t), _num(t)) for t in xg["ticks"])
+    yt = "".join(
+        '<text class="pc-tk" x="%d" y="%.1f" text-anchor="end">%s</text>'
+        % (PX0 - 8, fy(t) + 3.6, _num(t)) for t in yg["ticks"])
+
+    bands = ""
+    for b in d.get("bands", []):
+        by = fy(b["gb"])
+        bands += ('<line class="pc-band-l" x1="%d" y1="%.1f" x2="%d" y2="%.1f"/>'
+                  '<text class="pc-band-t" x="%d" y="%.1f">%s</text>'
+                  % (PX0, by, PX1, by, PX1 + 8, by + 3.6, escape(b["t"])))
+
+    # 页面在站点根下（hardware.html），详情页在 <slug>/<out>/，所以链接要带板块目录
+    out = "%s/%s" % (sec.slug, (entry.get("detail") or {}).get("out") or "卡")
+    pts, leads = [], []
+    for r in d["rows"]:
+        # 点挨得近时（TPU 与 B200 只差 17px）标签一定会落在别人头上，
+        # 这时候用一条细引线把标签牵开，归属就不靠猜。
+        if r.get("lead"):
+            leads.append('<line class="pc-lead" x1="%s" y1="%s" x2="%s" y2="%s"/>'
+                         % tuple(r["lead"]))
+        v = V.get(r["v"], {"n": r["v"], "c": "#aeb5be"})
+        x, y = fx(r["bw"]), fy(r["mem"])
+        w_txt = r.get("wt") or ("%d W" % r["w"] if r.get("w") else "未公开")
+        tip = "%s · %s GB · %s TB/s · %s｜%s 档约 %d tok/s" % (
+            r["n"], _num(r["mem"]), _num(r["bw"]), w_txt,
+            (d.get("model") or {}).get("t", ""), round(r["bw"] * 1000 / model_gb))
+        # 功耗没公布的不给实心：空心 + 厂商色虚线，既说明「这里缺一个数」，
+        # 又不至于把这个点从它的厂商里摘出去。
+        if r.get("w"):
+            dot = '<circle cx="%.1f" cy="%.1f" r="%.1f" fill="%s"/>' % (x, y, rad(r["w"]), v["c"])
+        else:
+            dot = ('<circle cx="%.1f" cy="%.1f" r="%.1f" style="fill:none;stroke:%s;'
+                   'stroke-dasharray:2.4 2.4;stroke-width:1.6"/>'
+                   % (x, y, rad(None), v["c"]))
+        pts.append(
+            '<a class="pc-pt%s" href="%s/%s.html">%s'
+            '<text class="pc-lb" x="%d" y="%d" text-anchor="%s">%s</text>'
+            '<title>%s</title></a>'
+            % ("" if r.get("w") else " is-open", out, escape(r["slug"]), dot,
+               r["lx"], r["ly"], r.get("la", "start"), escape(r["n"]), escape(tip)))
+
+    svg = """      <svg class="pc-svg" viewBox="0 0 720 440" role="img" aria-label="单卡显存与带宽分布">
+        <g class="pc-grid">%s</g>
+        <g class="pc-band">%s</g>
+        <g class="pc-axis">%s%s
+          <text class="pc-ax-t" x="%d" y="430" text-anchor="end">显存带宽 · %s →</text>
+          <text class="pc-ax-t" x="%d" y="30" text-anchor="start">显存容量 · %s ↑</text>
+        </g>
+        <g class="pc-pts">%s%s</g>
+      </svg>""" % (grid, bands, xt, yt, PX1, escape(xg["u"]), PX0, escape(yg["u"]),
+                   "".join(leads) + "\n          ", "\n          ".join(pts))
+
+    keys = "".join(
+        '<span class="pc-key"><i style="background:%s"></i>%s</span>'
+        % (v["c"], escape(v["n"])) for v in d["vendors"])
+
+    # 窄屏：散点缩到 700 以下标签就互相压，换成同一份数据的表
+    lis = "".join("""        <li>
+          <a class="pc-lo" href="%s/%s.html"><i style="background:%s"></i><b>%s</b></a>
+          <span class="pc-lv">%s<small>GB</small></span>
+          <span class="pc-lv">%s<small>TB/s</small></span>
+          <span class="pc-lv">%d<small>tok/s</small></span>
+        </li>""" % (out, escape(r["slug"]),
+                    V.get(r["v"], {"c": "#aeb5be"})["c"], escape(r["n"]),
+                    _num(r["mem"]), _num(r["bw"]),
+                    round(r["bw"] * 1000 / model_gb))
+        for r in sorted(d["rows"], key=lambda r: -r["bw"]))
+
+    skips = "".join(
+        '      <li><a href="%s/%s.html">%s</a><span>%s</span></li>\n'
+        % (out, escape(s["slug"]), escape(s["n"]), escape(s["why"]))
+        for s in d.get("skip", []))
+
+    racks = "".join("""        <li><a href="%s/%s.html"><b>%s</b></a>
+          <span class="pc-rk-n">%s · %s · %s</span>
+          <span class="pc-rk-p">%s</span></li>""" % (
+        out, escape(r["slug"]), escape(r["n"]), escape(r["cap"]),
+        escape(r["bw"]), escape(r["w"]), escape(r["per"]))
+        for r in d.get("rack", []))
+
+    return """  <section class="blk" id="board-%d">
+    <div class="blk-head">
+      <span class="blk-num">%s</span>
+      <h2>%s</h2>
+      <span class="blk-note is-long">%s</span>
+    </div>
+    <div class="pc-wrap">
+%s
+      <div class="pc-legend">%s<span class="pc-bub"><i></i>气泡 = 功耗，空心 = 未公开</span>
+        <span class="pc-asof">截至 %s</span></div>
+    </div>
+    <ul class="pc-list">%s</ul>
+    <p class="pc-foot">%s</p>
+    <div class="pc-out">
+      <div class="pc-out-h">图外还有两条 <span>放不上坐标轴，不是 0</span></div>
+      <ul>%s</ul>
+    </div>
+    <div class="pc-out">
+      <div class="pc-out-h">机柜不在图上 <span>折成单卡会假，横向比的是 NVLink 不是 HBM</span></div>
+      <ul class="pc-rack">%s</ul>
+    </div>
+  </section>
+""" % (idx + 1, num, escape(entry.get("title", "单卡性能图")), R.inline(entry.get("note", "")),
+       svg, keys, escape(d.get("asof", "")), lis,
+       R.inline(d.get("foot", "")), skips, racks)
 
 
 def block_cmp(sec, entry, idx, total, num):
@@ -1810,6 +1977,14 @@ def build_section(sec, out_dir, prefix=""):
         if entry.get("kind") == "cmp":
             blocks.append(block_cmp(sec, entry, i, len(sec.boards), num))
             counts.append("类")
+            continue
+        if entry.get("kind") == "chart":
+            blocks.append(block_chart(sec, entry, i, len(sec.boards), num))
+            try:
+                counts.append(len(json.loads(
+                    (sec.dir / entry["file"]).read_text(encoding="utf-8"))["rows"]))
+            except Exception:
+                counts.append("张")
             continue
         if entry.get("kind") == "mix":
             blocks.append(block_mix(sec, entry, i, len(sec.boards), num))
