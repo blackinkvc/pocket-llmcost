@@ -33,6 +33,7 @@ sys.path.insert(0, str(HERE))
 import research as R  # noqa: E402  复用 md 渲染与导航定义
 import regions  # noqa: E402  区域推断（国内 / 国外）
 import chrome as C  # noqa: E402  工具条 / 皮肤 / 资源指纹，三处生成器共用
+import chartblocks as CB  # noqa: E402  板块里的图（前沿台阶 / 性价比 / 走势）
 
 
 # ───────────────────────── 基础解析 ─────────────────────────
@@ -400,11 +401,15 @@ def bar_sum_board(sec, counts, n_reports):
     rows = sum(c for c in counts if isinstance(c, int))
     if rows:
         parts.append("<b>%d</b> 条记录" % rows)
-    # 档案板块也占一个 counts 位，但它不是榜，摘要里要分开说
+    # 档案板块也占一个 counts 位，但它不是榜，摘要里要分开说；
+    # 图（地图 / 散点 / 走势）同理——「4 张榜」里混着两张图，读者会去数。
     n_files = sum(1 for b in sec.boards if b.get("from_files"))
-    n_boards = len(counts) - n_files
+    n_chart = sum(1 for c in counts if c == "图")
+    n_boards = len(counts) - n_files - n_chart
     if n_boards:
         parts.append("<b>%d</b> 张榜" % n_boards)
+    if n_chart:
+        parts.append("<b>%d</b> 张图" % n_chart)
     if n_files:
         parts.append("<b>%d</b> 组档案" % n_files)
     if n_reports:
@@ -1994,6 +1999,14 @@ def build_section(sec, out_dir, prefix=""):
                     (sec.dir / entry["file"]).read_text(encoding="utf-8"))["rows"]))
             except Exception:
                 counts.append("家")
+            continue
+        if entry.get("kind") in ("frontier", "plot", "lines"):
+            # 三张通用的图，实现在 chartblocks.py；这里只负责调用与计数——
+            # 图不按行算，摘要把它们记成「图」，不去抬「条记录」那个数。
+            fn = {"frontier": CB.block_frontier, "plot": CB.block_plot,
+                  "lines": CB.block_lines}[entry["kind"]]
+            blocks.append(fn(sec, entry, i, len(sec.boards), num))
+            counts.append("图")
             continue
         if entry.get("from_files"):
             rows = sec.file_rows(entry, files)
