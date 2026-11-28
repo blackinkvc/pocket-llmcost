@@ -944,3 +944,121 @@ html:not(.has-js) .rk-ctrl{display:none}
   .pc-rk-p{display:block;margin-left:0}
 }
 .pc-lead{stroke:var(--t3);stroke-width:1;opacity:.45}
+
+/* ---------- 板块里的图：前沿台阶 / 性价比 / 走势 ---------- */
+.ch-wrap{
+  background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:10px 14px 8px;
+}
+.ch-top{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:2px 2px 6px;font-size:11px;color:var(--t2);
+}
+.ch-flag{
+  font-family:var(--mono);font-size:10.5px;color:var(--on-orange);
+  background:var(--orange-bg);border:1px solid transparent;border-radius:4px;
+  padding:2px 7px;letter-spacing:.02em;font-variant-numeric:tabular-nums;
+}
+.ch-key{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.ch-keys{display:flex;flex-wrap:wrap;gap:6px 18px;padding:0 2px 9px}
+/* 「其余 N 条」可能很长，窄屏要能换行，别把整行推出画框 */
+.ch-key.is-rest{flex:1 1 100%;white-space:normal;color:var(--t3);align-items:baseline}
+.ch-rest-n{white-space:nowrap;margin-right:2px}
+.ch-key b{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--t1);
+  font-variant-numeric:tabular-nums;
+}
+.ch-key i{width:12px;height:3px;border-radius:2px;background:var(--t1);flex:none}
+.ch-key .ch-k-dot{width:8px;height:8px;border-radius:50%}
+.ch-key .is-cn{background:var(--orange)}
+.ch-key .is-fk{background:var(--purple)}
+.ch-key .is-na{background:var(--t3)}
+.ch-key .ch-k-ring{
+  width:8px;height:8px;border-radius:50%;background:none;
+  border:1.5px dashed var(--orange);
+}
+.ch-key .ch-k-step{height:2px;background:var(--t1)}
+.ch-key .ch-k-open,
+.ch-key .ch-k-front{
+  height:0;background:none;border-top:2px dashed var(--t1);border-radius:0;
+}
+.ch-key .ch-k-open{border-top-color:var(--orange)}
+.ch-key .ch-k-rest{height:0;background:none;border-top:1.5px dashed var(--t3)}
+.ch-asof{
+  margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--t3);
+}
+.ch-svg{
+  display:block;width:100%;max-width:940px;height:auto;
+  margin:0 auto;overflow:visible;
+}
+.ch-grid line{stroke:var(--line);stroke-width:1;opacity:.85}
+.ch-tk{font-family:var(--mono);font-size:9.5px;fill:var(--t3)}
+.ch-ax-t{
+  font-family:var(--mono);font-size:9.5px;fill:var(--t3);letter-spacing:.02em;
+}
+.ch-dot{fill:var(--t1);opacity:.5}
+.ch-dot.is-cn{fill:var(--orange);opacity:.85}
+.ch-dot.is-fk{fill:var(--purple);opacity:.8}
+.ch-dot.is-na{fill:var(--t3);opacity:.6}
+.ch-ring{fill:none;stroke:var(--orange);stroke-width:1.4;stroke-dasharray:2.6 2.2}
+.ch-step{fill:none;stroke:var(--t1);stroke-width:2;stroke-linejoin:miter}
+.ch-step-open{fill:none;stroke:var(--orange);stroke-width:1.3;stroke-dasharray:4 3;opacity:.9}
+.ch-keep{stroke:var(--t1);stroke-width:1.2;stroke-dasharray:1.5 4;opacity:.45}
+.ch-front{fill:none;stroke:var(--t1);stroke-width:1.5;stroke-dasharray:5 4;opacity:.7}
+.ch-line{fill:none;stroke-width:1.7;stroke-linejoin:round;stroke-linecap:round}
+.ch-line.is-rest{stroke:var(--t3);stroke-width:1;opacity:.4;stroke-dasharray:2.5 3}
+/* 白描边让标签压在点线上也读得清；两边不支持的浏览器只是少一层光晕 */
+.ch-lb{
+  font-family:var(--mono);font-size:9.5px;fill:var(--t2);
+  paint-order:stroke;stroke:var(--card);stroke-width:3;stroke-linejoin:round;
+}
+.ch-foot{
+  margin:10px 0 0;max-width:88ch;
+  font-size:11.5px;line-height:1.8;color:var(--t3);
+}
+.ch-list{display:none;margin:10px 0 0;padding:0;list-style:none}
+.ch-list li{
+  display:flex;align-items:baseline;gap:8px;padding:7px 4px 7px 2px;
+  border-bottom:1px solid var(--line-2);font-size:11.5px;
+}
+.ch-list li:last-child{border-bottom:0}
+.ch-list li b{
+  flex:1;min-width:0;font-weight:600;color:var(--t1);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.ch-l-date{
+  flex:none;width:36px;font-family:var(--mono);font-size:10.5px;color:var(--t3);
+}
+.ch-l-v{
+  flex:none;font-family:var(--mono);font-size:11px;color:var(--t1);
+  font-variant-numeric:tabular-nums;
+}
+.ch-l-d{
+  flex:none;font-family:var(--mono);font-size:10.5px;color:var(--t3);
+  font-variant-numeric:tabular-nums;
+}
+.ch-l-d.is-up{color:var(--green)}
+.ch-l-d.is-down{color:var(--red)}
+.ch-l-p{
+  flex:none;width:52px;text-align:right;
+  font-family:var(--mono);font-size:11px;color:var(--t2);
+  font-variant-numeric:tabular-nums;
+}
+.ch-l-r{flex:none;font-size:10.5px;color:var(--t3)}
+.ch-lo{width:6px;height:6px;border-radius:50%;flex:none;background:var(--t3)}
+.ch-lo.is-cn{background:var(--orange)}
+.ch-lo.is-fk{background:var(--purple)}
+
+@media (max-width:520px){
+  /* 手机上一行放不下「名称 + 数值 + 单价 + 厂商」，厂商是补充信息，先让位 */
+  .ch-list .ch-l-r{display:none}
+}
+
+@media (max-width:860px){
+  /* 图缩到这个宽度以下，标签互相压、10 条线分不开，换成同一份数据的表 */
+  .ch-svg{display:none}
+  .ch-wrap{padding:10px 12px 4px}
+  .ch-list{display:block}
+  .ch-asof{margin-left:0;width:100%}
+}
+.ch-lb-bg{fill:var(--panel)}
