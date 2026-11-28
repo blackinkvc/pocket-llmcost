@@ -681,6 +681,139 @@ def block_scores(sec, entry, idx, total, num, limit=30):
 GEO_COLOR = {"cn": "#e8912a", "us": "#7c5cd6", "sea": "#16a34a", "other": "#d2544a"}
 GEO_STATE = {"on": "#22c55e", "build": "#e8912a", "plan": "#aeb5be"}
 
+MIX_STATE = {"live": "在役", "deal": "已签", "mix": "混合"}
+
+
+def _cnt(n):
+    """1300000 → 「130 万」。卡数只到万位，后面多一位就是假精度。"""
+    if n >= 10000:
+        return ("%.1f" % (n / 10000.0)).rstrip("0").rstrip(".") + " 万"
+    return "%d" % n
+
+
+def block_mix(sec, entry, idx, total, num):
+    """各家用什么卡：按公司分行，条形按算力占比切分。
+
+    数据在 content/<板块>/公司用卡.json。每张卡写「颗数 × 单颗标称 BF16
+    PFLOPS」，算力在这里算出来而不是写死——换一个换算口径，整块跟着变。
+    """
+    path = sec.dir / entry["file"]
+    if not path.exists():
+        return ("""  <section class="blk" id="board-%d">
+    <div class="blk-head"><span class="blk-num">%s</span><h2>%s</h2>
+      <span class="blk-note">待补充</span></div>
+    <p class="blk-empty">缺 <code>content/%s/%s</code>。</p>
+  </section>
+""" % (idx + 1, num, escape(entry.get("title", "各家用什么卡")), sec.dir.name, entry["file"]))
+
+    d = json.loads(path.read_text(encoding="utf-8"))
+    V = {v["k"]: v for v in d["vendors"]}
+
+    rows, vend = [], {}
+    for r in d["rows"]:
+        cards, t_ef, t_n = [], 0.0, 0
+        for c in r["cards"]:
+            ef = c["n"] * c["p"] / 1000.0          # 颗 × PFLOPS → EFLOPS
+            t_ef += ef
+            t_n += c["n"]
+            cards.append((c, ef))
+        if not t_ef:
+            continue
+        # 汇总：一个供应商用了几家、总共折多少算力
+        for c in r["cards"]:
+            v = vend.setdefault(c["v"], {"cos": 0, "ef": 0.0})
+            v["ef"] += c["n"] * c["p"] / 1000.0
+        for k in {c["v"] for c in r["cards"]}:
+            vend[k]["cos"] += 1
+
+        seg, lis = [], []
+        for c, ef in cards:
+            v = V.get(c["v"], {"name": c["v"], "color": "#aeb5be"})
+            pct = ef / t_ef * 100
+            seg.append('<i style="width:%.2f%%;background:%s" title="%s · %s · %s EFLOPS"></i>'
+                       % (max(pct, 0.8), v["color"], escape(v["name"]),
+                          escape(_cnt(c["n"])), "{:,.0f}".format(ef)))
+            lis.append("""          <li>
+            <i class="mix-dot" style="background:%s"></i>
+            <b>%s</b>
+            <span class="mix-n">%s颗</span>
+            <span class="mix-p">%d%%</span>
+            <span class="mix-f">%s EF</span>
+            <small>%s</small>
+          </li>""" % (v["color"], escape(c["name"]), escape(_cnt(c["n"])), round(pct),
+                      "{:,.0f}".format(ef), escape(c.get("s", ""))))
+
+        st = r.get("state", "live")
+        rows.append("""      <article class="mix-row">
+        <header class="mix-hd">
+          <div class="mix-id">
+            <span class="mix-flag">%s</span><b>%s</b>
+            <span class="mix-tag">%s</span>
+            <span class="mix-st is-%s">%s</span>
+          </div>
+          <div class="mix-sum"><b>%s</b><span>颗</span>
+            <em>≈ %s EFLOPS</em></div>
+        </header>
+        <div class="mix-bar" role="img" aria-label="%s 的算力按供应商拆分">%s</div>
+        <ul class="mix-cards">
+%s
+        </ul>
+        <p class="mix-note">%s</p>
+      </article>""" % (escape(r.get("flag", "")), escape(r["co"]), escape(r.get("tag", "")),
+                       st, escape(r.get("state_txt") or MIX_STATE.get(st, "")),
+                       escape(_cnt(t_n)), "{:,.0f}".format(t_ef), escape(r["co"]),
+                       "".join(seg), "\n".join(lis), R.inline(r.get("note", ""))))
+
+    # 供应商汇总：先按家数排——「有几家在用」比「谁的总量大」更能说明有没有第二条路
+    grand = sum(v["ef"] for v in vend.values()) or 1
+    order = sorted(vend.items(), key=lambda kv: (-kv[1]["cos"], -kv[1]["ef"]))
+    # 百分比按最大余数取整：各自四舍五入会凑出 103%，读者一眼就看出不对
+    raw = {k: v["ef"] / grand * 100 for k, v in order}
+    pcts = {k: int(x) for k, x in raw.items()}
+    short = round(100 - sum(pcts.values()))
+    for k, _ in sorted(raw.items(), key=lambda kv: -(kv[1] - int(kv[1])))[:max(short, 0)]:
+        pcts[k] += 1
+    roll = []
+    for k, v in order:
+        vv = V.get(k, {"name": k, "color": "#aeb5be"})
+        roll.append("""        <div class="mix-rl">
+          <i class="mix-rl-dot" style="background:%s"></i>
+          <b>%s</b>
+          <span class="mix-rl-co">%d / %d 家</span>
+          <span class="mix-rl-bar"><i style="width:%.1f%%;background:%s"></i></span>
+          <span class="mix-rl-ef">%s EF · %d%%</span>
+        </div>""" % (vv["color"], escape(vv["name"]), v["cos"], len(d["rows"]),
+                     max(raw[k], 0.6), vv["color"], "{:,.0f}".format(v["ef"]), pcts[k]))
+
+    legend = "".join(
+        '<span class="mix-key"><i style="background:%s"></i>%s</span>'
+        % (v["color"], escape(v["name"])) for v in d["vendors"])
+
+    return """  <section class="blk" id="board-%d">
+    <div class="blk-head">
+      <span class="blk-num">%s</span>
+      <h2>%s</h2>
+      <span class="blk-note is-long mix-lead">%s</span>
+    </div>
+    <div class="mix-wrap">
+      <div class="mix-legend">%s<span class="mix-asof">截至 %s · %s</span></div>
+      <div class="mix-rows">
+%s
+      </div>
+      <div class="mix-roll">
+        <div class="mix-roll-h">供应商汇总 <span>按用了它的公司数排 · 条形为该供应商占全部折算算力的比例</span></div>
+        <div class="mix-roll-g">
+%s
+        </div>
+      </div>
+    </div>
+    <p class="mix-foot">%s</p>
+  </section>
+""" % (idx + 1, num, escape(entry.get("title", "各家用什么卡")),
+       R.inline(entry.get("note") or d.get("lead", "")),
+       legend, escape(d.get("asof", "")), escape(d.get("basis", "")),
+       "\n".join(rows), "\n".join(roll), R.inline(d.get("foot", "")))
+
 
 def block_cmp(sec, entry, idx, total, num):
     """三种架构：CPU / GPU / TPU 横向对照。
@@ -1351,6 +1484,15 @@ def build_section(sec, out_dir, prefix=""):
         if entry.get("kind") == "cmp":
             blocks.append(block_cmp(sec, entry, i, len(sec.boards), num))
             counts.append("类")
+            continue
+        if entry.get("kind") == "mix":
+            blocks.append(block_mix(sec, entry, i, len(sec.boards), num))
+            # 一「条」= 一家公司，进工具条的记录数；地图与架构卡不算条目
+            try:
+                counts.append(len(json.loads(
+                    (sec.dir / entry["file"]).read_text(encoding="utf-8"))["rows"]))
+            except Exception:
+                counts.append("家")
             continue
         _, rows = sec.board(entry)
         stat = stats.get(pathlib.Path(entry.get("file", "")).name, {})

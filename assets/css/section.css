@@ -653,3 +653,146 @@ html:not(.has-js) .rk-ctrl{display:none}
   .cmp-card{padding:12px 13px}
   .cmp-foot p{flex-basis:100%}
 }
+
+/* ---------- 档案页（公司 / 人物） ---------- */
+.fl-spec{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;
+  margin:0 0 24px;background:var(--card);border:1px solid var(--line);
+  border-radius:9px;overflow:hidden;
+}
+.fl-spec .fs-row{
+  display:flex;flex-direction:column;gap:3px;
+  background:var(--card);padding:9px 13px;
+  box-shadow:0 0 0 .5px var(--line);
+}
+.fl-spec dt{
+  font-family:var(--mono);font-size:10px;color:var(--t3);
+  letter-spacing:.05em;text-transform:uppercase;
+}
+.fl-spec dd{margin:0;font-size:12.5px;line-height:1.6;color:var(--t1)}
+.fl-spec dd b{font-weight:600}
+
+.fl-block{margin:34px 0 0;padding-top:18px;border-top:1px solid var(--line)}
+.fl-h{
+  margin:0 0 12px;font-family:var(--mono);font-size:10.5px;font-weight:600;
+  color:var(--t3);letter-spacing:.08em;text-transform:uppercase;
+}
+.fl-rel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px}
+.fl-rel{
+  display:flex;flex-direction:column;gap:3px;padding:11px 13px;
+  background:var(--card);border:1px solid var(--line);border-radius:9px;
+  text-decoration:none;transition:border-color .14s,transform .14s;
+}
+.fl-rel:hover{border-color:var(--orange);transform:translateY(-1px)}
+.fl-rel-k{
+  font-family:var(--mono);font-size:9.5px;color:var(--t3);letter-spacing:.05em;
+}
+.fl-rel b{font-size:13px;font-weight:600;color:var(--t1)}
+.fl-rel-s{font-size:11.5px;line-height:1.6;color:var(--t3)}
+@media (max-width:600px){
+  .fl-spec{grid-template-columns:1fr 1fr}
+  .fl-rel-grid{grid-template-columns:1fr}
+}
+
+/* ---------- 板块：各家用什么卡 ---------- */
+/* 一条横条代表一家公司的算力构成，按 EFLOPS 占比切，不按卡数切：
+   同一家公司里 GB200 与 H100 混装，按卡数切会把两代卡算成一样重。 */
+.mix-lead{max-width:78ch}
+.mix-wrap{
+  background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px 14px;
+}
+.mix-legend{
+  display:flex;flex-wrap:wrap;align-items:center;gap:7px 14px;
+  padding:2px 2px 11px;border-bottom:1px solid var(--line-2);
+  font-size:11.5px;color:var(--t2);
+}
+.mix-key{display:inline-flex;align-items:center;gap:5px}
+.mix-key i{width:9px;height:9px;border-radius:2px}
+.mix-asof{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--t3)}
+.mix-row{padding:13px 2px 12px;border-bottom:1px solid var(--line-2)}
+.mix-row:last-child{border-bottom:0;padding-bottom:2px}
+.mix-hd{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.mix-id{display:flex;align-items:center;gap:7px;flex-wrap:wrap;min-width:0}
+.mix-id b{font-size:14px;font-weight:600;color:var(--t1)}
+.mix-flag{
+  font-size:10px;line-height:1.7;color:var(--t3);
+  border:1px solid var(--line);border-radius:4px;padding:0 4px;
+}
+.mix-tag{font-size:11px;color:var(--t3)}
+.mix-st{
+  font-family:var(--mono);font-size:10px;line-height:1.8;
+  padding:0 6px;border-radius:4px;background:var(--pill);color:var(--t2);
+}
+.mix-st.is-live{background:var(--green-bg);color:var(--on-green)}
+.mix-st.is-deal{background:var(--orange-bg);color:var(--on-orange)}
+.mix-st.is-mix{background:var(--purple-bg);color:var(--on-purple)}
+.mix-sum{
+  margin-left:auto;display:flex;align-items:baseline;gap:4px;
+  font-family:var(--mono);font-size:11px;color:var(--t3);
+}
+.mix-sum b{
+  font-family:var(--sans);font-size:15px;font-weight:600;color:var(--t1);
+  font-variant-numeric:tabular-nums;
+}
+.mix-sum em{
+  font-style:normal;margin-left:8px;font-size:11.5px;color:var(--orange);
+  font-variant-numeric:tabular-nums;
+}
+.mix-bar{
+  display:flex;gap:2px;height:6px;margin:9px 0 10px;
+  border-radius:3px;overflow:hidden;background:var(--hover);
+}
+.mix-bar i{display:block;height:100%}
+.mix-cards{display:grid;grid-template-columns:1fr;gap:1px;margin:0;padding:0;list-style:none}
+.mix-cards li{
+  display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;
+  padding:3px 4px 3px 2px;border-radius:5px;
+  font-size:11.8px;color:var(--t2);
+}
+.mix-cards li:hover{background:var(--hover)}
+.mix-dot{width:6px;height:6px;border-radius:50%;flex:none;transform:translateY(-1px)}
+.mix-cards b{font-weight:600;color:var(--t1);min-width:172px}
+.mix-n,.mix-p,.mix-f{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.mix-n{min-width:64px;text-align:right;color:var(--t2)}
+.mix-p{font-size:10.5px;color:var(--t3);min-width:30px}
+.mix-f{font-size:11px;color:var(--orange);min-width:76px}
+.mix-cards small{flex:1 1 240px;font-size:11px;line-height:1.6;color:var(--t3)}
+.mix-note{
+  margin:8px 0 0;max-width:96ch;
+  font-size:11.8px;line-height:1.78;color:var(--t2);
+}
+.mix-roll{margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}
+.mix-roll-h{
+  margin-bottom:8px;font-family:var(--mono);font-size:10px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--t3);
+}
+.mix-roll-h span{
+  margin-left:6px;font-family:var(--sans);font-size:10.5px;
+  letter-spacing:0;text-transform:none;opacity:.85;
+}
+.mix-roll-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(430px,1fr));gap:4px 18px}
+.mix-rl{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--t2);padding:2px 0}
+.mix-rl-dot{width:3px;height:13px;border-radius:1.5px;flex:none}
+.mix-rl b{
+  font-size:12px;font-weight:600;color:var(--t1);
+  flex:0 0 92px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.mix-rl-co{
+  flex:0 0 74px;font-family:var(--mono);font-size:11px;color:var(--t1);
+  white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+.mix-rl-bar{flex:1 1 60px;height:5px;border-radius:2.5px;background:var(--hover);overflow:hidden;min-width:40px}
+.mix-rl-bar i{display:block;height:100%}
+.mix-rl-ef{
+  flex:0 0 118px;text-align:right;font-family:var(--mono);font-size:10.5px;
+  color:var(--t3);font-variant-numeric:tabular-nums;padding-right:2px;
+}
+.mix-foot{margin:10px 0 0;max-width:100ch;font-size:11.3px;line-height:1.8;color:var(--t3)}
+@media (max-width:760px){
+  .mix-wrap{padding:10px 11px 12px}
+  .mix-sum{width:100%;margin-left:0}
+  .mix-cards b{min-width:0}
+  .mix-cards small{flex-basis:100%}
+  .mix-roll-g{grid-template-columns:1fr}
+}
