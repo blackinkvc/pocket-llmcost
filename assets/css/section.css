@@ -656,12 +656,12 @@ html:not(.has-js) .rk-ctrl{display:none}
 
 /* ---------- 档案页（公司 / 人物） ---------- */
 .fl-spec{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;
+  display:flex;flex-wrap:wrap;gap:0;
   margin:0 0 24px;background:var(--card);border:1px solid var(--line);
   border-radius:9px;overflow:hidden;
 }
 .fl-spec .fs-row{
-  display:flex;flex-direction:column;gap:3px;
+  flex:1 1 190px;display:flex;flex-direction:column;gap:3px;
   background:var(--card);padding:9px 13px;
   box-shadow:0 0 0 .5px var(--line);
 }

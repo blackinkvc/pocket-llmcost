@@ -5,6 +5,7 @@
     content/基模/简介.md        板块一：简介（frontmatter + 正文 + 结论）
     content/基模/天梯榜.csv     板块二：天梯榜卡片，一行一张
     content/基模/报告/*.md      板块三：报告，一篇一个文件
+    content/公司/档案/公司/*.md 档案：一组一个目录，一份一个文件（索引由 md 直接扫出）
 
 用法：
     python3 tools/build_section.py              # 全部重建
@@ -66,6 +67,24 @@ def parse_pairs(s):
 
 def escape(s):
     return (s or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+def parse_spec(s):
+    """档案的字段串：'成立=2015-12|总部=旧金山|估值=8,520 亿美元' → [(k, v), ...]。
+
+    不能用逗号分隔——估值、股东名单这类值里本身就带逗号。
+    """
+    out = []
+    for chunk in (s or "").split("|"):
+        if "=" in chunk:
+            k, v = chunk.split("=", 1)
+            out.append((k.strip(), v.strip()))
+    return out
+
+
+def trim_words(s, n):
+    s = re.sub(r"[*`]", "", s or "")
+    return s if len(s) <= n else s[:n].rstrip("，。、 ") + "…"
 
 
 def slug_quote(name):
@@ -193,6 +212,70 @@ class Section:
         out.sort(key=lambda x: x["status"] == "todo")
         return out
 
+    # 档案：content/<板块>/档案/<组>/*.md，一组一个目录（公司 / 人物 …）
+    # 和报告的区别是「单一真相源」——索引不读 CSV，直接由 md 扫出来，
+    # 加一份档案就自动多一张卡，不会出现「档案写了、索引忘了加」。
+    def files(self):
+        base = self.dir / self.cfg.get("files", {}).get("dir", "档案")
+        if not base.exists():
+            return {}
+        out = {}
+        for group_dir in sorted(p for p in base.iterdir() if p.is_dir()):
+            items = []
+            for p in sorted(group_dir.glob("*.md")):
+                if p.name.startswith((".", "_")) or p.name == "README.md":
+                    continue
+                meta, body = split_front(read(p))
+                items.append({
+                    "path": p,
+                    "slug": p.stem,
+                    "url": "%s/%s-%s/%s.html" % (self.slug,
+                                                 self.cfg.get("files", {}).get("out_prefix", "档案"),
+                                                 group_dir.name, p.stem),
+                    "group": group_dir.name,
+                    "title": meta.get("title") or p.stem,
+                    "kicker": meta.get("kicker", ""),
+                    "summary": meta.get("summary", ""),
+                    "region": meta.get("region", ""),
+                    "order": meta.get("order", ""),
+                    "meta": [m.strip() for m in meta.get("meta", "").split(",") if m.strip()],
+                    # 字段串用 | 分项、= 分键值：值里常带逗号（「8,520 亿美元」）
+                    "spec": parse_spec(meta.get("spec", "")),
+                    "people": [t.strip() for t in meta.get("people", "").split(",") if t.strip()],
+                    "related": [t.strip() for t in meta.get("related", "").split(",") if t.strip()],
+                    "body": body,
+                })
+            if not items:
+                continue
+            def order_key(it):
+                try:
+                    return (0, float(it["order"]))
+                except ValueError:
+                    return (1, 0)
+            items.sort(key=order_key)
+            out[group_dir.name] = items
+        return out
+
+    # 档案 → 榜的行（列名跟 section.json 的 fields 对上，渲染仍走 block_board）
+    def file_rows(self, entry, files):
+        items = files.get(entry.get("from_files")) or []
+        f = entry.get("fields") or {}
+        k_rank = f.get("rank", "排名")
+        k_name = f.get("name", "名称")
+        k_note = f.get("note", "说明")
+        k_link = f.get("link", "档案")
+        k_meta = f.get("meta") or ["分类"]
+        k_meta = [k_meta] if isinstance(k_meta, str) else k_meta
+        rows = []
+        for i, it in enumerate(items, 1):
+            # 卡片只显示第一个 meta 列（分类），其余留给档案页的字段表
+            row = {k_rank: str(i), k_name: it["title"], "区域": it["region"],
+                   k_note: it["summary"], k_link: it["url"]}
+            if k_meta:
+                row[k_meta[0]] = it["kicker"]
+            rows.append(row)
+        return rows
+
     # 板块三·全文：外面写好的独立 HTML（自带样式、图表、交互），原样复制过去，
     # 不进 md 渲染器。它的文件名不能改——两份全文之间是用文件名互链的。
     def fulltext(self):
@@ -316,8 +399,13 @@ def bar_sum_board(sec, counts, n_reports):
     rows = sum(c for c in counts if isinstance(c, int))
     if rows:
         parts.append("<b>%d</b> 条记录" % rows)
-    if counts:
-        parts.append("<b>%d</b> 张榜" % len(counts))
+    # 档案板块也占一个 counts 位，但它不是榜，摘要里要分开说
+    n_files = sum(1 for b in sec.boards if b.get("from_files"))
+    n_boards = len(counts) - n_files
+    if n_boards:
+        parts.append("<b>%d</b> 张榜" % n_boards)
+    if n_files:
+        parts.append("<b>%d</b> 组档案" % n_files)
     if n_reports:
         parts.append("<b>%d</b> 篇报告" % n_reports)
     m = re.search(r"20\d{2}-\d{2}", str(sec.cfg.get("sub") or sec.cfg.get("desc") or ""))
@@ -397,8 +485,10 @@ def toc_html(sec, reports, prefix=""):
             subs.append('<li><a href="%s">%s</a></li>'
                         % (href, escape(b.get("short") or b.get("title", "天梯榜"))))
         jump = "#board" if len(boards) == 1 else "#board-1"
+        # 有档案板块时，这一组的标签不能只写「榜」——里面一半是档案
+        has_files = any(b.get("from_files") for b in boards)
         # 只有一张榜时它本身就是一级条目，不必再开一层
-        items.append(group("榜" if len(boards) > 1
+        items.append(group(("榜与档案" if has_files else "榜") if len(boards) > 1
                            else (boards[0].get("short") or boards[0].get("title", "天梯榜")),
                            jump, subs if len(boards) > 1 else []))
 
@@ -1457,9 +1547,96 @@ def related_html(items):
 """ % "".join(lis)
 
 
+def file_page(sec, it, index, snap=""):
+    """一份档案的独立页。
+
+    外链的跳转要在新标签打开：档案之间大量互指，占掉后退键就回不来了。
+    """
+    files_cfg = sec.cfg.get("files", {})
+    label = files_cfg.get("label", {})
+    gname = label.get(it["group"], it["group"])
+    prefix = "../../"
+    # 回榜的锚点：这一组档案挂在哪个榜上，编号要跟着 boards 的顺序算
+    anchor = "#board-2"
+    for bi, bcfg in enumerate(sec.boards, 1):
+        if bcfg.get("from_files") == it["group"]:
+            anchor = "#board" if len(sec.boards) == 1 else "#board-%d" % bi
+            break
+
+    # 字段表：成立 / 总部 / 估值 / 员工 / 股东 … 有就显示，空的不占位
+    spec_rows = "".join(
+        '<div class="fs-row"><dt>%s</dt><dd>%s</dd></div>' % (escape(k), R.inline(v))
+        for k, v in it["spec"])
+
+    # 相关档案：同组优先（同一家公司的其他人），再补 cross 组
+    seen, rel = {it["slug"]}, []
+    for key in it["related"] + it["people"]:
+        o = index.get(key)
+        if o and o["slug"] not in seen:
+            seen.add(o["slug"])
+            rel.append(o)
+    # index 里 slug 与标题都指同一份档案，遍历前先按 slug 去重，否则同一人会出现两次
+    uniq = {}
+    for o in index.values():
+        uniq.setdefault(o["slug"], o)
+    same_group = [o for o in uniq.values()
+                  if o["group"] == it["group"] and o["slug"] not in seen]
+    rel += same_group[:max(0, 6 - len(rel))]
+    rel_html = ""
+    if rel:
+        cards = "".join(
+            '<a class="fl-rel" href="%s%s"><span class="fl-rel-k">%s</span>'
+            '<b>%s</b><span class="fl-rel-s">%s</span></a>'
+            % (prefix, o["url"], escape(o["kicker"] or label.get(o["group"], o["group"])),
+               escape(o["title"]), escape(trim_words(o["summary"], 46)))
+            for o in rel[:6])
+        rel_html = """  <section class="fl-block fl-rel-block">
+    <h2 class="fl-h">相关档案</h2>
+    <div class="fl-rel-grid">%s</div>
+  </section>
+""" % cards
+
+    kick = it["kicker"]
+    # 元信息行：组名 + meta 就够了，kicker 里通常写的是同义标签，重复一遍只会更长
+    metas = " · ".join(escape(x) for x in ([gname] + it["meta"]))
+    return "".join([
+        doc_head("%s · %s · %s" % (it["title"], gname, sec.name), it["summary"] or it["title"],
+                 sec.name, prefix, bar_title=sec.name,
+                 bar_sum="%s · <b>%s</b>" % (escape(gname), escape(it["title"]))),
+        subnav_html(sec, prefix, report_page=True),
+        '<main class="wrap post-wrap">\n',
+        '  <p class="crumb"><a href="../../index.html">首页</a><span class="sep">/</span>'
+        '<a href="../../%s">%s</a><span class="sep">/</span>'
+        '<a href="../../%s%s">%s</a><span class="sep">/</span><span>%s</span></p>\n'
+        % (sec.page, escape(sec.name), sec.page, anchor, escape(gname), escape(it["title"])),
+        '  <article class="post fl-post">\n',
+        '    <p class="post-meta">%s</p>\n' % metas,
+        '    <h1 class="post-title">%s</h1>\n' % escape(it["title"]),
+        ('    <p class="post-lede">%s</p>\n' % R.inline(it["summary"])) if it["summary"] else "",
+        ('    <dl class="fl-spec">%s</dl>\n' % spec_rows) if spec_rows else "",
+        '    <div class="post-body">\n%s\n    </div>\n' % R.md_to_html(it["body"]),
+        '  </article>\n',
+        rel_html,
+        '  <nav class="pager"><a href="../../%s%s"><span class="pg-l">← BACK</span>'
+        '<span class="pg-t">%s · 全部档案</span></a>'
+        '<a class="next" href="../../%s#intro"><span class="pg-l">NEXT →</span>'
+        '<span class="pg-t">%s · 简介</span></a></nav>\n'
+        % (sec.page, anchor, escape(sec.name), sec.page, escape(sec.name)),
+        '</main>\n\n',
+        footer_html(prefix),
+        "\n</body>\n</html>\n",
+    ])
+
+
+def trim_words(s, n):
+    s = re.sub(r"[*`]", "", s or "")
+    return s if len(s) <= n else s[:n].rstrip("，。、 ") + "…"
+
+
 def build_section(sec, out_dir, prefix=""):
     intro = sec.intro()
     reports = sec.reports() + sec.fulltext()
+    files = sec.files()
     if len({r["slug"] for r in reports}) != len(reports):
         print("  ! %s 里有 slug 重名（md 与全文同名），全文会被挤掉" % sec.dir.name)
     reports.sort(key=lambda x: x["date"], reverse=True)
@@ -1493,6 +1670,20 @@ def build_section(sec, out_dir, prefix=""):
                     (sec.dir / entry["file"]).read_text(encoding="utf-8"))["rows"]))
             except Exception:
                 counts.append("家")
+            continue
+        if entry.get("kind") == "mix":
+            blocks.append(block_mix(sec, entry, i, len(sec.boards), num))
+            # 一「条」= 一家公司，进工具条的记录数；地图与架构卡不算条目
+            try:
+                counts.append(len(json.loads(
+                    (sec.dir / entry["file"]).read_text(encoding="utf-8"))["rows"]))
+            except Exception:
+                counts.append("家")
+            continue
+        if entry.get("from_files"):
+            rows = sec.file_rows(entry, files)
+            blocks.append(block_board(sec, entry, rows, {}, i, len(sec.boards), None, num))
+            counts.append(len(rows))
             continue
         _, rows = sec.board(entry)
         stat = stats.get(pathlib.Path(entry.get("file", "")).name, {})
@@ -1576,6 +1767,24 @@ def build_section(sec, out_dir, prefix=""):
             "\n</body>\n</html>\n",
         ])
         rout.write_text(rbody, encoding="utf-8")
+
+    # 档案页：每份档案一个独立页，索引由 build 时从 md 直接扫出（不读 CSV）
+    if files:
+        index = {}
+        for items in files.values():
+            for it in items:
+                index[it["slug"]] = it
+                index.setdefault(it["title"], it)          # 中文名也能互指
+        n_file = 0
+        for items in files.values():
+            for it in items:
+                fp = out_dir / it["url"]
+                fp.parent.mkdir(parents=True, exist_ok=True)
+                fp.write_text(file_page(sec, it, index), encoding="utf-8")
+                n_file += 1
+        print("  ✓ 档案页 %d 个（%s）" % (
+            n_file, "、".join("%s %d" % (g, len(v)) for g, v in files.items())))
+
     return counts, len(reports)
 
 
