@@ -34,6 +34,8 @@ import research as R  # noqa: E402  复用 md 渲染与导航定义
 import regions  # noqa: E402  区域推断（国内 / 国外）
 import chrome as C  # noqa: E402  工具条 / 皮肤 / 资源指纹，三处生成器共用
 import chartblocks as CB  # noqa: E402  板块里的图（前沿台阶 / 性价比 / 走势）
+import siteblocks as SB  # noqa: E402  算力中心的三张图（增长 / 客户 / 单体）
+import sites as ST  # noqa: E402  算力中心的读数层：MW → EFLOPS 折算只此一处
 
 
 # ───────────────────────── 基础解析 ─────────────────────────
@@ -1152,8 +1154,10 @@ def block_cmp(sec, entry, idx, total, num):
 def block_map(sec, entry, idx, total, num):
     """地理分布图：一块一个算力区，位置按相对方位摆，不画行政边界。
 
-    底图只做装饰——陆地轮廓与网格都是示意，不表示疆域；每个区是一张
-    圆角卡片，卡里是这个区的主要站点和它的状态点。
+    底图只做装饰——陆地轮廓与网格都是示意，不表示疆域。块里的数字来自
+    四张区域榜（经 sites.py 折算），块里的站点名是人工挑的代表性站点：
+    名称、状态点这些「定性」的信息留在数据文件里，容量、算力、客户这些
+    「定量」的全部算出来，两边不各写一份。
     """
     path = sec.dir / entry["file"]
     if not path.exists():
@@ -1165,92 +1169,156 @@ def block_map(sec, entry, idx, total, num):
 """ % (idx + 1, num, escape(entry.get("title", "地理图")), sec.dir.name, entry["file"]))
 
     d = json.loads(path.read_text(encoding="utf-8"))
-    vbx = d.get("vb", [1160, 840, 0, 0])
+    vbx = d.get("vb", [1000, 790])
     W, H = vbx[0], vbx[1]
-    vx, vy = (vbx[2], vbx[3]) if len(vbx) > 3 else (0, 0)
     lead = entry.get("note", "")
 
+    sites = ST.load(sec)
+    zones = ST.by_zone(sites)
+    tot = ST.totals(sites)
+
     # 每个分组一块底：取该组所有块的包围盒外扩，四块互不重叠，像地图上的分区
-    zones = []
-    # 「其他」是欧洲 + 中东 + 印度拼在一起的，没有统一底色，当孤岛处理
-    for g in ("cn", "us", "sea"):
+    backs = []
+    for g in ("cn", "us", "sea", "other"):
         rs = [r for r in d["rows"] if r.get("g") == g]
         if not rs:
             continue
-        x0 = min(r["x"] for r in rs) - 16
-        y0 = min(r["y"] for r in rs) - 16
-        x1 = max(r["x"] + r["w"] for r in rs) + 16
-        y1 = max(r["y"] + r["h"] for r in rs) + 16
-        # 底色交给 CSS（data-g 选色），这样深浅/皮肤切换不用重出 svg
-        zones.append('<rect class="geo-zone" data-g="%s" x="%d" y="%d" width="%d" height="%d" rx="26"/>'
+        x0 = min(r["x"] for r in rs) - 14
+        y0 = min(r["y"] for r in rs) - 14
+        x1 = max(r["x"] + r["w"] for r in rs) + 14
+        y1 = max(r["y"] + r["h"] for r in rs) + 14
+        backs.append('<rect class="geo-zone" data-g="%s" x="%d" y="%d" width="%d" height="%d" rx="24"/>'
                      % (g, x0, y0, x1 - x0, y1 - y0))
+
     grid = []
     step = 80
     x = step
-    while x < W + vx:
-        grid.append('<line x1="%d" y1="%d" x2="%d" y2="%d"/>' % (x, vy, x, vy + H))
+    while x < W:
+        grid.append('<line x1="%d" y1="0" x2="%d" y2="%d"/>' % (x, x, H))
         x += step
     y = step
-    while y < H + vy:
-        grid.append('<line x1="%d" y1="%d" x2="%d" y2="%d"/>' % (vx, y, vx + W, y))
+    while y < H:
+        grid.append('<line x1="0" y1="%d" x2="%d" y2="%d"/>' % (y, W, y))
         y += step
-
-    def tw(s, size):
-        """粗估文本宽：中文按字号、西文按 0.55 字号。只用来判断标题会不会撞上容量。"""
-        return sum(size if ord(c) > 127 else size * 0.55 for c in s)
-
-    # 连线画在块的下层：只露出块与块之间的那一段，就成了「走廊」
-    geo = {r["id"]: r for r in d["rows"] if r.get("id")}
-    corr = []
-    for a, b in d.get("corridors", []):
-        if a in geo and b in geo:
-            A, B = geo[a], geo[b]
-            corr.append('<line class="geo-corr" x1="%d" y1="%d" x2="%d" y2="%d"/>'
-                        % (A["x"] + A["w"] // 2, A["y"] + A["h"] // 2,
-                           B["x"] + B["w"] // 2, B["y"] + B["h"] // 2))
 
     blocks, items = [], []
     for r in d["rows"]:
         g = r.get("g", "cn")
         col = GEO_COLOR.get(g, "#e8912a")
         bx, by, bw, bh = r["x"], r["y"], r["w"], r["h"]
-        # 窄块放不下「标题 + 容量」同一行时，容量挪到标题下面一行，别叠字
-        cap_below = bool(r.get("cap")) and tw(r["name"], 12.5) + tw(r["cap"], 9.5) + 14 > bw - 24
-        top = by + 62 if cap_below else by + 45
+        z = zones.get(r["id"])
+
+        # 状态构成：已投运 / 在建 / 规划各占多少 MW，宽度按比例切
+        bar, cap_txt, cust_txt = "", "", ""
+        if z and z["mw"]:
+            seg = {"on": 0.0, "build": 0.0, "plan": 0.0}
+            for st in z["sites"]:
+                seg["on"] += min(st["live"], st["mw"])
+                rest = max(st["mw"] - st["live"], 0)
+                seg["build" if ("在建" in st["status"]) else "plan"] += rest
+            bx0, bwid = bx + 12, bw - 24
+            xx = bx0
+            for k in ("on", "build", "plan"):
+                if seg[k] <= 0:
+                    continue
+                wseg = seg[k] / z["mw"] * bwid
+                bar += ('<rect x="%.1f" y="%d" width="%.1f" height="5" fill="%s" opacity=".85"/>'
+                        % (xx, by + 44, max(wseg, 0.8), GEO_STATE[k]))
+                xx += wseg
+            bar = ('<rect class="geo-bar-bg" x="%d" y="%d" width="%d" height="5" rx="2.5"/>%s'
+                   % (bx0, by + 44, bwid, bar))
+            cap_txt = "%s · %s EF" % (ST.gw(z["mw"]), ST.efs(z["ef"]))
+            # 「未披露」在区卡里是噪声：它占位但不回答「这块地谁在用」
+            top_cust = [c for c in sorted(z["cust"].items(), key=lambda kv: -kv[1])
+                        if c[0] != "未披露"][:3]
+            if top_cust:
+                cust_txt = "客户 " + " · ".join(c for c, _ in top_cust)
+
         rows_svg = []
         for i, (label, st) in enumerate(r["sites"]):
-            ty = top + i * 15
+            ty = by + 70 + i * 15
             rows_svg.append(
                 '<circle cx="%d" cy="%.1f" r="2.3" fill="%s"/>'
                 '<text class="geo-site" x="%d" y="%.1f">%s</text>'
                 % (bx + 15, ty - 3.4, GEO_STATE.get(st, "#aeb5be"), bx + 23, ty, escape(label)))
-        cap_el = ""
-        if r.get("cap"):
-            cap_el = ('<text class="geo-cap" x="%d" y="%d"%s>%s</text>'
-                      % (bx + 20 if cap_below else bx + bw - 12, by + 38 if cap_below else by + 23,
-                         "" if cap_below else ' text-anchor="end"', escape(r["cap"])))
+
         blocks.append(
             '<g class="geo-g" data-g="%s">'
             '<rect class="geo-blk" x="%d" y="%d" width="%d" height="%d" rx="8"/>'
-            '<rect x="%d" y="%d" width="3" height="13" rx="1.5" fill="%s"/>'
+            '<rect x="%d" y="%d" width="3" height="12" rx="1.5" fill="%s"/>'
             '<text class="geo-name" x="%d" y="%d">%s</text>'
+            '<text class="geo-cap" x="%d" y="%d">%s</text>'
             '%s'
             '<line class="geo-sep" x1="%d" y1="%d" x2="%d" y2="%d"/>'
+            '%s'
             '%s</g>'
-            % (g, bx, by, bw, bh, bx + 12, by + 12, col, bx + 20, by + 23, escape(r["name"]),
-               cap_el, bx + 12, by + (45 if cap_below else 32), bx + bw - 12,
-               by + (45 if cap_below else 32), "".join(rows_svg)))
+            % (g, bx, by, bw, bh, bx + 12, by + 11, col, bx + 20, by + 22, escape(r["name"]),
+               bx + 20, by + 38, escape(cap_txt or r.get("cap", "")), bar,
+               bx + 12, by + 56, bx + bw - 12, by + 56,
+               "".join(rows_svg),
+               ('<text class="geo-cust" x="%d" y="%d">%s</text>'
+                % (bx + 12, by + bh - 9, escape(cust_txt))) if cust_txt else ""))
 
         # 窄屏那条：同样的数据摊成卡片，SVG 缩到手机宽度就看不清了
         items.append(
             '<div class="geo-li"><div class="geo-li-top">'
             '<span class="geo-li-name"><i style="background:%s"></i>%s</span>'
             '<span class="geo-li-cap">%s</span></div>'
-            '<p class="geo-li-sites">%s</p></div>'
-            % (col, escape(r["name"]), escape(r.get("cap", "")),
+            '<p class="geo-li-sites">%s</p>%s</div>'
+            % (col, escape(r["name"]), escape(cap_txt or r.get("cap", "")),
                " · ".join('<span class="geo-li-s"><i style="background:%s"></i>%s</span>'
                           % (GEO_STATE.get(st, "#aeb5be"), escape(lb))
-                          for lb, st in r["sites"])))
+                          for lb, st in r["sites"]),
+               ('<p class="geo-li-cust">%s</p>' % escape(cust_txt)) if cust_txt else ""))
+
+    # 合计面板：占右下那块空位，回答「这张图加起来是多少」
+    reg = ST.by_region(sites)
+    sx, sy, sw, sh = 800, 500, 176, 268
+    mx = max(v["mw"] for v in reg.values()) or 1
+    sum_rows = []
+    for i, (name, v) in enumerate(reg.items()):
+        yy = sy + 168 + i * 24
+        sum_rows.append(
+            '<text class="geo-sum-r" x="%d" y="%d">%s</text>'
+            '<text class="geo-sum-v" x="%d" y="%d" text-anchor="end">%s</text>'
+            '<rect class="geo-sum-bg" x="%d" y="%d" width="%d" height="4" rx="2"/>'
+            '<rect x="%d" y="%d" width="%.1f" height="4" rx="2" fill="%s"/>'
+            % (sx + 12, yy, escape(name), sx + sw - 12, yy, ST.gw(v["mw"]),
+               sx + 12, yy + 7, sw - 24, sx + 12, yy + 7,
+               max(v["mw"] / mx * (sw - 24), 1.5), GEO_COLOR.get(
+                   {"中国": "cn", "美国": "us", "东南亚": "sea"}.get(name, "other"), "#e8912a")))
+    summary = (
+        '<g class="geo-sum">'
+        '<rect x="%d" y="%d" width="%d" height="%d" rx="8"/>'
+        '<text class="geo-sum-t" x="%d" y="%d">全球合计 · %d 站</text>'
+        '<text class="geo-sum-big" x="%d" y="%d">%s</text>'
+        '<text class="geo-sum-s" x="%d" y="%d">满产容量</text>'
+        '<text class="geo-sum-mid" x="%d" y="%d">%s EF</text>'
+        '<text class="geo-sum-s" x="%d" y="%d">满产折算算力</text>'
+        '<text class="geo-sum-s" x="%d" y="%d">已投运 %s · %s EF</text>'
+        '<line class="geo-sep" x1="%d" y1="%d" x2="%d" y2="%d"/>'
+        '<text class="geo-sum-t" x="%d" y="%d">按区域</text>'
+        '%s</g>'
+        % (sx, sy, sw, sh, sx + 12, sy + 20, tot["n"],
+           sx + 12, sy + 48, ST.gw(tot["mw"]), sx + 12, sy + 62,
+           sx + 12, sy + 88, ST.efs(tot["ef"]), sx + 12, sy + 102,
+           sx + 12, sy + 122, ST.gw(tot["live"]), "{:,.0f}".format(tot["ef_live"]),
+           sx + 12, sy + 136, sx + sw - 12, sy + 136,
+           sx + 12, sy + 156, "".join(sum_rows)))
+
+    # 折算口径写在地图里，不塞进正文：这张图的每个数都过这道公式，
+    # 读者看到 9.9 万 EF 的第一反应就是「怎么算的」，答案应该在旁边。
+    nx, ny, nw, nh = 416, 641, 172, 127
+    rule = ["EFLOPS = MW × 0.9 × 代际", "0.9 按 Colossus 1 校准",
+            "H100 1.0 · Blackwell 1.5", "GB300 2.2 · Rubin 2.6",
+            "昇腾 0.8 · TPU 1.0", "60 行里 9 行是组合口径"]
+    note_svg = ('<g class="geo-note">'
+                '<rect x="%d" y="%d" width="%d" height="%d" rx="8"/>'
+                '<text class="geo-note-t" x="%d" y="%d">算力怎么折算</text>%s</g>'
+                % (nx, ny, nw, nh, nx + 12, ny + 20,
+                   "".join('<text class="geo-note-l" x="%d" y="%d">%s</text>'
+                           % (nx + 12, ny + 40 + i * 14, escape(t))
+                           for i, t in enumerate(rule))))
 
     lg = d.get("legend", {})
     chips = "".join('<span class="geo-key"><i class="dot" style="background:%s"></i>%s</span>'
@@ -1260,13 +1328,13 @@ def block_map(sec, entry, idx, total, num):
                      % (GEO_COLOR.get(k, "#e8912a"), escape(v))
                      for k, v in lg.get("groups", []))
 
-    foot = ('<text class="geo-foot" x="%d" y="%d">示意 · 不表示行政边界 · '
-            '块位置只表相对方位</text>' % (vx + 26, vy + H - 8))
-    svg = ('<svg class="geo-svg" viewBox="%d %d %d %d" role="img" '
+    foot = ('<text class="geo-foot" x="26" y="%d">示意 · 不表示行政边界 · '
+            '块位置只表相对方位，块大小不按容量比例</text>' % (H - 6))
+    svg = ('<svg class="geo-svg" viewBox="0 0 %d %d" role="img" '
            'aria-label="全球算力中心分布示意图">'
-           '%s<g class="geo-grid">%s</g>%s%s%s</svg>'
-           % (vx, vy, W, H, "".join(zones), "".join(grid), "".join(corr),
-              "".join(blocks), foot))
+           '%s<g class="geo-grid">%s</g>%s%s%s%s</svg>'
+           % (W, H, "".join(backs), "".join(grid),
+              "".join(blocks), summary, note_svg, foot))
 
     return """  <section class="blk" id="board-%d">
     <div class="blk-head">
@@ -1299,6 +1367,8 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
     k_when = f.get("when", "时间")
     k_val = f.get("value")
     k_link = f.get("link")          # 可选：这一列的地址让标题变成链接
+    k_cust = f.get("cust")          # 可选：客户列（算力中心的四张榜用）
+    use_ef = bool(f.get("value2"))  # 可选：容量下面补一行折算算力
     if isinstance(k_meta, str):
         k_meta = [k_meta]
 
@@ -1316,6 +1386,7 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
         when = (r.get(k_when) or "").strip()
         val = (r.get(k_val) or "").strip() if k_val else ""
         link = (r.get(k_link) or "").strip() if k_link else ""
+        cust = (r.get(k_cust) or "").strip() if k_cust else ""
         # 标题照旧做链接，另在右上角加一个「详情」：18 张卡里哪些有详情页，
         # 扫一眼就能看出来；没有详情的那几条不会长出一个点不动的按钮。
         pill = bool(bcfg.get("detail")) and bool(link)
@@ -1341,6 +1412,19 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
         else:
             right = ""
 
+        # 折算算力：只对填了 MW 的行算，没填的写明「未折算」——空着会被当成 0
+        sub = ""
+        if use_ef:
+            _mw = ST._f(r.get("MW"))
+            if _mw:
+                sub = '<span class="bd-val-s">≈ %s EF%s</span>' % (
+                    ST.efs(ST.ef(_mw, r.get("代际"))),
+                    (" · %s 满产" % escape(r.get("满产"))) if r.get("满产") else "")
+            else:
+                sub = '<span class="bd-val-s is-none">容量未公布，未折算</span>'
+        if sub:
+            right = right + sub
+
         date_attr = ""
         if mode == "date" and re.match(r"^\d{4}-\d{2}", when):
             date_attr = ' data-date="%s"' % escape(when[:7])
@@ -1353,6 +1437,9 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
         if note2_txt:
             lab = '<span class="bd-lab">%s</span>' % escape(k_note2) if show_lab else ""
             note_html += '<p class="bd-note bd-sub">%s%s</p>' % (lab, R.inline(note2_txt))
+        if cust:
+            note_html = ('<p class="bd-cust"><span class="bd-lab">客户</span>%s</p>'
+                         % escape(cust)) + note_html
         cards.append("""<article class="bd-card%s" data-k="%s" data-region="%s" data-base="%s"%s>
         <span class="bd-rank">%s</span>
         <div class="bd-main">
@@ -2005,6 +2092,14 @@ def build_section(sec, out_dir, prefix=""):
             # 图不按行算，摘要把它们记成「图」，不去抬「条记录」那个数。
             fn = {"frontier": CB.block_frontier, "plot": CB.block_plot,
                   "lines": CB.block_lines}[entry["kind"]]
+            blocks.append(fn(sec, entry, i, len(sec.boards), num))
+            counts.append("图")
+            continue
+        if entry.get("kind") in ("growth", "customers", "scale"):
+            # 算力中心的三张图，实现在 siteblocks.py；读的是四张区域榜，
+            # 折算口径统一在 sites.py 里，表与图共用一份。
+            fn = {"growth": SB.block_growth, "customers": SB.block_customers,
+                  "scale": SB.block_scale}[entry["kind"]]
             blocks.append(fn(sec, entry, i, len(sec.boards), num))
             counts.append("图")
             continue

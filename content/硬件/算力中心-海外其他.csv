@@ -1,8 +1,8 @@
-﻿排名,站点,业主,城市,容量MW,芯片,状态,供电,备注
-1,Jamnagar,Reliance,印度 古吉拉特,3000,GB300 起（推理 >7.5 万 H100 等效）,在建,Reliance 自备电厂 + 可再生；首期 120 MW 计划 2026 年底投运。,号称全球最大单体规划，200–300 亿美元*；Reliance 自己只说「多吉瓦」。
-2,Sines,Start Campus · Nscale,葡萄牙 Setúbal,1200,Blackwell Ultra / Rubin,运营（首栋）,葡萄牙电网，可再生占比高；园区全许可 1.2 GW。,首栋 1.26 万颗 Blackwell Ultra 给微软；第二栋 200 MW 装 6.6 万颗 Rubin。
-3,Visakhapatnam,Google · Adani · Airtel,印度 安得拉邦,1000,Google AI 基础设施（未披露）,在建,印度电网；环保许可正被起诉。,150 亿美元、2026–2030，Google 在印最大投资；2028 投运。
-4,Stargate UAE,G42 · OpenAI · Oracle,阿联酋 阿布扎比,1000,GB300,在建,天然气 + 巴拉卡核电；5 GW 园区首期。,首期 200 MW 原定 2026Q3，到 10 月仍未宣布通电，方案改为加固设计。
-5,HUMAIN AI 工厂,HUMAIN · NVIDIA,沙特 利雅得,500,GB300（三年最多 60 万颗）,在建,沙特电网 + 天然气；PIF 主权项目。,500 MW 是多厂合计口径；首个集群约 1.8 万颗 GB300。
-6,Stargate Argentina,Sur Energy · OpenAI,阿根廷 巴塔哥尼亚,500,待定,意向,巴塔哥尼亚风电资源，配套待定。,仅意向书（最高 250 亿美元），未进 RIGI 审批。
-7,Narvik,Nscale（微软承接）,挪威 诺尔兰,230,GB300 约 5.2 万颗 + 2027 起 Rubin 3 万颗,在建,水电；原 Stargate Norway。,OpenAI 2026-04 退出租赁谈判；计划再加 290 MW。
+﻿排名,站点,业主,城市,容量MW,芯片,状态,供电,备注,MW,现网MW,投运,满产,代际,客户,分区
+1,Jamnagar,Reliance,印度 古吉拉特,3000,GB300 起（推理 >7.5 万 H100 等效）,在建,Reliance 自备电厂 + 可再生；首期 120 MW 计划 2026 年底投运。,号称全球最大单体规划，200–300 亿美元*；Reliance 自己只说「多吉瓦」。,3000,0,,2028,gb300,Reliance,ap-india
+2,Sines,Start Campus · Nscale,葡萄牙 Setúbal,1200,Blackwell Ultra / Rubin,运营（首栋）,葡萄牙电网，可再生占比高；园区全许可 1.2 GW。,首栋 1.26 万颗 Blackwell Ultra 给微软；第二栋 200 MW 装 6.6 万颗 Rubin。,1200,150,2026,2028,rubin,Microsoft,eu-west
+3,Visakhapatnam,Google · Adani · Airtel,印度 安得拉邦,1000,Google AI 基础设施（未披露）,在建,印度电网；环保许可正被起诉。,150 亿美元、2026–2030，Google 在印最大投资；2028 投运。,1000,0,,2028,unknown,Google,ap-india
+4,Stargate UAE,G42 · OpenAI · Oracle,阿联酋 阿布扎比,1000,GB300,在建,天然气 + 巴拉卡核电；5 GW 园区首期。,首期 200 MW 原定 2026Q3，到 10 月仍未宣布通电，方案改为加固设计。,1000,0,,2027,gb300,OpenAI / G42,me-gulf
+5,HUMAIN AI 工厂,HUMAIN · NVIDIA,沙特 利雅得,500,GB300（三年最多 60 万颗）,在建,沙特电网 + 天然气；PIF 主权项目。,500 MW 是多厂合计口径；首个集群约 1.8 万颗 GB300。,500,0,,2027,gb300,HUMAIN,me-gulf
+6,Stargate Argentina,Sur Energy · OpenAI,阿根廷 巴塔哥尼亚,500,待定,意向,巴塔哥尼亚风电资源，配套待定。,仅意向书（最高 250 亿美元），未进 RIGI 审批。,500,0,,2029,unknown,OpenAI,ap-south
+7,Narvik,Nscale（微软承接）,挪威 诺尔兰,230,GB300 约 5.2 万颗 + 2027 起 Rubin 3 万颗,在建,水电；原 Stargate Norway。,OpenAI 2026-04 退出租赁谈判；计划再加 290 MW。,230,0,,2027,gb300,Microsoft,eu-west

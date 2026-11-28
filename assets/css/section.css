@@ -531,6 +531,7 @@ html:not(.has-js) .rk-ctrl{display:none}
 .geo-zone[data-g="cn"]{fill:color-mix(in srgb,var(--orange) 9%,var(--panel))}
 .geo-zone[data-g="us"]{fill:color-mix(in srgb,var(--purple) 9%,var(--panel))}
 .geo-zone[data-g="sea"]{fill:color-mix(in srgb,var(--green) 9%,var(--panel))}
+.geo-zone[data-g="other"]{fill:color-mix(in srgb,var(--red) 7%,var(--panel))}
 .geo-corr{stroke:var(--line);stroke-width:1;stroke-dasharray:3 7;fill:none}
 .geo-foot{font-family:var(--sans);font-size:9.5px;fill:var(--t3);opacity:.85}
 /* 四个分组各一层淡色，像分区图；颜色跟站内的 chip 一套 */
@@ -542,6 +543,22 @@ html:not(.has-js) .rk-ctrl{display:none}
 .geo-g:hover .geo-blk{stroke:var(--orange);fill:var(--card)}
 .geo-name{font-family:var(--sans);font-size:12.5px;font-weight:600;fill:var(--t1)}
 .geo-cap{font-family:var(--mono);font-size:9.5px;fill:var(--orange);letter-spacing:.02em}
+/* 容量构成条：绿=已投运，橙=在建，灰=规划，跟站点圆点同一套颜色 */
+.geo-bar-bg{fill:var(--t3);opacity:.14}
+.geo-cust{font-family:var(--sans);font-size:9px;fill:var(--t3)}
+/* 合计面板：右下那块空位的用途 */
+.geo-sum>rect{fill:var(--card);stroke:var(--line);stroke-width:1}
+.geo-sum-t{font-family:var(--sans);font-size:10px;fill:var(--t3);letter-spacing:.04em}
+.geo-sum-big{font-family:var(--mono);font-size:21px;font-weight:600;fill:var(--t1)}
+.geo-sum-mid{font-family:var(--mono);font-size:13px;font-weight:600;fill:var(--t1)}
+.geo-sum-s{font-family:var(--mono);font-size:9px;fill:var(--t3)}
+.geo-sum-r{font-family:var(--sans);font-size:9.5px;fill:var(--t2)}
+.geo-sum-v{font-family:var(--mono);font-size:9.5px;fill:var(--t1)}
+.geo-sum-bg{fill:var(--t3);opacity:.12}
+/* 口径卡：纯说明，跟着主题走 */
+.geo-note>rect{fill:var(--panel);stroke:var(--line);stroke-width:1}
+.geo-note-t{font-family:var(--sans);font-size:9.5px;font-weight:600;fill:var(--t2)}
+.geo-note-l{font-family:var(--mono);font-size:8.5px;fill:var(--t3)}
 .geo-site{font-family:var(--sans);font-size:10.2px;fill:var(--t2)}
 .geo-sep{stroke:var(--line-2);stroke-width:1}
 .geo-legend{
@@ -563,6 +580,7 @@ html:not(.has-js) .rk-ctrl{display:none}
   .geo-li-name{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600}
   .geo-li-name i{width:3px;height:12px;border-radius:1.5px}
   .geo-li-cap{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--orange)}
+.geo-li-cust{margin:5px 0 0;font-size:10.5px;color:var(--t3)}
   .geo-li-sites{margin:7px 0 0;font-size:12px;color:var(--t2);line-height:1.95}
   .geo-li-s{white-space:nowrap}
   .geo-li-s i{display:inline-block;width:5px;height:5px;border-radius:50%;margin-right:4px;vertical-align:1px}
@@ -1062,3 +1080,131 @@ html:not(.has-js) .rk-ctrl{display:none}
   .ch-asof{margin-left:0;width:100%}
 }
 .ch-lb-bg{fill:var(--panel)}
+
+/* ---------- 算力中心：增长曲线 / 客户榜 / 单体规模 ---------- */
+.sc-wrap{
+  background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:10px 14px 8px;
+}
+/* 面积用变量色，深浅与皮肤自己跟着变；透明度交给 CSS，省得每个 path 写一遍 */
+.sc-area{opacity:.38}
+.sc-line path{
+  fill:none;stroke:var(--t2);stroke-width:1.4;
+  stroke-dasharray:4 3;opacity:.85;
+}
+.sc-now{stroke:var(--t3);stroke-width:1;stroke-dasharray:2 3;opacity:.7}
+.sc-now-t{
+  font-family:var(--mono);font-size:9px;fill:var(--t3);letter-spacing:.04em;
+}
+.sc-band{
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  paint-order:stroke;stroke:var(--panel);stroke-width:3;stroke-linejoin:round;
+}
+/* 单体规模：左边两行字（站点 / 客户），右边两个数 */
+.sc-n{font-size:11px;fill:var(--t1);font-weight:600}
+.sc-c{font-family:var(--mono);font-size:9px;fill:var(--t3)}
+.sc-v{
+  font-family:var(--mono);font-size:10.5px;fill:var(--t1);
+  font-variant-numeric:tabular-nums;
+}
+.sc-e{
+  font-family:var(--mono);font-size:9.5px;fill:var(--t2);
+  font-variant-numeric:tabular-nums;
+}
+.sc-bg{fill:var(--t3);opacity:.16}
+.sc-bar{opacity:.32}
+.sc-rows g:hover .sc-bar{opacity:1}
+
+.sc-cust{margin:0;padding:0;list-style:none}
+.sc-cust li{
+  display:grid;grid-template-columns:18px 150px minmax(90px,1fr) 82px 84px 42px;
+  align-items:center;gap:10px;padding:6px 2px;
+  border-bottom:1px solid var(--line-2);font-size:11.5px;
+}
+.sc-cust li:last-child{border-bottom:0}
+.sc-c-r{
+  font-family:var(--mono);font-size:10px;color:var(--t3);text-align:right;
+}
+.sc-cust b{
+  font-weight:600;color:var(--t1);overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.sc-c-bar{
+  position:relative;display:block;height:8px;border-radius:2px;
+  background:var(--line-2);
+}
+.sc-c-bar i{position:absolute;left:0;top:0;height:8px;border-radius:2px;opacity:.28}
+.sc-c-bar .sc-c-live{opacity:.9}
+.sc-c-mw{
+  font-family:var(--mono);font-size:11px;color:var(--t1);text-align:right;
+  font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+.sc-c-ef{
+  font-family:var(--mono);font-size:10.5px;color:var(--t2);text-align:right;
+  font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+.sc-c-ef small,.ch-l-p small{margin-left:2px;font-size:8.5px;color:var(--t3)}
+.sc-c-n{font-family:var(--mono);font-size:10px;color:var(--t3);text-align:right}
+.sc-cust li.is-none b{color:var(--t3);font-weight:500}
+.sc-cust li.is-none .sc-c-bar i{filter:grayscale(.9);opacity:.3}
+.sc-rest{
+  margin:8px 0 2px;font-size:10.5px;line-height:1.7;color:var(--t3);
+  padding-top:6px;border-top:1px dashed var(--line);
+}
+/* 图例里的「浅色 = 总容量」：一个半透明的小方块，跟条子上的浅段同色 */
+.sc-k-all{
+  width:12px;height:6px;border-radius:1.5px;flex:none;
+  background:var(--purple);opacity:.26;
+}
+.sc-k-live{background:var(--purple);opacity:.9}
+
+@media (max-width:860px){
+  /* 窄屏放弃条形，只留数字；条形在这个宽度下会短到读不出比例 */
+  .sc-c-bar{display:none}
+  .sc-cust li{grid-template-columns:18px 1fr 78px 66px;gap:8px}
+  .sc-c-n{display:none}
+}
+@media (max-width:520px){
+  /* 手机上算力不能丢：两个数挤一点也要留，宁可把「EF」两个字母省掉 */
+  .sc-cust li{grid-template-columns:14px 1fr 62px 66px;gap:7px}
+  .sc-c-ef small{display:none}
+  .sc-c-ef{font-size:10px}
+  .sc-c-mw{font-size:10.5px}
+}
+
+/* 增长曲线：实线 + 虚线 + 区域细线，图下方是构成条 */
+.sc-fill{fill:var(--t1);opacity:.06}
+/* 深色下 --t1 是接近白，同一条透明度会变成一块灰板 */
+:root[data-theme="dark"] .sc-fill{opacity:.035}
+.sc-l{fill:none;stroke-width:1.3;opacity:.9}
+.sc-dash{fill:none;stroke:var(--t2);stroke-width:1.5;stroke-dasharray:5 3;opacity:.9}
+.sc-lb{
+  font-family:var(--mono);font-size:9.5px;fill:var(--t1);
+  paint-order:stroke;stroke:var(--panel);stroke-width:3;
+}
+.sc-k-solid{background:var(--t1);opacity:.9}
+.sc-k-dash{height:0;background:none;border-top:1.5px dashed var(--t2);border-radius:0}
+.sc-comp{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:8px 2px 2px;font-size:10.5px;color:var(--t3);
+}
+.sc-comp b{font-weight:600;color:var(--t2)}
+.sc-comp-bar{
+  display:flex;flex:1 1 220px;height:7px;border-radius:2px;overflow:hidden;
+  background:var(--line-2);
+}
+.sc-comp-bar i{display:block;height:7px}
+.sc-comp-t{font-family:var(--mono);font-size:10px;color:var(--t2)}
+.sc-svg{max-width:900px}
+
+/* 算力中心榜里的第二行：折算算力与满产年份，比主值轻一档 */
+.bd-val-s{
+  display:block;margin-top:3px;
+  font-family:var(--mono);font-size:9.5px;color:var(--t3);
+  font-variant-numeric:tabular-nums;
+}
+.bd-val-s.is-none{font-family:var(--sans);color:var(--t3);opacity:.8}
+.bd-cust{
+  margin:6px 0 0;font-size:11px;line-height:1.65;color:var(--t2);
+}
+.bd-cust .bd-lab{margin-right:6px}

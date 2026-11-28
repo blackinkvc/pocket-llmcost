@@ -1,24 +1,24 @@
-﻿排名,站点,业主,城市,容量MW,芯片,状态,供电,备注
-1,PORTS-Pike（俄亥俄）,OpenAI · SB Energy · NVIDIA,OH · Piketon,"8,000",NVIDIA DSX（GPU / CPU / 网络）,规划,配套至少 10 GW 新增发电（其中 9.2 GW 燃气）；SB Energy 建运，20 年租给 OpenAI。,前 DOE 铀浓缩厂地块；4.25 GW 由 NVIDIA 背书，余 3.75 GW 有选择权。
-2,Hyperion（路易斯安那）,Meta,LA · Richland Parish,"5,000",Rubin 代际（约 46.9 万颗）*,在建,Entergy 新建燃气机组 + 2026-01 与 TerraPower / Oklo / Vistra 签核电协议。,5 GW 是 Meta 口径，第三方认为缺站点级证据，按 1.6 GW IT 建模*。
-3,Doña Ana（新墨西哥）,OpenAI · Oracle · STACK,NM · Doña Ana,"2,450",NVIDIA（约 510 万 H100 等效）*,在建,2026-04 改为 Bloom 燃料电池微电网供电，园区电力口径；IT 约 1.75 GW*。,Project Jupiter；州政府批了独立微网。
-4,Fairwater 威斯康星,Microsoft,WI · Mount Pleasant,"2,263",GB200 / B200（现网约 17.6 万颗）*,运营 369,电网 + 液冷闭环；2028 年目标 2.26 GW IT。,号称「最强 AI 数据中心」；首栋 2026-06 完工，第二栋排到 2028。
-5,Project Rainier,Anthropic · AWS,IN · New Carlisle,"2,200",Trainium2（约 105 万颗）*,"运营 1,037",电网供电，自研芯片省掉英伟达溢价；AWS 承诺最高 5 GW。,8 栋中 6 栋交付；Amazon 口径的园区电力是 2.2 GW。
-6,Stargate Shackelford,OpenAI · Oracle · Vantage,TX · Shackelford,"2,000",Rubin 代际（约 460 万 H100 等效）*,在建,ERCOT；Vantage「Frontier」园区。,Vantage 称 2026 下半年首批交付，第三方判断 2027 才上 IT 负载。
-7,Colossus 2,xAI（SpaceX）,TN · Memphis,"2,000",≈55 万 GB200 / GB300,运营 946,TVA 电网 + 自备燃气轮机（15 台获批运行至 2027）+ 168 台 Megapack；第三栋 2027-02 到 2 GW。,世界首个 GW 级训练集群；年底再翻一倍芯片*。
-8,Helios,CoreWeave · Galaxy,TX · 西德州,"1,630",NVIDIA（型号未披露）,运营 133,ERCOT；原比特币矿场改造，15 年租约。,"已承诺 526 MW IT；1,630 MW 是全部批准容量。"
-9,Stargate Saline,OpenAI · Oracle · Related,MI · Saline,"1,400",GB300 代际（约 290 万 H100 等效）*,在建,MISO；三栋分期。,2026-06 开工，位于安娜堡西南。
-10,Stargate Port Washington,OpenAI · Oracle · Vantage,WI · Port Washington,"1,300",GB300 代际（约 260 万 H100 等效）*,在建,MISO / PJM 交界，就近取电。,「灯塔」项目，2025-10 宣布。
-11,Stargate Abilene,OpenAI · Oracle · Crusoe,TX · Abilene,"1,200",B200 / B300（满配约 40 万颗）*,运营 618,现场燃气电站 + ERCOT；8 栋中 6 栋交付。,Stargate 旗舰，2025-09 首次通电。
-12,Stargate Milam,OpenAI · SB Energy,TX · Milam,"1,200",GB300 代际（约 250 万 H100 等效）*,在建,ERCOT；SB Energy 自建自营。,首栋完工备案 2026-10，尚未宣布通电。
-13,Independence,Nebius,MO · Independence,"1,200",未披露,在建,MISO；约 400 英亩自建自营。,Nebius 首个 GW 级美国项目，未公布租户。
-14,Cedar Rapids,QTS,IA · Cedar Rapids,"1,133",NVIDIA（约 367 万 H100 等效）*,在建,MISO；一期报装 616 MW，与第三方测算吻合。,7 栋园区，业主未公布 MW。
-15,Prometheus,Meta,OH · New Albany,"1,000",约 16.6 万 B300,运营 471,PJM；2026-01 签核电协议，为 1 GW 目标配零碳电源。,2025-10 首栋通电；第三方 2026-10 换 B300 模型后现网估值为 471 MW。
-16,El Paso,Meta · BlackRock,TX · El Paso,"1,000",未披露,在建,ERCOT；合资公司 80/20，Meta 为首个入驻方。,140 亿美元，预计 2028 投运。
-17,Lebanon,Meta,IN · Lebanon,"1,000",未披露,在建,MISO；闭环液冷。,投资超 100 亿美元，未给投运日期。
-18,Abilene 扩建（微软）,Microsoft · Crusoe,TX · Abilene,900,下一代 AI 芯片（未披露）,在建,现场自备电站；两栋各 336 MW IT。,与 Stargate 园区相邻，Crusoe 称两地合计约 2.1 GW；首栋 2027 年中通电。
-19,Ridgeland,AWS,MS · Ridgeland,840,Trainium2*,运营 228,电网；14 栋园区。,AWS 未公布 MW，规划值按 6–14 栋进度建模*。
-20,Fairwater 亚特兰大,Microsoft,GA · Fayetteville,636,约 30.4 万 B200*,运营 636,QTS 建的纯电网设计：无 UPS、无柴发，靠电网冗余。,与威斯康星用一张 WAN 连成「AI 超级工厂」。
-21,Polaris Forge 1,CoreWeave · Applied Digital,ND · Ellendale,400,NVIDIA（型号未披露）,运营 250,MISO；三栋，第三栋 150 MW 在建。,Applied Digital 全租给 CoreWeave，合同收入约 110 亿美元。
-22,Omaha TPU,Google,NE · Omaha,395,TPU v5e–v7（约 38 万颗）*,运营 237,SPP 电网；TPU 自用不外售。,Google 已披露的最大单体 TPU 训练园区。
-23,Colossus 1,xAI（SpaceX）,TN · Memphis,300,H100 15 万 / H200 5 万 / GB200 3 万,运营 300,电网（初期仅 8 MW，后升至 150 MW）+ 临时燃气轮机 + Megapack。,2026-05 起全部算力租给 Anthropic；无公开扩容计划。
+﻿排名,站点,业主,城市,容量MW,芯片,状态,供电,备注,MW,现网MW,投运,满产,代际,客户,分区
+1,PORTS-Pike（俄亥俄）,OpenAI · SB Energy · NVIDIA,OH · Piketon,"8,000",NVIDIA DSX（GPU / CPU / 网络）,规划,配套至少 10 GW 新增发电（其中 9.2 GW 燃气）；SB Energy 建运，20 年租给 OpenAI。,前 DOE 铀浓缩厂地块；4.25 GW 由 NVIDIA 背书，余 3.75 GW 有选择权。,8000,0,,2028,rubin,OpenAI,us-mw
+2,Hyperion（路易斯安那）,Meta,LA · Richland Parish,"5,000",Rubin 代际（约 46.9 万颗）*,在建,Entergy 新建燃气机组 + 2026-01 与 TerraPower / Oklo / Vistra 签核电协议。,5 GW 是 Meta 口径，第三方认为缺站点级证据，按 1.6 GW IT 建模*。,5000,0,,2028,rubin,Meta,us-tx
+3,Doña Ana（新墨西哥）,OpenAI · Oracle · STACK,NM · Doña Ana,"2,450",NVIDIA（约 510 万 H100 等效）*,在建,2026-04 改为 Bloom 燃料电池微电网供电，园区电力口径；IT 约 1.75 GW*。,Project Jupiter；州政府批了独立微网。,2450,0,,2028,gb300,OpenAI,us-sw
+4,Fairwater 威斯康星,Microsoft,WI · Mount Pleasant,"2,263",GB200 / B200（现网约 17.6 万颗）*,运营 369,电网 + 液冷闭环；2028 年目标 2.26 GW IT。,号称「最强 AI 数据中心」；首栋 2026-06 完工，第二栋排到 2028。,2263,369,2026,2028,blackwell,Microsoft,us-mw
+5,Project Rainier,Anthropic · AWS,IN · New Carlisle,"2,200",Trainium2（约 105 万颗）*,"运营 1,037",电网供电，自研芯片省掉英伟达溢价；AWS 承诺最高 5 GW。,8 栋中 6 栋交付；Amazon 口径的园区电力是 2.2 GW。,2200,1037,2025,2026,trainium,Anthropic,us-mw
+6,Stargate Shackelford,OpenAI · Oracle · Vantage,TX · Shackelford,"2,000",Rubin 代际（约 460 万 H100 等效）*,在建,ERCOT；Vantage「Frontier」园区。,Vantage 称 2026 下半年首批交付，第三方判断 2027 才上 IT 负载。,2000,0,,2027,rubin,OpenAI,us-tx
+7,Colossus 2,xAI（SpaceX）,TN · Memphis,"2,000",≈55 万 GB200 / GB300,运营 946,TVA 电网 + 自备燃气轮机（15 台获批运行至 2027）+ 168 台 Megapack；第三栋 2027-02 到 2 GW。,世界首个 GW 级训练集群；年底再翻一倍芯片*。,2000,946,2026,2027,blackwell,xAI,us-tn
+8,Helios,CoreWeave · Galaxy,TX · 西德州,"1,630",NVIDIA（型号未披露）,运营 133,ERCOT；原比特币矿场改造，15 年租约。,"已承诺 526 MW IT；1,630 MW 是全部批准容量。",1630,133,2026,2027,blackwell,CoreWeave,us-tx
+9,Stargate Saline,OpenAI · Oracle · Related,MI · Saline,"1,400",GB300 代际（约 290 万 H100 等效）*,在建,MISO；三栋分期。,2026-06 开工，位于安娜堡西南。,1400,0,,2027,gb300,OpenAI,us-mw
+10,Stargate Port Washington,OpenAI · Oracle · Vantage,WI · Port Washington,"1,300",GB300 代际（约 260 万 H100 等效）*,在建,MISO / PJM 交界，就近取电。,「灯塔」项目，2025-10 宣布。,1300,0,,2027,gb300,OpenAI,us-mw
+11,Stargate Abilene,OpenAI · Oracle · Crusoe,TX · Abilene,"1,200",B200 / B300（满配约 40 万颗）*,运营 618,现场燃气电站 + ERCOT；8 栋中 6 栋交付。,Stargate 旗舰，2025-09 首次通电。,1200,618,2025,2026,blackwell,OpenAI,us-tx
+12,Stargate Milam,OpenAI · SB Energy,TX · Milam,"1,200",GB300 代际（约 250 万 H100 等效）*,在建,ERCOT；SB Energy 自建自营。,首栋完工备案 2026-10，尚未宣布通电。,1200,0,,2027,gb300,OpenAI,us-tx
+13,Independence,Nebius,MO · Independence,"1,200",未披露,在建,MISO；约 400 英亩自建自营。,Nebius 首个 GW 级美国项目，未公布租户。,1200,0,,2028,blackwell,Nebius,us-mw
+14,Cedar Rapids,QTS,IA · Cedar Rapids,"1,133",NVIDIA（约 367 万 H100 等效）*,在建,MISO；一期报装 616 MW，与第三方测算吻合。,7 栋园区，业主未公布 MW。,1133,0,,2027,rubin,未披露,us-mw
+15,Prometheus,Meta,OH · New Albany,"1,000",约 16.6 万 B300,运营 471,PJM；2026-01 签核电协议，为 1 GW 目标配零碳电源。,2025-10 首栋通电；第三方 2026-10 换 B300 模型后现网估值为 471 MW。,1000,471,2025,2026,gb300,Meta,us-mw
+16,El Paso,Meta · BlackRock,TX · El Paso,"1,000",未披露,在建,ERCOT；合资公司 80/20，Meta 为首个入驻方。,140 亿美元，预计 2028 投运。,1000,0,,2028,blackwell,Meta,us-tx
+17,Lebanon,Meta,IN · Lebanon,"1,000",未披露,在建,MISO；闭环液冷。,投资超 100 亿美元，未给投运日期。,1000,0,,2028,blackwell,Meta,us-mw
+18,Abilene 扩建（微软）,Microsoft · Crusoe,TX · Abilene,900,下一代 AI 芯片（未披露）,在建,现场自备电站；两栋各 336 MW IT。,与 Stargate 园区相邻，Crusoe 称两地合计约 2.1 GW；首栋 2027 年中通电。,900,0,,2027,blackwell,Microsoft,us-tx
+19,Ridgeland,AWS,MS · Ridgeland,840,Trainium2*,运营 228,电网；14 栋园区。,AWS 未公布 MW，规划值按 6–14 栋进度建模*。,840,228,2025,2027,trainium,AWS,us-east
+20,Fairwater 亚特兰大,Microsoft,GA · Fayetteville,636,约 30.4 万 B200*,运营 636,QTS 建的纯电网设计：无 UPS、无柴发，靠电网冗余。,与威斯康星用一张 WAN 连成「AI 超级工厂」。,636,636,2026,2026,blackwell,Microsoft,us-east
+21,Polaris Forge 1,CoreWeave · Applied Digital,ND · Ellendale,400,NVIDIA（型号未披露）,运营 250,MISO；三栋，第三栋 150 MW 在建。,Applied Digital 全租给 CoreWeave，合同收入约 110 亿美元。,400,250,2026,2027,blackwell,CoreWeave,us-mw
+22,Omaha TPU,Google,NE · Omaha,395,TPU v5e–v7（约 38 万颗）*,运营 237,SPP 电网；TPU 自用不外售。,Google 已披露的最大单体 TPU 训练园区。,395,237,2025,2026,tpu,Google,us-mw
+23,Colossus 1,xAI（SpaceX）,TN · Memphis,300,H100 15 万 / H200 5 万 / GB200 3 万,运营 300,电网（初期仅 8 MW，后升至 150 MW）+ 临时燃气轮机 + Megapack。,2026-05 起全部算力租给 Anthropic；无公开扩容计划。,300,300,2024,2024,h100,Anthropic,us-tn
