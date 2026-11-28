@@ -1144,6 +1144,9 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
         when = (r.get(k_when) or "").strip()
         val = (r.get(k_val) or "").strip() if k_val else ""
         link = (r.get(k_link) or "").strip() if k_link else ""
+        # 标题照旧做链接，另在右上角加一个「详情」：18 张卡里哪些有详情页，
+        # 扫一眼就能看出来；没有详情的那几条不会长出一个点不动的按钮。
+        pill = bool(bcfg.get("detail")) and bool(link)
         name_html = ('<a href="%s">%s</a>' % (escape(link), escape(name))
                      if link else escape(name))
 
@@ -1169,6 +1172,8 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
         date_attr = ""
         if mode == "date" and re.match(r"^\d{4}-\d{2}", when):
             date_attr = ' data-date="%s"' % escape(when[:7])
+        if pill:
+            right = '%s<a class="bd-go" href="%s">详情<i>→</i></a>' % (right, escape(link))
         note_html = ""
         if note_txt:
             lab = '<span class="bd-lab">%s</span>' % escape(k_note) if show_lab else ""
@@ -1176,7 +1181,7 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
         if note2_txt:
             lab = '<span class="bd-lab">%s</span>' % escape(k_note2) if show_lab else ""
             note_html += '<p class="bd-note bd-sub">%s%s</p>' % (lab, R.inline(note2_txt))
-        cards.append("""<article class="bd-card" data-k="%s" data-region="%s" data-base="%s"%s>
+        cards.append("""<article class="bd-card%s" data-k="%s" data-region="%s" data-base="%s"%s>
         <span class="bd-rank">%s</span>
         <div class="bd-main">
           <div class="bd-top"><h3>%s</h3>%s</div>
@@ -1184,6 +1189,7 @@ def block_board(sec, entry, rows, stat, idx, total, series=None, num=None):
           %s
         </div>
       </article>""" % (
+            " is-detail" if pill else "",
             escape(name), reg, escape(val), date_attr,
             escape(rank) or "·",
             name_html,
@@ -1628,6 +1634,148 @@ def file_page(sec, it, index, snap=""):
     ])
 
 
+# ───────────────────────── 单条详情（卡片 → 独立页） ─────────────────────────
+def load_chips(sec, entry):
+    """读一张榜的详情数据（如 卡片.json）：{型号: item}。
+
+    配对靠名字逐字相等，不靠排名：CSV 里加一行而 JSON 没写详情，卡片就只是不可点，
+    不会指到一个空页面；JSON 里多写一条，也不影响榜单。
+    """
+    d = entry.get("detail")
+    if not d:
+        return {}, "", ""
+    data, out = (d.get("data"), d.get("out", "卡")) if isinstance(d, dict) else (d, "卡")
+    p = sec.dir / data
+    if not p.exists():
+        print("  ! 缺详情数据：%s" % p)
+        return {}, out, ""
+    blob = json.loads(read(p))
+    return {it["name"]: it for it in blob.get("items", [])}, out, blob.get("asof", "")
+
+
+def chip_page(sec, it, entry, rows, asof, by_name, prefix=""):
+    """一条详情页：规格、正文、同厂横向、相关条目。
+
+    复用报告页与档案页的类名（post / fl-spec / fl-rel / md-table），
+    不新造一套版式——同一站里几种「单条页」长得一样，读者不用重新认一遍。
+
+    页面在 <slug>/<out>/ 下，比报告页还深一层，所以前缀是两级。
+    """
+    prefix = prefix + "../../"
+    f = entry.get("fields", {})
+    k_name = f.get("name", "型号")
+    k_rank = f.get("rank", "排名")
+    meta_keys = f.get("meta", ["厂商", "显存", "带宽", "功耗"])
+    if isinstance(meta_keys, str):
+        meta_keys = [meta_keys]
+
+    anchor = "#board-2"
+    for bi, bcfg in enumerate(sec.boards, 1):
+        if bcfg is entry:
+            anchor = "#board" if len(sec.boards) == 1 else "#board-%d" % bi
+            break
+
+    names = [(r.get(k_name) or "").strip() for r in rows]
+    pos = names.index(it["name"]) if it["name"] in names else -1
+    total = len(rows)
+    orig = (rows[pos].get(k_rank) or "").strip() if pos >= 0 else ""
+
+    # 元信息行：厂商 · 形态 · 第几条 / 共几条 —— 比只写「详情」更早告诉读者自己在哪
+    where = " · ".join(x for x in [
+        escape(it.get("maker", "")), escape(it.get("kicker", "")),
+        ("第 %s / %d 条" % (escape(orig), total)) if orig else "",
+    ] if x)
+
+    spec_rows = "".join(
+        '<div class="fs-row"><dt>%s</dt><dd>%s</dd></div>' % (escape(k), R.inline(v))
+        for k, v in it.get("spec", []))
+
+    # 同厂横向：同一张表里的几个数排在一起，比跨厂商比更不容易读错口径
+    sib = [r for r in rows if (r.get("厂商") or "").strip() == (it.get("maker") or "").strip()]
+    table = ""
+    if len(sib) > 1:
+        head = "| " + " | ".join(["型号"] + meta_keys[1:] + ["位次"]) + " |\n"
+        sep = "| " + " | ".join(["---"] * (len(meta_keys) + 1)) + " |\n"
+        body = ""
+        for r in sib:
+            nm = (r.get(k_name) or "").strip()
+            if nm == it["name"]:
+                cell = "**%s**（这一条）" % escape(nm)
+            elif nm in by_name:
+                cell = "[%s](%s.html)" % (escape(nm), by_name[nm]["slug"])
+            else:
+                cell = escape(nm)
+            cells = [cell] + [escape((r.get(k) or "—").strip()) for k in meta_keys[1:]]
+            cells.append(escape((r.get(k_rank) or "").strip()))
+            body += "| " + " | ".join(cells) + " |\n"
+        table = """  <section class="fl-block chip-sib">
+    <h2 class="fl-h">同厂横向<span class="fl-h-s">同一张表里的数，口径一致，可以直接比</span></h2>
+    <div class="post-body">%s</div>
+  </section>
+""" % R.md_to_html(head + sep + body)
+
+    # 相关：JSON 里点名的几条，写名字或 slug 都能指
+    rel, seen = [], {it["name"]}
+    for key in it.get("related", []):
+        o = by_name.get(key) or next((v for v in by_name.values() if v["slug"] == key), None)
+        if o and o["name"] not in seen:
+            seen.add(o["name"])
+            rel.append(o)
+    rel_html = ""
+    if rel:
+        cards = "".join(
+            '<a class="fl-rel" href="%s.html"><span class="fl-rel-k">%s</span>'
+            '<b>%s</b><span class="fl-rel-s">%s</span></a>'
+            % (escape(o["slug"]), escape(o.get("maker", "")), escape(o["name"]),
+               escape(trim_words(o.get("lead", ""), 46)))
+            for o in rel[:6])
+        rel_html = """  <section class="fl-block fl-rel-block">
+    <h2 class="fl-h">接着看<span class="fl-h-s">同一代或同一档的另外几条</span></h2>
+    <div class="fl-rel-grid">%s</div>
+  </section>
+""" % cards
+
+    # 翻页：右半边给下一条，顺着榜往下读比回榜再进更快
+    nxt_name = (rows[pos + 1].get(k_name) or "").strip() if 0 <= pos < total - 1 else ""
+    pager = """  <nav class="pager">
+    <a href="%s%s%s"><span class="pg-l">← BACK</span><span class="pg-t">%s · 全部 %d 条</span></a>
+%s  </nav>
+""" % (prefix, sec.page, anchor, escape(entry.get("title", sec.name)), total,
+       ('    <a class="next" href="%s.html"><span class="pg-l">NEXT →</span>'
+        '<span class="pg-t">%s</span></a>\n'
+        % (by_name[nxt_name]["slug"], escape(nxt_name)))
+       if nxt_name in by_name else "")
+
+    return "".join([
+        doc_head("%s · %s · %s" % (it["name"], entry.get("title", ""), sec.name),
+                 trim_words(it.get("lead", ""), 90), sec.name, prefix,
+                 bar_title=sec.name,
+                 bar_sum="%s · <b>%s</b>" % (escape(entry.get("title", "")), escape(it["name"]))),
+        subnav_html(sec, prefix, report_page=True),
+        '<main class="wrap post-wrap">\n',
+        '  <p class="crumb"><a href="%sindex.html">首页</a><span class="sep">/</span>'
+        '<a href="%s%s">%s</a><span class="sep">/</span>'
+        '<a href="%s%s%s">%s</a><span class="sep">/</span><span>%s</span></p>\n'
+        % (prefix, prefix, sec.page, escape(sec.name), prefix, sec.page, anchor,
+           escape(entry.get("title", "")), escape(it["name"])),
+        '  <article class="post fl-post">\n',
+        '    <p class="post-meta">%s</p>\n' % where,
+        '    <h1 class="post-title">%s</h1>\n' % escape(it["name"]),
+        ('    <p class="post-lede">%s</p>\n' % R.inline(it["lead"])) if it.get("lead") else "",
+        ('    <dl class="fl-spec">%s</dl>\n' % spec_rows) if spec_rows else "",
+        '    <div class="post-body">\n%s\n    </div>\n' % R.md_to_html(it.get("body", "")),
+        ('    <p class="chip-asof">规格与口径截至 %s；标 * 的是厂商标称，第三方未复核。</p>\n'
+         % escape(asof)) if asof else "",
+        '  </article>\n',
+        table,
+        rel_html,
+        pager,
+        '</main>\n\n',
+        footer_html(prefix),
+        "\n</body>\n</html>\n",
+    ])
+
+
 def trim_words(s, n):
     s = re.sub(r"[*`]", "", s or "")
     return s if len(s) <= n else s[:n].rstrip("，。、 ") + "…"
@@ -1648,6 +1796,7 @@ def build_section(sec, out_dir, prefix=""):
 
     desc = intro["meta"].get("desc") or sec.cfg.get("desc", "")
     blocks, counts = [], []
+    chip_sets = []
     for i, entry in enumerate(sec.boards):
         num = "02" if len(sec.boards) == 1 else "02.%d" % (i + 1)
         if entry.get("kind") == "scores":
@@ -1671,21 +1820,26 @@ def build_section(sec, out_dir, prefix=""):
             except Exception:
                 counts.append("家")
             continue
-        if entry.get("kind") == "mix":
-            blocks.append(block_mix(sec, entry, i, len(sec.boards), num))
-            # 一「条」= 一家公司，进工具条的记录数；地图与架构卡不算条目
-            try:
-                counts.append(len(json.loads(
-                    (sec.dir / entry["file"]).read_text(encoding="utf-8"))["rows"]))
-            except Exception:
-                counts.append("家")
-            continue
         if entry.get("from_files"):
             rows = sec.file_rows(entry, files)
             blocks.append(block_board(sec, entry, rows, {}, i, len(sec.boards), None, num))
             counts.append(len(rows))
             continue
         _, rows = sec.board(entry)
+        chips, chip_out, chip_asof = load_chips(sec, entry)
+        if chips:
+            f = entry.get("fields") or {}
+            k_name, k_link = f.get("name", "型号"), f.get("link", "详情")
+            hit = 0
+            for r in rows:
+                it = chips.get((r.get(k_name) or "").strip())
+                if it:
+                    r[k_link] = "%s/%s/%s.html" % (sec.slug, chip_out, it["slug"])
+                    hit += 1
+            lonely = [n for n in chips if n not in {(r.get(k_name) or "").strip() for r in rows}]
+            if lonely:
+                print("  ! 详情写了但榜上没有：%s" % "、".join(lonely))
+            chip_sets.append((entry, rows, chips, chip_out, chip_asof))
         stat = stats.get(pathlib.Path(entry.get("file", "")).name, {})
         mode = entry.get("mode") or board_mode(entry, rows)
         series = board_series(sec, entry, rows, mode)
@@ -1784,6 +1938,21 @@ def build_section(sec, out_dir, prefix=""):
                 n_file += 1
         print("  ✓ 档案页 %d 个（%s）" % (
             n_file, "、".join("%s %d" % (g, len(v)) for g, v in files.items())))
+
+    # 单条详情页：榜上一条一个页面（卡片的「详情」指向这里）
+    for entry, rows, chips, chip_out, chip_asof in chip_sets:
+        k_name = (entry.get("fields") or {}).get("name", "型号")
+        n_chip = 0
+        for r in rows:
+            it = chips.get((r.get(k_name) or "").strip())
+            if not it:
+                continue
+            cp = out_dir / sec.slug / chip_out / (it["slug"] + ".html")
+            cp.parent.mkdir(parents=True, exist_ok=True)
+            cp.write_text(chip_page(sec, it, entry, rows, chip_asof, chips, prefix),
+                          encoding="utf-8")
+            n_chip += 1
+        print("  ✓ 详情页 %d 个（%s）" % (n_chip, chip_out))
 
     return counts, len(reports)
 

@@ -796,3 +796,35 @@ html:not(.has-js) .rk-ctrl{display:none}
   .mix-cards small{flex-basis:100%}
   .mix-roll-g{grid-template-columns:1fr}
 }
+
+/* ---------- 卡片详情：列表右上角的入口 ---------- */
+/* 标题不做链接、改在右上角放一个「详情」：整张卡变链接后，扫读时的边界会糊掉 */
+.bd-go{
+  margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:3px;
+  font-family:var(--mono);font-size:10px;line-height:1.6;letter-spacing:.02em;
+  color:var(--t3);text-decoration:none;
+  border:1px solid var(--line);border-radius:5px;padding:1px 6px;
+  transition:color .14s,border-color .14s,background .14s;
+}
+.bd-go i{font-style:normal;font-size:10px;transform:translateY(-.5px)}
+.bd-card.is-detail:hover{border-color:var(--line-2,var(--line));background:var(--hover)}
+.bd-card.is-detail:hover .bd-go{
+  color:var(--orange);border-color:var(--orange);background:var(--orange-bg);
+}
+@media (max-width:600px){
+  /* 窄屏一行放不下「标题 + 详情」时让按钮掉到下一行；放得下就仍然靠右 */
+  .bd-card.is-detail .bd-top{flex-wrap:wrap;row-gap:5px}
+}
+
+/* ---------- 单卡详情页 ---------- */
+.chip-asof{
+  margin:20px 0 0;padding-top:12px;border-top:1px dashed var(--line);
+  font-family:var(--mono);font-size:10.5px;line-height:1.7;color:var(--t3);
+}
+.fl-h-s{
+  margin-left:8px;font-family:var(--sans);font-size:10.5px;
+  letter-spacing:0;text-transform:none;color:var(--t3);opacity:.9;
+}
+.chip-sib .post-body .md-table td:first-child{white-space:normal}
+.chip-sib .post-body .md-table td{font-size:11.5px}
+.chip-sib .post-body .md-table strong{color:var(--orange)}
